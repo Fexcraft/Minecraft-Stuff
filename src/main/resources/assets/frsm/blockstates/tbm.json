@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=north": { "model": "frsm:tbm" },
+        "facing=south": { "model": "frsm:tbm", "y": 180 },
+        "facing=west":  { "model": "frsm:tbm", "y": 270 },
+        "facing=east":  { "model": "frsm:tbm", "y": 90 }
+    }
+}
+ 

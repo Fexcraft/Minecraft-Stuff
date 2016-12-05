@@ -1,0 +1,110 @@
+//Tile-Normal\\
+tile.frsm:woodenLightBox.name=Houten Lichtdoos
+tile.frsm:stoneLightBox.name=Stenen Lichtdoos
+tile.frsm:decoBlock1.name=Decoratie Blok
+tile.frsm:decoBlock2.name=Decoratie Blok
+tile.frsm:framedGlowstone.name=Ingelijst Gloeisteen
+tile.frsm:stoneSlabPillar.name=Stenen Plaat Pilaar
+//Items\\
+item.frsm:cup.name=Kopje
+item.frsm:cupWithCacao.name=Cacao Drank
+item.frsm:hamburger.name=Hamburger
+item.frsm:pizza.name=Pizza
+item.frsm:cheese.name=Kaas
+item.frsm:salami.name=Salami
+item.frsm:tomato.name=Tomaat
+item.frsm:tomatoJar.name=Pot met Tomaten
+item.frsm:jar.name=Pot
+item.frsm:chocolateBar.name=Chocoladereep
+item.frsm:chocolateMilk.name=Chocolademelk
+item.frsm:chocolateCookie.name=Chocolade Koekje
+item.frsm:cookedEgg.name=Omelet
+item.frsm:stoneMug.name=Stenen Mok
+item.frsm:stoneMugWithBeer.name=Bier in een Stenen Mok
+item.frsm:donut.name=Donut
+item.frsm:tomatoSeeds.name=Tomaten Zaden
+item.frsm:emeraldSword.name=Smaragden Zwaard
+item.frsm:helmet1.name=Onzichtbaarheids Helm
+item.frsm:chestplate1.name=Ender IJzer Borstplaat
+item.frsm:emeraldBlade.name=Smaragden Zwaard Lemmet
+item.frsm:cheeseWhite.name=Witte Kaas
+item.frsm:prozessor.name=Processor
+item.frsm:prozessor2.name=Dual Core Processor
+item.frsm:prozessor4.name=Quad Core Processor
+item.frsm:tvScreenSmall.name=Klein Beeldscherm
+item.frsm:redstoneInput.name=Redstone Invoer
+item.frsm:cheesePie.name=Witte Kaas Pastei
+item.frsm:laptopMainboard.name=Laptop Moederkaart
+item.frsm:pcMainboard.name=Desktop PC Moederkaart
+item.frsm:notExistingStuffReplace.name=Not Existing Stuff Replace
+item.frsm:keyboard.name=Toetsenbord
+item.frsm:ironSaw.name=IJzeren Zaag
+item.frsm:baconraw.name=Spek (rauw)
+item.frsm:bacon.name=Spek
+item.frsm:chocolateBarWhite.name=Witte Chocolade Reep
+item.frsm:tomatoSoup.name=Tomaten Soep
+item.frsm:upGradeKit.name=UpGrade Kit
+item.frsm:tvScreenMedium.name=Middelgroot Beeldscherm
+item.frsm:tilesempty.name=Tegels (Geen Ontwerp)
+item.frsm:TVController.name=Afstandsbediening
+//Tile-Custom\\
+tile.frsm:tbm.name=TBM =Test Blok Model
+tile.frsm:crate.name=Krat
+tile.frsm:tvs.name=Kleine TV
+tile.frsm:kd1.name=Keuken Decoratie (1)
+tile.frsm:wb.name=Werkbank
+tile.frsm:laptop.name=Laptop
+tile.frsm:pchardware2.name=PC Monitor, Toetsenbord & Muis
+tile.frsm:pchardware1.name=PC Hardware
+tile.frsm:laptop-white.name=Laptop (Wit)
+tile.frsm:printer.name=Printer
+tile.frsm:laptopGreen.name=Laptop (Groen)
+tile.frsm:washingmashine.name=Wasmachine
+tile.frsm:Toaster.name=Broodrooster
+tile.frsm:Stove.name=Fornuis
+tile.frsm:rail.name=(Model) Spoor
+tile.frsm:railturn.name=(Model) Afslaand Spoor
+tile.frsm:Train1D.name=Test Locomotief
+tile.frsm:Car1D.name=Model Auto (1)
+tile.frsm:laptopRed.name=Laptop (Rood)
+tile.frsm:laptopBlue.name=Laptop (Blauw)
+tile.frsm:pchardware2b.name=PC Monitor, Toetsenbord & Muis
+tile.frsm:pchardware1b.name=PC Hardware
+tile.frsm:laptopBlack.name=Laptop (Zwart)
+tile.frsm:TVM.name=Medium TV
+tile.frsm:KD2.name=Keuken Decoratie (2)
+tile.frsm:tiles.name=Tegels (Grijs Ontwerp)
+tile.frsm:tiles2.name=Tegels met Gloeisteen (Grijs Ontwerp)
+tile.frsm:tiles3.name=Blokstenen Tegels
+tile.frsm:tiles4.name=Tegels (Grijs Ontwerp)
+//Creative-Tabs\\
+itemGroup.tabFRSM=FRSM - Blokken & Decoratie
+itemGroup.tabFRSM-Food=FRSM - Eten & Drinken
+itemGroup.tabFRSM-Materials=FRSM - Materialen, Onderdelen & Ongesoorteerde Dingen
+itemGroup.tabFRSM-Swords=FRSM - Zwaarden, Bepantsering & Gereedschap
+itemGroup.tabFRSM-Technic=FRSM - Technische Dingen (Blokken)
+itemGroup.tabFRSM-Model=FRSM - Model & Speelgoed
+itemGroup.tabFRSM-Dev=FRSM - Dev. Stuff - Gebruik op eigen risico!
+/////////////////////////////////////
+To make translation more easy... from any highter version than 1.87b
+new stuff will be in this order...
+////////////////////////////////////
+//1.91-beta//
+tile.frsm:busstop.name=Bushalte Bord
+tile.frsm:busstation.name=Bus Station
+tile.frsm:trashcan.name=Prullenbak
+//2.08-NF//
+tile.frsm:vendingmachine.name=Vending Machine
+item.frsm:patatoChipsBag.name=Potato Chips Bag
+tile.frsm:station.name=Rail Station (1)
+tile.frsm:station2.name=Rail Station (2)
+tile.frsm:station3.name=Rail Station (3) with Light 
+//2.34-NF//
+itemGroup.tabFRSM-Robo=FRSM - Robo Stuff
+item.frsm:potatoChipsCheese.name=Cheese Potato Chips
+tile.frsm:Radio1.name=Radio
+tile.frsm:cupG.name=Gold Cup
+//2.60-NF//
+tile.frsm:laptopG.name=Golden Laptop
+tile.frsm:window.name=Window
+tile.frsm:pillar.name=Quartz Pillar

@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "normal": { "model": "fsmm:atm" },
+        "facing=north": { "model": "fsmm:atm" },
+        "facing=south": { "model": "fsmm:atm", "y": 180 },
+        "facing=west":  { "model": "fsmm:atm", "y": 270 },
+        "facing=east":  { "model": "fsmm:atm", "y": 90 }
+    }
+}

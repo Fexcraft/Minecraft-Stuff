@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "channel=0": { "model": "frsm:TVLa", "y": 0 },
+        "channel=1": { "model": "frsm:TVLb", "y": 0 },
+        "channel=2": { "model": "frsm:TVLc", "y": 0 },
+        "channel=3": { "model": "frsm:TVLd", "y": 0 },
+        "channel=4": { "model": "frsm:TVLe", "y": 0 },
+        "channel=5": { "model": "frsm:TVLf", "y": 0 },
+        "channel=6": { "model": "frsm:TVLg", "y": 0 },
+        "channel=7": { "model": "frsm:TVLh", "y": 0 },
+        "channel=8": { "model": "frsm:TVLi", "y": 0 },
+        "channel=9": { "model": "frsm:TVLj", "y": 0 },
+        "channel=10": { "model": "frsm:TVLk", "y": 0 },
+        "channel=11": { "model": "frsm:TVLl", "y": 0 },
+        "channel=12": { "model": "frsm:TVLm", "y": 0 },
+        "channel=13": { "model": "frsm:TVLn", "y": 0 },
+        "channel=14": { "model": "frsm:TVLo", "y": 0 },
+        "channel=15": { "model": "frsm:TVLp", "y": 0 }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "__comment": "",
+    "textures": {
+        "texture": "frsm:blocks/TVLf"
+    },
+    "elements": [ 
+{
+    "from": [ 7.5, 4, -8 ],
+    "to": [ 8.5, 22, 24 ],
+     "faces": {
+        "down":  { "uv": [ 16, 16, 0, 15 ], "rotation": 0, "texture": "#texture", "cullface": "none" },
+        "up":    { "uv": [ 0, 15, 16, 16 ], "rotation": 0, "texture": "#texture", "cullface": "none" },
+        "north": { "uv": [ 0, 15, 16, 16 ], "rotation": 0, "texture": "#texture", "cullface": "none" },
+        "south": { "uv": [ 0, 15, 16, 16 ], "rotation": 0, "texture": "#texture", "cullface": "none" },
+        "west":  { "uv": [ 0, 0, 16, 9 ], "rotation": 0, "texture": "#texture", "cullface": "none" },
+        "east":  { "uv": [ 0, 0, 16, 9 ], "rotation": 0, "texture": "#texture", "cullface": "none" }
+    }
+}
+]
+}

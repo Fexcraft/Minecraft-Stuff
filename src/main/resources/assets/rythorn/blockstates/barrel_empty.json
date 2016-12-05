@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=0": { "model": "rythorn:barrel_empty"},
+        "facing=1": { "model": "rythorn:barrel_empty", "x": 180 },
+        "facing=2": { "model": "rythorn:barrel_empty", "x":  90 },
+        "facing=3": { "model": "rythorn:barrel_empty", "x":  90, "y": 180 },
+        "facing=4": { "model": "rythorn:barrel_empty", "x":  90, "y": 270 },
+        "facing=5": { "model": "rythorn:barrel_empty", "x":  90, "y":  90  }
+    }
+}

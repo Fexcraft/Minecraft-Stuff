@@ -1,0 +1,20 @@
+{
+"__comment": "Designed by FEX___96 with BDcraft Cubik PRO 0.95 Beta",
+"textures": {
+    "texture": "blocks/redstone_block"
+},
+"elements": [ 
+{
+    "from": [ 4, 0, 4 ],
+    "to": [ 12, 16, 12 ],
+    "faces": {
+        "down":  { "uv": [ 12, 12, 4, 4 ], "texture": "#texture" },
+        "up":    { "uv": [ 4, 4, 12, 12 ], "texture": "#texture" },
+        "north": { "uv": [ 4, 0, 12, 16 ], "texture": "#texture" },
+        "south": { "uv": [ 4, 0, 12, 16 ], "texture": "#texture" },
+        "west":  { "uv": [ 4, 0, 12, 16 ], "texture": "#texture" },
+        "east":  { "uv": [ 4, 0, 12, 16 ], "texture": "#texture" }
+    }
+}
+]
+}

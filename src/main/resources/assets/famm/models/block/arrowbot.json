@@ -1,0 +1,34 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "arrowbot": "famm:blocks/arrowbot",
+        "empty": "famm:blocks/empty"
+    },
+    "elements": [
+        {
+            "from": [0,0,0],
+            "to": [16,16,16],
+            "faces": {
+                "up": {
+                    "texture": "#empty"
+                },
+                "down": {
+                    "texture": "#empty"
+                },
+                "west": {
+                    "texture": "#arrowbot"
+                },
+                "east": {
+                    "texture": "#arrowbot"
+                },
+                "north": {
+                    "texture": "#arrowbot"
+                },
+                "south": {
+                    "uv": [0,0,16,16],
+                    "texture": "#arrowbot"
+                }
+            }
+        }
+    ]
+}

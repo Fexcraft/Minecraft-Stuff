@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "frsm_bge:items/blk1_9"
+    }
+}

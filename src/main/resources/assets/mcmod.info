@@ -1,0 +1,16 @@
+[
+{
+  "modid": "*",
+  "name": "Placeholder",
+  "description": "PlaceHolder MCMOD.INFO File.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

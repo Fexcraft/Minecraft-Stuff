@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=north": { "model": "frsm:asphalt2Slab" },
+        "facing=south": { "model": "frsm:asphalt2Slab", "y": 180 },
+        "facing=west":  { "model": "frsm:asphalt2Slab", "y": 270 },
+        "facing=east":  { "model": "frsm:asphalt2Slab", "y": 90 }
+    }
+}
+ 

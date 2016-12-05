@@ -1,0 +1,33 @@
+{
+"__comment": "Designed by FEX___96 with BDcraft Cubik PRO",
+"textures": {
+    "texture": "frsm:blocks/asphalt",
+    "texture2": "frsm:blocks/asphalt2"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 6, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#texture" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture" },
+        "south": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture" },
+        "west":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture" },
+        "east":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ 0, 6, 15 ],
+    "to": [ 16, 6.5, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 1, 0, 0 ], "texture": "#texture2" },
+        "up":    { "uv": [ 0, 0, 16, 1 ], "texture": "#texture2" },
+        "north": { "uv": [ 0, 0, 16, 0.5 ], "texture": "#texture2" },
+        "south": { "uv": [ 0, 0, 16, 0.5 ], "texture": "#texture2" },
+        "west":  { "uv": [ 15, 0, 16, 0.5 ], "texture": "#texture2" },
+        "east":  { "uv": [ 0, 0, 1, 0.5 ], "texture": "#texture2" }
+    }
+}
+]
+}

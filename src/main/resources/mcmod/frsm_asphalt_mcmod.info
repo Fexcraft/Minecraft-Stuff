@@ -1,0 +1,16 @@
+[
+{
+  "modid": "frsm_asphalt",
+  "name": "Fex's Random Stuff Mod",
+  "description": "A mod adding some Customisable Asphalt Blocks to the game.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net/download?modid=cae",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl", "frsm"]
+}
+]

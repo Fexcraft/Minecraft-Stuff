@@ -1,0 +1,21 @@
+{
+"__comment": "Designed by Ferdinand (FEX___96) with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
+"textures": {
+    "texture": "rythorn:blocks/wagon_wheel",
+    "empty": "rythorn:blocks/placeholder"
+},
+"elements": [ 
+{
+    "from": [ 0, 15.5, 0 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#texture" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 0, 16, 0.5 ], "texture": "#empty" },
+        "south": { "uv": [ 0, 0, 16, 0.5 ], "texture": "#empty" },
+        "west":  { "uv": [ 0, 0, 16, 0.5 ], "texture": "#empty" },
+        "east":  { "uv": [ 0, 0, 16, 0.5 ], "texture": "#empty" }
+    }
+}
+]
+}

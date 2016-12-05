@@ -1,0 +1,16 @@
+[
+{
+  "modid": "famm",
+  "name": "Fex's Alphabet & More Mod",
+  "description": "A mod adding various Alphabet/Number/Other decoration blocks to the game.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net/download?modid=famm",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl"]
+}
+]

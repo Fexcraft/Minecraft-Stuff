@@ -1,0 +1,21 @@
+{
+"__comment": "Designed by FEX___96 with BDcraft Cubik PRO 0.95 Beta",
+"textures": {
+    "texture": "famm:blocks/emoticonangry",
+    "empty": "famm:blocks/empty"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 12 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#empty" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#empty" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#empty" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#empty" }
+    }
+}
+]
+}

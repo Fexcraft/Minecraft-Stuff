@@ -1,0 +1,9 @@
+tile.frsm_ce_Clock2.name=Clock
+tile.frsm_ce_Calendar1.name=Calendar
+item.frsm_ce_universal_tool.name=Universal Time Tool
+tile.frsm_ce_Clock1C.name=Clock
+tile.frsm_ce_Clock2C.name=Clock
+tile.frsm_ce_Calendar1C.name=Calendar
+tile.frsm_ce_Clock3_W.name=Clock
+tile.frsm_ce_Clock3_B.name=Clock
+itemGroup.tabCE.name=FRSM: Calender Extension

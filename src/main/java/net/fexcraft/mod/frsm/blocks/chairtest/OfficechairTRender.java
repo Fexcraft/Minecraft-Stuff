@@ -1,0 +1,24 @@
+package net.fexcraft.mod.frsm.blocks.chairtest;
+
+import net.fexcraft.mod.frsm.blocks.chair.OfficechairModel;
+import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.minecraft.entity.Entity;
+
+public class OfficechairTRender extends FTESR_4R {
+	
+	public OfficechairModel model;
+	
+	public OfficechairTRender() {
+		this.model = new OfficechairModel();
+	}
+	
+	@Override
+	public final String getTexturePath(){
+		return "frsm:textures/blocks/officechair.png";
+	}
+	
+	@Override
+	public void ModelRender(){
+		this.model.render((Entity)null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+	}
+}

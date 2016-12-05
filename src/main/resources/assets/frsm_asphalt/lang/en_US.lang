@@ -1,0 +1,3 @@
+tile.frsm_asphalt:custom_asphalt.name=Custom Asphalt
+tile.frsm_asphalt:custom_asphalt_nolayer.name=Custom Asphalt (no layer)
+item.frsm_asphalt:planning_item.name=Planning Item

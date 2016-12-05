@@ -1,0 +1,21 @@
+{
+    "variants": {
+        "color=white": { "model": "frsm:decoBlock1_white" },
+        "color=orange": { "model": "frsm:decoBlock1_orange" },
+        "color=magenta": { "model": "frsm:decoBlock1_magenta" },
+        "color=light_blue": { "model": "frsm:decoBlock1_light_blue" },
+        "color=yellow": { "model": "frsm:decoBlock1_yellow" },
+        "color=lime": { "model": "frsm:decoBlock1_lime" },
+        "color=pink": { "model": "frsm:decoBlock1_pink" },
+        "color=silver": { "model": "frsm:decoBlock1_silver" },
+        "color=gray": { "model": "frsm:decoBlock1_gray" },
+        "color=cyan": { "model": "frsm:decoBlock1_cyan" },
+        "color=purple": { "model": "frsm:decoBlock1_purple" },
+        "color=blue": { "model": "frsm:decoBlock1_blue" },
+        "color=brown": { "model": "frsm:decoBlock1_brown" },
+        "color=green": { "model": "frsm:decoBlock1_green" },
+        "color=red": { "model": "frsm:decoBlock1_red" },
+        "color=black": { "model": "frsm:decoBlock1_black" }
+    }
+}
+ 

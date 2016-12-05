@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "normal": { "model": "frsm:framedGlowstone" },
+        "type=0": { "model": "frsm:framed_glowstone_oak" },
+        "type=1": { "model": "frsm:framed_glowstone_spruce" },
+        "type=2": { "model": "frsm:framed_glowstone_birch" },
+        "type=3": { "model": "frsm:framed_glowstone_jungle" },
+        "type=4": { "model": "frsm:framed_glowstone_acacia" },
+        "type=5": { "model": "frsm:framed_glowstone_dark_oak" }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,type=false": { "model": "dwe:laptop0" },
+        "facing=south,type=false": { "model": "dwe:laptop0", "y": 180 },
+        "facing=west,type=false":  { "model": "dwe:laptop0", "y": 270 },
+        "facing=east,type=false":  { "model": "dwe:laptop0", "y": 90 },
+        "facing=north,type=true": { "model": "dwe:laptop1" },
+        "facing=south,type=true": { "model": "dwe:laptop1", "y": 180 },
+        "facing=west,type=true":  { "model": "dwe:laptop1", "y": 270 },
+        "facing=east,type=true":  { "model": "dwe:laptop1", "y": 90 }
+    }
+}

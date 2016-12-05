@@ -1,0 +1,16 @@
+[
+{
+  "modid": "frsm_bge",
+  "name": "Board Game Extension",
+  "description": "A Mod adding some Board-Game based blocks and features.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net/download?modid=frsm_bge",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl", "frsm"]
+}
+]

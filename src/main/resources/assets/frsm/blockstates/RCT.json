@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,powered=false": { "model": "frsm:rct" },
+        "facing=south,powered=false": { "model": "frsm:rct", "y": 180 },
+        "facing=west,powered=false":  { "model": "frsm:rct", "y": 270 },
+        "facing=east,powered=false":  { "model": "frsm:rct", "y": 90 },
+        "facing=north,powered=true": { "model": "frsm:rct0" },
+        "facing=south,powered=true": { "model": "frsm:rct0", "y": 180 },
+        "facing=west,powered=true":  { "model": "frsm:rct0", "y": 270 },
+        "facing=east,powered=true":  { "model": "frsm:rct0", "y": 90 }
+    }
+}

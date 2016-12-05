@@ -1,0 +1,111 @@
+//Tile-Normal\\
+tile.frsm:woodenLightBox.name=Kotak Kayu Kecil
+tile.frsm:stoneLightBox.name=Kotak Batu Kecil
+tile.frsm:decoBlock1.name=Blok Dekorasi
+tile.frsm:decoBlock2.name=Blok Dekorasi
+tile.frsm:framedGlowstone.name=Glowstone Berbingkai
+tile.frsm:stoneSlabPillar.name=Pilar Lempengan Batu
+//Items\\
+item.frsm:cup.name=Cangkir
+item.frsm:cupWithCacao.name=Minuman Kakao
+item.frsm:hamburger.name=Hamburger
+item.frsm:pizza.name=Pizza
+item.frsm:cheese.name=Keju
+item.frsm:salami.name=Salami
+item.frsm:tomato.name=Tomat
+item.frsm:tomatoJar.name=Toples Tomat
+item.frsm:jar.name=Toples
+item.frsm:chocolateBar.name=Coklat Batang
+item.frsm:chocolateMilk.name=Susu Coklat
+item.frsm:chocolateCookie.name=Biskuit Coklat
+item.frsm:cookedEgg.name=Omelet Telur
+item.frsm:stoneMug.name=Mug Batu
+item.frsm:stoneMugWithBeer.name=Bir di Mug Batu
+item.frsm:donut.name=Donat
+item.frsm:tomatoSeeds.name=Bibit Tomat
+item.frsm:emeraldSword.name=Pedang Zamrud
+item.frsm:helmet1.name=Helm Tak Terlihat
+item.frsm:chestplate1.name=Chestplate Besi Ender
+item.frsm:emeraldBlade.name=Bilah Pedang Zamrud
+item.frsm:cheeseWhite.name=Keju Putih
+item.frsm:prozessor.name=Prosesor
+item.frsm:prozessor2.name=Prosesor Dual Core
+item.frsm:prozessor4.name=Prosesor Quad Core
+item.frsm:tvScreenSmall.name=Layar Kecil
+item.frsm:redstoneInput.name=Masukkan Redstone
+item.frsm:cheesePie.name=Pie Keju Putih
+item.frsm:laptopMainboard.name=MainBoard Laptop
+item.frsm:pcMainboard.name=MainBoard Desktop PC
+item.frsm:notExistingStuffReplace.name=Tidak Ada Alat Ganti
+item.frsm:keyboard.name=Keyboard
+item.frsm:ironSaw.name=Gergaji Besi
+item.frsm:baconraw.name=Daging Babi (mentah)
+item.frsm:bacon.name=Daging Babi
+item.frsm:chocolateBarWhite.name=Coklat Putih Batang
+item.frsm:tomatoSoup.name=Sup Tomat
+item.frsm:upGradeKit.name=UpGrade Kit
+item.frsm:tvScreenMedium.name=Layar Medium
+item.frsm:tilesempty.name=Ubin (Kosong)
+item.frsm:TVController.name=Kontroler TV
+//Tile-Custom\\
+tile.frsm:tbm.name=TBM =Model Tes Blok
+tile.frsm:crate.name=Peti Kayu
+tile.frsm:tvs.name=TV Kecil
+tile.frsm:kd1.name=Dekorasi Dapur (1)
+tile.frsm:wb.name=Meja Kerja
+tile.frsm:laptop.name=Laptop
+tile.frsm:pchardware2.name=Monitor PC, Keyboard & Mouse
+tile.frsm:pchardware1.name=Perangkat Keras PC
+tile.frsm:laptop-white.name=Laptop (Putih)
+tile.frsm:printer.name=Printer
+tile.frsm:laptopGreen.name=Laptop (Hijau)
+tile.frsm:washingmashine.name=Mesin Cuci
+tile.frsm:Toaster.name=Pemanggang Roti
+tile.frsm:Stove.name=Kompor
+tile.frsm:rail.name=(Model) Rel
+tile.frsm:railturn.name=(Model) Rel Belok
+tile.frsm:Train1D.name=Tes Lokomotif
+tile.frsm:Car1D.name=Model Mobil (1)
+tile.frsm:laptopRed.name=Laptop (Merah)
+tile.frsm:laptopBlue.name=Laptop (Biru)
+tile.frsm:pchardware2b.name=Monitor PC, Keyboard & Mouse
+tile.frsm:pchardware1b.name=Hardware PC
+tile.frsm:laptopBlack.name=Laptop (Hitam)
+tile.frsm:TVM.name=TV Medium
+tile.frsm:KD2.name=Dekorasi Dapur (2)
+tile.frsm:tiles.name=Ubin (Desain Abu-abu)
+tile.frsm:tiles2.name=Ubin dengan GlowStone (Desain Abu-abu)
+tile.frsm:tiles3.name=Ubin Batu Retak
+tile.frsm:tiles4.name=Ubin (Desain Abu-abu)
+//Creative-Tabs\\
+itemGroup.tabFRSM=FRSM - Blok & Dekorasi
+itemGroup.tabFRSM-Food=FRSM - Makanan & Minuman
+itemGroup.tabFRSM-Materials=FRSM - Material, Bagian & Barang Tak Disortir
+itemGroup.tabFRSM-Swords=FRSM - Pedang, Pelindung & Alat
+itemGroup.tabFRSM-Technic=FRSM - Alat-alat Teknis (Blok)
+itemGroup.tabFRSM-Model=FRSM - Model & Maninan
+itemGroup.tabFRSM-Dev=FRSM - Per. Pengembang - Gunakan dengan Tanggungjawab Sendiri!
+/////////////////////////////////////
+To make translation more easy... from any highter version than 1.87b
+new stuff will be in this order...
+////////////////////////////////////
+//1.91-beta//
+tile.frsm:busstop.name=Bus Stop Sign
+tile.frsm:busstation.name=Bus Station
+tile.frsm:trashcan.name=Trashcan
+//2.08-NF//
+tile.frsm:vendingmachine.name=Vending Machine
+item.frsm:patatoChipsBag.name=Potato Chips Bag
+tile.frsm:station.name=Rail Station (1)
+tile.frsm:station2.name=Rail Station (2)
+tile.frsm:station3.name=Rail Station (3) with Light 
+//2.34-NF//
+itemGroup.tabFRSM-Robo=FRSM - Robo Stuff
+item.frsm:RPC.name=Robo Control (Guard)
+item.frsm:potatoChipsCheese.name=Cheese Potato Chips
+tile.frsm:Radio1.name=Radio
+tile.frsm:cupG.name=Gold Cup
+//2.60-NF//
+tile.frsm:laptopG.name=Golden Laptop
+tile.frsm:window.name=Window
+tile.frsm:pillar.name=Quartz Pillar

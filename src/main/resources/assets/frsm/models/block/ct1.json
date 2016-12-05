@@ -1,0 +1,33 @@
+{
+"__comment": "Designed by Ferdinandc with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+"textures": {
+    "particle": "blocks/ct1",
+    "texture": "blocks/ct1"
+},
+"elements": [ 
+{
+    "from": [ 7, -5, 7 ],
+    "to": [ 7.5, -2, 7.5 ],
+    "faces": {
+        "down":  { "uv": [ 6.5, 7, 7, 6.5 ], "texture": "#texture" },
+        "up":    { "uv": [ 6.5, 7.5, 7, 8 ], "texture": "#texture" },
+        "north": { "uv": [ 7.5, 8.5, 8, 9 ], "texture": "#texture" },
+        "south": { "uv": [ 6.5, 7, 7, 6.5 ], "texture": "#texture" },
+        "west":  { "uv": [ 6.5, 8, 7, 8.5 ], "texture": "#texture" },
+        "east":  { "uv": [ 6.5, 7, 6, 7.5 ], "texture": "#texture" }
+    }
+}
+],
+"display": {
+    "thirdperson_lefthand": {
+        "rotation": [ , ,  ],
+        "translation": [ , ,  ],
+        "scale": [ , ,  ]
+    },
+    "firstperson_lefthand": {
+        "rotation": [ , ,  ],
+        "translation": [ , ,  ],
+        "scale": [ , ,  ]
+    }
+}
+}

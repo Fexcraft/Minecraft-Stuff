@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=0": { "model": "rythorn:wagon_wheel_vertical", "x": 180 },
+        "facing=1": { "model": "rythorn:wagon_wheel_vertical" },
+        "facing=2": { "model": "rythorn:wagon_wheel_horizontal" },
+        "facing=3": { "model": "rythorn:wagon_wheel_horizontal", "y": 180 },
+        "facing=4": { "model": "rythorn:wagon_wheel_horizontal", "y": 270 },
+        "facing=5": { "model": "rythorn:wagon_wheel_horizontal", "y": 90  }
+    }
+}

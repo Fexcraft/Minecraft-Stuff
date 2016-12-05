@@ -1,0 +1,16 @@
+[
+{
+  "modid": "fsmm",
+  "name": "Fex's Small Money Mod",
+  "description": "A small mod adding some Money Items and even an (extendable) banking system!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net/download?modid=fsmm",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl"]
+}
+]

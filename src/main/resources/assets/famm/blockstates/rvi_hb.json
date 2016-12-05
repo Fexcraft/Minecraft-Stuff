@@ -1,0 +1,21 @@
+{
+    "variants": {
+        "normal": { "model": "famm:rvi_hb" },
+        "depth=3,facing=north": { "model": "famm:rvi_hb_3" },
+        "depth=3,facing=south": { "model": "famm:rvi_hb_3", "y": 180 },
+        "depth=3,facing=west":  { "model": "famm:rvi_hb_3", "y": 270 },
+        "depth=3,facing=east":  { "model": "famm:rvi_hb_3", "y": 90 },
+        "depth=2,facing=north": { "model": "famm:rvi_hb_2" },
+        "depth=2,facing=south": { "model": "famm:rvi_hb_2", "y": 180 },
+        "depth=2,facing=west":  { "model": "famm:rvi_hb_2", "y": 270 },
+        "depth=2,facing=east":  { "model": "famm:rvi_hb_2", "y": 90 },
+        "depth=1,facing=north": { "model": "famm:rvi_hb_1" },
+        "depth=1,facing=south": { "model": "famm:rvi_hb_1", "y": 180 },
+        "depth=1,facing=west":  { "model": "famm:rvi_hb_1", "y": 270 },
+        "depth=1,facing=east":  { "model": "famm:rvi_hb_1", "y": 90 },
+        "depth=0,facing=north": { "model": "famm:rvi_hb_0" },
+        "depth=0,facing=south": { "model": "famm:rvi_hb_0", "y": 180 },
+        "depth=0,facing=west":  { "model": "famm:rvi_hb_0", "y": 270 },
+        "depth=0,facing=east":  { "model": "famm:rvi_hb_0", "y": 90 }
+    }
+}

@@ -1,0 +1,34 @@
+itemGroup.tabFVE=FVE - Vehicle Extension
+
+//C5 R
+tile.fve_C5R.name=C5 (Default)
+tile.fve_C5RBlue.name=C5 (Blue)
+tile.fve_C5RRed.name=C5 (Red)
+tile.fve_C5RGreen.name=C5 (Green)
+tile.fve_C5RBlack.name=C5 (Black)
+tile.fve_C5RWhite.name=C5 (White)
+tile.fve_C5RPink.name=C5 (Pink)
+tile.fve_C5RPurple.name=C5 (Purple)
+tile.fve_C5ROrange.name=C5 (Orange)
+tile.fve_C5RCyan.name=C5 (Cyan)
+tile.fve_C5RBrown.name=C5 (Brown)
+tile.fve_C5RGray.name=C5 (Gray)
+tile.fve_C5RYellow.name=C5 (Yellow)
+
+//C5 L
+tile.fve_C5L.name=C5 (Default)
+tile.fve_C5LBlue.name=C5 (Blue)
+tile.fve_C5LRed.name=C5 (Red)
+tile.fve_C5LGreen.name=C5 (Green)
+tile.fve_C5LBlack.name=C5 (Black)
+tile.fve_C5LWhite.name=C5 (White)
+tile.fve_C5LPink.name=C5 (Pink)
+tile.fve_C5LPurple.name=C5 (Purple)
+tile.fve_C5LOrange.name=C5 (Orange)
+tile.fve_C5LCyan.name=C5 (Cyan)
+tile.fve_C5LBrown.name=C5 (Brown)
+tile.fve_C5LGray.name=C5 (Gray)
+tile.fve_C5LYellow.name=C5 (Yellow)
+
+//C6
+tile.fve_C6L.name=C6 (Green)

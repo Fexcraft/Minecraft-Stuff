@@ -1,0 +1,21 @@
+{
+"__comment": "Designed by FEX___96 with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+"textures": {
+    "texture": "frsm:blocks/stoneSlabPillar_0",
+    "texture2": "frsm:blocks/stoneSlabPillar_5"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#texture" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture2" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture2" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture2" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture2" }
+    }
+}
+]
+}

@@ -1,0 +1,4 @@
+tile.frsm_bge:block1.name=Block
+itemGroup.tabBGE=FRSM: Board Game Extension 
+tile.frsm_bge:chess_tower.name=Chess - Tower
+tile.frsm_bge:dice.name=Dice Block

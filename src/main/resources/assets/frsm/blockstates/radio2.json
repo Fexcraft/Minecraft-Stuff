@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "frsm:radio2", "y": 180 },
+        "facing=south": { "model": "frsm:radio2" },
+        "facing=west":  { "model": "frsm:radio2", "y": 90 },
+        "facing=east":  { "model": "frsm:radio2", "y": 270 }
+    }
+}

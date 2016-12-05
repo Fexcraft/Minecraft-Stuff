@@ -1,0 +1,21 @@
+{
+    "variants": {
+        "height=0": { "model": "frsm_asphalt:custom_asphalt_1" },
+        "height=1": { "model": "frsm_asphalt:custom_asphalt_2" },
+        "height=2": { "model": "frsm_asphalt:custom_asphalt_3" },
+        "height=3": { "model": "frsm_asphalt:custom_asphalt_4" },
+        "height=4": { "model": "frsm_asphalt:custom_asphalt_5" },
+        "height=5": { "model": "frsm_asphalt:custom_asphalt_6" },
+        "height=6": { "model": "frsm_asphalt:custom_asphalt_7" },
+        "height=7": { "model": "frsm_asphalt:custom_asphalt_8" },
+        "height=8": { "model": "frsm_asphalt:custom_asphalt_9" },
+        "height=9": { "model": "frsm_asphalt:custom_asphalt_10" },
+        "height=10": { "model": "frsm_asphalt:custom_asphalt_11" },
+        "height=11": { "model": "frsm_asphalt:custom_asphalt_12" },
+        "height=12": { "model": "frsm_asphalt:custom_asphalt_13" },
+        "height=13": { "model": "frsm_asphalt:custom_asphalt_14" },
+        "height=14": { "model": "frsm_asphalt:custom_asphalt_15" },
+        "height=15": { "model": "frsm_asphalt:custom_asphalt_16" }
+    }
+}
+ 

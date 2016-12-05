@@ -1,0 +1,16 @@
+[
+{
+  "modid": "frsm",
+  "name": "Fex's Random Stuff Mod",
+  "description": "A mod adding some random but not useless things to Minecraft, except you dislike decoration.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net",
+  "updateUrl": "http://fexcraft.net/download?modid=frsm",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl"]
+}
+]

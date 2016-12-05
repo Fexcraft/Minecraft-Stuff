@@ -1,0 +1,16 @@
+[
+{
+  "modid": "frsm_ce",
+  "name": "Calendar Extension",
+  "description": "A mod adding some functional Clock and Calender Blocks.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://fexcraft.net/",
+  "updateUrl": "http://fexcraft.net/download?modid=frsm_ce",
+  "authorList": ["FEX___96"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["fcl", "frsm"]
+}
+]

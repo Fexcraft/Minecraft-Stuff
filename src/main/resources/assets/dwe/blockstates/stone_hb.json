@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "normal": { "model": "dwe:stone_hb" },
+        "facing=north": { "model": "dwe:stone_hb" },
+        "facing=south": { "model": "dwe:stone_hb", "y": 180 },
+        "facing=west":  { "model": "dwe:stone_hb", "y": 270 },
+        "facing=east":  { "model": "dwe:stone_hb", "y": 90 }
+    }
+}

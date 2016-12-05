@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "frsm:cobble5" },
+        "facing=south": { "model": "frsm:cobble5", "y": 180 },
+        "facing=west":  { "model": "frsm:cobble5", "y": 270 },
+        "facing=east":  { "model": "frsm:cobble5", "y": 90 }
+    }
+}

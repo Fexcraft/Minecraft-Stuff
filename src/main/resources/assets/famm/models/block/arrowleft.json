@@ -1,0 +1,33 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "empty": "famm:blocks/empty",
+        "arrowleft": "famm:blocks/arrowleft"
+    },
+    "elements": [
+        {
+            "from": [0,0,0],
+            "to": [16,16,16],
+            "faces": {
+                "up": {
+                    "texture": "#empty"
+                },
+                "down": {
+                    "texture": "#empty"
+                },
+                "west": {
+                    "texture": "#arrowleft"
+                },
+                "east": {
+                    "texture": "#arrowleft"
+                },
+                "north": {
+                    "texture": "#arrowleft"
+                },
+                "south": {
+                    "texture": "#arrowleft"
+                }
+            }
+        }
+    ]
+}

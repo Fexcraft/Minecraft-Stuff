@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=north": { "model": "frsm:laptopRed" },
+        "facing=south": { "model": "frsm:laptopRed", "y": 180 },
+        "facing=west":  { "model": "frsm:laptopRed", "y": 270 },
+        "facing=east":  { "model": "frsm:laptopRed", "y": 90 }
+    }
+}
+ 
