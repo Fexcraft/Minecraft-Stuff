@@ -35,7 +35,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = Static.MODID, name = Static.NAME, version = Static.VERSION, dependencies = "required-after:frsm")
+//@Mod(modid = Static.MODID, name = Static.NAME, version = Static.VERSION, dependencies = "required-after:frsm")
 public class IE {
 	
 	@Mod.Instance("frsm_ie")

@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "doe:mb1" },
-        "facing=south": { "model": "doe:mb1", "y": 180 },
-        "facing=west":  { "model": "doe:mb1", "y": 270 },
-        "facing=east":  { "model": "doe:mb1", "y": 90 }
-    }
-}
- 

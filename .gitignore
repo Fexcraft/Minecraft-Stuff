@@ -34,3 +34,10 @@ Thumbs.db
 .DS_Store
 *.launch
 
+#Other
+src/main/java/com/
+src/main/java/net/fexcraft/mod/fsu/
+src/main/resources/assets/flansmod/
+src/main/resources/assets/rythorn/
+src/main/resources/assets/fsu/
+

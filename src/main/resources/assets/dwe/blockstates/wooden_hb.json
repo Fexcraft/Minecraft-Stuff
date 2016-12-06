@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "normal": { "model": "dwe:wooden_hb" },
-        "facing=north": { "model": "dwe:wooden_hb" },
-        "facing=south": { "model": "dwe:wooden_hb", "y": 180 },
-        "facing=west":  { "model": "dwe:wooden_hb", "y": 270 },
-        "facing=east":  { "model": "dwe:wooden_hb", "y": 90 }
-    }
-}
