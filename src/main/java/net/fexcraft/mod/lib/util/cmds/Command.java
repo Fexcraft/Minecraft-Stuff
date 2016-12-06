@@ -14,12 +14,12 @@ import net.minecraft.util.text.TextFormatting;
 public class Command extends CommandBase{
 
 	@Override
-	public String getCommandName(){
+	public String getName(){
 		return "fcl";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender){
+	public String getUsage(ICommandSender sender){
 		return "/fcl";
 	}
 

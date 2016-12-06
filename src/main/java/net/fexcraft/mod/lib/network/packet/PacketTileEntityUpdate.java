@@ -25,7 +25,7 @@ public class PacketTileEntityUpdate extends Packet implements IPacket, IMessage{
 	public void toBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
 		buf.writeBlockPos(pos);
-		buf.writeNBTTagCompoundToBuffer(nbt);
+		buf.writeCompoundTag(nbt);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class PacketTileEntityUpdate extends Packet implements IPacket, IMessage{
 		PacketBuffer buf = new PacketBuffer(bbuf);
 		pos = buf.readBlockPos();
 		try {
-			nbt = buf.readNBTTagCompoundFromBuffer();
+			nbt = buf.readCompoundTag();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -25,15 +25,15 @@ public class PacketItemStackUpdate extends Packet implements IPacket, IMessage{
 	public void toBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
 		buf.writeString(player);
-		buf.writeNBTTagCompoundToBuffer(nbt);
+		buf.writeCompoundTag(nbt);
 	}
 
 	@Override
 	public void fromBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
-		player = buf.readStringFromBuffer(16);
+		player = buf.readString(16);
 		try {
-			nbt = buf.readNBTTagCompoundFromBuffer();
+			nbt = buf.readCompoundTag();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

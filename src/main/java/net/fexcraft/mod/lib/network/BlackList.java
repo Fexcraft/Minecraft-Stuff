@@ -68,7 +68,7 @@ public class BlackList {
 	
 	public void kick(EntityPlayer player){
 		if(server){
-			((EntityPlayerMP)player).connection.kickPlayerFromServer("[FCL] Blacklisted.");
+			((EntityPlayerMP)player).connection.disconnect("[FCL] Blacklisted.");
 		}
 		else{
 			Runtime.getRuntime().halt(1);//.exit(1);

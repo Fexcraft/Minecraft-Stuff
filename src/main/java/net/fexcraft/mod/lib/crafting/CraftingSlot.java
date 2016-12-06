@@ -32,7 +32,7 @@ public class CraftingSlot extends Slot {
     
     public ItemStack decrStackSize(int amount){
         if(this.getHasStack()){
-            this.amount_crafted += Math.min(amount, this.getStack().stackSize);
+            this.amount_crafted += Math.min(amount, this.getStack().getCount());
         }
         return super.decrStackSize(amount);
     }
@@ -44,7 +44,7 @@ public class CraftingSlot extends Slot {
     
     protected void onCrafting(ItemStack stack){
         if(this.amount_crafted > 0){
-            stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.amount_crafted);
+            stack.onCrafting(this.thePlayer.world, this.thePlayer, this.amount_crafted);
         }
         this.amount_crafted = 0;
         if(stack.getItem() == Item.getItemFromBlock(Blocks.CRAFTING_TABLE)){
@@ -83,7 +83,7 @@ public class CraftingSlot extends Slot {
         net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, craftMatrix);
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(playerIn);
-        ItemStack[] aitemstack = ManagerCrafting.getInstance().getRemainingItems(this.craftMatrix, playerIn.worldObj);
+        ItemStack[] aitemstack = ManagerCrafting.getInstance().getRemainingItems(this.craftMatrix, playerIn.world);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
         for(int i = 0; i < aitemstack.length; ++i){
             ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
@@ -97,7 +97,7 @@ public class CraftingSlot extends Slot {
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
                 else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)){
-                    itemstack1.stackSize += itemstack.stackSize;
+                    itemstack1.setCount(itemstack1.getCount() + itemstack.getCount());
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
                 else if (!this.thePlayer.inventory.addItemStackToInventory(itemstack1)){

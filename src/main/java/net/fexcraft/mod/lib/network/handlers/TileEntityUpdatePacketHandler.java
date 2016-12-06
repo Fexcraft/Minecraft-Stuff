@@ -23,9 +23,9 @@ public class TileEntityUpdatePacketHandler implements IMessageHandler<PacketTile
 		ls.addScheduledTask(new Runnable(){
 			@Override
 			public void run() {
-				Chunk ck = Minecraft.getMinecraft().theWorld.getChunkFromBlockCoords(packet.pos);
+				Chunk ck = Minecraft.getMinecraft().world.getChunkFromBlockCoords(packet.pos);
 				if(ck.isLoaded()){
-					TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(packet.pos);
+					TileEntity te = Minecraft.getMinecraft().world.getTileEntity(packet.pos);
 					if(te instanceof IPacketReceiver){
 						((IPacketReceiver)te).processClientPacket(packet);
 					}

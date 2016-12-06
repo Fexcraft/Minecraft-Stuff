@@ -49,7 +49,7 @@ public class ISUPacketHandler{
 			ls.addScheduledTask(new Runnable(){
 				@Override
 				public void run(){
-					ItemStack stack = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+					ItemStack stack = Minecraft.getMinecraft().player.getHeldItemMainhand();
 					if(stack != null && stack.getItem() instanceof IISPR){
 						((IISPR)stack.getItem()).processClientPacket(packet, stack);
 					}

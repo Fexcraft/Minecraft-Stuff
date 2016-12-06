@@ -23,11 +23,11 @@ public class Print{
 	}
 	
 	public static void chat(ICommandSender sender, Object obj){
-		sender.addChatMessage(new TextComponentString("[DEBUG]: " + obj.toString()));
+		sender.sendMessage(new TextComponentString("[DEBUG]: " + obj.toString()));
 	}
 	
 	public static void chat(ICommandSender sender, String string){
-		sender.addChatMessage(new TextComponentString(string));
+		sender.sendMessage(new TextComponentString(string));
 	}
 	
 	private static int sec = -1;

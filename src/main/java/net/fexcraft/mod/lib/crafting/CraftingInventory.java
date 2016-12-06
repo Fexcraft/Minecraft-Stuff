@@ -1,5 +1,8 @@
 package net.fexcraft.mod.lib.crafting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,32 +10,33 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
 public class CraftingInventory implements IInventory {
 	
-	private final ItemStack[] stackList;
+	private final NonNullList<ItemStack> stackList;
     private final int inventoryWidth;
     private final int inventoryHeight;
     private final Container eventHandler;
 
     public CraftingInventory(Container eventHandlerIn, int width, int height){
         int i = width * height;
-        this.stackList = new ItemStack[i];
+        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);//new ItemStack[i];
         this.eventHandler = eventHandlerIn;
         this.inventoryWidth = width;
         this.inventoryHeight = height;
     }
     
     public int getSizeInventory(){
-        return this.stackList.length;
+        return this.stackList.size();
     }
     
     @Nullable
     public ItemStack getStackInSlot(int index){
-        return index >= this.getSizeInventory() ? null : this.stackList[index];
+        return index >= this.getSizeInventory() ? null : this.stackList.get(index);
     }
     
     @Nullable
@@ -67,7 +71,7 @@ public class CraftingInventory implements IInventory {
     }
     
     public void setInventorySlotContents(int index, @Nullable ItemStack stack){
-        this.stackList[index] = stack;
+        this.stackList.set(index, stack);
         this.eventHandler.onCraftMatrixChanged(this);
     }
     
@@ -100,9 +104,10 @@ public class CraftingInventory implements IInventory {
     }
 
     public void clear(){
-        for(int i = 0; i < this.stackList.length; ++i){
+        /*for(int i = 0; i < this.stackList.length; ++i){
             this.stackList[i] = null;
-        }
+        }*/
+    	this.stackList.clear();
     }
 
     public int getHeight(){
@@ -112,4 +117,19 @@ public class CraftingInventory implements IInventory {
     public int getWidth(){
         return this.inventoryWidth;
     }
+
+	@Override
+	public boolean isEmpty(){
+		for(ItemStack itemstack : this.stackList){
+            if(!itemstack.isEmpty()){
+                return false;
+            }
+        }
+        return true;
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player){
+		return true;
+	}
 }

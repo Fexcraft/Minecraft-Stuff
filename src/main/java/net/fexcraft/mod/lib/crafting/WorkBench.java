@@ -50,7 +50,7 @@ public class WorkBench extends Block implements IBlock {
     }
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY){
 		if(!world.isRemote){
 			if(!player.isSneaking()){
 				player.openGui(FCL.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
@@ -61,10 +61,10 @@ public class WorkBench extends Block implements IBlock {
 		return false;
 	}
 	
-	@Override
+	/*@Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-    }
+    }*/
 
 	@Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){

@@ -28,7 +28,7 @@ public class PacketKeyInput implements IPacket, IMessage{
 	public void fromBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
 		data = buf.readInt();
-		target = buf.readStringFromBuffer(999);
+		target = buf.readString(999);
 	}
 	
 }
