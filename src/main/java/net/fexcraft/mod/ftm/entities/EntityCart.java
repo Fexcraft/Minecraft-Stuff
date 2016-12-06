@@ -9,6 +9,7 @@ import net.minecraft.block.BlockRailPowered;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -100,7 +101,7 @@ public class EntityCart extends TrainEntityBase {
 	}
 	
     public static void func_189673_a(DataFixer df){
-        EntityMinecart.func_189669_a(df, "CartRideable");
+        EntityMinecart.registerFixesMinecart(df, EntityCart.class);//TODO check
     }
     
     public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand){
@@ -111,7 +112,7 @@ public class EntityCart extends TrainEntityBase {
             return true;
         }
         else{
-            if(!worldObj.isRemote){
+            if(!world.isRemote){
                 player.startRiding(this);
             }
             return true;
@@ -152,7 +153,7 @@ public class EntityCart extends TrainEntityBase {
     }
     
     public boolean attackEntityFrom(DamageSource source, float amount){
-        if (!this.worldObj.isRemote && !this.isDead){
+        if (!this.world.isRemote && !this.isDead){
             if (this.isEntityInvulnerable(source)){
                 return false;
             }
@@ -182,7 +183,7 @@ public class EntityCart extends TrainEntityBase {
     public void killMinecart(DamageSource source){
         this.setDead();
 
-        if(this.worldObj.getGameRules().getBoolean("doEntityDrops")){
+        if(this.world.getGameRules().getBoolean("doEntityDrops")){
             ItemStack itemstack = new ItemStack(Items.MINECART, 1);
             if(this.getName() != null){
                 itemstack.setStackDisplayName(this.getName());
@@ -223,9 +224,9 @@ public class EntityCart extends TrainEntityBase {
         if(this.posY < -64.0D){
             this.kill();
         }
-        if(!this.worldObj.isRemote && this.worldObj instanceof WorldServer){
-            this.worldObj.theProfiler.startSection("portal");
-            MinecraftServer minecraftserver = this.worldObj.getMinecraftServer();
+        if(!this.world.isRemote && this.world instanceof WorldServer){
+            this.world.theProfiler.startSection("portal");
+            MinecraftServer minecraftserver = this.world.getMinecraftServer();
             int i = this.getMaxInPortalTime();
             if(this.inPortal){
                 if(minecraftserver.getAllowNether()){
@@ -233,7 +234,7 @@ public class EntityCart extends TrainEntityBase {
                         this.portalCounter = i;
                         this.timeUntilPortal = this.getPortalCooldown();
                         int j;
-                        if(this.worldObj.provider.getDimensionType().getId() == -1){
+                        if(this.world.provider.getDimensionType().getId() == -1){
                             j = 0;
                         }
                         else{
@@ -255,9 +256,9 @@ public class EntityCart extends TrainEntityBase {
             if(this.timeUntilPortal > 0){
                 --this.timeUntilPortal;
             }
-            this.worldObj.theProfiler.endSection();
+            this.world.theProfiler.endSection();
         }
-        if(this.worldObj.isRemote){
+        if(this.world.isRemote){
             if(this.turnProgress > 0){
                 double d4 = this.posX + (this.minecartX - this.posX) / (double)this.turnProgress;
                 double d5 = this.posY + (this.minecartY - this.posY) / (double)this.turnProgress;
@@ -279,17 +280,17 @@ public class EntityCart extends TrainEntityBase {
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
 
-            if(!this.func_189652_ae()){
+            if(!this.isBeingRidden()){//TODO check
                 this.motionY -= 0.03999999910593033D;
             }
-            int k = MathHelper.floor_double(this.posX);
-            int l = MathHelper.floor_double(this.posY);
-            int i1 = MathHelper.floor_double(this.posZ);
-            if(BlockRailBase.isRailBlock(this.worldObj, new BlockPos(k, l - 1, i1))){
+            int k = MathHelper.floor(this.posX);
+            int l = MathHelper.floor(this.posY);
+            int i1 = MathHelper.floor(this.posZ);
+            if(BlockRailBase.isRailBlock(this.world, new BlockPos(k, l - 1, i1))){
                 --l;
             }
             BlockPos blockpos = new BlockPos(k, l, i1);
-            IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+            IBlockState iblockstate = this.world.getBlockState(blockpos);
             if (canUseRail() && BlockRailBase.isRailBlock(iblockstate)){
                 this.moveAlongTrack(blockpos, iblockstate);
                 if(iblockstate.getBlock() == Blocks.ACTIVATOR_RAIL){
@@ -318,7 +319,7 @@ public class EntityCart extends TrainEntityBase {
             AxisAlignedBB box = this.getEntityBoundingBox().expand(0.20000000298023224D, 0.0D, 0.20000000298023224D);
 
             if(canBeRidden() && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.01D){
-                List<Entity> list = this.worldObj.getEntitiesInAABBexcluding(this, box, EntitySelectors.<Entity>getTeamCollisionPredicate(this));
+                List<Entity> list = this.world.getEntitiesInAABBexcluding(this, box, EntitySelectors.<Entity>getTeamCollisionPredicate(this));
                 if(!list.isEmpty()){
                     for(int j1 = 0; j1 < list.size(); ++j1){
                         Entity entity1 = (Entity)list.get(j1);
@@ -336,7 +337,7 @@ public class EntityCart extends TrainEntityBase {
                 }
             }
             else{
-                for(Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box)){
+                for(Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box)){
                     if(!this.isPassenger(entity) && entity.canBePushed() && entity instanceof EntityMinecart){
                         entity.applyEntityCollision(this);
                     }
@@ -358,8 +359,8 @@ public class EntityCart extends TrainEntityBase {
     
     protected void moveDerailedMinecart(){
         double d0 = onGround ? this.getMaximumSpeed() : getMaxSpeedAirLateral();
-        this.motionX = MathHelper.clamp_double(this.motionX, -d0, d0);
-        this.motionZ = MathHelper.clamp_double(this.motionZ, -d0, d0);
+        this.motionX = MathHelper.clamp(this.motionX, -d0, d0);
+        this.motionZ = MathHelper.clamp(this.motionZ, -d0, d0);
         double moveY = motionY;
         if(getMaxSpeedAirVertical() > 0 && motionY > getMaxSpeedAirVertical()){
             moveY = getMaxSpeedAirVertical();
@@ -373,7 +374,7 @@ public class EntityCart extends TrainEntityBase {
             this.motionY *= 0.5D;
             this.motionZ *= 0.5D;
         }
-        this.moveEntity(this.motionX, moveY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, moveY, this.motionZ);
 
         if(!this.onGround){
             this.motionX *= getDragAir();
@@ -394,7 +395,7 @@ public class EntityCart extends TrainEntityBase {
             flag1 = !flag;
         }
         double slopeAdjustment = getSlopeAdjustment();
-        BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = blockrailbase.getRailDirection(worldObj, p_180460_1_, p_180460_2_, null);
+        BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = blockrailbase.getRailDirection(world, p_180460_1_, p_180460_2_, null);
         
         switch (blockrailbase$enumraildirection){
             case ASCENDING_EAST:
@@ -493,10 +494,10 @@ public class EntityCart extends TrainEntityBase {
         this.posZ = d19 + d2 * d10;
         this.setPosition(this.posX, this.posY, this.posZ);
         this.moveMinecartOnRail(p_180460_1_);
-        if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - p_180460_1_.getX() == aint[0][0] && MathHelper.floor_double(this.posZ) - p_180460_1_.getZ() == aint[0][2]){
+        if (aint[0][1] != 0 && MathHelper.floor(this.posX) - p_180460_1_.getX() == aint[0][0] && MathHelper.floor(this.posZ) - p_180460_1_.getZ() == aint[0][2]){
             this.setPosition(this.posX, this.posY + (double)aint[0][1], this.posZ);
         }
-        else if (aint[1][1] != 0 && MathHelper.floor_double(this.posX) - p_180460_1_.getX() == aint[1][0] && MathHelper.floor_double(this.posZ) - p_180460_1_.getZ() == aint[1][2]){
+        else if (aint[1][1] != 0 && MathHelper.floor(this.posX) - p_180460_1_.getX() == aint[1][0] && MathHelper.floor(this.posZ) - p_180460_1_.getZ() == aint[1][2]){
             this.setPosition(this.posX, this.posY + (double)aint[1][1], this.posZ);
         }
 
@@ -515,8 +516,8 @@ public class EntityCart extends TrainEntityBase {
             this.setPosition(this.posX, vec3d1.yCoord, this.posZ);
         }
 
-        int j = MathHelper.floor_double(this.posX);
-        int i = MathHelper.floor_double(this.posZ);
+        int j = MathHelper.floor(this.posX);
+        int i = MathHelper.floor(this.posZ);
 
         if (j != p_180460_1_.getX() || i != p_180460_1_.getZ()){
             d5 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -538,18 +539,18 @@ public class EntityCart extends TrainEntityBase {
                 this.motionZ += this.motionZ / d15 * 0.06D;
             }
             else if (blockrailbase$enumraildirection == BlockRailBase.EnumRailDirection.EAST_WEST){
-                if (this.worldObj.getBlockState(p_180460_1_.west()).isNormalCube()){
+                if (this.world.getBlockState(p_180460_1_.west()).isNormalCube()){
                     this.motionX = 0.02D;
                 }
-                else if (this.worldObj.getBlockState(p_180460_1_.east()).isNormalCube()){
+                else if (this.world.getBlockState(p_180460_1_.east()).isNormalCube()){
                     this.motionX = -0.02D;
                 }
             }
             else if (blockrailbase$enumraildirection == BlockRailBase.EnumRailDirection.NORTH_SOUTH){
-                if (this.worldObj.getBlockState(p_180460_1_.north()).isNormalCube()){
+                if (this.world.getBlockState(p_180460_1_.north()).isNormalCube()){
                     this.motionZ = 0.02D;
                 }
-                else if (this.worldObj.getBlockState(p_180460_1_.south()).isNormalCube()){
+                else if (this.world.getBlockState(p_180460_1_.south()).isNormalCube()){
                     this.motionZ = -0.02D;
                 }
             }
@@ -580,15 +581,15 @@ public class EntityCart extends TrainEntityBase {
 
     @SideOnly(Side.CLIENT)
     public Vec3d getPosOffset(double p_70495_1_, double p_70495_3_, double p_70495_5_, double p_70495_7_){
-        int i = MathHelper.floor_double(p_70495_1_);
-        int j = MathHelper.floor_double(p_70495_3_);
-        int k = MathHelper.floor_double(p_70495_5_);
+        int i = MathHelper.floor(p_70495_1_);
+        int j = MathHelper.floor(p_70495_3_);
+        int k = MathHelper.floor(p_70495_5_);
 
-        if(BlockRailBase.isRailBlock(this.worldObj, new BlockPos(i, j - 1, k))){
+        if(BlockRailBase.isRailBlock(this.world, new BlockPos(i, j - 1, k))){
             --j;
         }
 
-        IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(i, j, k));
+        IBlockState iblockstate = this.world.getBlockState(new BlockPos(i, j, k));
 
         if(BlockRailBase.isRailBlock(iblockstate)){
             BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = (BlockRailBase.EnumRailDirection)iblockstate.getValue(((BlockRailBase)iblockstate.getBlock()).getShapeProperty());
@@ -607,10 +608,10 @@ public class EntityCart extends TrainEntityBase {
             p_70495_1_ = p_70495_1_ + d0 * p_70495_7_;
             p_70495_5_ = p_70495_5_ + d1 * p_70495_7_;
 
-            if (aint[0][1] != 0 && MathHelper.floor_double(p_70495_1_) - i == aint[0][0] && MathHelper.floor_double(p_70495_5_) - k == aint[0][2]){
+            if (aint[0][1] != 0 && MathHelper.floor(p_70495_1_) - i == aint[0][0] && MathHelper.floor(p_70495_5_) - k == aint[0][2]){
                 p_70495_3_ += (double)aint[0][1];
             }
-            else if (aint[1][1] != 0 && MathHelper.floor_double(p_70495_1_) - i == aint[1][0] && MathHelper.floor_double(p_70495_5_) - k == aint[1][2]){
+            else if (aint[1][1] != 0 && MathHelper.floor(p_70495_1_) - i == aint[1][0] && MathHelper.floor(p_70495_5_) - k == aint[1][2]){
                 p_70495_3_ += (double)aint[1][1];
             }
 
@@ -622,15 +623,15 @@ public class EntityCart extends TrainEntityBase {
     }
 
     public Vec3d getPos(double p_70489_1_, double p_70489_3_, double p_70489_5_){
-        int i = MathHelper.floor_double(p_70489_1_);
-        int j = MathHelper.floor_double(p_70489_3_);
-        int k = MathHelper.floor_double(p_70489_5_);
+        int i = MathHelper.floor(p_70489_1_);
+        int j = MathHelper.floor(p_70489_3_);
+        int k = MathHelper.floor(p_70489_5_);
 
-        if(BlockRailBase.isRailBlock(this.worldObj, new BlockPos(i, j - 1, k))){
+        if(BlockRailBase.isRailBlock(this.world, new BlockPos(i, j - 1, k))){
             --j;
         }
 
-        IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(i, j, k));
+        IBlockState iblockstate = this.world.getBlockState(new BlockPos(i, j, k));
 
         if(BlockRailBase.isRailBlock(iblockstate)){
             BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = (BlockRailBase.EnumRailDirection)iblockstate.getValue(((BlockRailBase)iblockstate.getBlock()).getShapeProperty());
@@ -687,7 +688,7 @@ public class EntityCart extends TrainEntityBase {
     }
     
     public void applyEntityCollision(Entity entityIn){
-        if(!this.worldObj.isRemote){
+        if(!this.world.isRemote){
             if(!entityIn.noClip && !this.noClip){
                 if(!this.isPassenger(entityIn)){
                     double d0 = entityIn.posX - this.posX;
@@ -695,7 +696,7 @@ public class EntityCart extends TrainEntityBase {
                     double d2 = d0 * d0 + d1 * d1;
 
                     if(d2 >= 9.999999747378752E-5D){
-                        d2 = (double)MathHelper.sqrt_double(d2);
+                        d2 = (double)MathHelper.sqrt(d2);
                         d0 = d0 / d2;
                         d1 = d1 / d2;
                         double d3 = 1.0D / d2;
@@ -818,18 +819,18 @@ public class EntityCart extends TrainEntityBase {
 
     /* =================================== FORGE START ===========================================*/
     private BlockPos getCurrentRailPosition(){
-        int x = MathHelper.floor_double(this.posX);
-        int y = MathHelper.floor_double(this.posY);
-        int z = MathHelper.floor_double(this.posZ);
+        int x = MathHelper.floor(this.posX);
+        int y = MathHelper.floor(this.posY);
+        int z = MathHelper.floor(this.posZ);
 
-        if (BlockRailBase.isRailBlock(this.worldObj, new BlockPos(x, y - 1, z))) y--;
+        if (BlockRailBase.isRailBlock(this.world, new BlockPos(x, y - 1, z))) y--;
         return new BlockPos(x, y, z);
     }
 
     protected double getMaxSpeed(){
         if (!canUseRail()) return getMaximumSpeed();
         BlockPos pos = this.getCurrentRailPosition();
-        IBlockState state = this.worldObj.getBlockState(pos);
+        IBlockState state = this.world.getBlockState(pos);
         if (!BlockRailBase.isRailBlock(state)) return getMaximumSpeed();
 
         float railMaxSpeed = 10f;
@@ -846,9 +847,9 @@ public class EntityCart extends TrainEntityBase {
         }
 
         double max = this.getMaxSpeed();
-        mX = MathHelper.clamp_double(mX, -max, max);
-        mZ = MathHelper.clamp_double(mZ, -max, max);
-        this.moveEntity(mX, 0.0D, mZ);
+        mX = MathHelper.clamp(mX, -max, max);
+        mZ = MathHelper.clamp(mZ, -max, max);
+        this.move(MoverType.SELF, mX, 0.0D, mZ);
     }
     
     public boolean canUseRail(){

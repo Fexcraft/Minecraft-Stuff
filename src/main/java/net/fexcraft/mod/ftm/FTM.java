@@ -2,6 +2,7 @@ package net.fexcraft.mod.ftm;
 
 import net.fexcraft.mod.ftm.entities.EntityCart;
 import net.fexcraft.mod.ftm.render.RenderCart;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -26,7 +27,7 @@ public class FTM {
     
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-    	EntityRegistry.registerModEntity(EntityCart.class, "cart", 0, instance, 64, 1, true);
+    	EntityRegistry.registerModEntity(new ResourceLocation("ftm", "cart"), EntityCart.class, "cart", 0, instance, 64, 1, true);
     	RenderingRegistry.registerEntityRenderingHandler(EntityCart.class, RenderCart::new);
     }
     
