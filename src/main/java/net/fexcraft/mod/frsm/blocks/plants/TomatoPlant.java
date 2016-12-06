@@ -23,7 +23,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -112,7 +111,7 @@ public class TomatoPlant extends BlockBush implements IGrowable, IBlock{
     }
 
     protected int getBonemealAgeIncrease(World worldIn){
-        return MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
+        return worldIn.rand.nextInt(3) + 2;//MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
     }
 
     protected static float getGrowthChance(Block blockIn, World worldIn, BlockPos pos){

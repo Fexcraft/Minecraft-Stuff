@@ -1,7 +1,5 @@
 package net.fexcraft.mod.frsm.blocks.tv;
 
-import javax.annotation.Nullable;
-
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
 import net.fexcraft.mod.frsm.util.block.FRSMTE;
@@ -11,7 +9,6 @@ import net.fexcraft.mod.lib.util.cls.ApiUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -91,7 +88,7 @@ public class TVS2 extends FBC_4R {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 	    if(!w.isRemote){
 	    	int i = w.getTileEntity(pos).getTileData().getInteger("frsm_model_rotation");
 	    	if(i < 15){

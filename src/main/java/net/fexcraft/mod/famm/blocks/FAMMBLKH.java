@@ -98,7 +98,7 @@ public class FAMMBLKH extends Block implements IBlock {
     }
     
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
     		if(p.getHeldItemMainhand() == null){
     			int i = 0;

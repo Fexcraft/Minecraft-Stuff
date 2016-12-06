@@ -12,6 +12,7 @@ import net.fexcraft.mod.famm.util.FI;
 import net.fexcraft.mod.famm.util.UpdateHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -65,8 +66,8 @@ public class FAMM {
 	
 	public static CreativeTabs tabFAMM = new CreativeTabs("tabFAMM"){
 		@Override
-		public Item getTabIconItem() {
-			return Item.getItemFromBlock(FAMMBlocks.get("f"));
+		public ItemStack getTabIconItem() {
+			return new ItemStack(Item.getItemFromBlock(FAMMBlocks.get("f")));
 		}
 	};
 	

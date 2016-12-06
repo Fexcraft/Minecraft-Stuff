@@ -63,7 +63,7 @@ public class TrashcanEntity extends FRSMTE implements IInventory{
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -108,5 +108,10 @@ public class TrashcanEntity extends FRSMTE implements IInventory{
 	public void clear() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isEmpty(){
+		return true;
 	}
 }

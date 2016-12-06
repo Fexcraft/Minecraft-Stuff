@@ -62,7 +62,7 @@ public class RCT extends BlockContainer implements IBlock{
     }
 	
 	@Override
-	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (w.isBlockPowered(pos) && !p.isSneaking()) {
 			//p.openGui(FRSM.instance, GuiHandler.RCT, w, pos.getX(), pos.getY(), pos.getZ());
 			PrintChat.print(p, "Currently disabled.");
@@ -81,7 +81,7 @@ public class RCT extends BlockContainer implements IBlock{
 	}
 	
 	@Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(isPowered, Boolean.valueOf(false));
     }
 	

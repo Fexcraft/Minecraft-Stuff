@@ -92,30 +92,30 @@ public class TVL extends BlockContainer implements IBlock {
     }
     
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
 	    	if(p.getHorizontalFacing().getOpposite().toString() != w.getTileEntity(pos).getTileData().getString("direction")){
 	    		if((Integer) state.getValue(CHANNEL) == 0){
-	    			p.addChatMessage(new TextComponentString(FI.FRSMs + " TV Enabled"));
+	    			p.sendMessage(new TextComponentString(FI.FRSMs + " TV Enabled"));
 	    			w.setBlockState(pos, state.withProperty(CHANNEL, 1));
 	    			return true;
 	    		}
 	    		else if((Integer) state.getValue(CHANNEL) != 0){
 	    			int i = (Integer) state.getValue(CHANNEL);
 	    			if(i >= 1 && i <= 14){
-	    				p.addChatMessage(new TextComponentString(FI.FRSMs + " Channel " + (i + 1)));
+	    				p.sendMessage(new TextComponentString(FI.FRSMs + " Channel " + (i + 1)));
 	    				w.setBlockState(pos, state.withProperty(CHANNEL, i + 1));
 	    				return true;
 	    			}
 	    			else if(i == 15){
-	    				p.addChatMessage(new TextComponentString(FI.FRSMs + " TV Disabled"));
+	    				p.sendMessage(new TextComponentString(FI.FRSMs + " TV Disabled"));
 	    				w.setBlockState(pos, state.withProperty(CHANNEL, 0));
 	    				return true;
 	    			}
 	    			else return false;
 	    		}
 	    		if(p.isSneaking()){
-	    			p.addChatMessage(new TextComponentString(FI.FRSMs + "TV Disabled"));
+	    			p.sendMessage(new TextComponentString(FI.FRSMs + "TV Disabled"));
 	    			w.setBlockState(pos, state.withProperty(CHANNEL, 0));
 	    			return true;
 	    		}
