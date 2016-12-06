@@ -34,6 +34,8 @@ Thumbs.db
 .DS_Store
 *.launch
 
+*.txt
+
 #Other
 src/main/java/com/
 src/main/java/net/fexcraft/mod/fsu/
