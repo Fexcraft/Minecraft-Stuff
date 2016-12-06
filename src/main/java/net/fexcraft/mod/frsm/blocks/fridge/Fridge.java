@@ -1,7 +1,5 @@
 package net.fexcraft.mod.frsm.blocks.fridge;
 
-import javax.annotation.Nullable;
-
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.SSC;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
@@ -43,7 +41,7 @@ public class Fridge extends FBC_4R implements IPaintableBlock{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
         if(!world.isRemote){
         	NBTTagCompound nbt = new NBTTagCompound();
         	FridgeTileEntity te = (FridgeTileEntity)world.getTileEntity(pos);

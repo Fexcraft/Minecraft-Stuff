@@ -9,7 +9,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -41,7 +40,7 @@ public class Furnance1 extends FBC_4R {
 	}
 	
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	EnumFacing ef = (EnumFacing)state.getValue(FACING);
 		if(p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == Items.FLINT_AND_STEEL){
 			w.setBlockState(pos, FRSM_Blocks.furnace1b.getDefaultState().withProperty(FACING, ef));

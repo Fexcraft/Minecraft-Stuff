@@ -1,4 +1,5 @@
 package net.fexcraft.mod.lib.crafting;
+
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.api.block.IBlock;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
@@ -50,7 +51,7 @@ public class WorkBench extends Block implements IBlock {
     }
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(!world.isRemote){
 			if(!player.isSneaking()){
 				player.openGui(FCL.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());

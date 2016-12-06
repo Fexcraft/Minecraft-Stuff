@@ -56,7 +56,7 @@ public class Laptop extends Block implements IBlock{
 	}
 	
 	@Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
@@ -85,11 +85,11 @@ public class Laptop extends Block implements IBlock{
     }
 	
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
     		if(p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == FRSM_Items.upgradekit){
     			w.setBlockState(pos, FRSM_Blocks.laptop_black.getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
-    			p.getHeldItemMainhand().stackSize--;
+    			p.getHeldItemMainhand().shrink(1);;;
     			return true;
     		}
     	}

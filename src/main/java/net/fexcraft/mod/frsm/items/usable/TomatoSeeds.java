@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -35,16 +34,16 @@ public class TomatoSeeds extends ItemFood implements IPlantable, IItem {
     }
     
     @Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
         if (facing != EnumFacing.UP){
             return EnumActionResult.FAIL;
         }
-        else if (!player.canPlayerEdit(pos.offset(facing), facing, stack)){
+        else if (!player.canPlayerEdit(pos.offset(facing), facing, player.getHeldItem(hand))){
             return EnumActionResult.FAIL;
         }
         else if (worldIn.getBlockState(pos).getBlock().canSustainPlant(worldIn.getBlockState(pos), worldIn, pos, EnumFacing.UP, this) && worldIn.isAirBlock(pos.up())){
             worldIn.setBlockState(pos.up(), this.tomatoPlant.getDefaultState());
-            --stack.stackSize;
+            player.getHeldItem(hand).shrink(1);
             return EnumActionResult.PASS;
         }
         else{

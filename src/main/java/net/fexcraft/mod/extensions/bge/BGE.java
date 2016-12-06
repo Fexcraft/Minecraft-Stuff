@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = BGE.modid, name = "Board Game Extension", version = BGE.version, dependencies = "required-after:frsm@[3.6.81,)")
+//@Mod(modid = BGE.modid, name = "Board Game Extension", version = BGE.version, dependencies = "required-after:frsm@[3.6.81,)")
 public class BGE{
 	
 	public static final String modid = "frsm_bge";

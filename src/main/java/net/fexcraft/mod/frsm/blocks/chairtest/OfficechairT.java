@@ -55,11 +55,11 @@ public class OfficechairT extends FBC_4R {
 	}
 	
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
     		if(p.getHeldItemMainhand() == null){
     			EntitySittable ent = new EntitySittable(w);
-    			w.spawnEntityInWorld(ent);
+    			w.spawnEntity(ent);
     			ent.setPosition(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f);
     			p.startRiding(ent, true);
     			return true;

@@ -27,7 +27,7 @@ public class FBC_4R_F extends FBC_4R {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn){
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos){
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
 
@@ -45,7 +45,7 @@ public class FBC_4R_F extends FBC_4R {
                 if (!worldIn.isRemote){
                     EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, worldIn.getBlockState(pos));
                     this.onStartFalling(entityfallingblock);
-                    worldIn.spawnEntityInWorld(entityfallingblock);
+                    worldIn.spawnEntity(entityfallingblock);
                 }
             }
             else{

@@ -98,11 +98,11 @@ public class CT{
 		}
 
 		@Override
-		public Item getTabIconItem(){
+		public ItemStack getTabIconItem(){
 			if(iconItemStack == null){
-				return Items.SNOWBALL;
+				return new ItemStack(Items.SNOWBALL);
 			}
-			return iconItemStack.getItem();
+			return iconItemStack;
 		}
 		
 		public void setIcon(String s1){

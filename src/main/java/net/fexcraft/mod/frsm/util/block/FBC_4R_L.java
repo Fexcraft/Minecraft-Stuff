@@ -26,7 +26,7 @@ public class FBC_4R_L extends FBC_4R {
 	//TODO UPDATE THIS
 	
 	@Override
-	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {	
+	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {	
 		
 		if (!w.isRemote && getConfigStatus()){
 			NBTTagCompound TE = w.getTileEntity(pos).getTileData();
@@ -58,7 +58,7 @@ public class FBC_4R_L extends FBC_4R {
 					if(owner.equals(p.getName())){
 						if(TE.getInteger(f + "code") == code && TE.getString(f + "type") == "private"){
 							if(TE.getString(f + "owner") == p.getName()){
-								return ifLockedTrueKeyTrue(w, pos, state, p, side, hitZ, hitZ, hitZ);
+								return ifLockedTrueKeyTrue(w, pos, state, p, side, hitX, hitY, hitZ);
 							}
 							else{
 								//p.addChatMessage(new ChatComponentText(s + "This is not your " + bname));

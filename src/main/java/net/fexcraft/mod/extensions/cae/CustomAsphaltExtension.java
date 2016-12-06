@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CustomAsphaltExtension.FI.MODID, name = "Custom Asphalt Extension", version = CustomAsphaltExtension.FI.VERSION, dependencies = "required-after:frsm@[3.6.97,)")
+//@Mod(modid = CustomAsphaltExtension.FI.MODID, name = "Custom Asphalt Extension", version = CustomAsphaltExtension.FI.VERSION, dependencies = "required-after:frsm@[3.6.97,)")
 public class CustomAsphaltExtension{
 	
 	private static final String version = "1.2";

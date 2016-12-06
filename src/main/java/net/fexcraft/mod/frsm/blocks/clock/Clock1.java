@@ -80,7 +80,7 @@ public class Clock1 extends FBC_4R {
     }
     
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         if (facing.getAxis().isHorizontal() && this.canBlockStay(worldIn, pos, facing)){
             return this.getDefaultState().withProperty(FACING, facing);
         }

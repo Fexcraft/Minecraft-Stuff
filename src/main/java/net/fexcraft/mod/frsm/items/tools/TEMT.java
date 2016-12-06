@@ -43,13 +43,13 @@ public class TEMT extends Item implements IItem, IISPR{
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
         IBlockState state = world.getBlockState(pos);
         if(state.getBlock() instanceof IBlock){
         	if(state.getBlock().hasTileEntity(state)){
         		TileEntity te = world.getTileEntity(pos);
         		if(te instanceof FRSMTE){
-        			process(te, state, stack, player, world, pos, facing);
+        			process(te, state, player.getHeldItem(hand), player, world, pos, facing);
         		}
         	}
         }

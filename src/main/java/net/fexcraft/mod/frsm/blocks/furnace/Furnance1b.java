@@ -76,7 +76,7 @@ public class Furnance1b extends FBC_4R {
     }
 	
 	@Override
-	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(!w.isRemote){
 			if(!p.isSneaking()){
 				p.openGui(FRSM.getInstance(), GuiHandler.FURNACE1, w, pos.getX(), pos.getY(), pos.getZ());

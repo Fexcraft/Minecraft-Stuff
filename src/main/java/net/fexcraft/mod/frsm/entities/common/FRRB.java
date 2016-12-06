@@ -66,11 +66,11 @@ public class FRRB extends EntityMob implements IRoboEntity, IRangedAttackMob {
 	
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float p_82196_2_) {
-		EntityTippedArrow arrow = new EntityTippedArrow(this.worldObj, this);
+		EntityTippedArrow arrow = new EntityTippedArrow(this.world, this);
 		double d0 = target.posX - this.posX;
         double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - arrow.posY;
         double d2 = target.posZ - this.posZ;
-        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
         //arrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
         arrow.setThrowableHeading(d0, d1 + d3 * 0.15, d2, 1.6F, 0);
         
@@ -79,7 +79,7 @@ public class FRRB extends EntityMob implements IRoboEntity, IRangedAttackMob {
         	arrow.setFire(20);
         }
         this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.worldObj.spawnEntityInWorld(arrow);
+        this.world.spawnEntity(arrow);
 	}
 	
 	private void postInitEntityAI(){

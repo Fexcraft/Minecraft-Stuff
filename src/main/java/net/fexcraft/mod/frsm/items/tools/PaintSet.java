@@ -49,14 +49,14 @@ public class PaintSet extends Item implements IPaintItem {
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if(world.isRemote){
 			return EnumActionResult.PASS;
 		}
 		else{
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock() instanceof IPaintableBlock){
-				((IPaintableBlock)state.getBlock()).onPaintItemUse(this.getColor(), stack, player, pos, world);
+				((IPaintableBlock)state.getBlock()).onPaintItemUse(this.getColor(), player.getHeldItem(hand), player, pos, world);
 			}
 			else if(state.getBlock() == Blocks.WOOL){
 				world.setBlockState(pos, Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, color.toDyeColor()));

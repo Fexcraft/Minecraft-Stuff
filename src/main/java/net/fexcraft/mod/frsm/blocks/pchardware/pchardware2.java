@@ -9,7 +9,6 @@ import net.fexcraft.mod.lib.util.block.BlockUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -34,11 +33,11 @@ public class pchardware2 extends FBC_4R{
 	}
 	
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
     		if (p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == FRSM_Items.upgradekit){
     			w.setBlockState(pos, FRSM_Blocks.pchardware2b.getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
-    			p.getHeldItemMainhand().stackSize--;
+    			p.getHeldItemMainhand().shrink(1);
     			return true;
     		}
     	}

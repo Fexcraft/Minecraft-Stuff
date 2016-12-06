@@ -74,7 +74,7 @@ public class ContainerFurnace1 extends Container{
     }
 
     public boolean canInteractWith(EntityPlayer playerIn){
-        return this.tileFurnace.isUseableByPlayer(playerIn);
+        return this.tileFurnace.isUsableByPlayer(playerIn);
     }
     
     @Nullable
@@ -113,16 +113,16 @@ public class ContainerFurnace1 extends Container{
             else if(!this.mergeItemStack(itemstack1, 3, 39, false)){
                 return null;
             }
-            if(itemstack1.stackSize == 0){
+            if(itemstack1.getCount() == 0){
                 slot.putStack((ItemStack)null);
             }
             else{
                 slot.onSlotChanged();
             }
-            if(itemstack1.stackSize == itemstack.stackSize){
+            if(itemstack1.getCount() == itemstack.getCount()){
                 return null;
             }
-            slot.onPickupFromSlot(playerIn, itemstack1);
+            slot.onTake(playerIn, itemstack1);
         }
         return itemstack;
     }

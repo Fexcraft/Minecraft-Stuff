@@ -55,7 +55,6 @@ import net.fexcraft.mod.frsm.items.keys.Key3;
 import net.fexcraft.mod.frsm.items.tools.EmeraldSword;
 import net.fexcraft.mod.frsm.items.tools.IronSaw;
 import net.fexcraft.mod.frsm.items.tools.PaintSet;
-import net.fexcraft.mod.frsm.items.tools.TEMT;
 import net.fexcraft.mod.frsm.items.usable.RC;
 import net.fexcraft.mod.frsm.items.usable.TVLI;
 import net.fexcraft.mod.frsm.items.usable.TomatoSeeds;
@@ -240,7 +239,7 @@ public class FRSM_Items{
         key = new Key(); items.add(key);
         key2 = new Key2(); items.add(key2);
         key3 = new Key3(); items.add(key3);
-        TEMT = new TEMT(); items.add(TEMT);
+        //TEMT = new TEMT(); items.add(TEMT);
 		
         
 			cup = new Cup(); items.add(cup);

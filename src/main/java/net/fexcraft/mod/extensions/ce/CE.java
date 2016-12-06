@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = "frsm_ce", name = "Calendar Extension", version = CE.version, dependencies = "required-after:frsm@[3.7.14,)")
+//@Mod(modid = "frsm_ce", name = "Calendar Extension", version = CE.version, dependencies = "required-after:frsm@[3.7.14,)")
 public class CE {
     
     @SidedProxy(clientSide = "net.fexcraft.mod.extensions.ce.proxy.Client", serverSide = "net.fexcraft.mod.extensions.ce.proxy.Common")

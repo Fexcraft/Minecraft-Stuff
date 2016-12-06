@@ -4,40 +4,41 @@ import net.fexcraft.mod.frsm.blocks.FRSM_Blocks;
 import net.fexcraft.mod.frsm.util.block.FRSMTE;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 
 public class CrateEntity extends FRSMTE implements IInventory {
 
-	private ItemStack[] inventory;
+	private NonNullList<ItemStack> inventory;
     private String customName;
     
-    public CrateEntity() {
-        this.inventory = new ItemStack[this.getSizeInventory()];
+    public CrateEntity(){
+    	
     }
 
-    public String getCustomName() {
+    public String getCustomName(){
         return this.customName;
     }
 
-    public void setCustomName(String customName) {
+    public void setCustomName(String customName){
         this.customName = customName;
     }
 
     @Override
-    public String getName() {
+    public String getName(){
         return this.hasCustomName() ? this.customName : "container.Crate_TileEntity";
     }
 
     @Override
-    public boolean hasCustomName() {
+    public boolean hasCustomName(){
         return this.customName != null && !this.customName.equals("");
     }
     
     @Override
-    public int getSizeInventory() {
+    public int getSizeInventory(){
         return 27;
     }
 
@@ -45,7 +46,7 @@ public class CrateEntity extends FRSMTE implements IInventory {
     public ItemStack getStackInSlot(int index) {
         if (index < 0 || index >= this.getSizeInventory())
             return null;
-        return this.inventory[index];
+        return this.inventory.get(index);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class CrateEntity extends FRSMTE implements IInventory {
         if (this.getStackInSlot(index) != null) {
             ItemStack itemstack;
 
-            if (this.getStackInSlot(index).stackSize <= count) {
+            if (this.getStackInSlot(index).getCount() <= count) {
                 itemstack = this.getStackInSlot(index);
                 this.setInventorySlotContents(index, null);
                 this.markDirty();
@@ -61,7 +62,7 @@ public class CrateEntity extends FRSMTE implements IInventory {
             } else {
                 itemstack = this.getStackInSlot(index).splitStack(count);
 
-                if (this.getStackInSlot(index).stackSize <= 0) {
+                if (this.getStackInSlot(index).getCount() <= 0) {
                     this.setInventorySlotContents(index, null);
                 } else {
                     this.setInventorySlotContents(index, this.getStackInSlot(index));
@@ -86,13 +87,13 @@ public class CrateEntity extends FRSMTE implements IInventory {
         if (index < 0 || index >= this.getSizeInventory())
             return;
 
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
-            stack.stackSize = this.getInventoryStackLimit();
+        if (stack != null && stack.getCount() > this.getInventoryStackLimit())
+            stack.setCount(this.getInventoryStackLimit());
             
-        if (stack != null && stack.stackSize == 0)
+        if (stack != null && stack.getCount() == 0)
             stack = null;
 
-        this.inventory[index] = stack;
+        this.inventory.set(index, stack);
         this.markDirty();
     }
 
@@ -102,8 +103,8 @@ public class CrateEntity extends FRSMTE implements IInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return this.worldObj.getTileEntity(this.getPos()) == this && player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return this.world.getTileEntity(this.getPos()) == this && player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
     }
 
     @Override
@@ -144,7 +145,7 @@ public class CrateEntity extends FRSMTE implements IInventory {
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
-        NBTTagList list = new NBTTagList();
+        /*NBTTagList list = new NBTTagList();
         for (int i = 0; i < this.getSizeInventory(); ++i) {
             if (this.getStackInSlot(i) != null) {
                 NBTTagCompound stackTag = new NBTTagCompound();
@@ -153,7 +154,9 @@ public class CrateEntity extends FRSMTE implements IInventory {
                 list.appendTag(stackTag);
             }
         }
-        nbt.setTag("Items", list);
+        nbt.setTag("Items", list);*/
+        
+        nbt = ItemStackHelper.saveAllItems(nbt, this.inventory);
 
         if (this.hasCustomName()) {
             nbt.setString("Crate", this.getCustomName());
@@ -166,12 +169,15 @@ public class CrateEntity extends FRSMTE implements IInventory {
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
-        NBTTagList list = nbt.getTagList("Items", 10);
+        /*NBTTagList list = nbt.getTagList("Items", 10);
         for (int i = 0; i < list.tagCount(); ++i) {
             NBTTagCompound stackTag = list.getCompoundTagAt(i);
             int slot = stackTag.getByte("Slot") & 255;
             this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(stackTag));
-        }
+        }*/
+        
+        this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        ItemStackHelper.loadAllItems(nbt, this.inventory);
 
         if (nbt.hasKey("Crate", 8)) {
             this.setCustomName(nbt.getString("Crate"));
@@ -186,6 +192,11 @@ public class CrateEntity extends FRSMTE implements IInventory {
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		return null;
+	}
+
+	@Override
+	public boolean isEmpty(){
+		return false;
 	}
 	
 }

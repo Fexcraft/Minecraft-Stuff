@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -33,7 +32,7 @@ public class TVLI extends Item implements IItem{
     }
     
 	@Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
     	if(!worldIn.isRemote){
 	        boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 	        BlockPos blockpos = flag ? pos : pos.offset(facing);
@@ -41,17 +40,17 @@ public class TVLI extends Item implements IItem{
 	        if (facing != EnumFacing.UP){
 	            return EnumActionResult.FAIL;
 	        }
-	        else if (!player.canPlayerEdit(blockpos, facing, stack)){
+	        else if (!player.canPlayerEdit(blockpos, facing, player.getHeldItemMainhand())){
 	            return EnumActionResult.FAIL;
 	        }
 	        else{
 	            Block block = worldIn.getBlockState(blockpos).getBlock();
 	
-	            if (!worldIn.canBlockBePlaced(block, blockpos, false, facing, (Entity)null, stack)){
+	            if (!worldIn.mayPlace(block, blockpos, false, facing, (Entity)null)){
 	                return EnumActionResult.FAIL;
 	            }
 	            else if (Blocks.REDSTONE_WIRE.canPlaceBlockAt(worldIn, blockpos)){
-	                --stack.stackSize;
+	                player.getHeldItemMainhand().shrink(1);
 	            	EnumFacing e = player.getHorizontalFacing().getOpposite();
 	            	if(e == EnumFacing.NORTH){
 	                	worldIn.setBlockState(blockpos, FRSM_Blocks.TVL.getDefaultState());

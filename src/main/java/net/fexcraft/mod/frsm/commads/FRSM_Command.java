@@ -34,12 +34,12 @@ public class FRSM_Command extends CommandBase{
     }
     
     @Override 
-    public String getCommandName(){ 
+    public String getName(){ 
         return "frsm"; 
     } 
 
     @Override         
-    public String getCommandUsage(ICommandSender var1){ 
+    public String getUsage(ICommandSender var1){ 
         return "/frsm help"; 
     }
     
@@ -54,7 +54,7 @@ public class FRSM_Command extends CommandBase{
     }
     
     @Override 
-    public List getCommandAliases() { 
+    public List getAliases() { 
         return this.aliases;
     } 
 
@@ -64,7 +64,7 @@ public class FRSM_Command extends CommandBase{
         //World world = sender.getEntityWorld();
     
         if (args.length < 1){
-        	sender.addChatMessage(new TextComponentString((CCS.DAQUA + "/frsm <args>")));
+        	sender.sendMessage(new TextComponentString((CCS.DAQUA + "/frsm <args>")));
         }
         else if(args[0].equals("help") || args[0].equals("?") || args[0].equals("list")){
         	PrintChat.print(sender, FI.FRSMs + " Welcome back " + sender.getName() + "!");
@@ -140,7 +140,7 @@ public class FRSM_Command extends CommandBase{
         		PrintChat.print(sender, "Command used to check the current changelog.");
         	}
         	else{
-        		sender.addChatMessage(new TextComponentString(error));
+        		sender.sendMessage(new TextComponentString(error));
         	}
         }
         else if(args[0].equals("reload") || args[0].equals("resync")){
@@ -157,11 +157,11 @@ public class FRSM_Command extends CommandBase{
         		PrintChat.print(sender, "Command used to re-sync with the server data.");
         	}
         	else{
-        		sender.addChatMessage(new TextComponentString(error));
+        		sender.sendMessage(new TextComponentString(error));
         	}
         }
         else{
-        	sender.addChatMessage(new TextComponentString(error));
+        	sender.sendMessage(new TextComponentString(error));
         }
     }
 

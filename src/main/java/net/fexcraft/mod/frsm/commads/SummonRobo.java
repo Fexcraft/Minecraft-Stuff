@@ -3,9 +3,6 @@ package net.fexcraft.mod.frsm.commads;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import net.fexcraft.mod.frsm.entities.Entities;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.text.CCS;
 import net.minecraft.command.CommandBase;
@@ -14,15 +11,15 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class SummonRobo extends CommandBase{ 
 	
     private final ArrayList aliases;
-    protected String fullEntityName; 
-    protected Entity RoboEntity; 
+    private ResourceLocation fullEntityName; 
+    private Entity RoboEntity; 
   
     public SummonRobo() { 
         aliases = new ArrayList(); 
@@ -32,19 +29,19 @@ public class SummonRobo extends CommandBase{
     }
     
     @Override 
-    public String getCommandName() { 
+    public String getName() { 
         return "srobo"; 
 
     } 
 
     @Override         
-    public String getCommandUsage(ICommandSender var1) { 
+    public String getUsage(ICommandSender var1) { 
         return "command.srobo.use"; 
 
     } 
 
     @Override 
-    public List getCommandAliases() { 
+    public List getAliases() { 
         return this.aliases;
 
     } 
@@ -60,24 +57,28 @@ public class SummonRobo extends CommandBase{
         else{
             //System.out.println("Processing on Server side");
             if(args.length == 0){
-            	sender.addChatMessage(new TextComponentString((CCS.RED + "Invalid argument"))); 
+            	sender.sendMessage(new TextComponentString((CCS.RED + "Invalid argument"))); 
             	return; 
             } 
 
-            sender.addChatMessage(new TextComponentString((CCS.DAQUA + "Spawning.... [" + args[0] + "]"))); 
+            sender.sendMessage(new TextComponentString((CCS.DAQUA + "Spawning.... [" + args[0] + "]"))); 
             
-            fullEntityName = FI.MODID + "." + args[0]; 
-            if (EntityList.isStringValidEntityName(fullEntityName)){ 
-                RoboEntity = EntityList.createEntityByName(fullEntityName, world);  
+            set(args[0]); 
+            if (EntityList.isRegistered(fullEntityName)){ 
+                RoboEntity = EntityList.createEntityByIDFromName(fullEntityName, world);  
                 RoboEntity.setPosition(sender.getPosition().getX(),       
                 sender.getPosition().getY(), 
                 sender.getPosition().getZ()); 
-                world.spawnEntityInWorld(RoboEntity); 
+                world.spawnEntity(RoboEntity); 
             }
             else{
-                sender.addChatMessage(new TextComponentString((CCS.DRED + "Entity not found!"))); 
+                sender.sendMessage(new TextComponentString((CCS.DRED + "Entity not found!"))); 
             }
         }
+    }
+    
+    public void set(String s){
+    	fullEntityName = new ResourceLocation(FI.MODID, s);
     }
 
     @Override 
@@ -85,9 +86,9 @@ public class SummonRobo extends CommandBase{
     	return false;
     }
     
-    @Override
+    /*@Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos){
         return Entities.entity_ids;
-    }
+    }*/
 }
 

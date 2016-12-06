@@ -1,7 +1,5 @@
 package net.fexcraft.mod.frsm.blocks.common;
 
-import java.util.List;
-
 import net.fexcraft.mod.frsm.blocks.FRSM_Blocks;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.custom.CT.CD;
@@ -23,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -51,19 +50,22 @@ public class FramedGlowstone extends Block implements IBlock{
 		}
 		
 		@Override
-		public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+		public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 	        IBlockState iblockstate = worldIn.getBlockState(pos);
 	        Block block = iblockstate.getBlock();
 	        if(!block.isReplaceable(worldIn, pos)){
 	            pos = pos.offset(facing);
 	        }
-	        if(stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack)){
+	        
+	        ItemStack stack = playerIn.getHeldItem(hand);
+	        
+	        if(stack.getCount() != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.mayPlace(this.block, pos, false, facing, (Entity)null)){
 	            int i = stack.getItemDamage();
 	            IBlockState iblockstate1 = FRSM_Blocks.framed_glowstone.getDefaultState().withProperty(TYPE, i);
 	            if(placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)){
 	                SoundType soundtype = this.block.getSoundType();
 	                worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-	                --stack.stackSize;
+	                stack.shrink(1);;
 	            }
 	            return EnumActionResult.SUCCESS;
 	        }
@@ -104,7 +106,7 @@ public class FramedGlowstone extends Block implements IBlock{
     }
     
     @SideOnly(Side.CLIENT) @Override
-    public void getSubBlocks(Item item, CreativeTabs tab, List list){
+    public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list){
     	for (int i = 0; i < 6; ++i){
     		list.add(new ItemStack(item, 1, i));
     	}

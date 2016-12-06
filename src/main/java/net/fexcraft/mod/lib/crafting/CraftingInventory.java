@@ -1,8 +1,5 @@
 package net.fexcraft.mod.lib.crafting;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +20,6 @@ public class CraftingInventory implements IInventory {
     private final Container eventHandler;
 
     public CraftingInventory(Container eventHandlerIn, int width, int height){
-        int i = width * height;
         this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);//new ItemStack[i];
         this.eventHandler = eventHandlerIn;
         this.inventoryWidth = width;
@@ -81,7 +77,7 @@ public class CraftingInventory implements IInventory {
     
     public void markDirty(){}
     
-    public boolean isUseableByPlayer(EntityPlayer player){
+    public boolean isUsableByPlayer(EntityPlayer player){
         return true;
     }
 
@@ -127,9 +123,5 @@ public class CraftingInventory implements IInventory {
         }
         return true;
 	}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player){
-		return true;
-	}
+	
 }

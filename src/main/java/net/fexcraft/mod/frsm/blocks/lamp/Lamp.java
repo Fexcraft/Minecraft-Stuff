@@ -1,7 +1,5 @@
 package net.fexcraft.mod.frsm.blocks.lamp;
 
-import java.util.List;
-
 import net.fexcraft.mod.frsm.blocks.FRSM_Blocks;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FM;
@@ -23,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -124,7 +123,7 @@ public class Lamp extends Block  implements IPaintableBlock{
 	}
 	
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote && p.getHeldItemMainhand() == null){
     		w.setBlockState(pos, FRSM_Blocks.lamp_off.getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
     	}
@@ -137,7 +136,7 @@ public class Lamp extends Block  implements IPaintableBlock{
     }
     
     @SideOnly(Side.CLIENT) @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List list){
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list){
         for (int i = 0; i < this.getVariantAmount(); ++i){
             list.add(new ItemStack(itemIn, 1, i));
         }

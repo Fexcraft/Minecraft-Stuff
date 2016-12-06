@@ -2,8 +2,6 @@ package net.fexcraft.mod.frsm.blocks.common;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.custom.CT.CD;
 import net.fexcraft.mod.lib.api.block.IBlock;
@@ -30,6 +28,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -116,7 +115,7 @@ public class TreePot extends Block implements IBlock{
 	}
     
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
     	EntityPlayer player = (EntityPlayer)placer;
     	
     	if(placer == player && player.getHeldItemMainhand() != null){
@@ -137,7 +136,7 @@ public class TreePot extends Block implements IBlock{
     }
     
     @Override
-    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+    public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
     		if(p.getHeldItemMainhand() != null){
     			Item item = p.getHeldItemMainhand().getItem();
@@ -209,7 +208,7 @@ public class TreePot extends Block implements IBlock{
     				else{
     					w.setBlockState(pos, state.withProperty(type, 0));
     	    			p.getHeldItemMainhand().damageItem(2, p);
-    	    			w.spawnEntityInWorld(new EntityItem(w, pos.getX(), pos.getY(), pos.getZ(), getDrop(state.getValue(type).intValue())));
+    	    			w.spawnEntity(new EntityItem(w, pos.getX(), pos.getY(), pos.getZ(), getDrop(state.getValue(type).intValue())));
     	    			return true;
     				}
     			}
@@ -253,7 +252,7 @@ public class TreePot extends Block implements IBlock{
     }
     
     @SideOnly(Side.CLIENT) @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List list){
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list){
         for (int i = 0; i < this.getVariantAmount(); ++i){
             list.add(new ItemStack(itemIn, 1, i));
         }
