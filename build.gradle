@@ -154,13 +154,6 @@ task fsu_client(type: Jar) {
     appendix = '1.755'
 }
 
-task dwe(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/dwe/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/dwe/'}
-    baseName = 'DWE'
-    appendix = '0.22'
-}
-
 task fvp_cp(type: Jar){
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/client/model/fvp/'}
 	from 'run/Flan/FEXs_Vehicle_Pack'
@@ -264,7 +257,6 @@ build {
     dependsOn fsmm
     dependsOn fsu_server
 	dependsOn fsu_client
-	dependsOn dwe
 	dependsOn fvp_cp
 	dependsOn fve
 	dependsOn frsm_cae
