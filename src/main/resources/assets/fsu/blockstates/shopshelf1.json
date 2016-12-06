@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "fsu:shelf1" },
-        "facing=south": { "model": "fsu:shelf1", "y": 180 },
-        "facing=west":  { "model": "fsu:shelf1", "y": 270 },
-        "facing=east":  { "model": "fsu:shelf1", "y": 90 }
-    }
-}

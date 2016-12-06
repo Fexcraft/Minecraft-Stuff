@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "normal": { "model": "rythorn:candle_sconce" },
-        "facing=north": { "model": "rythorn:candle_sconce", "y": 270 },
-        "facing=south": { "model": "rythorn:candle_sconce", "y": 90  },
-        "facing=west":  { "model": "rythorn:candle_sconce", "y": 180 },
-        "facing=east":  { "model": "rythorn:candle_sconce" }
-    }
-}

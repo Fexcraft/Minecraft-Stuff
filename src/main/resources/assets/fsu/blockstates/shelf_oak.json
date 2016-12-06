@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "fsu:shelf_oak", "y":  90 },
-        "facing=south": { "model": "fsu:shelf_oak", "y": -90 },
-        "facing=west":  { "model": "fsu:shelf_oak", "y":   0 },
-        "facing=east":  { "model": "fsu:shelf_oak", "y": 180 }
-    }
-}
