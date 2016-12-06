@@ -11,17 +11,24 @@ public class UpdateHandler {
 	
 	private static boolean avaible = false;
 	private static boolean updatem = false;
-	private static String nv, mcn;
+	private static String nv, mcn, lmcv = "1.11";
 	
 	public static void initalize(){
 		JsonObject obj = null;
+		boolean found = false;
 		for(JsonElement elm : Data.updatedata.get("versions").getAsJsonArray()){
-			if(elm.getAsJsonObject().get("version").getAsString().equals("1.11")){
+			if(elm.getAsJsonObject().get("version").getAsString().equals(lmcv)){
 				obj = elm.getAsJsonObject();
-				break;
+				found = true; break;
 			}
 		}
-		if(!obj.get("latest_mc_version").getAsString().equals("1.11")){
+		if(!found){
+			obj = new JsonObject();
+			obj.addProperty("latest_version", Config.version);
+			obj.addProperty("latest_mc_version", lmcv);
+		}
+		
+		if(!obj.get("latest_mc_version").getAsString().equals(lmcv)){
 			updatem = true;
 			mcn = obj.get("latest_mc_version").getAsString();
 		}

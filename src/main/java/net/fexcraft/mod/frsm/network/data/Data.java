@@ -44,32 +44,41 @@ public class Data{
 		}*/
 		JsonObject json = Network.getModData("frsm");
 		if(json == null){
-			data = new JsonObject();
-			data.addProperty("latest_version", FI.VERSION);
-			data.addProperty("latest_mc_version", FI.MCV);
-			data.addProperty("changelog", "error.could.not.connect.to.server\nNo Internet?");
-			
-			JsonObject obj = new JsonObject();
-				obj.addProperty("id", "null");
-				obj.addProperty("link", "http://localhost");
-				obj.addProperty("name", "no.internet.connection");
-			
-			JsonArray array = new JsonArray();
-				array.add(obj);
-			
-			data.add("download_links", array);
-			data.addProperty("update_note", "null");
-			data.addProperty("welcome_message", "null");
+			setDefault();
 		}
 		else{
+			boolean found = false;
 			for(JsonElement elm : json.get("versions").getAsJsonArray()){
 				if(elm.getAsJsonObject().get("version").getAsString().equals(FI.MCV)){
 					data = elm.getAsJsonObject();
+					found = true; break;
 				}
+			}
+			if(!found){
+				setDefault();
 			}
 		}
 	}
 	
+	private static void setDefault(){
+		data = new JsonObject();
+		data.addProperty("latest_version", FI.VERSION);
+		data.addProperty("latest_mc_version", FI.MCV);
+		data.addProperty("changelog", "error.could.not.connect.to.server\nNo Internet?");
+		
+		JsonObject obj = new JsonObject();
+			obj.addProperty("id", "null");
+			obj.addProperty("link", "http://localhost");
+			obj.addProperty("name", "no.internet.connection");
+		
+		JsonArray array = new JsonArray();
+			array.add(obj);
+		
+		data.add("download_links", array);
+		data.addProperty("update_note", "null");
+		data.addProperty("welcome_message", "null");
+	}
+
 	public static JsonObject getData(){
 		return data;
 	}

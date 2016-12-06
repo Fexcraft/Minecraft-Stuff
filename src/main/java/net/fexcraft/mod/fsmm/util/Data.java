@@ -29,18 +29,27 @@ public class Data{
 		}*/
 		JsonObject json = Network.getModData("fsmm");
 		if(json == null){
-			data = new JsonObject();
-			data.addProperty("latest_version", FI.VERSION);
-			data.addProperty("latest_mc_version", FI.MCV);
-			data.addProperty("type", "error.could.not.connect.to.server\nNo Internet?");
+			setDefault();
 		}
 		else{
+			boolean found = false;
 			for(JsonElement elm : json.get("versions").getAsJsonArray()){
 				if(elm.getAsJsonObject().get("version").getAsString().equals(FI.MCV)){
 					data = elm.getAsJsonObject();
+					found = true; break;
 				}
 			}
+			if(!found){
+				setDefault();
+			}
 		}
+	}
+
+	private static void setDefault(){
+		data = new JsonObject();
+		data.addProperty("latest_version", FI.VERSION);
+		data.addProperty("latest_mc_version", FI.MCV);
+		data.addProperty("type", "error.could.not.connect.to.server\nNo Internet?");
 	}
 	
 }
