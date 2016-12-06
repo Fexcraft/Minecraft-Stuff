@@ -14,7 +14,7 @@ public class FSMMEventHandler {
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
     	if(UpdateHandler.Status != null){
-        	event.player.addChatMessage(new TextComponentString(UpdateHandler.Status));
+        	event.player.sendMessage(new TextComponentString(UpdateHandler.Status));
     	}
     }
     

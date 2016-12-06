@@ -27,14 +27,14 @@ public class FSMMCommand extends CommandBase{
     }
     
     @Override 
-    public String getCommandName() 
+    public String getName() 
     { 
         return "fsmm"; 
 
     } 
 
     @Override         
-    public String getCommandUsage(ICommandSender var1) { 
+    public String getUsage(ICommandSender var1) { 
         return "/fsmm <args>"; 
 
     }
@@ -48,7 +48,7 @@ public class FSMMCommand extends CommandBase{
     }
 
     @Override 
-    public List getCommandAliases() { 
+    public List getAliases() { 
         return this.aliases;
 
     } 
@@ -60,15 +60,15 @@ public class FSMMCommand extends CommandBase{
         	
 	        if (args.length < 1){
 	        	float value = ItemManager.countMoneyInInventoryOf(player);
-				player.addChatMessage(new TextComponentString(CCS.DAQUA + "In Inventory: " + CCS.GREEN + value));
+				player.sendMessage(new TextComponentString(CCS.DAQUA + "In Inventory: " + CCS.GREEN + value));
 				Account account = FSMM.getInstance().getAccountManager().getAccountOf(player.getUUID(player.getGameProfile())); 
-				player.addChatMessage(new TextComponentString(CCS.DAQUA + "In Bank: " + account.getBalance()));
+				player.sendMessage(new TextComponentString(CCS.DAQUA + "In Bank: " + account.getBalance()));
 	        }
 	        else if(args[0].equals("info")){
-				sender.addChatMessage(new TextComponentString((CCS.DAQUA + "Main command for FSMM related stuff")));
+				sender.sendMessage(new TextComponentString((CCS.DAQUA + "Main command for FSMM related stuff")));
 			}
 	        else if(args[0].equals("version")){
-	        	sender.addChatMessage(new TextComponentString((CCS.DAQUA + "FSMM Version: " + FI.VERSION + ".")));   
+	        	sender.sendMessage(new TextComponentString((CCS.DAQUA + "FSMM Version: " + FI.VERSION + ".")));   
 	        }
 	        /*else if(args[0].equals("set")){
 	        	ItemManager.setInInventory(player, Double.parseDouble(args[1]));
@@ -79,7 +79,7 @@ public class FSMMCommand extends CommandBase{
 	        else if(args[0].equals("remove")){
 	        	ItemManager.removeFromInventory(player, Double.parseDouble(args[1]));
 	        }*///TODO Was only made/used for testing.
-	        else{sender.addChatMessage(new TextComponentString("error"));
+	        else{sender.sendMessage(new TextComponentString("error"));
 	        }
         }
     }
@@ -89,12 +89,5 @@ public class FSMMCommand extends CommandBase{
     	return false;
     }
     
-    @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos){
-        if (args.length == 1){
-        	return getListOfStringsMatchingLastWord(args, new String[] {"info", "version"});
-        }
-        else return null;
-    }
 }
 

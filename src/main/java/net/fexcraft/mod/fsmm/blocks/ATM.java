@@ -40,7 +40,7 @@ public class ATM extends Block implements IBlock {
 	}
 	
 	@Override
-	public boolean onBlockActivated (World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY){
 		if (!p.isSneaking()) {
 			p.openGui(FSMM.getInstance(), GuiHandler.atm, w, pos.getX(), pos.getY(), pos.getZ());
 			return true;
@@ -71,7 +71,7 @@ public class ATM extends Block implements IBlock {
     }
 	
 	@Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 

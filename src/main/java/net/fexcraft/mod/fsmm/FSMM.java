@@ -19,6 +19,7 @@ import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
@@ -67,8 +68,8 @@ public class FSMM {
 	
 	public static CreativeTabs tabFSMM = new CreativeTabs("tabFSMM") {
 	    @Override
-	    public Item getTabIconItem() {
-	    	return (FSMMItems.foney1000);
+	    public ItemStack getTabIconItem() {
+	    	return new ItemStack(FSMMItems.foney1000);
 	    }
 	};
 	

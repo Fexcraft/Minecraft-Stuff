@@ -10,15 +10,16 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class ItemManager {
 	
 	public static float countMoneyInInventoryOf(EntityPlayer player){
 		float value = 0.00F;
-		for(int in = 0; in < 36; in++){
-			ItemStack[] is = player.inventory.mainInventory;
-			if(is[in] != null && is[in].getItem() instanceof IMoneyItem){
-				value = value + (((IMoneyItem) is[in].getItem()).getWorth() * is[in].stackSize);
+		for(int in = 0; in < player.inventory.mainInventory.size(); in++){
+			NonNullList<ItemStack> is = player.inventory.mainInventory;
+			if(is.get(in) != null && is.get(in).getItem() instanceof IMoneyItem){
+				value = value + (((IMoneyItem)is.get(in).getItem()).getWorth() * is.get(in).getCount());
 			}
 		}
 		return Util.round(value);
@@ -58,7 +59,7 @@ public class ItemManager {
 					player.inventory.addItemStackToInventory(stack);
 				}
 				else{
-					player.getEntityWorld().spawnEntityInWorld(new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, stack));
+					player.getEntityWorld().spawnEntity(new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, stack));
 				}
 				amount -= list.get(i);
 			}
@@ -76,11 +77,11 @@ public class ItemManager {
 		if(old < 0){
 			old = 0;
 		}
-		for(int i = 0; i < player.inventory.mainInventory.length; i++){
-			if(player.inventory.mainInventory[i] == null){
+		for(int i = 0; i < player.inventory.mainInventory.size(); i++){
+			if(player.inventory.mainInventory.get(i) == null){
 				continue;
 			}
-			if(player.inventory.mainInventory[i].getItem() instanceof IMoneyItem){
+			if(player.inventory.mainInventory.get(i).getItem() instanceof IMoneyItem){
 				player.inventory.removeStackFromSlot(i);
 			}
 		}
@@ -88,11 +89,11 @@ public class ItemManager {
 	}
 	
 	public static void setInInventory(EntityPlayer player, float amount){
-		for(int i = 0; i < player.inventory.mainInventory.length; i++){
-			if(player.inventory.mainInventory[i] == null){
+		for(int i = 0; i < player.inventory.mainInventory.size(); i++){
+			if(player.inventory.mainInventory.get(i) == null){
 				continue;
 			}
-			if(player.inventory.mainInventory[i].getItem() instanceof IMoneyItem){
+			if(player.inventory.mainInventory.get(i).getItem() instanceof IMoneyItem){
 				player.inventory.removeStackFromSlot(i);
 			}
 		}
@@ -107,7 +108,7 @@ public class ItemManager {
 					player.inventory.addItemStackToInventory(stack);
 				}
 				else{
-					player.getEntityWorld().spawnEntityInWorld(new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, stack));
+					player.getEntityWorld().spawnEntity(new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, stack));
 				}
 				amount -= list.get(i);
 			}

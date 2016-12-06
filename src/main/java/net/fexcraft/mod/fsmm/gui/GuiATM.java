@@ -105,8 +105,8 @@ public class GuiATM extends GuiScreen {
 				reopen = true;
 			}
 			if(reopen){
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				player.openGui(FSMM.getInstance(), 1, player.worldObj, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
+				EntityPlayer player = Minecraft.getMinecraft().player;
+				player.openGui(FSMM.getInstance(), 1, player.world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
 			}
 		}
 		
@@ -131,7 +131,7 @@ public class GuiATM extends GuiScreen {
         this.receiver_field.setDisabledTextColour(-1);
         this.receiver_field.setEnableBackgroundDrawing(false);
         this.receiver_field.setMaxStringLength(32);
-        this.receiver_field.setText(mc.thePlayer.getName());
+        this.receiver_field.setText(mc.player.getName());
 	}
 	
 	@Override
@@ -159,7 +159,7 @@ public class GuiATM extends GuiScreen {
 	}
 	
 	public static void sendJsonCommandPacket(JsonObject obj, String task, boolean reopen){
-		obj.addProperty("sender", Minecraft.getMinecraft().thePlayer.getName());
+		obj.addProperty("sender", Minecraft.getMinecraft().player.getName());
 		obj.addProperty("task", task);
 		PacketHandler.getInstance().sendToServer(new PacketJsonObject(obj));
 		if(reopen){
