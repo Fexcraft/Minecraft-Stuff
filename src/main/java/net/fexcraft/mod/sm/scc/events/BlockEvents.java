@@ -24,7 +24,7 @@ public class BlockEvents {
 	public void placeBlock(BlockEvent.PlaceEvent event){
 		event.setCanceled(getResult(event.getWorld(), event.getPlayer(), event.getPos()));
 		if(event.isCanceled()){
-			event.getPlayer().addChatMessage(new TextComponentString("No permission."));
+			event.getPlayer().sendMessage(new TextComponentString("No permission."));
 		}
 	}
 	
@@ -32,7 +32,7 @@ public class BlockEvents {
 	public void breakBlock(BlockEvent.BreakEvent event){
 		event.setCanceled(getResult(event.getWorld(), event.getPlayer(), event.getPos()));
 		if(event.isCanceled()){
-			event.getPlayer().addChatMessage(new TextComponentString("No permission."));
+			event.getPlayer().sendMessage(new TextComponentString("No permission."));
 		}
 	}
 	

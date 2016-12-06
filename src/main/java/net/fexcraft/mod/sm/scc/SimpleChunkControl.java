@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-//@Mod(modid = "scc", name = "Simple Chunk Control", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
+@Mod(modid = "scc", name = "Simple Chunk Control", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
 public class SimpleChunkControl {
 	
 	@Mod.Instance("scc")

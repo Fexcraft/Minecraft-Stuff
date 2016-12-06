@@ -16,12 +16,12 @@ public class UpdateHandler {
 	public static void initalize(){
 		JsonObject obj = null;
 		for(JsonElement elm : Data.updatedata.get("versions").getAsJsonArray()){
-			if(elm.getAsJsonObject().get("version").getAsString().equals("1.10.2")){
+			if(elm.getAsJsonObject().get("version").getAsString().equals("1.11")){
 				obj = elm.getAsJsonObject();
 				break;
 			}
 		}
-		if(!obj.get("latest_mc_version").getAsString().equals("1.10.2")){
+		if(!obj.get("latest_mc_version").getAsString().equals("1.11")){
 			updatem = true;
 			mcn = obj.get("latest_mc_version").getAsString();
 		}
@@ -33,10 +33,10 @@ public class UpdateHandler {
 
 	public static void onPlayerJoined(EntityPlayer player){
 		if(updatem){
-			player.addChatMessage(new TextComponentString(TextFormatting.GRAY + "[SCC] Update Avaible! (" + nv + ")"));
+			player.sendMessage(new TextComponentString(TextFormatting.GRAY + "[SCC] Update Avaible! (" + nv + ")"));
 		}
 		if(avaible){
-			player.addChatMessage(new TextComponentString(TextFormatting.GRAY + "[SCC] Also avaible for Minecraft " + mcn + "!"));
+			player.sendMessage(new TextComponentString(TextFormatting.GRAY + "[SCC] Also avaible for Minecraft " + mcn + "!"));
 		}
 	}
 }

@@ -16,7 +16,7 @@ import net.minecraft.util.text.TextComponentString;
 public class AdminChunkCommand extends CommandBase {
 
 	@Override
-	public String getCommandName(){
+	public String getName(){
 		return "achunk";
 	}
 	
@@ -25,7 +25,7 @@ public class AdminChunkCommand extends CommandBase {
     }
 
 	@Override
-	public String getCommandUsage(ICommandSender sender){
+	public String getUsage(ICommandSender sender){
 		return "/achunk <args>";
 	}
 
@@ -59,6 +59,6 @@ public class AdminChunkCommand extends CommandBase {
 	}
 	
 	public void send(ICommandSender sender, String message){
-		sender.addChatMessage(new TextComponentString(message));
+		sender.sendMessage(new TextComponentString(message));
 	}
 }

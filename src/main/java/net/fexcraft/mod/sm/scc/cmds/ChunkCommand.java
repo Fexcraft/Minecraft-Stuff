@@ -30,12 +30,12 @@ import net.minecraft.util.text.TextFormatting;
 public class ChunkCommand extends CommandBase {
 
 	@Override
-	public String getCommandName(){
+	public String getName(){
 		return "chunk";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender){
+	public String getUsage(ICommandSender sender){
 		return "/chunk <args>";
 	}
 	
@@ -180,6 +180,6 @@ public class ChunkCommand extends CommandBase {
 	}
 
 	public void send(ICommandSender sender, String message){
-		sender.addChatMessage(new TextComponentString(message));
+		sender.sendMessage(new TextComponentString(message));
 	}
 }
