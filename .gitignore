@@ -17,6 +17,7 @@ build/
 bin/
 classes/
 out/
+old/
 run/*
 
 #IDE

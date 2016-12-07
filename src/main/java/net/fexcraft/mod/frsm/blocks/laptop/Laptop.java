@@ -30,7 +30,7 @@ public class Laptop extends Block implements IBlock{
 		this.setHarvestLevel("pickaxe", 1);
 		this.setHardness(2.0F);
 		this.setResistance(32.0F);
-		this.setCreativeTab(CD.BLOCKS.getCreativeTab());
+		this.setCreativeTab(CD.TECHNIC.getCreativeTab());
 		BlockUtil.register(FI.MODID, this);
 		BlockUtil.registerFIB(this);
 	}

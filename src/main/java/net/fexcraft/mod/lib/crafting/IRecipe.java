@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public interface IRecipe{
+public interface IRecipe {
 	
     boolean matches(CraftingInventory inv, World worldIn);
     

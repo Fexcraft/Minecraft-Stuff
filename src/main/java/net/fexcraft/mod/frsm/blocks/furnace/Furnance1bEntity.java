@@ -36,7 +36,7 @@ public class Furnance1bEntity extends TileEntity implements ITickable, ISidedInv
 	private static final int[] SLOTS_TOP = new int[] {0};
     private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
     private static final int[] SLOTS_SIDES = new int[] {1};
-    private NonNullList<ItemStack> furnaceItemStacks;
+    private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
     private int furnaceBurnTime;
     private int currentItemBurnTime;
     private int cookTime;
@@ -126,7 +126,7 @@ public class Furnance1bEntity extends TileEntity implements ITickable, ISidedInv
             }
         }
         compound.setTag("Items", nbttaglist);*/
-        ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
+        compound = ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
         return compound;
     }
 

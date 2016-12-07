@@ -23,7 +23,7 @@ public class WoodenLightBox extends Block implements IBlock{
     
     @Override
     public String getName(){
-    	return "woodenLightBox";
+    	return "woodenlightbox";
     }
 
 	@Override
