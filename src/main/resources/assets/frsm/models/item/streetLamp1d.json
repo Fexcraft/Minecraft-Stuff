@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/StreetLamp1di"
+        "layer0": "frsm:blocks/streetlamp1di"
     },
     "display": {
         "thirdperson": {

@@ -1,8 +1,8 @@
 {
 "__comment": "Designed by FEX___96 with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
 "textures": {
-    "texture": "frsm:blocks/stoneSlabPillar_0",
-    "texture2": "frsm:blocks/stoneSlabPillar_5"
+    "texture": "frsm:blocks/stoneslabpillar_0",
+    "texture2": "frsm:blocks/stoneslabpillar_5"
 },
 "elements": [ 
 {

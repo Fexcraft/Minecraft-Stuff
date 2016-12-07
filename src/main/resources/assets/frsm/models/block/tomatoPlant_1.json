@@ -1,7 +1,7 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "texture": "frsm:blocks/tomatoPlant_1"
+        "texture": "frsm:blocks/tomatoplant_1"
     },
     "elements": [
         {   "from": [ 4, -1, 0 ],

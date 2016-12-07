@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/stoneSlabPillar",
+    "parent": "frsm:block/stoneslabpillar",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

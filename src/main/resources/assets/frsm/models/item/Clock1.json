@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/Clock1"
+        "layer0": "frsm:items/clock1"
     },
     "display": {
         "thirdperson": {

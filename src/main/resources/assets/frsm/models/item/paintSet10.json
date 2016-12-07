@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/paintSet10"
+        "layer0": "frsm:items/paintset10"
     },
     "display": {
         "thirdperson": {

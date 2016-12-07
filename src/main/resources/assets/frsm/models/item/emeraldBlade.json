@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/emeraldBlade"
+        "layer0": "frsm:items/emeraldblade"
     },
     "display": {
         "thirdperson": {

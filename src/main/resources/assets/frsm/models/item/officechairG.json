@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/officechairGi"
+        "layer0": "frsm:blocks/officechairgi"
     },
     "display": {
         "thirdperson": {

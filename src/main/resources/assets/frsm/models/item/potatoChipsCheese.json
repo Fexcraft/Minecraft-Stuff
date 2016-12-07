@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/potatoChipsCheese"
+        "layer0": "frsm:items/potatochipscheese"
     },
     "display": {
         "thirdperson": {

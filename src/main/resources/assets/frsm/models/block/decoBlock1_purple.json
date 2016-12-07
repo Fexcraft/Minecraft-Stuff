@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "frsm:blocks/decoBlock1_10"
+        "all": "frsm:blocks/decoblock1_10"
     }
 }

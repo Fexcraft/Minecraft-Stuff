@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/Stovei"
+        "layer0": "frsm:blocks/stovei"
     },
     "display": {
         "thirdperson": {

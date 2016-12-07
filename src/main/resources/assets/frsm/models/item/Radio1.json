@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/Radio1i"
+        "layer0": "frsm:blocks/radio1i"
     },
     "display": {
         "thirdperson": {

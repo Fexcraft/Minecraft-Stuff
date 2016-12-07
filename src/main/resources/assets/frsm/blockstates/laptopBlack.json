@@ -1,9 +1,9 @@
 {
     "variants": {
-        "facing=north": { "model": "frsm:laptopBlack" },
-        "facing=south": { "model": "frsm:laptopBlack", "y": 180 },
-        "facing=west":  { "model": "frsm:laptopBlack", "y": 270 },
-        "facing=east":  { "model": "frsm:laptopBlack", "y": 90 }
+        "facing=north": { "model": "frsm:laptopblack" },
+        "facing=south": { "model": "frsm:laptopblack", "y": 180 },
+        "facing=west":  { "model": "frsm:laptopblack", "y": 270 },
+        "facing=east":  { "model": "frsm:laptopblack", "y": 90 }
     }
 }
  

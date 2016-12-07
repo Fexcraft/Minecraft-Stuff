@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/chocolateBarWhite"
+        "layer0": "frsm:items/chocolatebarwhite"
     },
     "display": {
         "thirdperson": {

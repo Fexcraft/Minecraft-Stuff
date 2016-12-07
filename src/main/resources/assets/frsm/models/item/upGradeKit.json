@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/upGradeKit"
+        "layer0": "frsm:items/upgradekit"
     },
     "display": {
         "thirdperson": {

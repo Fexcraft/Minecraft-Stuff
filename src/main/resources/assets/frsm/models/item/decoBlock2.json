@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/decoBlock2",
+    "parent": "frsm:block/decoblock2",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

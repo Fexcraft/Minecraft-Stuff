@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "frsm:asphaltFull" }
+        "normal": { "model": "frsm:asphaltfull" }
     }
 }

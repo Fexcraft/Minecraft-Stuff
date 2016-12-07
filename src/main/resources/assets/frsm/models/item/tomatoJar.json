@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/tomatoJar"
+        "layer0": "frsm:items/tomatojar"
     },
     "display": {
         "thirdperson": {

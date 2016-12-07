@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/cheesePie"
+        "layer0": "frsm:items/cheesepie"
     },
     "display": {
         "thirdperson": {

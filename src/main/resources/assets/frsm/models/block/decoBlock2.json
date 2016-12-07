@@ -1,8 +1,8 @@
 {
 "__comment": "Designed by FEX___96 with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
 "textures": {
-    "texture": "frsm:blocks/decoBlock2_0",
-    "texture2": "frsm:blocks/decoBlock2_5"
+    "texture": "frsm:blocks/decoblock2_0",
+    "texture2": "frsm:blocks/decoblock2_5"
 },
 "elements": [ 
 {

@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/woodenLightBox",
+    "parent": "frsm:block/woodenlightbox",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

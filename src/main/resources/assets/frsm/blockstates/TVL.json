@@ -1,20 +1,20 @@
 {
     "variants": {
-        "channel=0": { "model": "frsm:TVLa", "y": 270 },
-        "channel=1": { "model": "frsm:TVLb", "y": 270 },
-        "channel=2": { "model": "frsm:TVLc", "y": 270 },
-        "channel=3": { "model": "frsm:TVLd", "y": 270 },
-        "channel=4": { "model": "frsm:TVLe", "y": 270 },
-        "channel=5": { "model": "frsm:TVLf", "y": 270 },
-        "channel=6": { "model": "frsm:TVLg", "y": 270 },
-        "channel=7": { "model": "frsm:TVLh", "y": 270 },
-        "channel=8": { "model": "frsm:TVLi", "y": 270 },
-        "channel=9": { "model": "frsm:TVLj", "y": 270 },
-        "channel=10": { "model": "frsm:TVLk", "y": 270 },
-        "channel=11": { "model": "frsm:TVLl", "y": 270 },
-        "channel=12": { "model": "frsm:TVLm", "y": 270 },
-        "channel=13": { "model": "frsm:TVLn", "y": 270 },
-        "channel=14": { "model": "frsm:TVLo", "y": 270 },
-        "channel=15": { "model": "frsm:TVLp", "y": 270 }
+        "channel=0": { "model": "frsm:tvla", "y": 270 },
+        "channel=1": { "model": "frsm:tvlb", "y": 270 },
+        "channel=2": { "model": "frsm:tvlc", "y": 270 },
+        "channel=3": { "model": "frsm:tvld", "y": 270 },
+        "channel=4": { "model": "frsm:tvle", "y": 270 },
+        "channel=5": { "model": "frsm:tvlf", "y": 270 },
+        "channel=6": { "model": "frsm:tvlg", "y": 270 },
+        "channel=7": { "model": "frsm:tvlh", "y": 270 },
+        "channel=8": { "model": "frsm:tvli", "y": 270 },
+        "channel=9": { "model": "frsm:tvlj", "y": 270 },
+        "channel=10": { "model": "frsm:tvlk", "y": 270 },
+        "channel=11": { "model": "frsm:tvll", "y": 270 },
+        "channel=12": { "model": "frsm:tvlm", "y": 270 },
+        "channel=13": { "model": "frsm:tvln", "y": 270 },
+        "channel=14": { "model": "frsm:tvlo", "y": 270 },
+        "channel=15": { "model": "frsm:tvlp", "y": 270 }
     }
 }

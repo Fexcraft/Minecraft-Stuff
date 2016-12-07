@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/tvScreenSmall"
+        "layer0": "frsm:items/tvscreensmall"
     },
     "display": {
         "thirdperson": {

@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/tabFRSMRCico"
+        "layer0": "frsm:items/tabfrsmrcico"
     },
     "display": {
         "thirdperson": {

@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/stoneLightBox",
+    "parent": "frsm:block/stonelightbox",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

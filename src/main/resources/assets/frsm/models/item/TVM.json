@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/TVMi"
+        "layer0": "frsm:blocks/tvmi"
     },
     "display": {
         "thirdperson": {

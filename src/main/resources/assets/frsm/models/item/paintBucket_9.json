@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/paintBucket_9"
+        "layer0": "frsm:items/paintbucket_9"
     },
     "display": {
         "thirdperson": {

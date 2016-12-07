@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/asphaltFull",
+    "parent": "frsm:block/asphaltfull",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

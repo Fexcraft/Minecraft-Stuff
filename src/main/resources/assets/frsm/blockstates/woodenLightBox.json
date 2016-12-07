@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "frsm:woodenLightBox" }
+        "normal": { "model": "frsm:woodenlightbox" }
     }
 }

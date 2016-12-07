@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/laptopMainboard"
+        "layer0": "frsm:items/laptopmainboard"
     },
     "display": {
         "thirdperson": {

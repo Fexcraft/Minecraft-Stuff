@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/laptopGreen",
+    "parent": "frsm:block/laptopgreen",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/redstoneInput"
+        "layer0": "frsm:items/redstoneinput"
     },
     "display": {
         "thirdperson": {

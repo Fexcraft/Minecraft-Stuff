@@ -1,5 +1,5 @@
 {
-    "parent": "frsm:block/tomatoPlant_7",
+    "parent": "frsm:block/tomatoplant_7",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

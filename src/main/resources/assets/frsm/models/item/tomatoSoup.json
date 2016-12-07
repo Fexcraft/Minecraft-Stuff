@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/tomatoSoup"
+        "layer0": "frsm:items/tomatosoup"
     },
     "display": {
         "thirdperson": {

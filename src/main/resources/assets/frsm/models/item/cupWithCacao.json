@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:items/cupWithCacao"
+        "layer0": "frsm:items/cupwithcacao"
     },
     "display": {
         "thirdperson": {

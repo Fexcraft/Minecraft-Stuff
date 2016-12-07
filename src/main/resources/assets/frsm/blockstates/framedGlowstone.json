@@ -1,6 +1,6 @@
 {
     "variants": {
-        "normal": { "model": "frsm:framedGlowstone" },
+        "normal": { "model": "frsm:framed_glowstone" },
         "type=0": { "model": "frsm:framed_glowstone_oak" },
         "type=1": { "model": "frsm:framed_glowstone_spruce" },
         "type=2": { "model": "frsm:framed_glowstone_birch" },
