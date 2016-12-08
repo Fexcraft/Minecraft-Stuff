@@ -1,7 +1,6 @@
 package net.fexcraft.mod.lib.util.cls;
 
-import net.fexcraft.mod.lib.api.tileentity.ICableTileEntity;
-import net.fexcraft.mod.lib.api.tileentity.IFluidContainerTileEntity;
+import net.fexcraft.mod.lib.api.common.ICableTile;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,23 +28,11 @@ public class ApiUtil{
 		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(dim, pos.getX(), pos.getY(), pos.getZ(), range));
 	}
 	
-	public static Number getAmountBasedOnType(IFluidContainerTileEntity con){
-		switch(con.getNumberType()){
-			case FLOAT:  return con.getFluid().get().floatValue();
-			case INT:    return con.getFluid().get().intValue();
-			case DOUBLE: return con.getFluid().get().doubleValue();
-			case LONG:   return con.getFluid().get().longValue();
-			case SHORT:  return con.getFluid().get().shortValue();
-			case BYTE:   return con.getFluid().get().byteValue();
-			default:     return con.getFluid().get();
-		}
-	}
-	
-	public static void tryTransfer(ICableTileEntity sender, World w, BlockPos pos, EnumFacing side){
+	public static void tryTransfer(ICableTile sender, World w, BlockPos pos, EnumFacing side){
 		if(sender.fpu_get(side) > sender.fpu_min(side) && sender.fpu_get(side) > sender.fpu_min_transfer_speed(side)){
 			TileEntity rte = w.getTileEntity(getPosFromFacing(side, pos));
-			if(rte != null && rte instanceof ICableTileEntity){
-				ICableTileEntity receiver = (ICableTileEntity)rte;
+			if(rte != null && rte instanceof ICableTile){
+				ICableTile receiver = (ICableTile)rte;
 				if(receiver.fpu_isInput(side.getOpposite())){
 					if(receiver.fpu_get(side.getOpposite()) >= receiver.fpu_max(side.getOpposite())){
 						return;
@@ -82,7 +69,7 @@ public class ApiUtil{
 		}
 	}
 	
-	public static int getTransferSpeed(ICableTileEntity sender, EnumFacing ef, ICableTileEntity receiver){
+	public static int getTransferSpeed(ICableTile sender, EnumFacing ef, ICableTile receiver){
 		int rs = getTransferSpeed(sender, ef);
 		int r = receiver.fpu_transfer_speed(ef.getOpposite());
 		if(rs > r){
@@ -118,7 +105,7 @@ public class ApiUtil{
 		}
 	}*/
 	
-	public static int getTransferSpeed(ICableTileEntity cable, EnumFacing ef){
+	public static int getTransferSpeed(ICableTile cable, EnumFacing ef){
 		int r = cable.fpu_transfer_speed(ef);
 		if(r > cable.fpu_get(ef)){
 			r = cable.fpu_get(ef);
@@ -130,7 +117,7 @@ public class ApiUtil{
 		return r;
 	}
 	
-	public static boolean hasSpaceForFullTransfer(EnumFacing ef, ICableTileEntity cable, int i){
+	public static boolean hasSpaceForFullTransfer(EnumFacing ef, ICableTile cable, int i){
 		int t = cable.fpu_get(ef) + i;
 		if(t > cable.fpu_max(ef)){
 			return false;
@@ -138,12 +125,12 @@ public class ApiUtil{
 		else return true;
 	}
 	
-	public static int getFreeSpace(EnumFacing ef, ICableTileEntity cable){
+	public static int getFreeSpace(EnumFacing ef, ICableTile cable){
 		int r = cable.fpu_max(ef) - cable.fpu_get(ef);
 		return r;
 	}
 	
-	public static boolean isFull(EnumFacing ef, ICableTileEntity cable){
+	public static boolean isFull(EnumFacing ef, ICableTile cable){
 		if(cable.fpu_get(ef) >= cable.fpu_max(ef)){
 			return true;
 		}

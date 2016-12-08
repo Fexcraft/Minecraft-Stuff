@@ -1,11 +1,11 @@
-package net.fexcraft.mod.lib.api.tileentity;
+package net.fexcraft.mod.lib.api.common;
 
 import net.fexcraft.mod.lib.api.item.ICableEditorItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public interface ICableTileEntity extends IContainerTileEntity{
+public interface ICableTile {
 	
 	public int fpu_get(EnumFacing ef);
 	

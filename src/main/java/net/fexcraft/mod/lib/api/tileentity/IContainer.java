@@ -1,6 +1,6 @@
 package net.fexcraft.mod.lib.api.tileentity;
 
-public interface IContainerTileEntity {
+public interface IContainer {
 	
 	public String getContainerName();
 	

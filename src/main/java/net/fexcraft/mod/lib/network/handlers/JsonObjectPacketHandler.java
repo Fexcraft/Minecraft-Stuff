@@ -32,7 +32,7 @@ public class JsonObjectPacketHandler{
 					String target = packet.obj.get("target_listener").getAsString();
 					for(IPacketListener pktls : sls){
 						if(pktls.getId().equals(target)){
-							pktls.process(packet, null);
+							pktls.process(packet, new Object[]{ctx.getServerHandler().playerEntity});
 						}
 					}
 				}
@@ -55,7 +55,7 @@ public class JsonObjectPacketHandler{
 					String target = packet.obj.get("target_listener").getAsString();
 					for(IPacketListener pktls : cls){
 						if(pktls.getId().equals(target)){
-							pktls.process(packet, null);
+							pktls.process(packet, new Object[]{Minecraft.getMinecraft().player});
 						}
 					}
 				}
