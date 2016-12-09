@@ -68,7 +68,7 @@ public class LampOff extends Block implements IPaintableBlock{
 	
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
-    	if(!w.isRemote && p.getHeldItemMainhand() == null){
+    	if(!w.isRemote && !p.getHeldItemMainhand().isEmpty()){
     		w.setBlockState(pos, FRSM_Blocks.lamp.getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
     	}
 		return true;

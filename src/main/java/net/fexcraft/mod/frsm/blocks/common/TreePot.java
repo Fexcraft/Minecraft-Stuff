@@ -138,7 +138,7 @@ public class TreePot extends Block implements IBlock{
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
-    		if(p.getHeldItemMainhand() != null){
+    		if(!p.getHeldItemMainhand().isEmpty()){
     			Item item = p.getHeldItemMainhand().getItem();
     			if(item instanceof ItemBlock){
     				if(item == Item.getItemFromBlock(Blocks.DIRT) && p.getHeldItemMainhand().getMetadata() == 0){

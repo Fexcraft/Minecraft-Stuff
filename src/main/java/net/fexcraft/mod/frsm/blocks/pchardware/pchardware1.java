@@ -35,7 +35,7 @@ public class pchardware1 extends FBC_4R {
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
-    		if (p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == FRSM_Items.upgradekit){
+    		if (!p.getHeldItemMainhand().isEmpty() && p.getHeldItemMainhand().getItem() == FRSM_Items.upgradekit){
     			w.setBlockState(pos, FRSM_Blocks.pchardware1b.getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
     			p.getHeldItemMainhand().shrink(1);;;
     			return true;

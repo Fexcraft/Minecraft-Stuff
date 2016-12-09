@@ -82,7 +82,7 @@ public class Furnance1b extends FBC_4R {
 				p.openGui(FRSM.getInstance(), GuiHandler.FURNACE1, w, pos.getX(), pos.getY(), pos.getZ());
 				return true;
 			}
-			if(p.isSneaking() && p.getHeldItemMainhand() == null){
+			if(p.isSneaking() && !p.getHeldItemMainhand().isEmpty()){
 				w.setBlockState(pos, FRSM_Blocks.furnace1.getDefaultState().withProperty(FACING, state.getValue(FACING)));
 				return true;
 			}
