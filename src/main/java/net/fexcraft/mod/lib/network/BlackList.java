@@ -40,7 +40,7 @@ public class BlackList {
 			}
 			for(JsonElement elm : obj.get("blacklist").getAsJsonArray()){
 				try{
-					list.add(UUID.fromString(elm.toString()));
+					list.add(UUID.fromString(elm.getAsString()));
 				}
 				catch(Exception e){
 					Print.log("[BL] Couldn't parse " + elm.toString() + ".");

@@ -36,7 +36,7 @@ public class DonorValidator {
 		}
 		for(JsonElement elm : obj.get("list").getAsJsonArray()){
 			try{
-				list.add(UUID.fromString(elm.toString()));
+				list.add(UUID.fromString(elm.getAsString()));
 			}
 			catch(Exception e){
 				Print.log("[DVL] Couldn't parse " + elm.toString() + ".");
