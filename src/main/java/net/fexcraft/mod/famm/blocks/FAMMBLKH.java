@@ -41,6 +41,7 @@ public class FAMMBLKH extends Block implements IBlock {
         BlockUtil.registerFIBRender(this);
 	}
     
+	@Override
 	public String getName(){
 		return name;
 	}
@@ -89,33 +90,30 @@ public class FAMMBLKH extends Block implements IBlock {
     	}
     }
 	
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(DEPTH, 3);
     }
-
+    
+    @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
         worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(DEPTH, 3), 2);
     }
     
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
-    	if(!w.isRemote){
-    		if(p.getHeldItemMainhand() == null){
-    			int i = 0;
-    			switch(state.getValue(DEPTH).intValue()){
-    				case 0: i = 1; break;
-    				case 1: i = 2; break;
-    				case 2: i = 3; break;
-    				case 3: i = 0; break;
-    				default: i = 0; break;
-    			}
-    			Print.log(state.getValue(DEPTH).intValue());
+    	if(!w.isRemote && hand == EnumHand.MAIN_HAND){
+    		if(p.getHeldItemMainhand() == ItemStack.EMPTY){
+    			int i = state.getValue(DEPTH);
+    			i++; if(i > 3){i = 0;}
+    			Print.log(state.getValue(DEPTH));
     			w.setBlockState(pos, this.getDefaultState().withProperty(FACING, state.getValue(FACING)).withProperty(DEPTH, i), 2);
     		}
     	}
 		return true;
     }
     
+    @Override
     public IBlockState getStateFromMeta(int meta){
     	EnumFacing facing; int depth;
     	if(meta < 4){
@@ -145,10 +143,12 @@ public class FAMMBLKH extends Block implements IBlock {
 	//W 1 5  9 13
 	//N 2 6 10 14
 	//E 3 7 11 15
+    @Override
     public int getMetaFromState(IBlockState state){
         return ((EnumFacing)state.getValue(FACING)).getHorizontalIndex() + (4 * state.getValue(DEPTH).intValue());
     }
 	
+    @Override
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {FACING, DEPTH});
     }

@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "famm:blocks/rIII"
+        "all": "famm:blocks/riii"
     }
 }
