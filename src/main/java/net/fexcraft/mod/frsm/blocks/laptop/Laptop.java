@@ -89,7 +89,7 @@ public class Laptop extends Block implements IBlock{
     	if(!w.isRemote){
     		if(!p.getHeldItemMainhand().isEmpty() && p.getHeldItemMainhand().getItem() == FRSM_Items.upgradekit){
     			w.setBlockState(pos, FRSM_Blocks.laptop_black.getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
-    			p.getHeldItemMainhand().shrink(1);;;
+    			p.getHeldItemMainhand().shrink(1);
     			return true;
     		}
     	}

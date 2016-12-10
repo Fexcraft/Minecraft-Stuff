@@ -1,22 +1,16 @@
 /**
- * THIS FILE IS PART OF 'SCC' Simple Chunk Control
+ * THIS FILE IS PART OF 'JAPM' Just A Protection Mod
  *  © Fexcraft.net
  *  
- *  @author Ferdinand (FEX___96)
+ *  @author Ferdinand Calo' (FEX___96)
  */
-package net.fexcraft.mod.sm.scc;
+package net.fexcraft.mod.japm;
 
 import java.io.File;
 
-import net.fexcraft.mod.sm.scc.cmds.AdminChunkCommand;
-import net.fexcraft.mod.sm.scc.cmds.ChunkCommand;
-import net.fexcraft.mod.sm.scc.events.BlockEvents;
-import net.fexcraft.mod.sm.scc.events.ChunkEvents;
-import net.fexcraft.mod.sm.scc.events.PlayerEvents;
-import net.fexcraft.mod.sm.scc.util.Config;
-import net.fexcraft.mod.sm.scc.util.Data;
-import net.fexcraft.mod.sm.scc.util.Util;
-import net.minecraftforge.common.MinecraftForge;
+import net.fexcraft.mod.japm.util.Config;
+import net.fexcraft.mod.japm.util.Data;
+import net.fexcraft.mod.japm.util.Util;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,11 +19,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-//@Mod(modid = "scc", name = "Simple Chunk Control", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
-public class SimpleChunkControl {
+@Mod(modid = "japm", name = "Just A Protection Mod", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
+public class JAPM {
 	
-	@Mod.Instance("scc")
-	private static SimpleChunkControl instance;
+	@Mod.Instance("japm")
+	private static JAPM instance;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
@@ -39,15 +33,12 @@ public class SimpleChunkControl {
 
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event){
-		MinecraftForge.EVENT_BUS.register(new ChunkEvents());
-		MinecraftForge.EVENT_BUS.register(new BlockEvents());
-		MinecraftForge.EVENT_BUS.register(new PlayerEvents());
+		//
 	}
 	
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event){
-		event.registerServerCommand(new ChunkCommand());
-		event.registerServerCommand(new AdminChunkCommand());
+		//
 	}
 
     @Mod.EventHandler
@@ -62,7 +53,7 @@ public class SimpleChunkControl {
     	//
     }
 
-	public static SimpleChunkControl getInstance(){
+	public static JAPM getInstance(){
 		return instance;
 	}
 	
