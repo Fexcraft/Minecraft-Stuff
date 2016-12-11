@@ -260,11 +260,17 @@ public class AccountManager{
 
 		@Override
 		public boolean processTransfer(Account sender, float amount, Account target) {
+			if(amount < 0){
+				log(s(sender) + " -> " + s(target) + ": Transfer failed! Amount null or negative. (T:" + amount + ");");
+				return false;
+			}
 			if(Util.round(sender.balance - amount) >= 0){
 				sender.subtract(amount);
 				target.add(amount);
+				log(s(sender) + " -> (T:" + amount + ") -> " + s(target) + ";");
 				return true;
 			}
+			log(s(sender) + " -> " + s(target) + ": Transfer failed! Sender don't has enough money. (T:" + amount + ");");
 			return false;
 		}
 
@@ -275,10 +281,13 @@ public class AccountManager{
 					if(Util.round(account.balance - amount) >= 0){
 						ItemManager.addToInventory(player, amount);
 						account.subtract(amount);
+						log(s(account) + " -> (W:" + amount + ") -> WITHDRAWN;");
 						return true;
 					}
+					log(s(account) + ": Withdraw failed! Player don't has enough money. (W:" + amount + " || B:" + account.balance + ");");
 					return false;
 				}
+				log(s(account) + ": Withdraw failed! Player Entity is null. (W:" + amount + " || B:" + account.balance + ");");
 				return false;
 			}
 			else{
@@ -296,14 +305,18 @@ public class AccountManager{
 						if(Util.round(ItemManager.countMoneyInInventoryOf(player) - amount) >= 0){
 							ItemManager.removeFromInventory(player, amount);
 							account.add(amount);
+							log(s(account) + " -> (D:" + amount + ") -> DEPOSITED;");
 							return true;
 						}
 						else{
+							log(s(account) + ": Deposit failed! Not enough money in Inventory. (D:" + amount + " || B:" + account.balance + ");");
 							return false;
 						}
 					}
+					log(s(account) + ": Deposit failed! Result is negative. (D:" + amount + " || B:" + account.balance + ");");
 					return false;
 				}
+				log(s(account) + ": Deposit failed! Player Entity is null. (D:" + amount + " || B:" + account.balance + ");");
 				return false;
 			}
 			else{
@@ -374,6 +387,16 @@ public class AccountManager{
 				}
 			}
 		}
+	}
+	
+	private static void log(String s){
+		if(FSMM.debug){
+			Print.log(s);
+		}
+	}
+	
+	private static String s(Account acc){
+		return "[" + acc.type + ":" + acc.id + "]";
 	}
 	
 }

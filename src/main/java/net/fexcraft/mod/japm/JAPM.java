@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = "japm", name = "Just A Protection Mod", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
+//@Mod(modid = "japm", name = "Just A Protection Mod", version = Config.version, acceptableRemoteVersions = "*", serverSideOnly = true)
 public class JAPM {
 	
 	@Mod.Instance("japm")
