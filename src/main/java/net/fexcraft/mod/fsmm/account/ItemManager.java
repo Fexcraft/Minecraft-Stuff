@@ -31,7 +31,7 @@ public class ItemManager {
 			while(i >= 1){
 				break;
 			}
-			if(stack == null){
+			if(stack == null || stack.isEmpty()){
 				i++;
 			}
 			else if(stack.getItem() instanceof IMoneyItem && countMoneyItemAsSpace){

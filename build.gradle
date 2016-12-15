@@ -132,7 +132,7 @@ task fsu_server(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/server/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
     baseName = 'FSUR-Server'
-    appendix = '1.755'
+    appendix = '1.767'
 }
 
 task fsu_client(type: Jar) {
@@ -141,7 +141,7 @@ task fsu_client(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsu/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/minecraft/'}
     baseName = 'FSUR-Client'
-    appendix = '1.755'
+    appendix = '1.767'
 }
 
 task fvp_cp(type: Jar){
@@ -189,8 +189,8 @@ task frsm_calendar(type: Jar) {
 task flansmod(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/flansmod/'}
-    baseName = 'FlansMod 1.10.2'
-    appendix = 'Minus - Experimental'
+    baseName = 'FlansMod Minus 1.11'
+    appendix = 'Experimental 5.555XC'
 }
 
 task frsm_ie(type: Jar) {

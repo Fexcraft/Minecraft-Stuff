@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.lib.util.cls.Print;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class BlackList {
@@ -71,7 +72,8 @@ public class BlackList {
 			((EntityPlayerMP)player).connection.disconnect("[FCL] Blacklisted.");
 		}
 		else{
-			Runtime.getRuntime().halt(1);//.exit(1);
+			//Runtime.getRuntime().halt(1);//.exit(1);
+			FMLCommonHandler.instance().exitJava(0, true);
 		}
 	}
 }
