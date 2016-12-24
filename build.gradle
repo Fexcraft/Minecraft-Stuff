@@ -77,8 +77,8 @@ processResources
 }
 
 String frsm_version = '3.7.14';
-String  fcl_version = 'XI.12';
-String fsmm_version = "1.4.5";
+String  fcl_version = 'XI.13';
+String fsmm_version = "1.4.6";
 String famm_version = "3.0.2";
 String frsm_bge_version = "1.3.1";
 String frsm_cae_version = "1.2";
@@ -132,7 +132,7 @@ task fsu_server(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/server/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
     baseName = 'FSUR-Server'
-    appendix = '1.767'
+    appendix = '1.768'
 }
 
 task fsu_client(type: Jar) {
@@ -141,14 +141,14 @@ task fsu_client(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsu/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/minecraft/'}
     baseName = 'FSUR-Client'
-    appendix = '1.767'
+    appendix = '1.768'
 }
 
 task fvp_cp(type: Jar){
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/client/model/fvp/'}
 	from 'run/Flan/FEXs_Vehicle_Pack'
 	baseName = 'Fex`s Vehicle Pack'
-    appendix = '1.21-beta'
+    appendix = '1.1 - For FlansMod Minus'
 }
 
 task fve(type: Jar) {
@@ -189,8 +189,8 @@ task frsm_calendar(type: Jar) {
 task flansmod(type: Jar) {
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/'}
 	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/flansmod/'}
-    baseName = 'FlansMod Minus 1.11'
-    appendix = 'Experimental 5.555XC'
+    baseName = 'FlansMod Minus'
+    appendix = 'Experimental 5.F0.6'
 }
 
 task frsm_ie(type: Jar) {

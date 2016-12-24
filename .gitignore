@@ -29,6 +29,7 @@ eclipse/
 *.iml
 *.ipr
 *.iws
+libs/
 
 #System
 Thumbs.db
@@ -44,4 +45,5 @@ src/main/java/net/fexcraft/mod/extensions/ve/
 src/main/resources/assets/flansmod/
 src/main/resources/assets/rythorn/
 src/main/resources/assets/fsu/
+src/main/java/org/
 
