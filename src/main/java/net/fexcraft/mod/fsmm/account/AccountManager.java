@@ -259,9 +259,10 @@ public class AccountManager{
 		}
 
 		@Override
-		public boolean processTransfer(Account sender, float amount, Account target) {
+		public boolean processTransfer(Account sender, float amount, Account target){
 			if(amount < 0){
 				log(s(sender) + " -> " + s(target) + ": Transfer failed! Amount null or negative. (T:" + amount + ");");
+				Print.log(s(sender) + " tried to transfer a negative amout of money to " + s(target) + "!");
 				return false;
 			}
 			if(Util.round(sender.balance - amount) >= 0){
@@ -275,7 +276,12 @@ public class AccountManager{
 		}
 
 		@Override
-		public boolean processWithdraw(EntityPlayer player, Account account, float amount) {
+		public boolean processWithdraw(EntityPlayer player, Account account, float amount){
+			if(amount < 0){
+				log(s(account) + ": Withdraw failed! Amount is negative. (W:" + amount + " || B:" + account.balance + ");");
+				Print.log(s(account) + " tried to withdraw a negative amout of money!");
+				return false;
+			}
 			if(account.getAccountType().equals("player")){
 				if(player != null){
 					if(Util.round(account.balance - amount) >= 0){
@@ -298,7 +304,12 @@ public class AccountManager{
 		}
 
 		@Override
-		public boolean processDeposit(EntityPlayer player, Account account, float amount) {
+		public boolean processDeposit(EntityPlayer player, Account account, float amount){
+			if(amount < 0){
+				log(s(account) + ": Deposit failed! Amount is negative. (D:" + amount + " || B:" + account.balance + ");");
+				Print.log(s(account) + " tried to deposit a negative amout of money!");
+				return false;
+			}
 			if(account.getAccountType().equals("player")){
 				if(player != null){
 					if(Util.round(account.balance + amount) >= 0){
