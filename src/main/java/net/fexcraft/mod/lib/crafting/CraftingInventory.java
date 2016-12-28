@@ -1,7 +1,5 @@
 package net.fexcraft.mod.lib.crafting;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -19,9 +17,9 @@ public class CraftingInventory implements IInventory {
     private final int inventoryHeight;
     private final Container eventHandler;
 
-    public CraftingInventory(Container eventHandlerIn, int width, int height){
-        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);//new ItemStack[i];
-        this.eventHandler = eventHandlerIn;
+    public CraftingInventory(Container c, int width, int height){
+        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);
+        this.eventHandler = c;
         this.inventoryWidth = width;
         this.inventoryHeight = height;
     }
@@ -29,15 +27,22 @@ public class CraftingInventory implements IInventory {
     public int getSizeInventory(){
         return this.stackList.size();
     }
-    
-    @Nullable
-    public ItemStack getStackInSlot(int index){
-        return index >= this.getSizeInventory() ? null : this.stackList.get(index);
+
+    public boolean isEmpty(){
+        for(ItemStack itemstack : this.stackList){
+            if(!itemstack.isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
     
-    @Nullable
+    public ItemStack getStackInSlot(int index){
+        return index >= this.getSizeInventory() ? ItemStack.EMPTY : (ItemStack)this.stackList.get(index);
+    }
+    
     public ItemStack getStackInRowAndColumn(int row, int column){
-        return row >= 0 && row < this.inventoryWidth && column >= 0 && column <= this.inventoryHeight ? this.getStackInSlot(row + column * this.inventoryWidth) : null;
+        return row >= 0 && row < this.inventoryWidth && column >= 0 && column <= this.inventoryHeight ? this.getStackInSlot(row + column * this.inventoryWidth) : ItemStack.EMPTY;
     }
     
     public String getName(){
@@ -52,21 +57,19 @@ public class CraftingInventory implements IInventory {
         return (ITextComponent)(this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
     }
     
-    @Nullable
     public ItemStack removeStackFromSlot(int index){
         return ItemStackHelper.getAndRemove(this.stackList, index);
     }
     
-    @Nullable
     public ItemStack decrStackSize(int index, int count){
         ItemStack itemstack = ItemStackHelper.getAndSplit(this.stackList, index, count);
-        if (itemstack != null){
+        if(!itemstack.isEmpty()){
             this.eventHandler.onCraftMatrixChanged(this);
         }
         return itemstack;
     }
     
-    public void setInventorySlotContents(int index, @Nullable ItemStack stack){
+    public void setInventorySlotContents(int index, ItemStack stack){
         this.stackList.set(index, stack);
         this.eventHandler.onCraftMatrixChanged(this);
     }
@@ -75,15 +78,21 @@ public class CraftingInventory implements IInventory {
         return 64;
     }
     
-    public void markDirty(){}
+    public void markDirty(){
+    	
+    }
     
     public boolean isUsableByPlayer(EntityPlayer player){
         return true;
     }
 
-    public void openInventory(EntityPlayer player){}
+    public void openInventory(EntityPlayer player){
+    	
+    }
 
-    public void closeInventory(EntityPlayer player){}
+    public void closeInventory(EntityPlayer player){
+    	
+    }
     
     public boolean isItemValidForSlot(int index, ItemStack stack){
         return true;
@@ -93,17 +102,16 @@ public class CraftingInventory implements IInventory {
         return 0;
     }
 
-    public void setField(int id, int value){}
+    public void setField(int id, int value){
+    	
+    }
 
     public int getFieldCount(){
-    	return 0;
+        return 0;
     }
 
     public void clear(){
-        /*for(int i = 0; i < this.stackList.length; ++i){
-            this.stackList[i] = null;
-        }*/
-    	this.stackList.clear();
+        this.stackList.clear();
     }
 
     public int getHeight(){
@@ -113,15 +121,5 @@ public class CraftingInventory implements IInventory {
     public int getWidth(){
         return this.inventoryWidth;
     }
-
-	@Override
-	public boolean isEmpty(){
-		for(ItemStack itemstack : this.stackList){
-            if(!itemstack.isEmpty()){
-                return false;
-            }
-        }
-        return true;
-	}
-	
+    
 }

@@ -1,8 +1,7 @@
 package net.fexcraft.mod.lib.crafting;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class ShapedRecipes implements IRecipe {
@@ -13,25 +12,29 @@ public class ShapedRecipes implements IRecipe {
     private final ItemStack recipeOutput;
     private boolean copyIngredientNBT;
 
-    public ShapedRecipes(int width, int height, ItemStack[] p_i1917_3_, ItemStack output){
+    public ShapedRecipes(int width, int height, ItemStack[] ingredients, ItemStack output){
         this.recipeWidth = width;
         this.recipeHeight = height;
-        this.recipeItems = p_i1917_3_;
+        this.recipeItems = ingredients;
+        for(int i = 0; i < this.recipeItems.length; ++i){
+            if(this.recipeItems[i] == null){
+                this.recipeItems[i] = ItemStack.EMPTY;
+            }
+        }
         this.recipeOutput = output;
     }
 
-    @Nullable
     public ItemStack getRecipeOutput(){
         return this.recipeOutput;
     }
 
-    public ItemStack[] getRemainingItems(CraftingInventory inv){
-        ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
-        for(int i = 0; i < aitemstack.length; ++i){
+    public NonNullList<ItemStack> getRemainingItems(CraftingInventory inv){
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        for (int i = 0; i < nonnulllist.size(); ++i){
             ItemStack itemstack = inv.getStackInSlot(i);
-            aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+            nonnulllist.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
         }
-        return aitemstack;
+        return nonnulllist;
     }
     
     public boolean matches(CraftingInventory inv, World worldIn){
@@ -48,23 +51,23 @@ public class ShapedRecipes implements IRecipe {
         return false;
     }
     
-    private boolean checkMatch(CraftingInventory p_77573_1_, int p_77573_2_, int p_77573_3_, boolean p_77573_4_){
-        for(int i = 0; i < 5; ++i){
-            for(int j = 0; j < 5; ++j){
+    private boolean checkMatch(CraftingInventory ic, int p_77573_2_, int p_77573_3_, boolean bool){
+        for (int i = 0; i < 5; ++i){
+            for (int j = 0; j < 5; ++j){
                 int k = i - p_77573_2_;
                 int l = j - p_77573_3_;
-                ItemStack itemstack = null;
+                ItemStack itemstack = ItemStack.EMPTY;
                 if(k >= 0 && l >= 0 && k < this.recipeWidth && l < this.recipeHeight){
-                    if (p_77573_4_){
+                    if(bool){
                         itemstack = this.recipeItems[this.recipeWidth - k - 1 + l * this.recipeWidth];
                     }
                     else{
                         itemstack = this.recipeItems[k + l * this.recipeWidth];
                     }
                 }
-                ItemStack itemstack1 = p_77573_1_.getStackInRowAndColumn(i, j);
-                if(itemstack1 != null || itemstack != null){
-                    if(itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null){
+                ItemStack itemstack1 = ic.getStackInRowAndColumn(i, j);
+                if(!itemstack1.isEmpty() || !itemstack.isEmpty()){
+                    if(itemstack1.isEmpty() != itemstack.isEmpty()){
                         return false;
                     }
                     if(itemstack.getItem() != itemstack1.getItem()){
@@ -79,13 +82,12 @@ public class ShapedRecipes implements IRecipe {
         return true;
     }
     
-    @Nullable
     public ItemStack getCraftingResult(CraftingInventory inv){
         ItemStack itemstack = this.getRecipeOutput().copy();
-        if (this.copyIngredientNBT){
-            for (int i = 0; i < inv.getSizeInventory(); ++i){
-            	ItemStack itemstack1 = inv.getStackInSlot(i);
-                if (itemstack1 != null && itemstack1.hasTagCompound()){
+        if(this.copyIngredientNBT){
+            for(int i = 0; i < inv.getSizeInventory(); ++i){
+                ItemStack itemstack1 = inv.getStackInSlot(i);
+                if(!itemstack1.isEmpty() && itemstack1.hasTagCompound()){
                     itemstack.setTagCompound(itemstack1.getTagCompound().copy());
                 }
             }

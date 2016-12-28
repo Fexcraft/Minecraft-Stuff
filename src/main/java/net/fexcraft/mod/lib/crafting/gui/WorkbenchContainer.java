@@ -1,7 +1,5 @@
 package net.fexcraft.mod.lib.crafting.gui;
 
-import javax.annotation.Nullable;
-
 import net.fexcraft.mod.lib.crafting.CraftingInventory;
 import net.fexcraft.mod.lib.crafting.CraftingSlot;
 import net.fexcraft.mod.lib.crafting.ManagerCrafting;
@@ -21,12 +19,12 @@ public class WorkbenchContainer extends Container {
     /** The crafting matrix (5x5). */
     public CraftingInventory craftMatrix = new CraftingInventory(this, 5, 5);
     public IInventory craftResult = new InventoryCraftResult();
-    private final World worldObj;
+    private final World world;
     private final BlockPos pos;
     
-    public WorkbenchContainer(InventoryPlayer playerInventory, World worldIn, BlockPos posIn){
-        this.worldObj = worldIn;
-        this.pos = posIn;
+    public WorkbenchContainer(InventoryPlayer playerInventory, World world, BlockPos pos){
+        this.world = world;
+        this.pos = pos;
         this.addSlotToContainer(new CraftingSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 141, 43));
         int id = 0;
         for(int i = 0; i < 5; ++i){
@@ -46,63 +44,65 @@ public class WorkbenchContainer extends Container {
         this.onCraftMatrixChanged(this.craftMatrix);
     }
     
-    @Override
     public void onCraftMatrixChanged(IInventory inventoryIn){
-        this.craftResult.setInventorySlotContents(0, ManagerCrafting.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
+        this.craftResult.setInventorySlotContents(0, ManagerCrafting.getInstance().findMatchingRecipe(this.craftMatrix, this.world));
     }
     
     public void onContainerClosed(EntityPlayer playerIn){
         super.onContainerClosed(playerIn);
-        if(!this.worldObj.isRemote){
+        if(!this.world.isRemote){
             for(int i = 0; i < 25; ++i){
                 ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
-                if(itemstack != null){
+                if(!itemstack.isEmpty()){
                     playerIn.dropItem(itemstack, false);
                 }
             }
         }
     }
-
+    
     public boolean canInteractWith(EntityPlayer playerIn){
-        return this.worldObj.getBlockState(this.pos).getBlock() != RecipeRegistry.workbench ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.world.getBlockState(this.pos).getBlock() != RecipeRegistry.workbench ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
     
-    @Nullable
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){
-        ItemStack itemstack = null;
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = (Slot)this.inventorySlots.get(index);
         if(slot != null && slot.getHasStack()){
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if(index == 0){
+                itemstack1.getItem().onCreated(itemstack1, this.world, playerIn);
                 if(!this.mergeItemStack(itemstack1, 10, 62, true)){
-                    return null;
+                    return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(itemstack1, itemstack);
             }
             else if(index >= 10 && index < 37){
                 if(!this.mergeItemStack(itemstack1, 37, 62, false)){
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
             else if(index >= 37 && index < 62){
                 if(!this.mergeItemStack(itemstack1, 10, 37, false)){
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
             else if(!this.mergeItemStack(itemstack1, 10, 62, false)){
-                return null;
+                return ItemStack.EMPTY;
             }
-            if(itemstack1.getCount() == 0){
-                slot.putStack((ItemStack)null);
+            if(itemstack1.isEmpty()){
+                slot.putStack(ItemStack.EMPTY);
             }
             else{
                 slot.onSlotChanged();
             }
             if(itemstack1.getCount() == itemstack.getCount()){
-                return null;
+                return ItemStack.EMPTY;
             }
-            slot.onTake(playerIn, itemstack1);
+            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+            if(index == 0){
+                playerIn.dropItem(itemstack2, false);
+            }
         }
         return itemstack;
     }

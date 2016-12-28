@@ -1,32 +1,34 @@
 package net.fexcraft.mod.lib.crafting;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.NonNullList;
 
 public class CraftingSlot extends Slot {
 	
+	SlotCrafting te;
+	
     private final CraftingInventory craftMatrix;
-    private final EntityPlayer thePlayer;
+    private final EntityPlayer player;
     private int amount_crafted;
 
     public CraftingSlot(EntityPlayer player, CraftingInventory craftingInventory, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition){
         super(inventoryIn, slotIndex, xPosition, yPosition);
-        this.thePlayer = player;
+        this.player = player;
         this.craftMatrix = craftingInventory;
     }
     
-    public boolean isItemValid(@Nullable ItemStack stack){
+    public boolean isItemValid(ItemStack stack){
         return false;
     }
     
@@ -41,69 +43,74 @@ public class CraftingSlot extends Slot {
         this.amount_crafted += amount;
         this.onCrafting(stack);
     }
+
+    protected void onSwapCraft(int p_190900_1_){
+        this.amount_crafted += p_190900_1_;
+    }
     
     protected void onCrafting(ItemStack stack){
         if(this.amount_crafted > 0){
-            stack.onCrafting(this.thePlayer.world, this.thePlayer, this.amount_crafted);
+            stack.onCrafting(this.player.world, this.player, this.amount_crafted);
+            net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(this.player, stack, craftMatrix);
         }
         this.amount_crafted = 0;
         if(stack.getItem() == Item.getItemFromBlock(Blocks.CRAFTING_TABLE)){
-            this.thePlayer.addStat(AchievementList.BUILD_WORK_BENCH);
+            this.player.addStat(AchievementList.BUILD_WORK_BENCH);
         }
         if(stack.getItem() instanceof ItemPickaxe){
-            this.thePlayer.addStat(AchievementList.BUILD_PICKAXE);
+            this.player.addStat(AchievementList.BUILD_PICKAXE);
         }
         if(stack.getItem() == Item.getItemFromBlock(Blocks.FURNACE)){
-            this.thePlayer.addStat(AchievementList.BUILD_FURNACE);
+            this.player.addStat(AchievementList.BUILD_FURNACE);
         }
         if(stack.getItem() instanceof ItemHoe){
-            this.thePlayer.addStat(AchievementList.BUILD_HOE);
+            this.player.addStat(AchievementList.BUILD_HOE);
         }
         if(stack.getItem() == Items.BREAD){
-            this.thePlayer.addStat(AchievementList.MAKE_BREAD);
+            this.player.addStat(AchievementList.MAKE_BREAD);
         }
         if(stack.getItem() == Items.CAKE){
-            this.thePlayer.addStat(AchievementList.BAKE_CAKE);
+            this.player.addStat(AchievementList.BAKE_CAKE);
         }
         if(stack.getItem() instanceof ItemPickaxe && ((ItemPickaxe)stack.getItem()).getToolMaterial() != Item.ToolMaterial.WOOD){
-            this.thePlayer.addStat(AchievementList.BUILD_BETTER_PICKAXE);
+            this.player.addStat(AchievementList.BUILD_BETTER_PICKAXE);
         }
         if(stack.getItem() instanceof ItemSword){
-            this.thePlayer.addStat(AchievementList.BUILD_SWORD);
+            this.player.addStat(AchievementList.BUILD_SWORD);
         }
         if(stack.getItem() == Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)){
-            this.thePlayer.addStat(AchievementList.ENCHANTMENTS);
+            this.player.addStat(AchievementList.ENCHANTMENTS);
         }
         if(stack.getItem() == Item.getItemFromBlock(Blocks.BOOKSHELF)){
-            this.thePlayer.addStat(AchievementList.BOOKCASE);
+            this.player.addStat(AchievementList.BOOKCASE);
         }
     }
-
-    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack){
-        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, craftMatrix);
+    
+    public ItemStack onTake(EntityPlayer player, ItemStack stack){
         this.onCrafting(stack);
-        net.minecraftforge.common.ForgeHooks.setCraftingPlayer(playerIn);
-        ItemStack[] aitemstack = ManagerCrafting.getInstance().getRemainingItems(this.craftMatrix, playerIn.world);
+        net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
+        NonNullList<ItemStack> nonnulllist = ManagerCrafting.getInstance().getRemainingItems(this.craftMatrix, player.world);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
-        for(int i = 0; i < aitemstack.length; ++i){
+        for (int i = 0; i < nonnulllist.size(); ++i){
             ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
-            ItemStack itemstack1 = aitemstack[i];
-            if(itemstack != null){
+            ItemStack itemstack1 = (ItemStack)nonnulllist.get(i);
+            if(!itemstack.isEmpty()){
                 this.craftMatrix.decrStackSize(i, 1);
                 itemstack = this.craftMatrix.getStackInSlot(i);
             }
-            if(itemstack1 != null){
-                if (itemstack == null){
+            if(!itemstack1.isEmpty()){
+                if(itemstack.isEmpty()){
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
-                else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)){
-                    itemstack1.setCount(itemstack1.getCount() + itemstack.getCount());
+                else if(ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)){
+                    itemstack1.grow(itemstack.getCount());
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
                 }
-                else if (!this.thePlayer.inventory.addItemStackToInventory(itemstack1)){
-                    this.thePlayer.dropItem(itemstack1, false);
+                else if(!this.player.inventory.addItemStackToInventory(itemstack1)){
+                    this.player.dropItem(itemstack1, false);
                 }
             }
         }
+        return stack;
     }
 }

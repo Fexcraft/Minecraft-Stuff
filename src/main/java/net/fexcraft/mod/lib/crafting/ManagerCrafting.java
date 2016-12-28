@@ -3,14 +3,13 @@ package net.fexcraft.mod.lib.crafting;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class ManagerCrafting {
@@ -24,14 +23,14 @@ public class ManagerCrafting {
 
     private ManagerCrafting(){}
     
-    protected ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents){
+    public ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents){
         String s = "";
         int i = 0;
         int j = 0;
         int k = 0;
         if(recipeComponents[i] instanceof String[]){
             String[] astring = (String[])((String[])recipeComponents[i++]);
-            for (String s2 : astring){
+            for(String s2 : astring){
                 ++k;
                 j = s2.length();
                 s = s + s2;
@@ -46,9 +45,9 @@ public class ManagerCrafting {
             }
         }
         Map<Character, ItemStack> map;
-        for(map = Maps.<Character, ItemStack>newHashMap(); i < recipeComponents.length; i += 2){
+        for (map = Maps.<Character, ItemStack>newHashMap(); i < recipeComponents.length; i += 2){
             Character character = (Character)recipeComponents[i];
-            ItemStack itemstack = null;
+            ItemStack itemstack = ItemStack.EMPTY;
             if(recipeComponents[i + 1] instanceof Item){
                 itemstack = new ItemStack((Item)recipeComponents[i + 1]);
             }
@@ -67,7 +66,7 @@ public class ManagerCrafting {
                 aitemstack[l] = ((ItemStack)map.get(Character.valueOf(c0))).copy();
             }
             else{
-                aitemstack[l] = null;
+                aitemstack[l] = ItemStack.EMPTY;
             }
         }
         ShapedRecipes shapedrecipes = new ShapedRecipes(j, k, aitemstack, stack);
@@ -75,7 +74,7 @@ public class ManagerCrafting {
         return shapedrecipes;
     }
     
-    protected void addShapelessRecipe(ItemStack stack, Object... recipeComponents){
+    public void addShapelessRecipe(ItemStack stack, Object... recipeComponents){
         List<ItemStack> list = Lists.<ItemStack>newArrayList();
         for(Object object : recipeComponents){
             if(object instanceof ItemStack){
@@ -98,30 +97,30 @@ public class ManagerCrafting {
         this.recipes.add(recipe);
     }
     
-    @Nullable
     public ItemStack findMatchingRecipe(CraftingInventory craftMatrix, World worldIn){
         for(IRecipe irecipe : this.recipes){
             if(irecipe.matches(craftMatrix, worldIn)){
                 return irecipe.getCraftingResult(craftMatrix);
             }
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
-    public ItemStack[] getRemainingItems(CraftingInventory craftMatrix, World worldIn){
+    public NonNullList<ItemStack> getRemainingItems(CraftingInventory craftMatrix, World worldIn){
         for(IRecipe irecipe : this.recipes){
             if(irecipe.matches(craftMatrix, worldIn)){
                 return irecipe.getRemainingItems(craftMatrix);
             }
         }
-        ItemStack[] aitemstack = new ItemStack[craftMatrix.getSizeInventory()];
-        for(int i = 0; i < aitemstack.length; ++i){
-            aitemstack[i] = craftMatrix.getStackInSlot(i);
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(craftMatrix.getSizeInventory(), ItemStack.EMPTY);
+        for(int i = 0; i < nonnulllist.size(); ++i){
+            nonnulllist.set(i, craftMatrix.getStackInSlot(i));
         }
-        return aitemstack;
+        return nonnulllist;
     }
 
     public List<IRecipe> getRecipeList(){
         return this.recipes;
     }
+    
 }
