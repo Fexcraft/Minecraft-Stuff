@@ -13,6 +13,10 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+* @Author Ferdinand (FEX___96)
+* 
+*/
 @SideOnly(Side.CLIENT)
 public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	
