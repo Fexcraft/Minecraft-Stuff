@@ -1,7 +1,6 @@
 package net.fexcraft.mod.lib.tmt;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
@@ -22,7 +21,7 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	
 	private static ByteBuffer bbuf = GLAllocation.createDirectByteBuffer(0x200000 * 4);
 	private int rbs = 0, verts = 0, br, c, rbi = 0, vertices = 0, dm, n;
-	private boolean ht = false, in = false, drawing = false, hc = false;
+	private boolean ht = false, in = false, drawing = false;
 	public static Tessellator INSTANCE = new Tessellator();
 	private static FloatBuffer fbuf = bbuf.asFloatBuffer();
 	private static ShortBuffer sbuf = bbuf.asShortBuffer();
@@ -41,7 +40,7 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	public void startDrawing(int i){
 		if(!drawing){
 			drawing = true; dm = i;
-			in = ht = hc = false;
+			in = ht = false;
 			reset();
 		}
 	}
@@ -58,11 +57,6 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 					GL11.glTexCoordPointer(4, 40, fbuf);
 					GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				}
-				if(hc){
-                    bbuf.position(28);
-                    GL11.glColorPointer(4, true, 40, bbuf);
-                    GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
-                }
 				if(in){
 					bbuf.position(32);
 					GL11.glNormalPointer(40, bbuf);
@@ -76,9 +70,6 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 				if(ht){
 					GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				}
-				if(hc){
-                    GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-                }
 				if(in){
 					GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
 				}
@@ -141,26 +132,6 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	
 	public void addTranslation(float x, float y, float z){
 		x_o += x; y_o += y; z_o += z;
-	}
-
-	public void setColorRGBAf(float f, float g, float h, float i) {
-		this.setColorRGBA((int)(f * 255.0F), (int)(g * 255.0F), (int)(h * 255.0F), (int)(i));
-	}
-	
-	public void setColorRGBA(int i, int j, int k, int l){
-		if(i > 255){i = 255;} if(j > 255){j = 255;} if(k > 255){k = 255;} if(l > 255){l = 255;}
-		if(i < 0){i = 0;} if(j < 0){j = 0;} if(k < 0){k = 0;} if (l < 0){l = 0;}
-		if(ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN){
-			this.c = l << 24 | k << 16 | j << 8 | i;
-		}
-		else{
-			this.c = i << 24 | j << 16 | k << 8 | l;
-		}
-		hc = true;
-    }
-
-	public void disableColor() {
-		hc = false;
 	}
 	
 }

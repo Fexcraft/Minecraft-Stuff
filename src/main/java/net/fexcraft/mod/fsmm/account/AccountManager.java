@@ -125,18 +125,23 @@ public class AccountManager{
 	}
 	
 	public void saveAccount(Account account){
-		JsonObject obj = new JsonObject();
-		obj.addProperty("balance", account.balance);
-		obj.addProperty("uuid", account.id.toString());
-		obj.addProperty("bank", account.bank_id.toString());
-		obj.add("data", account.data);
-		obj.addProperty("type", account.type);
-		File folder = new File(account_save_directory, account.type + "/");
-		if(!folder.exists()){
-			folder.mkdirs();
+		try{
+			JsonObject obj = new JsonObject();
+			obj.addProperty("balance", account.balance);
+			obj.addProperty("uuid", account.id.toString());
+			obj.addProperty("bank", account.bank_id.toString());
+			obj.add("data", account.data);
+			obj.addProperty("type", account.type);
+			File folder = new File(account_save_directory, account.type + "/");
+			if(!folder.exists()){
+				folder.mkdirs();
+			}
+			File file = new File(folder, account.id.toString() + ".fd");
+			JsonUtil.write(file, obj);
 		}
-		File file = new File(folder, account.id.toString() + ".fd");
-		JsonUtil.write(file, obj);
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public static class Account{
