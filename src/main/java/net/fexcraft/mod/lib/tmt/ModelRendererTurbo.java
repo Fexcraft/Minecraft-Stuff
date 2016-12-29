@@ -28,7 +28,10 @@ import net.minecraft.util.math.MathHelper;
  * can be very complex. This is why I can afford to add, for example, Wavefont OBJ
  * support or have the addSprite method, methods that add a lot of vertices and
  * polygons.
- * @author GaryCXJk
+ *
+ * This version of TMT was updated and maintened/extended for 1.8+ MC by FEX___96
+ *
+ * @author GaryCXJk, Ferdinand (FEX___96)
  *
  */
 public class ModelRendererTurbo extends ModelRenderer
