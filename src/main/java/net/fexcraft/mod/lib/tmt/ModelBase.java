@@ -1,5 +1,9 @@
 package net.fexcraft.mod.lib.tmt;
 
+/**
+* @Author Ferdinand (FEX___96)
+* Similar to 'FlansMod'-type Models, for a fast convert.
+*/
 public class ModelBase extends net.minecraft.client.model.ModelBase {
 	
 	public ModelRendererTurbo base[] = new ModelRendererTurbo[0];
