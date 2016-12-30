@@ -1,5 +1,9 @@
 package net.fexcraft.mod.lib.tmt;
 
+/**
+* @Author Ferdinand (FEX___96)
+* Converter to use Flansmod-Type vehicle models.
+*/
 public class ModelConverter extends ModelBase {
 	
 	public ModelRendererTurbo bodyModel[] = new ModelRendererTurbo[0];
