@@ -1,5 +1,7 @@
 package net.fexcraft.mod.lib.util.cls;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
 public class Static{
 	
 	public static final float sixteenth = 0.0625F;
@@ -27,4 +29,7 @@ public class Static{
 	/** soon... */
 	//public static final String Unicode_Block_
 	
+	public static void halt(){
+		FMLCommonHandler.instance().exitJava(1, true);
+	}
 }
