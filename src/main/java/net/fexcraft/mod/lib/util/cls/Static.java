@@ -1,5 +1,10 @@
 package net.fexcraft.mod.lib.util.cls;
 
+import java.util.Calendar;
+
+import net.minecraft.entity.MoverType;
+import net.minecraft.launchwrapper.Launch;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Static{
@@ -25,11 +30,32 @@ public class Static{
 	public static final String Null_1024 = Null_512 + Null_512;
 	public static final String Null_2048 = Null_1024 + Null_1024;
 	public static final String Null_4096 = Null_2048 + Null_2048;
+	public static final MoverType SELF = MoverType.SELF;
 	
-	/** soon... */
+	public static final Calendar cal = Calendar.getInstance();
+	
+	/** soon... **/
 	//public static final String Unicode_Block_
 	
 	public static void halt(){
 		FMLCommonHandler.instance().exitJava(1, true);
 	}
+	
+	private static boolean dev = true, cdev = false;
+	
+	public static boolean dev(){
+		if(cdev){
+			return dev;
+		}
+		else{
+			cdev = true;
+			dev = (Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment");
+		}
+		return dev;
+	}
+
+	public static MinecraftServer getServer(){
+		return FMLCommonHandler.instance().getMinecraftServerInstance();
+	}
+	
 }

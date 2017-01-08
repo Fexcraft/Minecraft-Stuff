@@ -3,6 +3,7 @@ package net.fexcraft.mod.frsm.util.block;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.lib.tmt.Tessellator;
+import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
@@ -45,12 +46,14 @@ public class RenderUtil{
 	    GL11.glDisable(3553);
 	    tessellator.startDrawing(7);
 	    int j = fontrenderer.getStringWidth(s) / 2;
-	    tessellator.setColorRGBAf(0.0F, 0.0F, 0.0F, 0.5F);
+	    //tessellator.setColorRGBAf(0.0F, 0.0F, 0.0F, 0.5F);
+	    RGB.BLACK.glColorApply();
 	    tessellator.addVertex(-j - 1, -1 + byte0, 0.0D);
 	    tessellator.addVertex(-j - 1, 8 + byte0, 0.0D);
 	    tessellator.addVertex(j + 1, 8 + byte0, 0.0D);
 	    tessellator.addVertex(j + 1, -1 + byte0, 0.0D);
 	    tessellator.draw();
+	    RGB.glColorReset();
 	    //tessellator.func_78381_a();
 	    GL11.glEnable(3553);
 	    fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, byte0, 553648127);
