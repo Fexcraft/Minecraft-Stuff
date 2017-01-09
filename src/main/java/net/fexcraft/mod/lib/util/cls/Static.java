@@ -1,7 +1,5 @@
 package net.fexcraft.mod.lib.util.cls;
 
-import java.util.Calendar;
-
 import net.minecraft.entity.MoverType;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
@@ -31,8 +29,6 @@ public class Static{
 	public static final String Null_2048 = Null_1024 + Null_1024;
 	public static final String Null_4096 = Null_2048 + Null_2048;
 	public static final MoverType SELF = MoverType.SELF;
-	
-	public static final Calendar cal = Calendar.getInstance();
 	
 	/** soon... **/
 	//public static final String Unicode_Block_
