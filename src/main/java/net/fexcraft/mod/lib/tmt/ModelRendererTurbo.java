@@ -32,6 +32,7 @@ import net.minecraft.util.math.MathHelper;
  * This version of TMT was updated and maintened/extended for 1.8+ MC by FEX___96
  *
  * @author GaryCXJk, Ferdinand (FEX___96)
+ * @license http://fexcraft.net/license?id=tmt
  *
  */
 public class ModelRendererTurbo extends ModelRenderer
