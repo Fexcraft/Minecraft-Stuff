@@ -1,17 +1,11 @@
-package net.fexcraft.mod.extensions.ce.proxy;
+package net.fexcraft.mod.extensions.ce.render;
 
 import net.fexcraft.mod.extensions.ce.blocks.CE_Blocks;
-import net.fexcraft.mod.extensions.ce.render.Calendar1CRender;
-import net.fexcraft.mod.extensions.ce.render.Calendar1Render;
-import net.fexcraft.mod.extensions.ce.render.Clock1CRender;
-import net.fexcraft.mod.extensions.ce.render.Clock2CRender;
-import net.fexcraft.mod.extensions.ce.render.Clock2Render;
-import net.fexcraft.mod.extensions.ce.render.Clock3Render;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
-public class Client extends Common{
+public class RenderRegistry{
 	
-	public void registerRenderThings() {
+	public static void register(){
 		ClientRegistry.bindTileEntitySpecialRenderer(CE_Blocks.Clock2.TE.class, new Clock2Render());
 		ClientRegistry.bindTileEntitySpecialRenderer(CE_Blocks.Calendar1.TE.class, new Calendar1Render());
 		ClientRegistry.bindTileEntitySpecialRenderer(CE_Blocks.Clock1C.TEC.class, new Clock1CRender());

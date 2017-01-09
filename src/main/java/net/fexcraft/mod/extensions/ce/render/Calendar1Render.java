@@ -1,42 +1,34 @@
 package net.fexcraft.mod.extensions.ce.render;
 
-import java.util.Calendar;
-
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.extensions.ce.models.ModelCalendar1;
 import net.fexcraft.mod.extensions.ce.util.RenderUtil;
+import net.fexcraft.mod.frsm.FRSM;
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.fexcraft.mod.lib.util.math.Time;
+import net.minecraft.client.Minecraft;
+import net.minecraft.tileentity.TileEntity;
 
 public class Calendar1Render extends FTESR_4R {
 	
-	public ModelCalendar1 model;
-	
-	public Calendar1Render() {
-		this.model = new ModelCalendar1();
-	}
-
-	public static String getTextureByMonth(int m){
-		return "frsm_ce:textures/blocks/Calendar1_" + m + ".png";
-	}
+	public ModelCalendar1 model = new ModelCalendar1();
 	
 	@Override
-	public final String getTexturePath(){
-		int m = Calendar.getInstance().get(Calendar.MONTH);
-		return RenderUtil.getTextureByMonth("frsm_ce:textures/blocks/calendar1_", m + 1);
-	}
-	
-	@Override
-	public int adjustAngleBy(){
-		return 0;
-	}
-	
-	@Override
-	public void ModelRender(){
+	public void renderTileEntityAt(TileEntity te, double posX, double posY, double posZ, float p_180535_8_, int p_180535_9_){
+    	GL11.glPushMatrix();
+		GL11.glTranslatef((float) posX + 0.5F, (float) posY + 1.5F, (float) posZ + 0.5F);
+		Minecraft.getMinecraft().renderEngine.bindTexture(RenderUtil.getCalendar1Texture());
+		GL11.glPushMatrix();
+		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+		if(te.getBlockMetadata() == 2){GL11.glRotated(   0 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
+		if(te.getBlockMetadata() == 3){GL11.glRotated(-180 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
+		if(te.getBlockMetadata() == 4){GL11.glRotated( -90 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
+		if(te.getBlockMetadata() == 5){GL11.glRotated(-270 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
 		GL11.glTranslatef(0.5F, 1.5F, 0.5F);
 		GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
 		this.model.renderPart(this.model.base);
-		int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		int d = Time.getDay();
 		if(d ==  1){ this.model.renderPart(this.model.d01);}
 		if(d ==  2){ this.model.renderPart(this.model.d02);}
 		if(d ==  3){ this.model.renderPart(this.model.d03);}
@@ -68,5 +60,7 @@ public class Calendar1Render extends FTESR_4R {
 		if(d == 29){ this.model.renderPart(this.model.d29);}
 		if(d == 30){ this.model.renderPart(this.model.d30);}
 		if(d == 31){ this.model.renderPart(this.model.d31);}
-	}
+		GL11.glPopMatrix();
+		GL11.glPopMatrix();
+    }
 }

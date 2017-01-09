@@ -9,29 +9,18 @@ import net.fexcraft.mod.frsm.FRSM;
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class Calendar1CRender extends FTESR_4R {
 	
-	public ModelCalendar1 model;
-	
-	public Calendar1CRender() {
-		this.model = new ModelCalendar1();
-	}
-	
-	@Override
-	public int adjustAngleBy(){
-		return 0;
-	}
+	public ModelCalendar1 model = new ModelCalendar1();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity te, double posX, double posY, double posZ, float p_180535_8_, int p_180535_9_){
     	GL11.glPushMatrix();
 		GL11.glTranslatef((float) posX + 0.5F, (float) posY + 1.5F, (float) posZ + 0.5F);
 		CE_Blocks.Calendar1C.TECL TE = (CE_Blocks.Calendar1C.TECL)te;
-		int m = TE.getTileData().getInteger("frsm_ce_month");
-		ResourceLocation textures = (new ResourceLocation(RenderUtil.getTextureByMonth("frsm_ce:textures/blocks/calendar1_", m)));
-		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(RenderUtil.getCalendar1Texture(TE.getTileData().getInteger("frsm_ce_month") + 1));
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		if(te.getBlockMetadata() == 2){GL11.glRotated(   0 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
@@ -75,7 +64,6 @@ public class Calendar1CRender extends FTESR_4R {
 		if(d == 30){ this.model.renderPart(this.model.d30);}
 		if(d == 31){ this.model.renderPart(this.model.d31);}
 		//
-		//PrintLog.printIn("RENDER: ", "M:" + m + " (" + (m + 1) + "), D: " + d);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
     }
