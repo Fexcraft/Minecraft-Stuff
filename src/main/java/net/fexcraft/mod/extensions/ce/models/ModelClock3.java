@@ -1,5 +1,7 @@
 package net.fexcraft.mod.extensions.ce.models;
 
+import org.lwjgl.opengl.GL11;
+
 import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
@@ -183,7 +185,15 @@ public class ModelClock3 extends ClockModelBase
 
 		translateAll(-8F, 24F, -8F);
 
-
 		//flipAll();
+	}
+	
+	@Override
+	public void render(ModelRendererTurbo[] part){
+		GL11.glRotatef( 90, 0, 1, 0);
+		for(ModelRendererTurbo bit : part){
+			bit.render(0.0625F);
+		}
+		GL11.glRotatef(-90, 0, 1, 0);
 	}
 }

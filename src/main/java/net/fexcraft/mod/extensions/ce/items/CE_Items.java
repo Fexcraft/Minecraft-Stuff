@@ -5,7 +5,7 @@ public final class CE_Items{
 	
 	public static Item universal_tool;
 	
-	public static void init(){
+	public static void register(){
 		universal_tool = new Tool();
 	}
 }

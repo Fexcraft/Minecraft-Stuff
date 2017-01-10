@@ -5,12 +5,11 @@ import org.lwjgl.opengl.GL11;
 import net.fexcraft.mod.extensions.ce.blocks.CE_Blocks;
 import net.fexcraft.mod.extensions.ce.models.ModelCalendar1;
 import net.fexcraft.mod.extensions.ce.util.RenderUtil;
-import net.fexcraft.mod.frsm.FRSM;
-import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class Calendar1CRender extends FTESR_4R {
+public class Calendar1CRender extends TileEntitySpecialRenderer {
 	
 	public ModelCalendar1 model = new ModelCalendar1();
 	
@@ -23,10 +22,10 @@ public class Calendar1CRender extends FTESR_4R {
 		Minecraft.getMinecraft().renderEngine.bindTexture(RenderUtil.getCalendar1Texture(TE.getTileData().getInteger("frsm_ce_month") + 1));
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-		if(te.getBlockMetadata() == 2){GL11.glRotated(   0 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
-		if(te.getBlockMetadata() == 3){GL11.glRotated(-180 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
-		if(te.getBlockMetadata() == 4){GL11.glRotated( -90 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
-		if(te.getBlockMetadata() == 5){GL11.glRotated(-270 + FRSM.angle + adjustAngleBy(), 0, 1D, 0);}
+		if(te.getBlockMetadata() == 2){GL11.glRotated(   0, 0, 1D, 0);}
+		if(te.getBlockMetadata() == 3){GL11.glRotated(-180, 0, 1D, 0);}
+		if(te.getBlockMetadata() == 4){GL11.glRotated( -90, 0, 1D, 0);}
+		if(te.getBlockMetadata() == 5){GL11.glRotated(-270, 0, 1D, 0);}
 		//
 		GL11.glTranslatef(0.5F, 1.5F, 0.5F);
 		GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);

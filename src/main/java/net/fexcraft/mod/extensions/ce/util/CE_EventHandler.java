@@ -12,7 +12,7 @@ public class CE_EventHandler {
 		if(UpdateHandler.status != null){
 			Print.chat(event.player, UpdateHandler.status);
 		}
-		if(!UpdateHandler.nMCV.equals(CE.mcv)){
+		if(!UpdateHandler.nMCV.equals(CE.MCV)){
 			Print.chat(event.player, UpdateHandler.CE_ + " Now avaible for " + UpdateHandler.nMCV + " Minecraft!");
 		}
 	}

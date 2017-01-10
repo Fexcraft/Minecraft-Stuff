@@ -17,16 +17,16 @@ public class ClockModelBase extends ModelBase {
 	public ModelRendererTurbo hourR[] = new ModelRendererTurbo[0];
 	   
 	public void render(){
-		renderPart(base);
-		renderPart(second);
-		renderPart(minute);
-		renderPart(hour);
-		renderPart(secondR);
-		renderPart(minuteR);
-		renderPart(hourR);
+		render(base);
+		render(second);
+		render(minute);
+		render(hour);
+		render(secondR);
+		render(minuteR);
+		render(hourR);
 	}
 
-	public void renderPart(ModelRendererTurbo[] part){
+	public void render(ModelRendererTurbo[] part){
 		for(ModelRendererTurbo bit : part){
 			bit.render(0.0625F);
 		}

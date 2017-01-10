@@ -3,6 +3,7 @@ package net.fexcraft.mod.extensions.ce;
 import java.io.IOException;
 
 import net.fexcraft.mod.extensions.ce.blocks.CE_Blocks;
+import net.fexcraft.mod.extensions.ce.blocks.ClockTileEntityBase;
 import net.fexcraft.mod.extensions.ce.items.CE_Items;
 import net.fexcraft.mod.extensions.ce.render.RenderRegistry;
 import net.fexcraft.mod.extensions.ce.util.CE_EventHandler;
@@ -17,28 +18,25 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = "frsm_ce", name = "Calendar Extension", version = CE.version, dependencies = "required-after:frsm@[3.7.14,)")
+@Mod(modid = CE.MODID, name = "Calendar Extension", version = CE.VERSION, dependencies = "required-after:frsm@[3.7.14,)")
 public class CE {
 	
-    public static final String version = "1.0";
-    public static final String mcv = "1.11";
+	public static final String MODID = "frsm_ce";
+    public static final String VERSION = "1.0";
+    public static final String MCV = "1.11";
+    public static boolean e;
     
-    @Mod.Instance("frsm_ce")
+    @Mod.Instance(MODID)
     private static CE instance;
 
     @Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException{
 
-	    CE_Blocks.init();
-	    CE_Items.init();
+	    CE_Blocks.register();
+	    CE_Items.register();
 	    
-	    GameRegistry.registerTileEntity(CE_Blocks.Clock2.TE.class, "frsm_ce:clock2");
-	    GameRegistry.registerTileEntity(CE_Blocks.Calendar1.TE.class, "frsm_ce:calendar1");
-	    GameRegistry.registerTileEntity(CE_Blocks.Clock1C.TEC.class, "frsm_ce:clock1C");
-	    GameRegistry.registerTileEntity(CE_Blocks.Clock2C.TEC.class, "frsm_ce:clock2C");
 	    GameRegistry.registerTileEntity(CE_Blocks.Calendar1C.TECL.class, "frsm_ce:alendar1C");
-	    GameRegistry.registerTileEntity(CE_Blocks.Clock3_W.TE.class, "frsm_ce:clock3_W");
-	    GameRegistry.registerTileEntity(CE_Blocks.Clock3_B.TE.class, "frsm_ce:clock3_B");
+	    GameRegistry.registerTileEntity(ClockTileEntityBase.class, "frsm_ce:clock");
 	}
     
 	public static CreativeTabs tabCE = new CreativeTabs("tabCE") {
@@ -49,8 +47,10 @@ public class CE {
 	};
 	
 	@Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-		RenderRegistry.register();
+    public void init(FMLInitializationEvent event){
+		if(event.getSide().isClient()){
+			RenderRegistry.register();
+		}
 		UpdateHandler.init();
 		MinecraftForge.EVENT_BUS.register(new CE_EventHandler());
     }

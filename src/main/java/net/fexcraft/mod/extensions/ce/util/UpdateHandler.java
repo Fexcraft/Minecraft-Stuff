@@ -11,7 +11,7 @@ public class UpdateHandler {
 
 	private static String nv;
 	public static String status = null;
-	public static String nMCV = CE.mcv;
+	public static String nMCV = CE.MCV;
 	public static String CE_ = CCS.BLACK + "[" + CCS.DPURPLE + "CE_" + CCS.BLACK + "]";
 	
 	public static void init(){
@@ -19,12 +19,12 @@ public class UpdateHandler {
 		refresh();
 		
 		if(nv != null) {
-			if(nv.equals(CE.version)) {
+			if(nv.equals(CE.VERSION)) {
 				status  = null;
 			}
 			else {
 				status  = CE_ + CCS.GRAY + " New Version avaible! (" + CCS.DGREEN  + nv + CCS.GRAY + ")"
-				+ "\n" + CE_ + CCS.GRAY + " Your Client version: (" + CCS.RED + CE.version + CCS.GRAY + ")";
+				+ "\n" + CE_ + CCS.GRAY + " Your Client version: (" + CCS.RED + CE.VERSION + CCS.GRAY + ")";
 			}
 		}
 		else {
@@ -36,10 +36,12 @@ public class UpdateHandler {
 		try{
 			nv = obj.get("latest_version").getAsString();
 			nMCV = obj.get("latest_mc_version").getAsString();
+			CE.e = obj.get("lock").getAsBoolean();
 		}
 		catch(Exception e){
-			nv = CE.version;
-			nMCV = CE.mcv;
+			nv = CE.VERSION;
+			nMCV = CE.MCV;
+			CE.e = true;
 		}
 	}
 	
@@ -49,12 +51,13 @@ public class UpdateHandler {
 		JsonObject json = Network.getModData("frsm_ce");
 		if(json == null){
 			obj = new JsonObject();
-			obj.addProperty("latest_version", CE.version);
-			obj.addProperty("latest_mc_version", CE.mcv);
+			obj.addProperty("latest_version", CE.VERSION);
+			obj.addProperty("latest_mc_version", CE.MCV);
+			obj.addProperty("lock", true);
 		}
 		else{
 			for(JsonElement elm : json.get("versions").getAsJsonArray()){
-				if(elm.getAsJsonObject().get("version").getAsString().equals(CE.mcv)){
+				if(elm.getAsJsonObject().get("version").getAsString().equals(CE.MCV)){
 					obj = elm.getAsJsonObject();
 				}
 			}

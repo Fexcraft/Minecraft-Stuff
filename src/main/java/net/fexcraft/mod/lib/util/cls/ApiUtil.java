@@ -12,8 +12,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class ApiUtil{
 	
+	private static final int range = 32;
+	
 	public static void sendTileEntityUpdatePacket(World world, BlockPos pos, NBTTagCompound nbt){
-		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
 	}
 	
 	public static void sendTileEntityUpdatePacket(World world, BlockPos pos, NBTTagCompound nbt, int range){

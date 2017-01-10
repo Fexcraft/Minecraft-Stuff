@@ -4,8 +4,12 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class Static{
+	
+	public static final boolean NO = false;
+	public static final boolean YES = true;
 	
 	public static final float sixteenth = 0.0625F;
 	public static final float eighth = 0.125F;
@@ -52,6 +56,10 @@ public class Static{
 
 	public static MinecraftServer getServer(){
 		return FMLCommonHandler.instance().getMinecraftServerInstance();
+	}
+	
+	public static Side side(){
+		return FMLCommonHandler.instance().getSide();
 	}
 	
 }
