@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class busstation extends ModelBase{
+public class BusStation extends ModelBase{
 	
     ModelRenderer Shape1;
     ModelRenderer Shape2;
@@ -23,7 +23,7 @@ public class busstation extends ModelBase{
     ModelRenderer Shape13;
     ModelRenderer Shape14;
   
-  public busstation(){
+  public BusStation(){
 	  
     textureWidth = 128;
     textureHeight = 64;

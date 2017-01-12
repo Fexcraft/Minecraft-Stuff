@@ -1,25 +1,26 @@
 package net.fexcraft.mod.frsm.blocks.streetlamps;
 
 import net.fexcraft.mod.frsm.util.block.FTESR;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 public class StreetLamp1Render extends FTESR{
 	
-	public ModelStreetLamp1 model;
-	
-	public StreetLamp1Render() {
-		this.model = new ModelStreetLamp1();
-	}
-	
-	public void ModelRender(){
-		this.model.render();
-	}
-    
-	public String getTexturePath(){
-		return "frsm:textures/blocks/StreetLamp1.png";
-	}
+	private static final ModelStreetLamp1 model = new ModelStreetLamp1();
 	
 	@Override
-	public int adjustAngleBy(){
+	public int adjustAngle(){
 		return 90;
 	}
+
+	@Override
+	public ResourceLocation getResourceLocation(){
+		return new ResourceLocation("frsm:textures/blocks/StreetLamp1.png");
+	}
+
+	@Override
+	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+		this.model.render();
+	}
+	
 }

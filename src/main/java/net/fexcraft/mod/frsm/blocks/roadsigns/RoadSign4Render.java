@@ -1,27 +1,21 @@
 package net.fexcraft.mod.frsm.blocks.roadsigns;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 public class RoadSign4Render extends FTESR_4R {
 	
-	public ModelRoadSign4 model;
-	
-	public RoadSign4Render() {
-		this.model = new ModelRoadSign4();
-	}
+	private static final ModelRoadSign4 model = new ModelRoadSign4();
 	
 	@Override
-	public final String getTexturePath(){
-		return "frsm:textures/blocks/RoadSign4.png";
+	public ResourceLocation getResourceLocation(){
+		return new ResourceLocation("frsm:textures/blocks/RoadSign4.png");
 	}
-	
+
 	@Override
-	public void ModelRender(){
+	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
 		this.model.render();
 	}
 	
-	@Override
-	public int adjustAngleBy(){
-		return 0;
-	}
 }

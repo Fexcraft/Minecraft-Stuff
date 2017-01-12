@@ -52,8 +52,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = FI.MODID, name = FI.NAME, version = FRSM.version, updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=frsm", dependencies = "required-after:fcl")
 public class FRSM{
 	
-	public static final String version = "3.7.14"; 
-	public static final String vnote = "Beginning of the Age of Json.";
+	public static final String version = "3.7.15"; 
+	public static final String vnote = "Perhaps not the main Mod anymore?";
 	
 	@SidedProxy(clientSide = "net.fexcraft.mod.frsm.proxy.Client", serverSide = "net.fexcraft.mod.frsm.proxy.Common")
     public static Common proxy;
@@ -62,9 +62,8 @@ public class FRSM{
 	private static FRSM instance;
 	
 	public static boolean conf1, conf2, conf3, conf4, conf5;
-	public static boolean /*librarymode,*/ custom/*, temt*/;
+	public static boolean custom/*, temt*/;
 	public static File mainpath, datapath, tempdata;
-	public static int angle;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
@@ -91,18 +90,6 @@ public class FRSM{
 		}
 		
 		
-		/*File old = new File(event.getModConfigurationDirectory().getParent(), "/frsm/");
-		for(File file : old.listFiles()){
-			if(file.isDirectory()){
-				for(File fl : file.listFiles()){
-					fl.delete();
-				}
-			}
-			file.delete();
-		}
-		old.delete();*/
-		
-		
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 	    config.load();
 	    //librarymode = config.getBoolean("library_mode", "###[> Internal <]###", false, "Should only the util/base classes be loaded? (No Blocks/Items except needed ones)");
@@ -111,7 +98,7 @@ public class FRSM{
 	    conf2       = config.getBoolean("random_cookies_from_grass", "###{> Generator <]###", true, "Grass Dropping randomly cookies when breaking it");
 	    conf3       = config.getBoolean("generate_stone_light_box", "###{> Generator <]###", true, "This function is unavaible actually.");
 	    conf4       = config.getBoolean("enable_update_checker", "###{> Other <]###", true, "Selfexplaining.");
-	    angle       = config.getInt("model_rotation_angle", "###[> Model Config <]###", 0, -360, 360, "Set rotation angle of blocks with Custom model, valid values: 0, -90, -180, -270, 90, 180, 270.");
+	    //angle       = config.getInt("model_rotation_angle", "###[> Model Config <]###", 0, -360, 360, "Set rotation angle of blocks with Custom model, valid values: 0, -90, -180, -270, 90, 180, 270.");
 	    //temt        = config.getBoolean("model_render_customisation", "###[> Model Config <]###", false, "Should FRSM TEMT rendering be enabled?");
 	    conf5       = config.getBoolean("robo_entities", "###[> RoboStuff <]###", true, "Should FRSM robots be enabled?");
 	    config.save();
