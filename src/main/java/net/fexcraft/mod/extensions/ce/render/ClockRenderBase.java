@@ -1,5 +1,7 @@
 package net.fexcraft.mod.extensions.ce.render;
 
+import java.util.Calendar;
+
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.extensions.ce.blocks.ClockTileEntityBase;
@@ -29,7 +31,7 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 		if(te.getBlockMetadata() == 4){GL11.glRotated(   0, 0, 1D, 0);}
 		if(te.getBlockMetadata() == 5){GL11.glRotated(-180, 0, 1D, 0);}
 		//
-		model.render(model.base);
+		model.renderBase();
 		GL11.glTranslatef(0F, 1F, 0F);
 		GL11.glRotatef(180, 1.0F, 0.0F, 0.0F);
 		int h = Time.getHour12();
@@ -37,15 +39,16 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 		int s = Time.getSecond();
 		switch(te.getType()){
 			case REAL_CUSTOM:
-				h = Time.getGMTCalendar().get(0xa) + te.h;
+				Calendar cal = Time.getGMTCalendar();
+				h = cal.get(0xa) + te.h;
 				if(h >= 12){
 					h -= 12;
 				}
-				m = Time.getGMTCalendar().get(0xc) + te.m;
+				m = cal.get(0xc) + te.m;
 				if(m >= 60){
 					m -= 60;
 				}
-				s = Time.getGMTCalendar().get(0xd) + te.s;
+				s = cal.get(0xd) + te.s;
 				if(s >= 60){
 					s -= 60;
 				}
@@ -54,15 +57,16 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 				renderSecond(model, false, s, te.rs);
 				break;
 			case REAL_CUSTOM_REVERSE:
-				h = Time.getGMTCalendar().get(0xa) + te.h;
+				Calendar call = Time.getGMTCalendar();
+				h = call.get(0xa) + te.h;
 				if(h >= 12){
 					h -= 12;
 				}
-				m = Time.getGMTCalendar().get(0xc) + te.m;
+				m = call.get(0xc) + te.m;
 				if(m >= 60){
 					m -= 60;
 				}
-				s = Time.getGMTCalendar().get(0xd) + te.s;
+				s = call.get(0xd) + te.s;
 				if(s >= 60){
 					s -= 60;
 				}
@@ -84,9 +88,9 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 			case MINECRAFT_WORLD_REVERSE:
 			case NULL:
 			default:
-				model.render(model.hour);
-				model.render(model.minute);
-				model.render(model.second);
+				model.renderHour();
+				model.renderMinute();
+				model.renderSecond();
 				break;
 		}
 		//
@@ -100,12 +104,12 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 			r = -r;
 		}
 		GL11.glRotatef(-r, y, n, n);
-		model.render(model.second);
+		model.renderSecond();
 		GL11.glRotatef( r, y, n, n);
 		if(rs > 1){
 			GL11.glRotatef(180f, 0, 1, 0);
 			GL11.glRotatef(-r, y, n, n);
-			model.render(model.second);
+			model.renderSecond();
 			GL11.glRotatef( r, y, n, n);
 		}
 	}
@@ -116,12 +120,12 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 			r = -r;
 		}
 		GL11.glRotatef(-r, y, n, n);
-		model.render(model.minute);
+		model.renderMinute();
 		GL11.glRotatef( r, y, n, n);
 		if(rs > 1){
 			GL11.glRotatef(180f, 0, 1, 0);
 			GL11.glRotatef(-r , y, n, n);
-			model.render(model.minute);
+			model.renderMinute();
 			GL11.glRotatef( r, y, n, n);
 		}
 	}
@@ -139,12 +143,12 @@ public class ClockRenderBase extends TileEntitySpecialRenderer {
 			r = -r;
 		}
 		GL11.glRotatef(-r, y, n, n);
-		model.render(model.hour);
+		model.renderHour();
 		GL11.glRotatef( r, y, n, n);
 		if(rs > 1){
 			GL11.glRotatef(180f, 0, 1, 0);
 			GL11.glRotatef(-r, y, n, n);
-			model.render(model.hour);
+			model.renderHour();
 			GL11.glRotatef( r, y, n, n);
 		}
 	}

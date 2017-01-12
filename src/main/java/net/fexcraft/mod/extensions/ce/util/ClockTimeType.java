@@ -29,4 +29,5 @@ public enum ClockTimeType {
 		}
 		return NULL;
 	}
+	
 }

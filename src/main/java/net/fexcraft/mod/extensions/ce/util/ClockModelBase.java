@@ -1,10 +1,15 @@
 package net.fexcraft.mod.extensions.ce.util;
 
+import java.util.HashSet;
+
+import net.fexcraft.mod.extensions.ce.models.ModelClock1;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.client.model.ModelBase;
 
 
-public class ClockModelBase extends ModelBase {
+public abstract class ClockModelBase extends ModelBase {
+	
+	protected static final HashSet<ClockModelBase> models = new HashSet<ClockModelBase>();
 	
 	public ModelRendererTurbo base[] = new ModelRendererTurbo[0];
 	
@@ -16,7 +21,7 @@ public class ClockModelBase extends ModelBase {
 	public ModelRendererTurbo minuteR[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo hourR[] = new ModelRendererTurbo[0];
 	   
-	public void render(){
+	public void renderAll(){
 		render(base);
 		render(second);
 		render(minute);
@@ -26,10 +31,26 @@ public class ClockModelBase extends ModelBase {
 		render(hourR);
 	}
 
-	public void render(ModelRendererTurbo[] part){
+	private void render(ModelRendererTurbo[] part){
 		for(ModelRendererTurbo bit : part){
 			bit.render(0.0625F);
 		}
+	}
+	
+	public void renderBase(){
+		render(base);
+	}
+	
+	public void renderSecond(){
+		render(second);
+	}
+	
+	public void renderMinute(){
+		render(minute);
+	}
+	
+	public void renderHour(){
+		render(hour);
 	}
 	
 	protected void translate(ModelRendererTurbo[] model, float x, float y, float z){
@@ -48,5 +69,16 @@ public class ClockModelBase extends ModelBase {
 		translate(secondR, x, y, z);
 		translate(minuteR, x, y, z);
 		translate(hourR, x, y, z);
+	}
+	
+	public abstract String getName();
+	
+	public static ClockModelBase getModel(String s){
+		for(ClockModelBase c : models){
+			if(c.getName().equals(s)){
+				return c;
+			}
+		}
+		return new ModelClock1();
 	}
 }

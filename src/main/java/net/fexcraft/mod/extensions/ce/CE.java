@@ -35,7 +35,7 @@ public class CE {
 	    CE_Blocks.register();
 	    CE_Items.register();
 	    
-	    GameRegistry.registerTileEntity(CE_Blocks.Calendar1C.TECL.class, "frsm_ce:alendar1C");
+	    GameRegistry.registerTileEntity(CE_Blocks.Calendar1C.TECL.class, "frsm_ce:calendar1c");
 	    GameRegistry.registerTileEntity(ClockTileEntityBase.class, "frsm_ce:clock");
 	}
     

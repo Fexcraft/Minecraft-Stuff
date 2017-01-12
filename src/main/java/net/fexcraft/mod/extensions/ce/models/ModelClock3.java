@@ -5,20 +5,18 @@ import org.lwjgl.opengl.GL11;
 import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
-public class ModelClock3 extends ClockModelBase
-{
+public class ModelClock3 extends ClockModelBase {
 	int textureX = 64;
 	int textureY = 64;
 
-	public ModelClock3()
-	{
+	public ModelClock3(){
+		models.add(this);
 		hour = new ModelRendererTurbo[1];
 		hour[0] = new ModelRendererTurbo(this, 9, 1, textureX, textureY); // Hour
 		second = new ModelRendererTurbo[1];
 		second[0] = new ModelRendererTurbo(this, 17, 1, textureX, textureY); // Second
 		minute = new ModelRendererTurbo[1];
 		minute[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Minute
-		
 		base = new ModelRendererTurbo[36];
 		base[0] = new ModelRendererTurbo(this, 25, 1, textureX, textureY); // Base04
 		base[1] = new ModelRendererTurbo(this, 25, 9, textureX, textureY); // Base05
@@ -189,11 +187,41 @@ public class ModelClock3 extends ClockModelBase
 	}
 	
 	@Override
-	public void render(ModelRendererTurbo[] part){
+	public void renderBase(){
 		GL11.glRotatef( 90, 0, 1, 0);
-		for(ModelRendererTurbo bit : part){
-			bit.render(0.0625F);
-		}
+		super.renderBase();
 		GL11.glRotatef(-90, 0, 1, 0);
+	}
+	
+	@Override
+	public void renderSecond(){
+		GL11.glRotatef( 90, 0, 1, 0);
+		GL11.glTranslatef(0f, 0f, 0.125f);
+		super.renderSecond();
+		GL11.glTranslatef(0f, 0f, -.125f);
+		GL11.glRotatef(-90, 0, 1, 0);
+	}
+	
+	@Override
+	public void renderMinute(){
+		GL11.glRotatef( 90, 0, 1, 0);
+		GL11.glTranslatef(0f, 0f, 0.125f);
+		super.renderMinute();
+		GL11.glTranslatef(0f, 0f, -.125f);
+		GL11.glRotatef(-90, 0, 1, 0);
+	}
+	
+	@Override
+	public void renderHour(){
+		GL11.glRotatef( 90, 0, 1, 0);
+		GL11.glTranslatef(0f, 0f, 0.125f);
+		super.renderHour();
+		GL11.glTranslatef(0f, 0f, -.125f);
+		GL11.glRotatef(-90, 0, 1, 0);
+	}
+
+	@Override
+	public String getName(){
+		return "clock3";
 	}
 }

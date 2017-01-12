@@ -3,13 +3,13 @@ package net.fexcraft.mod.extensions.ce.models;
 import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
-public class ModelClock2 extends ClockModelBase
-{
+public class ModelClock2 extends ClockModelBase{
+	
 	int textureX = 128;
 	int textureY = 64;
 
-	public ModelClock2()
-	{
+	public ModelClock2(){
+		models.add(this);
 		base = new ModelRendererTurbo[76];
 		base[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		base[1] = new ModelRendererTurbo(this, 25, 1, textureX, textureY); // Box 1
@@ -377,5 +377,10 @@ public class ModelClock2 extends ClockModelBase
 
 
 		//flipAll();
+	}
+
+	@Override
+	public String getName(){
+		return "clock2";
 	}
 }

@@ -35,7 +35,7 @@ public final class CE_Blocks{
 		Clock_2 = new ClockBlockBase("clock2", ClockTimeType.REAL_SYSTEM, "frsm:textures/blocks/clock1.png", new ModelClock2(), false, 2, "System Time");
 		Clock_2C = new ClockBlockBase("clock2c", ClockTimeType.REAL_CUSTOM, "frsm:textures/blocks/clock1.png", new ModelClock2(), false, 2, "Custom Time");
 		Clock_3W = new ClockBlockBase("clock3_w", ClockTimeType.REAL_SYSTEM, "frsm_ce:textures/blocks/clock3_w.png", new ModelClock3(), true, 1, "System Time");
-		Clock_3B = new ClockBlockBase("clock3_b", ClockTimeType.REAL_SYSTEM_REVERSE, "frsm_ce:textures/blocks/clock3_b.png", new ModelClock3(), true, 1, "System Time");
+		Clock_3B = new ClockBlockBase("clock3_b", ClockTimeType.REAL_SYSTEM, "frsm_ce:textures/blocks/clock3_b.png", new ModelClock3(), true, 1, "System Time");
 	}
 	
 	

@@ -3,12 +3,10 @@ package net.fexcraft.mod.extensions.ce.items;
 import java.util.List;
 
 import net.fexcraft.mod.extensions.ce.CE;
-import net.fexcraft.mod.extensions.ce.blocks.CEBB;
-import net.fexcraft.mod.extensions.ce.blocks.CEBBC;
+import net.fexcraft.mod.extensions.ce.blocks.ClockBlockBase;
 import net.fexcraft.mod.frsm.util.PrintChat;
 import net.fexcraft.mod.frsm.util.text.CCS;
 import net.fexcraft.mod.lib.api.item.IItem;
-import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.item.ItemUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,14 +33,14 @@ public class Tool extends Item implements IItem {
 	}
 	
 	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer p, World w, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
-	    if(!w.isRemote && Network.isDonator(p) && hand != hand.OFF_HAND){
-	    	Block block = w.getBlockState(pos).getBlock();
-	    	if(block instanceof CEBB == false && block instanceof CEBBC == false){
-	    		if(p.getHeldItemMainhand().getTagCompound() == null){
-	    			p.getHeldItemMainhand().setTagCompound(new NBTTagCompound());
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	    if(!world.isRemote && hand != EnumHand.OFF_HAND){
+	    	Block block = world.getBlockState(pos).getBlock();
+	    	if(block instanceof ClockBlockBase == false){
+	    		if(player.getHeldItemMainhand().getTagCompound() == null){
+	    			player.getHeldItemMainhand().setTagCompound(new NBTTagCompound());
 	    		}
-	    		next(p.getHeldItemMainhand().getTagCompound(), p);
+	    		next(player.getHeldItemMainhand().getTagCompound(), player);
 	    		return EnumActionResult.SUCCESS;
 	    	}
 	    	else{
@@ -59,6 +57,7 @@ public class Tool extends Item implements IItem {
 	//3: second
 	//4: day
 	//5: month
+	//6: reverse;
 	public void next(NBTTagCompound nbt, EntityPlayer player){
 	    String s = CCS.AQUA + " - Switch Mode.";
 	    int i = nbt.getInteger("frsm_ce_mode");
@@ -68,7 +67,8 @@ public class Tool extends Item implements IItem {
 	    	case 2: nbt.setInteger("frsm_ce_mode", 3); PrintChat.print(player, "Second" + s); return;
 	    	case 3: nbt.setInteger("frsm_ce_mode", 4); PrintChat.print(player, "Day" + s); return;
 	    	case 4: nbt.setInteger("frsm_ce_mode", 5); PrintChat.print(player, "Month" + s); return;
-	    	case 5: nbt.setInteger("frsm_ce_mode", 0); PrintChat.print(player, "null" + CCS.AQUA + " - Disabled."); return;
+	    	case 5: nbt.setInteger("frsm_ce_mode", 6); PrintChat.print(player, "Reverse" + s); return;
+	    	case 6: nbt.setInteger("frsm_ce_mode", 0); PrintChat.print(player, "null" + CCS.AQUA + " - Disabled."); return;
 	    	default: nbt.setInteger("frsm_ce_mode", 0);  PrintChat.print(player, CCS.RED + "Error."); return;
 	    }
 	}

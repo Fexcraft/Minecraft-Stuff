@@ -2,10 +2,12 @@ package net.fexcraft.mod.lib.util.math;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Time {
 	
 	public static final Calendar cal = Calendar.getInstance();
+	private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 	
 	public static final Calendar getCalendar(){
 		return cal.getInstance();
@@ -52,8 +54,6 @@ public class Time {
 	}
 	
 	public static Calendar getGMTCalendar(){
-		Calendar cal = Calendar.getInstance();
-		cal.getInstance().add(Calendar.MILLISECOND, -cal.getTimeZone().getOffset(cal.getTimeInMillis()));
-		return cal;
+		return Calendar.getInstance(GMT);
 	}
 }

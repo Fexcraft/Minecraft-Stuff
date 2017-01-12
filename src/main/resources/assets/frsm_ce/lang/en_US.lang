@@ -6,4 +6,4 @@ tile.frsm_ce:clock2c.name=Clock
 tile.frsm_ce:calendar1c.name=Calendar
 tile.frsm_ce:clock3_w.name=Clock
 tile.frsm_ce:clock3_b.name=Clock
-itemGroup.tabCE.name=FRSM: Calender Extension
+itemGroup.tabCE=FRSM - Calender Extension

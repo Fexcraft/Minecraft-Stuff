@@ -17,7 +17,7 @@ public class ModelClock1 extends ClockModelBase {
 	int textureY = 64;
 
 	public ModelClock1(){
-		
+		models.add(this);
 		base = new ModelRendererTurbo[38];
 		base[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		base[1] = new ModelRendererTurbo(this, 25, 1, textureX, textureY); // Box 1
@@ -195,5 +195,10 @@ public class ModelClock1 extends ClockModelBase {
 		
 		translateAll(0F, 24F, 0F);
 		
+	}
+
+	@Override
+	public String getName(){
+		return "clock1";
 	}
 }

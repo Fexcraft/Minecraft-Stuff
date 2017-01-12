@@ -3,6 +3,8 @@ package net.fexcraft.mod.extensions.ce.blocks;
 import java.util.List;
 
 import net.fexcraft.mod.extensions.ce.CE;
+import net.fexcraft.mod.extensions.ce.items.Tool;
+import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.extensions.ce.util.ClockTimeType;
 import net.fexcraft.mod.frsm.util.PrintChat;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
@@ -10,12 +12,13 @@ import net.fexcraft.mod.frsm.util.text.CCS;
 import net.fexcraft.mod.lib.api.block.IBlock;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.util.cls.Print;
 import net.fexcraft.mod.lib.util.cls.Static;
 import net.fexcraft.mod.lib.util.item.FIB;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,14 +33,14 @@ import net.minecraft.world.World;
 
 public class ClockBlockBase extends FBC_4R implements IBlock {
 	
-	private ModelBase model;
+	private ClockModelBase model;
 	private ResourceLocation texture;
 	private String name, tooltip;
 	private ClockTimeType type;
 	private boolean defaabb;
 	private int rendersides = 1;
 	
-	public ClockBlockBase(String name, ClockTimeType type, String texture, ModelBase base, boolean def, int rs, String s){
+	public ClockBlockBase(String name, ClockTimeType type, String texture, ClockModelBase base, boolean def, int rs, String s){
 		super(Material.IRON);
 		this.setCreativeTab(CE.tabCE);
 		this.name = name;
@@ -58,7 +61,8 @@ public class ClockBlockBase extends FBC_4R implements IBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta){
+	public TileEntity createNewTileEntity(World world, int meta){
+		Print.debug(world.isRemote);
 		return new ClockTileEntityBase(type, model, texture, rendersides);
 	}
 
@@ -106,22 +110,84 @@ public class ClockBlockBase extends FBC_4R implements IBlock {
     
     @Override
 	public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
-    	if(!w.isRemote && Network.isDonator(p)){
-    		//
+    	if(!w.isRemote && hand != EnumHand.OFF_HAND){
+    		boolean b = false;
+    		if(CE.e){
+    			if(Network.isDonator(p)){
+    				b = true;
+    			}
+    			else b = false;
+    		}
+    		else b = true;
+    		if(b){
+    			if(p.getHeldItemMainhand().getItem() instanceof Tool){
+    				if(type == type.NULL){
+    	    			Print.chat(p, "CLOCK TYPE NULL");
+    					return false;
+    				}
+    				int mode = p.getHeldItemMainhand().getTagCompound().getInteger("frsm_ce_mode");
+    				ClockTileEntityBase te = (ClockTileEntityBase)w.getTileEntity(pos);
+    				switch(mode){
+    					case 1:
+    						te.h++;
+    						if(te.h >= 12){
+    							te.h = 0;
+    						}
+    						printTimeInfo(p, te);
+    						break;
+    					case 2:
+    						te.m++;
+    						if(te.m >= 60){
+    							te.m = 0;
+    						}
+    						printTimeInfo(p, te);
+    						break;
+    					case 3:
+    						te.s++;
+    						if(te.s >= 60){
+    							te.s = 0;
+    						}
+    						printTimeInfo(p, te);
+    						break; 
+    					case 6:
+    						te.reverseType();
+        	    			Print.chat(p, ">>>> <<<<");
+    						break;
+    					case 0:
+    					case 4:
+    					case 5:
+    					default:
+        	    			Print.chat(p, "Invalid mode.");
+    						break;
+    				}
+					te.sendUpdatePacket();
+    			}
+    			else return false;
+    		}
+    		else{
+    			Print.chat(p, "error");
+    			return false;
+    		}
     	}
     	return false;
 	}
+    
+    public void printTimeInfo(ICommandSender sender, ClockTileEntityBase te){
+		Print.chat(sender, CCS.GRAY + "H:" + te.h + ", M:" + te.m + ", S:" + te.s + ";");
+    }
+    
 	public void onBlockPlacedBy(World w, BlockPos pos, IBlockState state, EntityLivingBase p, ItemStack stack){
 		if(!w.isRemote){
 			if(w.getTileEntity(pos) != null){
 				ClockTileEntityBase clock = (ClockTileEntityBase)w.getTileEntity(pos);
 				if(clock.getType() == ClockTimeType.REAL_CUSTOM || clock.getType().equals(ClockTimeType.REAL_CUSTOM_REVERSE)){
 					PrintChat.print((EntityPlayer)p, "H:0, M:0, S:0");
+					clock.sendUpdatePacket();
 				}
-				clock.updateClient();
 			}
 		}
 	}
+    
 	public static class ClockItemBlock extends FIB {
 		public ClockItemBlock(Block block){
 			super(block, ((IBlock)block).getName(), ((IBlock)block).getVariantAmount());

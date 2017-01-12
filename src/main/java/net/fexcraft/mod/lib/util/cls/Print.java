@@ -47,4 +47,10 @@ public class Print{
 			logger.error(string);
 		}
 	}
+
+	public static void debug(Object obj) {
+		if(Static.dev()){
+			log(obj);
+		}
+	}
 }
