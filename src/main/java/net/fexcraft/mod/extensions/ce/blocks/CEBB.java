@@ -45,8 +45,8 @@ public class CEBB extends FBC_4R {
 		return new ETE();
 	}
     
-    public boolean isFullCube(IBlockState state)
-    {
+	@Override
+    public boolean isFullCube(IBlockState state){
         return false;
     }
     
@@ -55,10 +55,8 @@ public class CEBB extends FBC_4R {
     protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
     protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
     
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
-        switch ((EnumFacing)state.getValue(FACING))
-        {
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
+        switch ((EnumFacing)state.getValue(FACING)){
             case NORTH:
                 return NORTH_AABB;
             case SOUTH:

@@ -61,7 +61,6 @@ public final class CE_Blocks{
 				int m = this.getTileData().getInteger("frsm_ce_month");
 				syncData.setInteger("frsm_ce_day", d);
 				syncData.setInteger("frsm_ce_month", m);
-				//PrintLog.printIn("CE Packet", "Sent!");
 				return new SPacketUpdateTileEntity(this.getPos(), 2, syncData);
 			}
 			@Override
@@ -70,7 +69,6 @@ public final class CE_Blocks{
 				int m = pkt.getNbtCompound().getInteger("frsm_ce_month");
 				this.getWorld().getTileEntity(this.getPos()).getTileData().setInteger("frsm_ce_day", d);
 				this.getWorld().getTileEntity(this.getPos()).getTileData().setInteger("frsm_ce_month", m);
-				//PrintLog.printIn("CE Packet", "Received!");
 			}
 		}
 	}

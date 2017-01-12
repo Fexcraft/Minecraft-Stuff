@@ -40,4 +40,5 @@ public class CEBBC extends FBC_4R {
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new ETE();
 	}
+	
 }
