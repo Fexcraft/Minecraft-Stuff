@@ -85,96 +85,120 @@ String frsm_cae_version = "1.2";
 String frsm_ce__version = "1.0";
 
 task frsm(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/lib/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/lib/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm/'}
     from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fcl/'}
-	from(sourceSets.main.resources + "/mcmod/") {
+    from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_mcmod.info'
         expand 'version':frsm_version, 'mcversion':project.minecraft.version
         rename { String fileName ->
             fileName.replace("frsm_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FRSM'
     appendix = frsm_version
 }
 
 task famm(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/famm/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/famm/'}
-	from(sourceSets.main.resources + "/mcmod/") {
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/famm/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/famm/'}
+    from(sourceSets.main.resources + "/mcmod/") {
         include 'famm_mcmod.info'
         expand 'version':frsm_version, 'mcversion':project.minecraft.version
         rename { String fileName ->
             fileName.replace("famm_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FAMM'
     appendix = famm_version
 }
 
 task fsmm(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsmm/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsmm/'}
-	from(sourceSets.main.resources + "/mcmod/") {
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsmm/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsmm/'}
+    from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_mcmod.info'
         expand 'version':fsmm_version, 'mcversion':project.minecraft.version
         rename { String fileName ->
             fileName.replace("fsmm_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FSMM'
     appendix = fsmm_version
 }
 
 task fsu_server(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/server/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/server/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FSUR-Server'
     appendix = '1.768'
 }
 
 task fsu_client(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/client/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsu/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/minecraft/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/client/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/fsu/common/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fsu/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/minecraft/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FSUR-Client'
     appendix = '1.768'
 }
 
 task fvp_cp(type: Jar){
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/client/model/fvp/'}
-	from 'run/Flan/FEXs_Vehicle_Pack'
-	baseName = 'Fex`s Vehicle Pack'
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/client/model/fvp/'}
+    from 'run/Flan/FEXs_Vehicle_Pack'
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
+    baseName = 'Fex`s Vehicle Pack'
     appendix = '1.1 - For FlansMod Minus'
 }
 
 task fve(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/fve/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fve/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/fve/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fve/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FVE'
     appendix = '0.86c'
 }
 
 task frsm_cae(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/cae/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_asphalt/'}
-	from(sourceSets.main.resources + "/mcmod/") {
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/cae/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_asphalt/'}
+    from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_asphalt_mcmod.info'
         expand 'version':frsm_version, 'mcversion':project.minecraft.version
         rename { String fileName ->
             fileName.replace("frsm_asphalt_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'CustomAsphaltExtension'
     appendix = frsm_cae_version
 }
 
 task frsm_calendar(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/ce/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_ce/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/ce/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_ce/'}
     from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_ce_mcmod.info'
         expand 'version':frsm_ce__version, 'mcversion':project.minecraft.version
@@ -182,47 +206,62 @@ task frsm_calendar(type: Jar) {
             fileName.replace("frsm_ce_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'Calendar Extension'
     appendix = frsm_ce__version
 }
 
 task flansmod(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/flansmod/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'com/flansmod/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/flansmod/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'FlansMod Minus'
     appendix = 'Experimental 5.F0.6'
 }
 
 task frsm_ie(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/ie/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_ie/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/ie/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_ie/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'Industrial Extension'
     appendix = 'EXPERIMENTAL'
 }
 
 task frsm_mgip(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/mgip/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_mgip/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/mgip/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_mgip/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'MGIP'
     appendix = 'EXPERIMENTAL'
 }
 
 task frsm_bge(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/bge/'}
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_bge/'}
-	from(sourceSets.main.resources + "/mcmod/") {
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/extensions/bge/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm_bge/'}
+    from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_bge_mcmod.info'
         expand 'version':frsm_bge_version, 'mcversion':project.minecraft.version
         rename { String fileName ->
             fileName.replace("frsm_bge_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'Board Game Extension'
     appendix = frsm_bge_version
 }
 
 task fcl(type: Jar) {
-	from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/lib/'}
+    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/lib/'}
     from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fcl/'}
     from(sourceSets.main.resources + "/mcmod/") {
         include 'fcl_mcmod.info'
@@ -231,12 +270,18 @@ task fcl(type: Jar) {
             fileName.replace("fcl_mcmod", "mcmod")
         }
     }
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'Fexcraft Common Library'
     appendix = fcl_version
 }
 
 task scc(type: Jar) {
     from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/sm/scc/'}
+    from(sourceSets.main.resources + "/licenses/") {
+        include 'LICENSE.txt'
+    }
     baseName = 'SSC'
     appendix = '1.1'
 }
@@ -246,15 +291,15 @@ build {
     dependsOn famm
     dependsOn fsmm
     dependsOn fsu_server
-	dependsOn fsu_client
-	dependsOn fvp_cp
-	dependsOn fve
-	dependsOn frsm_cae
-	dependsOn frsm_calendar
-	dependsOn flansmod
-	dependsOn frsm_ie
-	dependsOn frsm_mgip
-	dependsOn frsm_bge
-	dependsOn fcl
-	dependsOn scc
+    dependsOn fsu_client
+    dependsOn fvp_cp
+    dependsOn fve
+    dependsOn frsm_cae
+    dependsOn frsm_calendar
+    dependsOn flansmod
+    dependsOn frsm_ie
+    dependsOn frsm_mgip
+    dependsOn frsm_bge
+    dependsOn fcl
+    dependsOn scc
 }
