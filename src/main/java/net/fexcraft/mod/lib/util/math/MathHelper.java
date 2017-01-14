@@ -1,4 +1,4 @@
-package net.fexcraft.mod.lib.util.cls;
+package net.fexcraft.mod.lib.util.math;
 
 /**
  * 
@@ -8,14 +8,14 @@ package net.fexcraft.mod.lib.util.cls;
  */
 public class MathHelper{
 	
-    public static double wrapAngleTo180_double(double p_76138_0_){
+    public static double wrapAngleTo180(double p_76138_0_){
         p_76138_0_ %= 360.0D;
         if(p_76138_0_ >= 180.0D){p_76138_0_ -= 360.0D;}
         if(p_76138_0_ < -180.0D){p_76138_0_ += 360.0D;}
         return p_76138_0_;
     }
     
-    public static float wrapAngleTo180_float(float f){
+    public static float wrapAngleTo180(float f){
         f %= 360.0F;
         if(f >= 180.0F){f -= 360.0F;}
         if(f < -180.0F){f += 360.0F;}

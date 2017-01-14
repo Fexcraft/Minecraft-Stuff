@@ -1,14 +1,13 @@
 package net.fexcraft.mod.ftm.render;
 
 import net.fexcraft.mod.ftm.entities.EntityCart;
-import net.fexcraft.mod.ftm.models.ModelCart;
+import net.fexcraft.mod.ftm.models.ModelWagonBogieBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderCart<T extends EntityCart> extends Render<T> implements IRenderFactory {
@@ -16,11 +15,13 @@ public class RenderCart<T extends EntityCart> extends Render<T> implements IRend
 	public RenderCart(RenderManager renderManager){
 		super(renderManager);
 		this.shadowSize = 0.12F;
-		MinecraftForge.EVENT_BUS.register(this);
+		//MinecraftForge.EVENT_BUS.register(this);
 	}
 	
-	private static final ModelCart cart = new ModelCart();
-	private static final ResourceLocation texture = new ResourceLocation("ftm:textures/entity/cart.png");
+	//private static final ModelCart cart = new ModelCart();
+	//private static final ModelWagonFlatbed cart = new ModelWagonFlatbed();
+        private static final ModelWagonBogieBase cart = new ModelWagonBogieBase();
+	private static final ResourceLocation texture = new ResourceLocation("ftm:textures/entity/bogie.png");
 	
 	@Override
 	public Render createRenderFor(RenderManager manager){
@@ -32,7 +33,7 @@ public class RenderCart<T extends EntityCart> extends Render<T> implements IRend
 		return texture;
 	}
 	
-	@Override
+    @Override
     public void doRender(T ent, double x, double y, double z, float entityYaw, float partialTicks){
 		EntityCart entity = (EntityCart)ent;
         GlStateManager.pushMatrix();
