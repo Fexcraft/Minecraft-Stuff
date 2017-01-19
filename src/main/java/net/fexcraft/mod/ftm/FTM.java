@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 /**
  * @author Ferdinand Calo' (FEX___96)
  */
-@Mod(modid = "ftm", name = "Fex's Train Mod", version = FTM.version, acceptableRemoteVersions = "*", updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=ftm")
+//@Mod(modid = "ftm", name = "Fex's Train Mod", version = FTM.version, acceptableRemoteVersions = "*", updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=ftm")
 public class FTM {
     
     public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_PURPLE + "FTM" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";

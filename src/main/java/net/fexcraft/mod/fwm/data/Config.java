@@ -15,7 +15,7 @@ public class Config {
 	private static File configfile;
 	private static JsonObject obj;
 	//
-	public static int actualization_interval;
+	public static int chunk_actualization_interval;
 	//
 	public static void initialize(FMLPreInitializationEvent event){
 		path = new File(event.getModConfigurationDirectory().getParent());
@@ -27,7 +27,7 @@ public class Config {
 	
 	public static void load(){
 		JsonObject obj = JsonUtil.get(configfile);
-		actualization_interval = ju.getIfExists(obj, "actualization_interval", 360000).intValue();
+		chunk_actualization_interval = ju.getIfExists(obj, "chunk_actualization_interval", 300000).intValue();
 		//
 		Config.obj = obj;
 	}

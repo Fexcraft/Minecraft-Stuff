@@ -41,6 +41,12 @@ public class Static{
 		FMLCommonHandler.instance().exitJava(1, true);
 	}
 	
+	public static void stop(){
+		if(dev()){
+			halt();
+		}
+	}
+	
 	private static boolean dev = true, cdev = false;
 	
 	public static boolean dev(){

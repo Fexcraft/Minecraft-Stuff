@@ -1,0 +1,55 @@
+{
+    "__comment": "Designed by Ferdinand (FEX___96) with Cubik Studio",
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "blocks/redstone_dust_dot",
+        "line": "blocks/redstone_dust_dot",
+        "texture": "blocks/iron_block"
+    },
+    "elements": [
+        {
+            "__comment": "Cube3",
+            "from": [ 7, 0, 0 ],
+            "to": [ 9, 0.5, 8 ],
+            "faces": {
+                "north": { "uv": [ 7, 15.5, 9, 16 ], "texture": "#texture" },
+                "south": { "uv": [ 7, 15.5, 9, 16 ], "texture": "#texture" }
+            }
+        },
+        {
+            "__comment": "Cube4",
+            "from": [ 7, 0.5, 0 ],
+            "to": [ 9, 1, 8 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 7, 0, 9, 8 ], "texture": "#line", "tintindex": 0 },
+                "north": { "uv": [ 7, 15, 9, 15.5 ], "texture": "#line", "tintindex": 0 },
+                "south": { "uv": [ 7, 15, 9, 15.5 ], "texture": "#line", "tintindex": 0 }
+            }
+        },
+        {
+            "__comment": "Cube5",
+            "from": [ 6.5, 0, 0 ],
+            "to": [ 7, 1, 8 ],
+            "faces": {
+                "down": { "uv": [ 6.5, 8, 7, 16 ], "texture": "#texture" },
+                "up": { "uv": [ 6.5, 0, 7, 8 ], "texture": "#texture" },
+                "north": { "uv": [ 9, 15, 9.5, 16 ], "texture": "#texture" },
+                "south": { "uv": [ 6.5, 15, 7, 16 ], "texture": "#texture" },
+                "west": { "uv": [ 0, 15, 8, 16 ], "texture": "#texture" }
+            }
+        },
+        {
+            "__comment": "Cube6",
+            "from": [ 9, 0, 0 ],
+            "to": [ 9.5, 1, 8 ],
+            "faces": {
+                "down": { "uv": [ 9, 8, 9.5, 16 ], "texture": "#texture" },
+                "up": { "uv": [ 9, 0, 9.5, 8 ], "texture": "#texture" },
+                "north": { "uv": [ 6.5, 15, 7, 16 ], "texture": "#texture" },
+                "south": { "uv": [ 9, 15, 9.5, 16 ], "texture": "#texture" },
+                "east": { "uv": [ 8, 15, 16, 16 ], "texture": "#texture" }
+            }
+        }
+    ]
+}

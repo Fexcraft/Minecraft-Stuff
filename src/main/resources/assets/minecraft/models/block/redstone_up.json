@@ -1,0 +1,48 @@
+{
+	"__comment": "Designed by Ferdinand (FEX___96) with Cubik Studio",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "blocks/redstone_dust_dot",
+		"line": "blocks/redstone_dust_dot",
+		"texture": "blocks/iron_block"
+	},
+	"elements": [
+		{
+			"__comment": "Cube6",
+			"from": [ 6.5, 1, 0 ],
+			"to": [ 7, 17, 1 ],
+			"faces": {
+				"up": { "uv": [ 6.5, 0, 7, 1 ], "texture": "#texture" },
+				"south": { "uv": [ 6.5, 0, 7, 15 ], "texture": "#texture" },
+				"west": { "uv": [ 0, 0, 1, 15 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube7",
+			"from": [ 9, 1, 0 ],
+			"to": [ 9.5, 17, 1 ],
+			"faces": {
+				"up": { "uv": [ 9, 0, 9.5, 1 ], "texture": "#texture" },
+				"south": { "uv": [ 9, 0, 9.5, 15 ], "texture": "#texture" },
+				"east": { "uv": [ 15, 0, 16, 15 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube8",
+			"from": [ 7, 1, 0.5 ],
+			"to": [ 9, 16.5, 1 ],
+			"faces": {
+				"south": { "uv": [ 7, 0, 9, 15 ], "texture": "#line", "tintindex": 0 }
+			}
+		},
+		{
+			"__comment": "Cube9",
+			"from": [ 7, 16.5, 0 ],
+			"to": [ 9, 17, 1 ],
+			"faces": {
+				"up": { "uv": [ 7, 0, 9, 1 ], "texture": "#line", "tintindex": 0 },
+				"south": { "uv": [ 7, 15, 9, 15.5 ], "texture": "#line", "tintindex": 0 }
+			}
+		}
+	]
+}
