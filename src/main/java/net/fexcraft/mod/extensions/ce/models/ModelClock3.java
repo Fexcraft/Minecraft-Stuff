@@ -6,8 +6,8 @@ import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
 public class ModelClock3 extends ClockModelBase {
-	int textureX = 64;
-	int textureY = 64;
+	
+	private static final int textureX = 64, textureY = 64;
 
 	public ModelClock3(){
 		models.add(this);

@@ -1,6 +1,6 @@
 package net.fexcraft.mod.extensions.ce.blocks;
 
-import net.fexcraft.mod.extensions.ce.CE;
+import net.fexcraft.mod.extensions.ce.util.CTS;
 import net.fexcraft.mod.frsm.util.block.ETE;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
@@ -19,7 +19,7 @@ public class CEBB extends FBC_4R {
     
 	public CEBB(String name) {
 		super(Material.IRON);
-		this.setCreativeTab(CE.tabCE);
+		this.setCreativeTab(CTS.tabClocks);
 		this.name = name;
 		
 		this.setHarvestLevel("pickaxe", 1);

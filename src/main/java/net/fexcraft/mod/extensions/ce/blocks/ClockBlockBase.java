@@ -1,9 +1,11 @@
 package net.fexcraft.mod.extensions.ce.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.fexcraft.mod.extensions.ce.CE;
 import net.fexcraft.mod.extensions.ce.items.Tool;
+import net.fexcraft.mod.extensions.ce.util.CTS;
 import net.fexcraft.mod.extensions.ce.util.ClockModelBase;
 import net.fexcraft.mod.extensions.ce.util.ClockTimeType;
 import net.fexcraft.mod.frsm.util.PrintChat;
@@ -33,6 +35,7 @@ import net.minecraft.world.World;
 
 public class ClockBlockBase extends FBC_4R implements IBlock {
 	
+	private static final List<ClockBlockBase> clocks = new ArrayList<ClockBlockBase>();
 	private ClockModelBase model;
 	private ResourceLocation texture;
 	private String name, tooltip;
@@ -42,7 +45,8 @@ public class ClockBlockBase extends FBC_4R implements IBlock {
 	
 	public ClockBlockBase(String name, ClockTimeType type, String texture, ClockModelBase base, boolean def, int rs, String s){
 		super(Material.IRON);
-		this.setCreativeTab(CE.tabCE);
+		clocks.add(this);
+		this.setCreativeTab(CTS.tabClocks);
 		this.name = name;
 		this.tooltip = s;
 		this.model = base;
@@ -118,7 +122,9 @@ public class ClockBlockBase extends FBC_4R implements IBlock {
     			}
     			else b = false;
     		}
-    		else b = true;
+    		else{
+    			b = true;
+    		}
     		if(b){
     			if(p.getHeldItemMainhand().getItem() instanceof Tool){
     				if(type == type.NULL){
@@ -196,6 +202,10 @@ public class ClockBlockBase extends FBC_4R implements IBlock {
 		public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean shift){
 			list.add(CCS.GRAY + ((ClockBlockBase)block).tooltip);
 		}
+	}
+	
+	public static List<ClockBlockBase> getClocksList(){
+		return clocks;
 	}
 	
 }

@@ -2,8 +2,8 @@ package net.fexcraft.mod.extensions.ce.items;
 
 import java.util.List;
 
-import net.fexcraft.mod.extensions.ce.CE;
 import net.fexcraft.mod.extensions.ce.blocks.ClockBlockBase;
+import net.fexcraft.mod.extensions.ce.util.CTS;
 import net.fexcraft.mod.frsm.util.PrintChat;
 import net.fexcraft.mod.frsm.util.text.CCS;
 import net.fexcraft.mod.lib.api.item.IItem;
@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 public class Tool extends Item implements IItem {
 	
 	public Tool(){
-		setCreativeTab(CE.tabCE);
+		setCreativeTab(CTS.tabClocks);
 		ItemUtil.register("frsm_ce", this);
 		ItemUtil.registerRender(this);
 	}

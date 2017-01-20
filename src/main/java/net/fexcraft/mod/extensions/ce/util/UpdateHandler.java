@@ -14,7 +14,7 @@ public class UpdateHandler {
 	public static String nMCV = CE.MCV;
 	public static String CE_ = CCS.BLACK + "[" + CCS.DPURPLE + "CE_" + CCS.BLACK + "]";
 	
-	public static void init(){
+	public static void initialize(){
 		getDataFromServer();
 		refresh();
 		
@@ -63,4 +63,5 @@ public class UpdateHandler {
 			}
 		}
 	}
+	
 }

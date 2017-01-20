@@ -7,10 +7,8 @@ import net.fexcraft.mod.extensions.ce.blocks.ClockTileEntityBase;
 import net.fexcraft.mod.extensions.ce.items.CE_Items;
 import net.fexcraft.mod.extensions.ce.render.RenderRegistry;
 import net.fexcraft.mod.extensions.ce.util.CE_EventHandler;
+import net.fexcraft.mod.extensions.ce.util.CTS;
 import net.fexcraft.mod.extensions.ce.util.UpdateHandler;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,7 +20,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CE {
 	
 	public static final String MODID = "frsm_ce";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.1";
     public static final String MCV = "1.11";
     public static boolean e;
     
@@ -30,28 +28,21 @@ public class CE {
     private static CE instance;
 
     @Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) throws IOException{
-
+	public void preInit(FMLPreInitializationEvent event) throws IOException {
 	    CE_Blocks.register();
 	    CE_Items.register();
-	    
 	    GameRegistry.registerTileEntity(CE_Blocks.Calendar1C.TECL.class, "frsm_ce:calendar1c");
 	    GameRegistry.registerTileEntity(ClockTileEntityBase.class, "frsm_ce:clock");
+	    
+	    CTS.tabClocks.getTabIndex();
 	}
-    
-	public static CreativeTabs tabCE = new CreativeTabs("tabCE") {
-	    @Override
-	    public ItemStack getTabIconItem() {
-	    	return new ItemStack(Item.getItemFromBlock(CE_Blocks.Clock_2));
-	    }
-	};
 	
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event){
 		if(event.getSide().isClient()){
 			RenderRegistry.register();
 		}
-		UpdateHandler.init();
+		UpdateHandler.initialize();
 		MinecraftForge.EVENT_BUS.register(new CE_EventHandler());
     }
 
@@ -63,4 +54,5 @@ public class CE {
     public static CE getInstance(){
     	return instance;
     }
+    
 }
