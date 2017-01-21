@@ -349,3 +349,5 @@ tile.frsm:shelf1.name=Oak Wood Shelf
 item.frsm:temt.name=TileEntity Model (Editing) Tool
 tile.frsm:radio2.name=Classic Radio
 tile.frsm:iron_barrel.name=Iron Barrel
+//3.7.xx//
+tile.frsm:electric_pizza_oven.name=Electric Pizza Oven

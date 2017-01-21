@@ -35,7 +35,7 @@ public class Year1Model extends ModelConverter{
 		bodyModel[5].addShapeBox(0F, 0F, 0F, 1, 1, 4, 0F, 0F, 0F, 0F, -0.2F, 0F, 0F, -0.2F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 5
 		bodyModel[5].setRotationPoint(3F, 8F, -2F);
 
-		translateAll(0F, -14F, 0F);
+		translateAll(0F, 14F, 0F);
 		
 	}
 }

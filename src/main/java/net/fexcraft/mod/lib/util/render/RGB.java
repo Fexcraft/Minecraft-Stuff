@@ -2,6 +2,7 @@ package net.fexcraft.mod.lib.util.render;
 
 import net.fexcraft.mod.lib.util.cls.Print;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -181,4 +182,23 @@ public class RGB {
 		green = rgb.green;
 		blue = rgb.blue;
 	}
+
+	public NBTTagCompound writeToNBT(NBTTagCompound tag){
+		tag.setFloat("RGB_Red", red);
+		tag.setFloat("RGB_Green", green);
+		tag.setFloat("RGB_Blue", blue);
+		return tag;
+	}
+
+	public void readFromNBT(NBTTagCompound tag) {
+		try{
+			red = tag.getFloat("RGB_Red");
+			green = tag.getFloat("RGB_Green");
+			blue = tag.getFloat("RGB_Blue");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 }

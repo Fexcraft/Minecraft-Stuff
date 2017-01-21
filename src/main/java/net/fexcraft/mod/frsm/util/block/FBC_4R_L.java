@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FBC_4R_L extends FBC_4R {
+public abstract class FBC_4R_L extends FBC_4R {
 	
 	public String bname;
 	protected String s = CCS.GRAY;

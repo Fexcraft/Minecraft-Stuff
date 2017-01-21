@@ -52,8 +52,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = FI.MODID, name = FI.NAME, version = FRSM.version, updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=frsm", dependencies = "required-after:fcl")
 public class FRSM{
 	
-	public static final String version = "3.7.15"; 
-	public static final String vnote = "Perhaps not the main Mod anymore?";
+	public static final String version = "3.7.16"; 
+	public static final String vnote = "Paintability will be a thing.";
 	
 	@SidedProxy(clientSide = "net.fexcraft.mod.frsm.proxy.Client", serverSide = "net.fexcraft.mod.frsm.proxy.Common")
     public static Common proxy;

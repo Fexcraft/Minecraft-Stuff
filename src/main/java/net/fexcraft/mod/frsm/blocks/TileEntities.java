@@ -33,6 +33,7 @@ import net.fexcraft.mod.frsm.blocks.model.C2Entity;
 import net.fexcraft.mod.frsm.blocks.model.C5Entity;
 import net.fexcraft.mod.frsm.blocks.model.Car1DEntity;
 import net.fexcraft.mod.frsm.blocks.model.Train1DEntity;
+import net.fexcraft.mod.frsm.blocks.oven.PizzaOvenEntity;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1Entity;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1_1Entity;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1_2Entity;
@@ -176,6 +177,7 @@ public final class TileEntities{
 	        GameRegistry.registerTileEntity(TBM3.TE.class, "TBM3");
 	        GameRegistry.registerTileEntity(FridgeTileEntity.class, "frsm:fridge");
 	        GameRegistry.registerTileEntity(Shelf1Entity.class, "frsm:shelf1");
+	        GameRegistry.registerTileEntity(PizzaOvenEntity.class, "frsm:electric_pizza_oven");
         //}
 	}
 }

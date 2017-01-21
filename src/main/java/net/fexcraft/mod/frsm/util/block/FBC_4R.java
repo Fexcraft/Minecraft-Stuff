@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class FBC_4R extends BlockContainer implements IBlock{
+public abstract class FBC_4R extends BlockContainer implements IBlock{
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
@@ -51,9 +51,9 @@ public class FBC_4R extends BlockContainer implements IBlock{
     }
 	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new ETE();
-	}
+	public abstract TileEntity createNewTileEntity(World worldIn, int meta); //{
+		//return new ETE();
+	//}
 	
 	@Override
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
@@ -85,12 +85,12 @@ public class FBC_4R extends BlockContainer implements IBlock{
     }
 
 	@Override
-	public String getName() {
-		return "notExistingStuffReplace";
-	}
+	public abstract String getName();// {
+		//return "notExistingStuffReplace";
+	//}
 
 	@Override
-	public int getVariantAmount() {
+	public int getVariantAmount(){
 		return default_variant;
 	}
 }

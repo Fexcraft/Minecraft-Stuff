@@ -65,6 +65,8 @@ import net.fexcraft.mod.frsm.blocks.model.Car1DEntity;
 import net.fexcraft.mod.frsm.blocks.model.Car1DRender;
 import net.fexcraft.mod.frsm.blocks.model.Train1DEntity;
 import net.fexcraft.mod.frsm.blocks.model.Train1DRender;
+import net.fexcraft.mod.frsm.blocks.oven.PizzaOvenEntity;
+import net.fexcraft.mod.frsm.blocks.oven.PizzaOvenRenderer;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1Entity;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1Render;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1_1Entity;
@@ -345,5 +347,6 @@ public class Client extends Common{
         ClientRegistry.bindTileEntitySpecialRenderer(TBM3.TE.class, new TBM3Render());
         ClientRegistry.bindTileEntitySpecialRenderer(FridgeTileEntity.class, new FridgeRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(Shelf1Entity.class, new Shelf1Renderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(PizzaOvenEntity.class, new PizzaOvenRenderer());
 	}
 }

@@ -61,6 +61,7 @@ import net.fexcraft.mod.frsm.blocks.model.C2;
 import net.fexcraft.mod.frsm.blocks.model.C5;
 import net.fexcraft.mod.frsm.blocks.model.Car1D;
 import net.fexcraft.mod.frsm.blocks.model.Train1D;
+import net.fexcraft.mod.frsm.blocks.oven.PizzaOven;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1_1;
 import net.fexcraft.mod.frsm.blocks.palet.Palet1x1_2;
@@ -271,6 +272,7 @@ public final class FRSM_Blocks {
     public static Block shelf1;
     public static Block radio2;
     public static Block iron_barrel;
+    public static Block electric_pizza_oven;
     
     public static HashSet<Block> blocks;
     
@@ -417,6 +419,7 @@ public final class FRSM_Blocks {
 	   	shelf1 = new Shelf1(); blocks.add(shelf1);
 	   	radio2 = new Radio2(); blocks.add(radio2);
 	   	iron_barrel = new IronBarrel(); blocks.add(iron_barrel);
+	   	electric_pizza_oven = new PizzaOven(); blocks.add(electric_pizza_oven);
 	}
 
 	public static void registerItemRenders(Side s) {
