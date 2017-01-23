@@ -6,8 +6,8 @@ import java.util.Set;
 
 import net.fexcraft.mod.fwm.api.GenericMapPlugin;
 import net.fexcraft.mod.fwm.api.MapPlugin;
-import net.fexcraft.mod.lib.util.cls.Print;
-import net.fexcraft.mod.lib.util.cls.Static;
+import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

@@ -5,7 +5,7 @@ import net.fexcraft.mod.frsm.util.block.FBC_4R;
 import net.fexcraft.mod.frsm.util.block.FRSMTE;
 import net.fexcraft.mod.frsm.util.custom.CT.CD;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
-import net.fexcraft.mod.lib.util.cls.ApiUtil;
+import net.fexcraft.mod.lib.util.common.ApiUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.fexcraft.mod.fsmm.items.IMoneyItem;
 import net.fexcraft.mod.fsmm.items.MoneyItems;
 import net.fexcraft.mod.fsmm.util.Util;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

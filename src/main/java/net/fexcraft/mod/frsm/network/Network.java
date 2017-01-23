@@ -17,7 +17,6 @@ public class Network{
 			return true;
 		}
 		catch(IOException e){
-			//e.printStackTrace();
 			return false;
 		}
 	}

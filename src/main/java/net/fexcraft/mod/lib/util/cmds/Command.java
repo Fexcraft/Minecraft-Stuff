@@ -1,15 +1,10 @@
 package net.fexcraft.mod.lib.util.cmds;
 
-import com.google.gson.JsonObject;
-
-import net.fexcraft.mod.lib.network.Network;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextFormatting;
 
 public class Command extends CommandBase{
 
@@ -25,7 +20,7 @@ public class Command extends CommandBase{
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length < 6){
+		/*if(args.length < 6){
 			Print.chat(sender, "Missing arguments.");
 			Print.chat(sender, TextFormatting.DARK_AQUA + "/fcl update <modid> version <new_version> <username> <password>");
 		}
@@ -52,7 +47,8 @@ public class Command extends CommandBase{
 					Print.chat(sender, reply.get("uuid").getAsString());
 				}
 			}
-		}
+		}*/
+		Print.chat(sender, "Command is currently disabled.z");
 	}
 	
 }

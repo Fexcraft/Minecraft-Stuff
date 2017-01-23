@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.model;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class Car1DEntity extends FRSMTE{
+public class Car1DEntity extends TileEntity {
 
 }

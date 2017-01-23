@@ -1,6 +1,6 @@
 package net.fexcraft.mod.lib.api.entity;
 
-import net.fexcraft.mod.lib.util.cls.EnumColor;
+import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.minecraft.item.EnumDyeColor;
 
 public enum RoboType{

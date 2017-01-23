@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = CE.MODID, name = "Calendar Extension", version = CE.VERSION, dependencies = "required-after:frsm@[3.7.14,)")
+//@Mod(modid = CE.MODID, name = "Calendar Extension", version = CE.VERSION, dependencies = "required-after:frsm@[3.7.14,)")
 public class CE {
 	
 	public static final String MODID = "frsm_ce";

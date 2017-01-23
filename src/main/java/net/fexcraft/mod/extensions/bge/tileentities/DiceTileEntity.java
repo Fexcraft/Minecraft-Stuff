@@ -4,7 +4,7 @@ import net.fexcraft.mod.frsm.util.java.BoolUtil;
 import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
-import net.fexcraft.mod.lib.util.cls.ApiUtil;
+import net.fexcraft.mod.lib.util.common.ApiUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;

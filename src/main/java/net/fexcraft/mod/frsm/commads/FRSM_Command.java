@@ -8,9 +8,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.frsm.network.data.Data;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.PrintChat;
-import net.fexcraft.mod.frsm.util.java.FR;
-import net.fexcraft.mod.frsm.util.text.CCS;
+import net.fexcraft.mod.fsmm.util.CCS;
 import net.fexcraft.mod.lib.network.Browser;
 import net.fexcraft.mod.lib.network.Network;
 import net.minecraft.command.CommandBase;

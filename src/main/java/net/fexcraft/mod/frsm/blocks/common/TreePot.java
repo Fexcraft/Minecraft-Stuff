@@ -2,11 +2,10 @@ package net.fexcraft.mod.frsm.blocks.common;
 
 import java.util.List;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.api.block.IBlock;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
-import net.fexcraft.mod.lib.util.item.FIB;
+import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.util.registry.ItemBlock16;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -14,8 +13,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -25,7 +22,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -36,7 +32,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TreePot extends Block implements IBlock{
+@öBlock(modid = FI.MODID, name = "tree_pot", variants = 16)
+public class TreePot extends Block {
 
 	/**
 	 * Types:
@@ -64,34 +61,14 @@ public class TreePot extends Block implements IBlock{
         this.setHarvestLevel("axe", 1);
         this.setHardness(1.0F);
         this.setResistance(10.0F);
-
-    	this.setCreativeTab(CD.TREEPOTS.getCreativeTab());
-    	BlockUtil.register(FI.MODID, this);
-    	BlockUtil.registerCustomFIB(new IB(this));
+    	this.setCreativeTab(CD.TREEPOTS);
     }
     
-    public static class IB extends FIB{
-
-    	public IB(Block block) {
-    		super(block, ((IBlock)block).getName(), ((IBlock)block).getVariantAmount());
+    public static class IB extends ItemBlock16 {
+    	public IB(Block block){
+    		super(block);
     		setMaxStackSize(1);
     	}
-    	
-    	@Override
-    	public void onUpdate(ItemStack itemstack, World world, Entity entity, int itemSlot, boolean isSelected) {
-    		if(itemstack.getTagCompound() == null){
-    			itemstack.setTagCompound(new NBTTagCompound());
-    			NBTTagCompound nbt = itemstack.getTagCompound();
-    			int meta = itemstack.getMetadata();
-    			nbt.setInteger("meta", meta);
-    		}
-    	}
-    	
-    }
-    
-    @Override
-    public String getName(){
-    	return "tree_pot";
     }
     
     @Override
@@ -113,27 +90,6 @@ public class TreePot extends Block implements IBlock{
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
 		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.6875F, 1.0F);
 	}
-    
-    @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
-    	EntityPlayer player = (EntityPlayer)placer;
-    	
-    	if(placer == player && player.getHeldItemMainhand() != null){
-    		int i = player.getHeldItemMainhand().getTagCompound().getInteger("meta");
-    		return this.getDefaultState().withProperty(type, i);
-    	}
-    	else return this.getDefaultState().withProperty(type, 0);
-    }
-    
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
-        EntityPlayer player = (EntityPlayer)placer;
-    	
-    	if(placer == player && player.getHeldItemMainhand() != null){
-        	int i = player.getHeldItemMainhand().getTagCompound().getInteger("meta");
-        	world.setBlockState(pos, state.withProperty(type, i));
-        }
-    }
     
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
@@ -253,7 +209,7 @@ public class TreePot extends Block implements IBlock{
     
     @SideOnly(Side.CLIENT) @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list){
-        for (int i = 0; i < this.getVariantAmount(); ++i){
+        for (int i = 0; i < 16; ++i){
             list.add(new ItemStack(itemIn, 1, i));
         }
     }
@@ -262,8 +218,6 @@ public class TreePot extends Block implements IBlock{
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
     	List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
         int typei = ((Integer)state.getValue(type)).intValue();
-        //Random rand = world instanceof World ? ((World)world).rand : new Random();
-        //ret.add(new ItemStack(ModBlocks.tree_pot));
         switch(typei){
         	case 0:
         		break;
@@ -321,10 +275,5 @@ public class TreePot extends Block implements IBlock{
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {type});
     }
-
-	@Override
-	public int getVariantAmount(){
-		return 16;
-	}
     
 }

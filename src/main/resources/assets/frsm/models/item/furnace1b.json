@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "frsm:blocks/Furnance1i"
+        "layer0": "frsm:blocks/furnace1i"
     },
     "display": {
         "thirdperson": {

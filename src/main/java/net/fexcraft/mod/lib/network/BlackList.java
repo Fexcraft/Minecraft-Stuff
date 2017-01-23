@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;

@@ -1,30 +1,19 @@
 package net.fexcraft.mod.frsm.items.tools;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.api.item.IItem;
-import net.fexcraft.mod.lib.util.item.ItemUtil;
+import net.fexcraft.mod.lib.api.item.öItem;
 import net.minecraft.item.ItemAxe;
 
-public class IronSaw extends ItemAxe implements IItem{
+@öItem(modid = FI.MODID, name = "ironsaw")
+public class IronSaw extends ItemAxe {
 	
 	private String name = "ironSaw";
 	
-	public IronSaw(ToolMaterial material) {
-        super(material);
+	public IronSaw(){
+        super(ToolMaterial.DIAMOND);
         this.setMaxStackSize(1);
-        this.setCreativeTab(CD.TOOLS.getCreativeTab());
-        ItemUtil.register(FI.MODID, this);
-	}
-	
-	@Override
-    public String getName(){
-    	return "ironSaw";
-    }
-
-	@Override
-	public int getVariantAmount(){
-		return default_variant;
+        this.setCreativeTab(CD.TOOLS);
 	}
 	
 }

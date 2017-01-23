@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fsmm.FSMM;
 import net.fexcraft.mod.fsmm.util.Util;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

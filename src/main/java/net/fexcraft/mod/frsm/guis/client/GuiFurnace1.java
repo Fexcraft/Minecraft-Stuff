@@ -1,6 +1,6 @@
 package net.fexcraft.mod.frsm.guis.client;
 
-import net.fexcraft.mod.frsm.blocks.furnace.Furnance1bEntity;
+import net.fexcraft.mod.frsm.blocks.furnace.Furnace1bEntity;
 import net.fexcraft.mod.frsm.guis.server.ContainerFurnace1;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -36,7 +36,7 @@ public class GuiFurnace1 extends GuiContainer {
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        if(Furnance1bEntity.isBurning(this.tileFurnace)){
+        if(Furnace1bEntity.isBurning(this.tileFurnace)){
             int k = this.getBurnLeftScaled(13);
             this.drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
         }

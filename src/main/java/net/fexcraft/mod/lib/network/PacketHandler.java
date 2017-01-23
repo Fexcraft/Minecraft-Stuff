@@ -11,7 +11,7 @@ import net.fexcraft.mod.lib.network.packet.PacketItemStackUpdate;
 import net.fexcraft.mod.lib.network.packet.PacketJsonObject;
 import net.fexcraft.mod.lib.network.packet.PacketKeyInput;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;

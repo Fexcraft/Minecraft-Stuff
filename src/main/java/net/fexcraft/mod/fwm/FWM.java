@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = "fwm", name="Fex's World Map", serverSideOnly = true)
+//@Mod(modid = "fwm", name="Fex's World Map", serverSideOnly = true)
 public class FWM {
 	
 	@Mod.Instance("fwm")

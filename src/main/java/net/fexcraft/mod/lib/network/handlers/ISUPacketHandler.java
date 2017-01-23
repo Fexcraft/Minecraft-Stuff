@@ -1,8 +1,8 @@
 package net.fexcraft.mod.lib.network.handlers;
 import java.util.HashSet;
 
-import net.fexcraft.mod.lib.api.network.IISPR;
 import net.fexcraft.mod.lib.api.network.IPacketListener;
+import net.fexcraft.mod.lib.api.network.ISPR;
 import net.fexcraft.mod.lib.network.packet.PacketItemStackUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -26,8 +26,8 @@ public class ISUPacketHandler{
 				@Override
 				public void run(){
 					ItemStack stack = FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getPlayerList().getPlayerByUsername(packet.player).getHeldItemMainhand();
-					if(stack != null && stack.getItem() instanceof IISPR){
-						((IISPR)stack.getItem()).processServerPacket(packet, stack);
+					if(stack != null && stack.getItem() instanceof ISPR){
+						((ISPR)stack.getItem()).processServerPacket(packet, stack);
 					}
 					if(packet.nbt.hasKey("target_listener")){
 						for(IPacketListener pktl : sls){
@@ -50,8 +50,8 @@ public class ISUPacketHandler{
 				@Override
 				public void run(){
 					ItemStack stack = Minecraft.getMinecraft().player.getHeldItemMainhand();
-					if(stack != null && stack.getItem() instanceof IISPR){
-						((IISPR)stack.getItem()).processClientPacket(packet, stack);
+					if(stack != null && stack.getItem() instanceof ISPR){
+						((ISPR)stack.getItem()).processClientPacket(packet, stack);
 					}
 					if(packet.nbt.hasKey("target_listener")){
 						for(IPacketListener pktl : cls){

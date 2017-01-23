@@ -1,6 +1,5 @@
 package net.fexcraft.mod.frsm.util.block;
 
-import net.fexcraft.mod.lib.api.block.IBlock;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class FBC_4R extends BlockContainer implements IBlock{
+public abstract class FBC_4R extends BlockContainer {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
@@ -51,9 +50,7 @@ public abstract class FBC_4R extends BlockContainer implements IBlock{
     }
 	
 	@Override
-	public abstract TileEntity createNewTileEntity(World worldIn, int meta); //{
-		//return new ETE();
-	//}
+	public abstract TileEntity createNewTileEntity(World worldIn, int meta);
 	
 	@Override
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
@@ -83,14 +80,5 @@ public abstract class FBC_4R extends BlockContainer implements IBlock{
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {FACING});
     }
-
-	@Override
-	public abstract String getName();// {
-		//return "notExistingStuffReplace";
-	//}
-
-	@Override
-	public int getVariantAmount(){
-		return default_variant;
-	}
+	
 }

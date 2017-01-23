@@ -2,7 +2,6 @@ package net.fexcraft.mod.lib.crafting;
 
 import net.fexcraft.mod.lib.crafting.gui.CraftingGui;
 import net.fexcraft.mod.lib.crafting.gui.WorkbenchContainer;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -10,12 +9,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class RecipeRegistry {
-	
-	public static Block workbench;
-	
-	public static void initalize(){
-		workbench = new WorkBench();
-	}
 	
 	public static void addShapelessRecipe(ItemStack stack, Object... recipeComponents){
 		ManagerCrafting.getInstance().addShapelessRecipe(stack, recipeComponents);

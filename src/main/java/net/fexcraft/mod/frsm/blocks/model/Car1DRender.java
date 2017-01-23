@@ -1,9 +1,11 @@
 package net.fexcraft.mod.frsm.blocks.model;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.fexcraft.mod.lib.api.render.öTESR;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+@öTESR(tileentity = Car1DEntity.class)
 public class Car1DRender extends FTESR_4R {
 	
 	private static final Car1DModel model = new Car1DModel();

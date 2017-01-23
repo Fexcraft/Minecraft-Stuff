@@ -1,7 +1,7 @@
 package net.fexcraft.mod.extensions.ce.util;
 
 import net.fexcraft.mod.extensions.ce.blocks.ClockBlockBase;
-import net.fexcraft.mod.lib.util.cls.Static;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 

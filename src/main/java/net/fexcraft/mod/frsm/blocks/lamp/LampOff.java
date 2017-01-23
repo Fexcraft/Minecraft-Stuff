@@ -1,12 +1,13 @@
 package net.fexcraft.mod.frsm.blocks.lamp;
 
-import net.fexcraft.mod.frsm.blocks.FRSM_Blocks;
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FM;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.api.block.IPaintableBlock;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
-import net.fexcraft.mod.lib.util.cls.EnumColor;
+import net.fexcraft.mod.lib.api.block.PaintableBlock;
+import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.util.common.EnumColor;
+import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -27,7 +28,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class LampOff extends Block implements IPaintableBlock{
+@öBlock(modid = FI.MODID, name = "lamp_off", variants = 16)
+public class LampOff extends Block implements PaintableBlock {
 	
 	public static final PropertyEnum COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	
@@ -36,9 +38,7 @@ public class LampOff extends Block implements IPaintableBlock{
 		this.setHarvestLevel("axe", 1);
 		this.setHardness(1.0F);
 		this.setResistance(32.0F);
-		this.setCreativeTab(CD.DEV.getCreativeTab());
-		BlockUtil.register(FI.MODID, this);
-		BlockUtil.registerCustomFIB(new Lamp.IB(this));
+		this.setCreativeTab(CD.EXPERIMENTAL);
 	}
 	
 	@Override
@@ -61,15 +61,10 @@ public class LampOff extends Block implements IPaintableBlock{
         return false;
     }
 	
-	@Override
-	public String getName(){
-		return "lampOff";
-	}
-	
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote && !p.getHeldItemMainhand().isEmpty()){
-    		w.setBlockState(pos, FRSM_Blocks.lamp.getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
+    		w.setBlockState(pos, Registry.getBlock("frsm:lamp").getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
     	}
 		return true;
 	}
@@ -81,7 +76,7 @@ public class LampOff extends Block implements IPaintableBlock{
     
     @SideOnly(Side.CLIENT) @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list){
-        for (int i = 0; i < this.getVariantAmount(); ++i){
+        for (int i = 0; i < 16; ++i){
             list.add(new ItemStack(itemIn, 1, i));
         }
     }
@@ -100,14 +95,10 @@ public class LampOff extends Block implements IPaintableBlock{
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {COLOR});
     }
-    
-    @Override
-	public int getVariantAmount(){
-		return 16;
-	}
 
 	@Override
-	public void onPaintItemUse(EnumColor color, ItemStack stack, EntityPlayer player, BlockPos pos, World world) {
+	public void onPaintItemUse(RGB rgb, EnumColor color, ItemStack stack, EntityPlayer player, BlockPos pos, World world) {
 		world.setBlockState(pos, this.getDefaultState().withProperty(COLOR, color.toDyeColor()));
 	}
+	
 }

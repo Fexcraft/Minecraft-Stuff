@@ -1,0 +1,114 @@
+{
+	"__comment": "Designed by Ferdinand (FEX___96) with Cubik Studio",
+	"textures": {
+		"particle": "blocks/anvil_base",
+		"top": "blocks/anvil_base",
+		"texture": "blocks/stonebrick"
+	},
+	"elements": [
+		{
+			"__comment": "Cube1",
+			"from": [ 0, 0, 0 ],
+			"to": [ 3, 12, 13 ],
+			"faces": {
+				"down": { "uv": [ 0, 3, 3, 16 ], "texture": "#texture" },
+				"up": { "uv": [ 0, 0, 3, 13 ], "texture": "#texture" },
+				"north": { "uv": [ 13, 4, 16, 16 ], "texture": "#texture" },
+				"south": { "uv": [ 0, 4, 3, 16 ], "texture": "#texture" },
+				"west": { "uv": [ 0, 4, 13, 16 ], "texture": "#texture" },
+				"east": { "uv": [ 3, 4, 16, 16 ], "texture": "#top" }
+			}
+		},
+		{
+			"__comment": "Cube2",
+			"from": [ 0, 0, 13 ],
+			"to": [ 13, 12, 16 ],
+			"faces": {
+				"down": { "uv": [ 0, 0, 13, 3 ], "texture": "#texture" },
+				"up": { "uv": [ 0, 13, 13, 16 ], "texture": "#texture" },
+				"north": { "uv": [ 3, 4, 16, 16 ], "texture": "#top" },
+				"south": { "uv": [ 0, 4, 13, 16 ], "texture": "#texture" },
+				"west": { "uv": [ 13, 4, 16, 16 ], "texture": "#texture" },
+				"east": { "uv": [ 0, 4, 3, 16 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube3",
+			"from": [ 13, 0, 3 ],
+			"to": [ 16, 12, 16 ],
+			"faces": {
+				"down": { "uv": [ 13, 0, 16, 13 ], "texture": "#texture" },
+				"up": { "uv": [ 13, 3, 16, 16 ], "texture": "#texture" },
+				"north": { "uv": [ 0, 4, 3, 16 ], "texture": "#texture" },
+				"south": { "uv": [ 13, 4, 16, 16 ], "texture": "#texture" },
+				"west": { "uv": [ 3, 4, 16, 16 ], "texture": "#top" },
+				"east": { "uv": [ 0, 4, 13, 16 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube4",
+			"from": [ 3, 0, 0 ],
+			"to": [ 16, 12, 3 ],
+			"faces": {
+				"down": { "uv": [ 3, 13, 16, 16 ], "texture": "#texture" },
+				"up": { "uv": [ 3, 0, 16, 3 ], "texture": "#texture" },
+				"north": { "uv": [ 0, 4, 13, 16 ], "texture": "#texture" },
+				"south": { "uv": [ 3, 4, 16, 16 ], "texture": "#top" },
+				"west": { "uv": [ 0, 4, 3, 16 ], "texture": "#texture" },
+				"east": { "uv": [ 13, 4, 16, 16 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube5",
+			"from": [ -0.5, 12, -0.5 ],
+			"to": [ 3.5, 13, 12.5 ],
+			"faces": {
+				"down": { "uv": [ 0, 3.5, 3.5, 16 ], "texture": "#top" },
+				"up": { "uv": [ 0, 0, 3.5, 12.5 ], "texture": "#top" },
+				"north": { "uv": [ 12.5, 3, 16, 4 ], "texture": "#top" },
+				"south": { "uv": [ 0, 3, 3.5, 4 ], "texture": "#top" },
+				"west": { "uv": [ 0, 3, 12.5, 4 ], "texture": "#top" },
+				"east": { "uv": [ 3.5, 3, 16, 4 ], "texture": "#top" }
+			}
+		},
+		{
+			"__comment": "Cube6",
+			"from": [ -0.5, 12, 12.5 ],
+			"to": [ 12.5, 13, 16.5 ],
+			"faces": {
+				"down": { "uv": [ 0, 0, 12.5, 3.5 ], "texture": "#top" },
+				"up": { "uv": [ 0, 12.5, 12.5, 16 ], "texture": "#top" },
+				"north": { "uv": [ 3.5, 3, 16, 4 ], "texture": "#top" },
+				"south": { "uv": [ 0, 3, 12.5, 4 ], "texture": "#top" },
+				"west": { "uv": [ 12.5, 3, 16, 4 ], "texture": "#top" },
+				"east": { "uv": [ 0, 3, 3.5, 4 ], "texture": "#top" }
+			}
+		},
+		{
+			"__comment": "Cube7",
+			"from": [ 12.5, 12, 3.5 ],
+			"to": [ 16.5, 13, 16.5 ],
+			"faces": {
+				"down": { "uv": [ 12.5, 0, 16, 12.5 ], "texture": "#top" },
+				"up": { "uv": [ 12.5, 3.5, 16, 16 ], "texture": "#top" },
+				"north": { "uv": [ 0, 3, 3.5, 4 ], "texture": "#top" },
+				"south": { "uv": [ 12.5, 3, 16, 4 ], "texture": "#top" },
+				"west": { "uv": [ 3.5, 3, 16, 4 ], "texture": "#top" },
+				"east": { "uv": [ 0, 3, 12.5, 4 ], "texture": "#top" }
+			}
+		},
+		{
+			"__comment": "Cube8",
+			"from": [ 3.5, 12, -0.5 ],
+			"to": [ 16.5, 13, 3.5 ],
+			"faces": {
+				"down": { "uv": [ 3.5, 12.5, 16, 16 ], "texture": "#top" },
+				"up": { "uv": [ 3.5, 0, 16, 3.5 ], "texture": "#top" },
+				"north": { "uv": [ 0, 3, 12.5, 4 ], "texture": "#top" },
+				"south": { "uv": [ 3.5, 3, 16, 4 ], "texture": "#top" },
+				"west": { "uv": [ 0, 3, 3.5, 4 ], "texture": "#top" },
+				"east": { "uv": [ 12.5, 3, 16, 4 ], "texture": "#top" }
+			}
+		}
+	]
+}

@@ -1,6 +1,6 @@
 package net.fexcraft.mod.lib.util.render;
 
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -11,9 +11,7 @@ public class RGB {
 	public float red, green, blue;
 	
 	public RGB(){
-		this.red = WHITE.red;
-		this.green = WHITE.green;
-		this.blue = WHITE.blue;
+		copyFrom(WHITE);
 	}
 	
 	public RGB(float r, float g, float b){
@@ -35,8 +33,8 @@ public class RGB {
 	public static final RGB RED   = new RGB(1, 0, 0);
 	public static final RGB GREEN = new RGB(0, 1, 0);
 	public static final RGB BLUE  = new RGB(0, 0, 1);
-	public static final RGB BLACK  = new RGB(0, 0, 0);
-	public static final RGB WHITE  = new RGB(1, 1, 1);
+	public static final RGB BLACK = new RGB(0, 0, 0);
+	public static final RGB WHITE = new RGB(1, 1, 1);
 	
 	public void fromDyeColor(EnumDyeColor e){
 		switch(e){
@@ -183,22 +181,48 @@ public class RGB {
 		blue = rgb.blue;
 	}
 
-	public NBTTagCompound writeToNBT(NBTTagCompound tag){
-		tag.setFloat("RGB_Red", red);
-		tag.setFloat("RGB_Green", green);
-		tag.setFloat("RGB_Blue", blue);
-		return tag;
-	}
-
-	public void readFromNBT(NBTTagCompound tag) {
+	/**
+	 * @param a additional name data to append into the nbt tag key
+	 */
+	public NBTTagCompound writeToNBT(NBTTagCompound tag, String a){
 		try{
-			red = tag.getFloat("RGB_Red");
-			green = tag.getFloat("RGB_Green");
-			blue = tag.getFloat("RGB_Blue");
+			String s = a == null ? "" : "_" + a;
+			tag.setFloat("RGB_Red" + s, red);
+			tag.setFloat("RGB_Green" + s, green);
+			tag.setFloat("RGB_Blue" + s, blue);
+			return tag;
 		}
 		catch(Exception e){
 			e.printStackTrace();
+			return tag;
 		}
+	}
+	
+	/**
+	 * @param tag additional name data to retrieve the right nbt key.
+	 */
+	public void readFromNBT(NBTTagCompound tag, String a) {
+		try{
+			String s = a == null ? "" : "_" + a;
+			red = tag.getFloat("RGB_Red" + s);
+			green = tag.getFloat("RGB_Green" + s);
+			blue = tag.getFloat("RGB_Blue" + s);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			copyFrom(WHITE);
+		}
+	}
+
+	public void copyFrom(RGB color) {
+		red = color.red;
+		green = color.green;
+		blue = color.blue;
+	}
+	
+	@Override
+	public String toString(){
+		return "[" + red + ":" + green + ":" + blue + "]";
 	}
 	
 }

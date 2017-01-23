@@ -12,7 +12,7 @@ import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketListener;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketJsonObject;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

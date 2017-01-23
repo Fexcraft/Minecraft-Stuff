@@ -1,0 +1,75 @@
+{
+	"__comment": "Designed by Ferdinand (FEX___96) with Cubik Studio",
+	"textures": {
+		"particle": "blocks/anvil_base",
+		"anvil": "blocks/anvil_base",
+		"iron_block": "blocks/iron_block"
+	},
+	"elements": [
+		{
+			"__comment": "Cube1",
+			"from": [ 6.5, 0, 6.5 ],
+			"to": [ 9.5, 1, 9.5 ],
+			"faces": {
+				"down": { "uv": [ 6.5, 6.5, 9.5, 9.5 ], "texture": "#anvil" },
+				"up": { "uv": [ 6.5, 6.5, 9.5, 9.5 ], "texture": "#anvil" },
+				"north": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#anvil" },
+				"south": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#anvil" },
+				"west": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#anvil" },
+				"east": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#anvil" }
+			}
+		},
+		{
+			"__comment": "Cube2",
+			"from": [ 7, 1, 7 ],
+			"to": [ 9, 17, 9 ],
+			"faces": {
+				"down": { "uv": [ 7, 7, 9, 9 ], "texture": "#iron_block" },
+				"up": { "uv": [ 7, 7, 9, 9 ], "texture": "#iron_block", "rotation": 90 },
+				"north": { "uv": [ 0, 4, 16, 6 ], "texture": "#iron_block", "rotation": 90 },
+				"south": { "uv": [ 0.5, 6, 16, 8 ], "texture": "#iron_block", "rotation": 90 },
+				"west": { "uv": [ 0, 2, 16, 4 ], "texture": "#iron_block", "rotation": 90 },
+				"east": { "uv": [ 0, 9, 16, 11 ], "texture": "#iron_block", "rotation": 90 }
+			}
+		},
+		{
+			"__comment": "Cube3",
+			"from": [ 7, 17, 7 ],
+			"to": [ 9, 19, 9 ],
+			"faces": {
+				"down": { "uv": [ 7, 7, 9, 9 ], "texture": "#iron_block" },
+				"up": { "uv": [ 7, 7, 9, 9 ], "texture": "#iron_block" },
+				"north": { "uv": [ 7, 13, 9, 15 ], "texture": "#iron_block" },
+				"south": { "uv": [ 7, 13, 9, 15 ], "texture": "#iron_block" },
+				"west": { "uv": [ 7, 13, 9, 15 ], "texture": "#iron_block" },
+				"east": { "uv": [ 7, 13, 9, 15 ], "texture": "#iron_block" }
+			}
+		},
+		{
+			"__comment": "Cube5",
+			"from": [ 6.5, 19, 6.5 ],
+			"to": [ 9.5, 20, 9.5 ],
+			"faces": {
+				"down": { "uv": [ 6.5, 6.5, 9.5, 9.5 ], "texture": "#anvil" },
+				"up": { "uv": [ 6.5, 6.5, 9.5, 9.5 ], "texture": "#anvil" },
+				"north": { "uv": [ 6.5, 12, 9.5, 13 ], "texture": "#anvil" },
+				"south": { "uv": [ 6.5, 12, 9.5, 13 ], "texture": "#anvil" },
+				"west": { "uv": [ 6.5, 12, 9.5, 13 ], "texture": "#anvil" },
+				"east": { "uv": [ 6.5, 12, 9.5, 13 ], "texture": "#anvil" }
+			}
+		},
+		{
+			"__comment": "Cube8",
+			"from": [ 6.5, 16, 6.5 ],
+			"to": [ 9.5, 17, 9.5 ],
+			"faces": {
+				"down": { "uv": [ 13, 0, 16, 1 ], "texture": "#iron_block" },
+				"up": { "uv": [ 13, 15, 16, 16 ], "texture": "#iron_block" },
+				"north": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#iron_block" },
+				"south": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#iron_block" },
+				"west": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#iron_block" },
+				"east": { "uv": [ 6.5, 15, 9.5, 16 ], "texture": "#iron_block" }
+			}
+		}
+	]
+}

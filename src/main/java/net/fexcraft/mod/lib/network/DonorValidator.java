@@ -9,7 +9,7 @@ import java.util.UUID;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class DonorValidator {

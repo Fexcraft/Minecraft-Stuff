@@ -1,9 +1,17 @@
 {
-    "variants": {
-        "normal": { "model": "frsm:placeholder" },
-        "facing=north": { "model": "frsm:placeholder" },
-        "facing=south": { "model": "frsm:placeholder" },
-        "facing=west":  { "model": "frsm:placeholder" },
-        "facing=east":  { "model": "frsm:placeholder" }
-    }
+    "multipart": [
+        {   "apply": { "model": "frsm:fence1_center" }},
+        {   "when": { "north": "true" },
+            "apply": { "model": "frsm:fence1_side", "uvlock": true }
+        },
+        {   "when": { "east": "true" },
+            "apply": { "model": "frsm:fence1_side", "y": 90, "uvlock": true }
+        },
+        {   "when": { "south": "true" },
+            "apply": { "model": "frsm:fence1_side", "y": 180, "uvlock": true }
+        },
+        {   "when": { "west": "true" },
+            "apply": { "model": "frsm:fence1_side", "y": 270, "uvlock": true }
+        }
+    ]
 }

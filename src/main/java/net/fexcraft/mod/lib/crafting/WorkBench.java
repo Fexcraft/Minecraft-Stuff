@@ -1,8 +1,7 @@
 package net.fexcraft.mod.lib.crafting;
 
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.api.block.IBlock;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.api.block.öBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,7 +18,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class WorkBench extends Block implements IBlock {
+@öBlock(modid = "fcl", name = "workbench")
+public class WorkBench extends Block {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
@@ -30,9 +30,6 @@ public class WorkBench extends Block implements IBlock {
     	this.setHardness(1.0F);
     	this.setResistance(32.0F);
     	this.setCreativeTab(CreativeTabs.TOOLS);
-    	BlockUtil.register("fcl", this);
-    	BlockUtil.registerFIB(this);
-    	BlockUtil.registerFIBRender(this);
 	}
 
     @Override
@@ -71,11 +68,6 @@ public class WorkBench extends Block implements IBlock {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
         worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
     }
-
-	@Override
-	public String getName() {
-		return "workbench";
-	}
 	
 	@Override
     public IBlockState getStateFromMeta(int meta){
@@ -95,10 +87,5 @@ public class WorkBench extends Block implements IBlock {
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {FACING});
     }
-
-	@Override
-	public int getVariantAmount() {
-		return default_variant;
-	}
 	
 }

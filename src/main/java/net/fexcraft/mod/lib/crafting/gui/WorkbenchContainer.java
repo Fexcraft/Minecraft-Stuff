@@ -3,7 +3,7 @@ package net.fexcraft.mod.lib.crafting.gui;
 import net.fexcraft.mod.lib.crafting.CraftingInventory;
 import net.fexcraft.mod.lib.crafting.CraftingSlot;
 import net.fexcraft.mod.lib.crafting.ManagerCrafting;
-import net.fexcraft.mod.lib.crafting.RecipeRegistry;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -61,7 +61,7 @@ public class WorkbenchContainer extends Container {
     }
     
     public boolean canInteractWith(EntityPlayer playerIn){
-        return this.world.getBlockState(this.pos).getBlock() != RecipeRegistry.workbench ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.world.getBlockState(this.pos).getBlock() != Registry.getBlock("fcl:workbench") ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
     
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){

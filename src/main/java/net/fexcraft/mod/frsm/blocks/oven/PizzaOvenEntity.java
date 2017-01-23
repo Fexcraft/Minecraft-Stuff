@@ -3,8 +3,8 @@ package net.fexcraft.mod.frsm.blocks.oven;
 import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
-import net.fexcraft.mod.lib.util.cls.ApiUtil;
-import net.fexcraft.mod.lib.util.cls.EnumColor;
+import net.fexcraft.mod.lib.util.common.ApiUtil;
+import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class PizzaOvenEntity extends TileEntity implements IPacketReceiver {
 	}
 	
 	public void sendUpdatePacket(){
-		ApiUtil.sendTileEntityUpdatePacket(world, pos, getColor().writeToNBT(new NBTTagCompound()), 64);
+		ApiUtil.sendTileEntityUpdatePacket(world, pos, getColor().writeToNBT(new NBTTagCompound(), null), 64);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PizzaOvenEntity extends TileEntity implements IPacketReceiver {
 
 	@Override
 	public void processClientPacket(IPacket pkt){
-		getColor().readFromNBT(((PacketTileEntityUpdate)pkt).nbt);
+		getColor().readFromNBT(((PacketTileEntityUpdate)pkt).nbt, null);
 	}
 	
 	@Override
@@ -55,14 +55,14 @@ public class PizzaOvenEntity extends TileEntity implements IPacketReceiver {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag){
 		super.writeToNBT(tag);
-		getColor().writeToNBT(tag);
+		getColor().writeToNBT(tag, null);
 		return tag;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tag){
 		super.readFromNBT(tag);
-		getColor().readFromNBT(tag);
+		getColor().readFromNBT(tag, null);
 	}
 
 	public void onPaintItemUse(EnumColor color, ItemStack stack, EntityPlayer player, BlockPos pos, World world) {

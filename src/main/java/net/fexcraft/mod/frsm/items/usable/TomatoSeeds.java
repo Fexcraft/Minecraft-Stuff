@@ -1,11 +1,12 @@
 package net.fexcraft.mod.frsm.items.usable;
 
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.item.IItem;
-import net.fexcraft.mod.lib.util.item.ItemUtil;
+import net.fexcraft.mod.lib.api.item.öItem;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFood;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -15,22 +16,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-public class TomatoSeeds extends ItemFood implements IPlantable, IItem {
+@öItem(modid = FI.MODID, name = "tomatoseeds")
+public class TomatoSeeds extends ItemFood implements IPlantable {
     
     private Block tomatoPlant;
     private Block soilBlockID;
     
-    public TomatoSeeds(Block b1, Block b2) {
+    public TomatoSeeds(){
         super(4, 0.4F, true);
-        this.tomatoPlant = b1;
-        this.soilBlockID = b2;
+        this.tomatoPlant = Registry.getBlock("frsm:tomatoplant");
+        this.soilBlockID = Blocks.FARMLAND;
         this.setMaxStackSize(32);
-        ItemUtil.register(FI.MODID, this);
-    }
-    
-    @Override
-    public String getName(){
-    	return "tomatoSeeds";
     }
     
     @Override
@@ -60,10 +56,5 @@ public class TomatoSeeds extends ItemFood implements IPlantable, IItem {
     public IBlockState getPlant(net.minecraft.world.IBlockAccess world, BlockPos pos){
         return this.tomatoPlant.getDefaultState();
     }
-
-	@Override
-	public int getVariantAmount(){
-		return default_variant;
-	}
     
 }

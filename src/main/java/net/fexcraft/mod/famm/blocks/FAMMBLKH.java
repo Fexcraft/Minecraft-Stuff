@@ -4,7 +4,7 @@ import net.fexcraft.mod.famm.FAMM;
 import net.fexcraft.mod.famm.util.FI;
 import net.fexcraft.mod.lib.api.block.IBlock;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

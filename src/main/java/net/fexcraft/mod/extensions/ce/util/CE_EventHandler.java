@@ -1,7 +1,7 @@
 package net.fexcraft.mod.extensions.ce.util;
 
 import net.fexcraft.mod.extensions.ce.CE;
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 

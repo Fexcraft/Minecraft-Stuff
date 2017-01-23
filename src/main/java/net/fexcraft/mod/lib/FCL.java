@@ -7,8 +7,10 @@ import net.fexcraft.mod.lib.network.BlackList;
 import net.fexcraft.mod.lib.network.DonorValidator;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
-import net.fexcraft.mod.lib.util.cls.Print;
 import net.fexcraft.mod.lib.util.cmds.Command;
+import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.registry.CreativeTab;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -37,8 +39,8 @@ import net.minecraftforge.fml.relauncher.Side;
 public class FCL {
 	
 	public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_AQUA + "FCL" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";
-	public static final String version = "XI.16";
-	public static final String mcv = "1.11";
+	public static final String version = "XI.17";
+	public static final String mcv = "1.11.2";
 	public static final UUID[] authors = new UUID[]{UUID.fromString("01e4af9b-2a30-471e-addf-f6338ffce04b")};
 	private static PacketHandler packet_handler;
 	@Mod.Instance("fcl")
@@ -47,15 +49,15 @@ public class FCL {
 	
 	@Mod.EventHandler
     public void init(FMLPreInitializationEvent event) throws Exception{
-		RecipeRegistry.initalize();
 		side = event.getSide();
+		Registry.registerAll(event.getAsmData());
 	}
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception{
 		MinecraftForge.EVENT_BUS.register(new SimpleUpdateHandler.EventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
 		
-    	GameRegistry.addShapelessRecipe(new ItemStack(RecipeRegistry.workbench, 4), new Object[]{
+    	GameRegistry.addShapelessRecipe(new ItemStack(Registry.getBlock("fcl:workbench"), 4), new Object[]{
     		Items.IRON_INGOT, Blocks.CRAFTING_TABLE, Blocks.LOG
     	});
 	}
@@ -76,6 +78,7 @@ public class FCL {
 		DonorValidator.initialize(side);
 		//Print.log("[FCL] Loaded.");
 		packet_handler.init();
+		CreativeTab.getIcons();
 		Print.log("Loading complete.");
 	}
 	

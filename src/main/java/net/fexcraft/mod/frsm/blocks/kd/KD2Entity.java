@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.kd;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class KD2Entity extends FRSMTE {
+public class KD2Entity extends TileEntity {
 
 }

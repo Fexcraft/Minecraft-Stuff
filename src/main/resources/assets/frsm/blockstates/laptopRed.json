@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "frsm:laptopred" },
-        "facing=south": { "model": "frsm:laptopred", "y": 180 },
-        "facing=west":  { "model": "frsm:laptopred", "y": 270 },
-        "facing=east":  { "model": "frsm:laptopred", "y": 90 }
-    }
-}
- 

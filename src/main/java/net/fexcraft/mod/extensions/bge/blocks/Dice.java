@@ -6,7 +6,7 @@ import net.fexcraft.mod.extensions.bge.BGE;
 import net.fexcraft.mod.extensions.bge.tileentities.DiceTileEntity;
 import net.fexcraft.mod.lib.api.block.IPaintableBlock;
 import net.fexcraft.mod.lib.util.block.BlockUtil;
-import net.fexcraft.mod.lib.util.cls.EnumColor;
+import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

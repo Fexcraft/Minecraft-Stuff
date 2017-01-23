@@ -12,9 +12,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import net.fexcraft.mod.lib.util.cls.Print;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -114,4 +116,9 @@ public class Network{
 	public static boolean isDonator(EntityPlayer p) {
 		return DonorValidator.isDonor(p.getGameProfile().getId());
 	}
+
+	public static MinecraftServer getMinecraftServer(){
+		return FMLCommonHandler.instance().getMinecraftServerInstance();
+	}
+	
 }
