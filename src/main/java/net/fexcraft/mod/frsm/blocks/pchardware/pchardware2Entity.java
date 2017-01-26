@@ -1,7 +1,12 @@
 package net.fexcraft.mod.frsm.blocks.pchardware;
 
-import net.minecraft.tileentity.TileEntity;
+import net.fexcraft.mod.frsm.util.block.PaintableTileEntity;
+import net.fexcraft.mod.lib.util.common.EnumColor;
 
-public class pchardware2Entity extends TileEntity {
+public class PCHardware2Entity extends PaintableTileEntity {
+
+	public PCHardware2Entity(){
+		super(EnumColor.GRAY);
+	}
 
 }

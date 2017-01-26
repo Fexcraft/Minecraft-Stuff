@@ -25,6 +25,10 @@ public class PaintableTileEntity extends TileEntity implements IPacketReceiver, 
 		color.fromDyeColor(def_color.toDyeColor());
 	}
 	
+	public PaintableTileEntity(RGB rgb){
+		color.copyFrom(rgb);
+	}
+	
 	public void applyColor(RGB color){
 		color.copyFrom(color);
 		this.sendUpdatePacket();

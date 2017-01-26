@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "stove")
+@öBlock(modid = FI.MODID, name = "stove", tileentity = StoveEntity.class)
 public class Stove extends FBC_4R_F {
 	
 	public Stove(){

@@ -1,9 +1,8 @@
 package net.fexcraft.mod.frsm.blocks.tbm;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.api.block.IBlock;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.api.block.öBlock;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -18,7 +17,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TBM extends BlockFalling implements IBlock{
+@öBlock(modid = FI.MODID, name = "tbm")
+public class TBM extends BlockFalling {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
@@ -27,9 +27,7 @@ public class TBM extends BlockFalling implements IBlock{
 		this.setHardness(1.0F);
 		this.setResistance(10.0F);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-		this.setCreativeTab(CD.DEV.getCreativeTab());
-		BlockUtil.register(FI.MODID, this);
-		BlockUtil.registerFIB(this);
+		this.setCreativeTab(CD.EXPERIMENTAL);
     }
     
     @Override
@@ -74,11 +72,6 @@ public class TBM extends BlockFalling implements IBlock{
     	}
     	return false;
     }
-
-    @Override
-    public String getName(){
-    	return "tbm";
-    }
     
     @Override
     public IBlockState getStateFromMeta(int meta){
@@ -98,9 +91,5 @@ public class TBM extends BlockFalling implements IBlock{
     protected BlockStateContainer createBlockState(){
     	return new BlockStateContainer(this, new IProperty[] {FACING});
     }
-
-	@Override
-	public int getVariantAmount(){
-		return default_variant;
-	}
+    
 }
