@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.printer;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class PrinterEntity extends FRSMTE{
+public class PrinterEntity extends TileEntity {
 
 }

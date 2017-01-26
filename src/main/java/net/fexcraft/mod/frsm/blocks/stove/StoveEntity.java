@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.stove;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class StoveEntity extends FRSMTE{
+public class StoveEntity extends TileEntity {
 
 }

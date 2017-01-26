@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.rail;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class RailEntity extends FRSMTE{
+public class RailEntity extends TileEntity {
 
 }

@@ -2,12 +2,9 @@ package net.fexcraft.mod.frsm;
 
 import java.io.File;
 
-import net.fexcraft.mod.frsm.commads.FRSM_Command;
-import net.fexcraft.mod.frsm.commads.SummonRobo;
+import net.fexcraft.mod.frsm.commads.MainCommand;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
-import net.fexcraft.mod.frsm.network.Network;
-import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.FuelHandler;
+import net.fexcraft.mod.frsm.util.*;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.init.Items;
@@ -104,14 +101,15 @@ public class FRSM{
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:tomato_seeds")), 1);
 		
-		Network.init();
+		Data.getDataFromServer();
+		MinecraftForge.EVENT_BUS.register(new UpdateHandler.EventHandler());
+		UpdateHandler.load();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 	}
 	
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event){
-		event.registerServerCommand(new FRSM_Command());
-		event.registerServerCommand(new SummonRobo());
+		event.registerServerCommand(new MainCommand());
 	}
 	
 	@Mod.EventHandler

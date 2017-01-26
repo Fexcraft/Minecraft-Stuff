@@ -31,7 +31,7 @@ public class CD {
 	@öCreativeTab(name = "frsm_experimental", icon="frsm:tbm")
 	public static CreativeTabs EXPERIMENTAL;
 	
-	@öCreativeTab(name = "frsm_pipes", icon="frsm:pipe1")
+	@öCreativeTab(name = "frsm_pipes", icon="frsm:stove_pipe")
 	public static CreativeTabs PIPES;
 	
 	@öCreativeTab(name = "frsm_streets", icon="frsm:asphaltfull")

@@ -1,9 +1,11 @@
 package net.fexcraft.mod.frsm.blocks.radio;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.fexcraft.mod.lib.api.render.öTESR;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+@öTESR(tileentity = Radio1Entity.class)
 public class Radio1Render extends FTESR_4R {
 	
 	private static final Radio1Model model = new Radio1Model();

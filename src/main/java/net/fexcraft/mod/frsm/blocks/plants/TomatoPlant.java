@@ -5,11 +5,10 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.fexcraft.mod.frsm.items.FRSM_Items;
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.api.block.IBlock;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -26,7 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class TomatoPlant extends BlockBush implements IGrowable, IBlock{
+@öBlock(modid = FI.MODID, name = "tomatoplant")
+public class TomatoPlant extends BlockBush implements IGrowable{
 	
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
     
@@ -47,15 +47,8 @@ public class TomatoPlant extends BlockBush implements IGrowable, IBlock{
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
         this.disableStats();
-        this.setCreativeTab(CD.DEV.getCreativeTab());
-        BlockUtil.register(FI.MODID, this);
-        BlockUtil.registerFIB(this);
+        this.setCreativeTab(CD.EXPERIMENTAL);
     }
-    
-    @Override
-	public String getName(){
-		return "tomatoPlant";
-	}
     
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
@@ -158,11 +151,11 @@ public class TomatoPlant extends BlockBush implements IGrowable, IBlock{
     }
 
     protected Item getSeed(){
-        return FRSM_Items.tomato_seeds;
+        return Registry.getItem("frsm:tomatoseeds");
     }
 
     protected Item getCrop(){
-        return FRSM_Items.tomato;
+        return Registry.getItem("frsm:tomato");
     }
 
     @Override
@@ -236,9 +229,5 @@ public class TomatoPlant extends BlockBush implements IGrowable, IBlock{
     protected BlockStateContainer createBlockState(){
         return new BlockStateContainer(this, new IProperty[] {AGE});
     }
-
-	@Override
-	public int getVariantAmount(){
-		return default_variant;
-	}
+    
 }

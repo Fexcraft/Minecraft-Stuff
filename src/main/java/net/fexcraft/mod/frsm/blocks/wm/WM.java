@@ -1,13 +1,14 @@
 package net.fexcraft.mod.frsm.blocks.wm;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R_F;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.api.block.öBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+@öBlock(modid = FI.MODID, name = "washingmashine", tileentity = WMEntity.class)
 public class WM extends FBC_4R_F {
 	
 	public WM() {
@@ -15,9 +16,7 @@ public class WM extends FBC_4R_F {
 		this.setHarvestLevel("pickaxe", 1);
 		this.setHardness(5.0F);
 		this.setResistance(32.0F);
-		this.setCreativeTab(CD.TECHNIC.getCreativeTab());
-		BlockUtil.register(FI.MODID, this);
-		BlockUtil.registerFIB(this);
+		this.setCreativeTab(CD.TECHNIC);
 	}
 
 	@Override
@@ -25,8 +24,4 @@ public class WM extends FBC_4R_F {
 		return new WMEntity();
 	}
 	
-	@Override
-	public String getName() {
-		return "washingmashine";
-	}
 }

@@ -1,9 +1,9 @@
 package net.fexcraft.mod.frsm.blocks.radio;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
+import net.fexcraft.mod.lib.api.block.öBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+@öBlock(modid = FI.MODID, name = "radio1", tileentity = Radio1Entity.class)
 public class Radio1 extends FBC_4R {
 	
 	public Radio1() {
@@ -19,9 +20,7 @@ public class Radio1 extends FBC_4R {
     	this.setHarvestLevel("pickaxe", 1);
     	this.setHardness(1.0F);
     	this.setResistance(32.0F);
-    	this.setCreativeTab(CD.TECHNIC.getCreativeTab());
-    	BlockUtil.register(FI.MODID, this);
-    	BlockUtil.registerFIB(this);
+    	this.setCreativeTab(CD.TECHNIC);
 	}
     
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
@@ -33,8 +32,4 @@ public class Radio1 extends FBC_4R {
 		return new Radio1Entity();
 	}
 	
-	@Override
-	public String getName() {
-		return "Radio1";
-	}
 }

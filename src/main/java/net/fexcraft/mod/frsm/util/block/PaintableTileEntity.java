@@ -1,6 +1,6 @@
 package net.fexcraft.mod.frsm.util.block;
 
-import net.fexcraft.mod.lib.api.block.PaintableBlock;
+import net.fexcraft.mod.lib.api.common.PaintableObject;
 import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PaintableTileEntity extends TileEntity implements IPacketReceiver, PaintableBlock {
+public class PaintableTileEntity extends TileEntity implements IPacketReceiver, PaintableObject {
 	
 	private RGB color = new RGB();
 	

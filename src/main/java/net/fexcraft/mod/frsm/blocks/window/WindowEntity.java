@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.window;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class WindowEntity extends FRSMTE {
+public class WindowEntity extends TileEntity {
 
 }

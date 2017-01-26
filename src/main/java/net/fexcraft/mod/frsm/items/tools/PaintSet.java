@@ -5,7 +5,7 @@ import java.util.List;
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.PaintableBlock;
+import net.fexcraft.mod.lib.api.common.PaintableObject;
 import net.fexcraft.mod.lib.api.common.öLoad;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.Registry;
@@ -86,8 +86,8 @@ public class PaintSet extends Item {
 		}
 		else{
 			IBlockState state = world.getBlockState(pos);
-			if(state.getBlock() instanceof PaintableBlock){
-				((PaintableBlock)state.getBlock()).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
+			if(state.getBlock() instanceof PaintableObject){
+				((PaintableObject)state.getBlock()).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
 			}
 			else if(state.getBlock() == Blocks.WOOL){
 				world.setBlockState(pos, Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, dye.toDyeColor()));
@@ -105,8 +105,8 @@ public class PaintSet extends Item {
 				world.setBlockState(pos, Blocks.CARPET.getDefaultState().withProperty(BlockColored.COLOR, dye.toDyeColor()));
 			}
 			else if(state.getBlock().hasTileEntity(state)){
-				if(world.getTileEntity(pos) instanceof PaintableBlock){
-					((PaintableBlock)world.getTileEntity(pos)).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
+				if(world.getTileEntity(pos) instanceof PaintableObject){
+					((PaintableObject)world.getTileEntity(pos)).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
 				}
 			}
 			else{

@@ -2,8 +2,8 @@ package net.fexcraft.mod.frsm.blocks.common;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.PaintableBlock;
 import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.common.PaintableObject;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.ItemBlock16;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @öBlock(modid = FI.MODID, name = "decoblock1", variants = 16, item = DecoBlock1.IB.class)
-public class DecoBlock1 extends Block implements PaintableBlock {
+public class DecoBlock1 extends Block implements PaintableObject {
 
 	public static final PropertyEnum COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	

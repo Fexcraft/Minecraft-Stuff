@@ -1,11 +1,13 @@
 package net.fexcraft.mod.frsm.blocks.shelf;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
+import net.fexcraft.mod.lib.api.render.öTESR;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+@öTESR(tileentity = Shelf1Entity.class)
 public class Shelf1Renderer extends FTESR_4R{
 	
 	private static final Shelf1Model model = new Shelf1Model();

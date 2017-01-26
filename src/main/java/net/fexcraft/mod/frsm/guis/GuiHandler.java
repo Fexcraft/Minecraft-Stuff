@@ -3,7 +3,6 @@ package net.fexcraft.mod.frsm.guis;
 import net.fexcraft.mod.frsm.blocks.furnace.Furnace1bEntity;
 import net.fexcraft.mod.frsm.guis.client.GuiFurnace1;
 import net.fexcraft.mod.frsm.guis.client.GuiLoadingScreen;
-import net.fexcraft.mod.frsm.guis.client.TEMT_GUI;
 import net.fexcraft.mod.frsm.guis.server.ContainerFurnace1;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -38,7 +37,7 @@ public class GuiHandler implements IGuiHandler {
 		
 		switch(id){
 			case 0:
-				return new TEMT_GUI(player, world, pos);
+				return null;
 			case 1:
 				return new GuiFurnace1(player.inventory, (Furnace1bEntity)entity);
 			default:

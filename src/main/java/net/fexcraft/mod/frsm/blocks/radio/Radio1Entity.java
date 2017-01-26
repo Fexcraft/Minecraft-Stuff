@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.radio;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class Radio1Entity extends FRSMTE {
+public class Radio1Entity extends TileEntity {
 
 }

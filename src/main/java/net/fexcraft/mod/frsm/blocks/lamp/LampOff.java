@@ -3,8 +3,8 @@ package net.fexcraft.mod.frsm.blocks.lamp;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FM;
-import net.fexcraft.mod.lib.api.block.PaintableBlock;
 import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.common.PaintableObject;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @öBlock(modid = FI.MODID, name = "lamp_off", variants = 16)
-public class LampOff extends Block implements PaintableBlock {
+public class LampOff extends Block implements PaintableObject {
 	
 	public static final PropertyEnum COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	
