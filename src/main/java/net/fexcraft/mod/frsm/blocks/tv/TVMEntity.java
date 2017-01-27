@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.blocks.tv;
 
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
+import net.minecraft.tileentity.TileEntity;
 
-public class TVMEntity extends FRSMTE {
+public class TVMEntity extends TileEntity {
 
 }

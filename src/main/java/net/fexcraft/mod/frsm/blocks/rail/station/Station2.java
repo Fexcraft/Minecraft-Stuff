@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "station2", tileentity = Station2Entity.class)
+@öBlock(modid = FI.MODID, name = "model_station2", tileentity = Station2Entity.class)
 public class Station2 extends FBC_4R {
 
 	public Station2() {

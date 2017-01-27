@@ -2,9 +2,6 @@ package net.fexcraft.mod.frsm.blocks.roadsigns;
 
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
-import net.fexcraft.mod.frsm.util.block.FRSMTE;
-import net.fexcraft.mod.frsm.util.custom.CT.CD;
-import net.fexcraft.mod.lib.util.block.BlockUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +32,7 @@ public class RoadSign5 extends FBC_4R {
 		return new TE();
 	}
 
-	public static class TE extends FRSMTE {}
+	public static class TE extends TileEntity {}
 	
 	@Override
 	public String getName(){

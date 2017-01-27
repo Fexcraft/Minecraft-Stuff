@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "rail", tileentity = RailEntity.class)
+@öBlock(modid = FI.MODID, name = "model_rail", tileentity = RailEntity.class)
 public class Rail extends FBC_4R {
 
 	public Rail() {
