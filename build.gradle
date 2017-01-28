@@ -86,9 +86,7 @@ String frsm_ce__version = "1.1";
 
 task frsm(type: Jar) {
     from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
-    from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/lib/'}
     from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/frsm/'}
-    from (zipTree("${destinationDir}/${archiveName}")) { include 'assets/fcl/'}
     from(sourceSets.main.resources + "/mcmod/") {
         include 'frsm_mcmod.info'
         expand 'version':frsm_version, 'mcversion':project.minecraft.version

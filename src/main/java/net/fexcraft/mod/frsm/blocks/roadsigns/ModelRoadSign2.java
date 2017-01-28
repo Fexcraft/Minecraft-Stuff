@@ -52,7 +52,7 @@ public class ModelRoadSign2 extends ModelConverter {
 
 		bodyModel[7].addShapeBox(0F, 0F, 0F, 16, 16, 1, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -0.2F, -0.2F, 0F, -0.2F, -0.2F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -0.2F, -0.2F, 0F, -0.2F, -0.2F, 0F); // Box 7
 		bodyModel[7].setRotationPoint(-11.3F, -25F, -2F);
-		bodyModel[7].rotateAngleZ = 0.78539816F;
+		bodyModel[7].rotateAngleZ = -0.78539816F;
 
 		bodyModel[8].addShapeBox(0F, 0F, 0F, 1, 1, 3, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, 1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, 1F, 0F, 0F); // Box 8
 		bodyModel[8].setRotationPoint(1.25F, -25F, -1F);

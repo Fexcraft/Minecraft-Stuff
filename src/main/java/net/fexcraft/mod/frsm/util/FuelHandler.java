@@ -30,19 +30,19 @@ public class FuelHandler implements IFuelHandler {
 			add(newIS(Registry.getBlock("frsm:decoblock1"),   i),  300);
 		}
 		add(newIS(Registry.getBlock("frsm:decoblock2"),       0),  300);
-		add(newIS(Registry.getBlock("frsm:framed_glowstone"),  0),  900);
-		add(newIS(Registry.getBlock("frsm:wooden_light_box"),   0),  400);
+		add(newIS(Registry.getBlock("frsm:framedglowstone"),  0),  900);
+		add(newIS(Registry.getBlock("frsm:woodenlightbox"),   0),  400);
 		for(int i = 0; i < 16; i++){
 			add(newIS(Registry.getBlock("frsm:lamp"),         i),  100);
 		}
 		for(int i = 0; i < 16; i++){
-			add(newIS(Registry.getBlock("frsm:lamp_off"),      i),  100);
+			add(newIS(Registry.getBlock("frsm:lampoff"),      i),  100);
 		}
 		add(newIS(Registry.getBlock("frsm:palet1x1"),         0), 1200);
 		add(newIS(Registry.getBlock("frsm:palet1x1_1"),       0), 1200);
 		add(newIS(Registry.getBlock("frsm:palet1x1_2"),       0), 1200);
 		add(newIS(Registry.getBlock("frsm:tbm"),              0), 6000);
-		add(newIS(Registry.getBlock("frsm:window"),           0),  600);
+		add(newIS(Registry.getBlock("frsm:window1"),          0),  600);
 	}
 	
 	private static ItemStack newIS(Item i, int meta){

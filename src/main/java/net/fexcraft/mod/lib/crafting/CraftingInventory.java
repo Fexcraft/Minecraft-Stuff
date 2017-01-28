@@ -15,7 +15,7 @@ public class CraftingInventory implements IInventory {
 	private final NonNullList<ItemStack> stackList;
     private final int inventoryWidth;
     private final int inventoryHeight;
-    private final Container eventHandler;
+    public final Container eventHandler;
 
     public CraftingInventory(Container c, int width, int height){
         this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);

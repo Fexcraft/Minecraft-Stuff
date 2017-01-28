@@ -59,6 +59,31 @@ public class Static{
 		}
 	}
 	
+	public static void exception(int i){
+		exception(i, null);
+	}
+	
+	/**
+	 * Alternative to {@link #halt()} or {@link #stop()} which will only work in a developement workspace, nice for debugging.
+	 * <br>
+	 * Which also prints the caller classes into console.
+	 * <br>
+	 * See also {@link #dev()}
+	 */
+	public static void exception(int i, String string){
+		Exception ex = new Exception();
+		for(int j = i; j > 0; j--){
+			StackTraceElement elm = ex.getStackTrace()[j];
+			Print.log("{" + elm.getClassName() + "#"  + elm.getMethodName() + " [LINE: " + elm.getLineNumber() + "]}");
+		}
+		if(string != null){
+			Print.log(string);
+		}
+		if(dev()){
+			halt();
+		}
+	}
+	
 	private static boolean dev = true, cdev = false;
 	
 	/**

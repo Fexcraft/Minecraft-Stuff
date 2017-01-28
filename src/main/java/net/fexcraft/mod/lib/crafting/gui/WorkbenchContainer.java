@@ -3,12 +3,13 @@ package net.fexcraft.mod.lib.crafting.gui;
 import net.fexcraft.mod.lib.crafting.CraftingInventory;
 import net.fexcraft.mod.lib.crafting.CraftingSlot;
 import net.fexcraft.mod.lib.crafting.ManagerCrafting;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,7 @@ public class WorkbenchContainer extends Container {
 	
     /** The crafting matrix (5x5). */
     public CraftingInventory craftMatrix = new CraftingInventory(this, 5, 5);
+    public InventoryCrafting secondary = new InventoryCrafting(this, 3, 3);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
     private final BlockPos pos;
@@ -61,7 +63,7 @@ public class WorkbenchContainer extends Container {
     }
     
     public boolean canInteractWith(EntityPlayer playerIn){
-        return this.world.getBlockState(this.pos).getBlock() != Registry.getBlock("fcl:workbench") ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.world.getBlockState(this.pos).getBlock() != RecipeRegistry.getWorkBench() ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
     
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){

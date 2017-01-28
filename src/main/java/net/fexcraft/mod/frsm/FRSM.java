@@ -62,44 +62,23 @@ public class FRSM{
 	    config.save();
 	    
 	    Registry.registerAllBlocks(FI.MODID, event.getAsmData());
-	    Registry.loadLoadAnnotations(event.getAsmData(), 99);
+	    Registry.loadLoadAnnotations(event.getAsmData(), 99);//Other Items
 	    Registry.registerAllItems(FI.MODID, event.getAsmData());
 	    Registry.registerAllEntities(FI.MODID, event.getAsmData());
+	    Registry.loadLoadAnnotations(event.getAsmData(), 101);//Recipes
 	    
-	    /*Recipes_PaintStuff.register();
-	    Recipes_Chairs.register();
-	    Recipes_Chimneys.register();
-	    Recipes_DecoBlocks.register();
-	    Recipes_Flags.register();
-	    Recipes_Food.register();
-	    Recipes_Keys.register();
-	    Recipes_Lamps.register();
-	    Recipes_Laptops.register();
-	    Recipes_Materials.register();
-	    Recipes_Other.register();
-	    Recipes_Palets.register();
-	    Recipes_Pillars.register();
-	    Recipes_Rails.register();
-	    Recipes_Stove_Pipes.register();
-	    Recipes_Tools.register();
-	    Recipes_TechnicalStuff.register();
-	    Recipes_Tiles.register();
-	    Recipes_TreePot.register();*/
-	    
-	    if(conf1 == true){
-	    	//Recipes_Robo.register();
-		}
 		if(conf2 == true){
 			MinecraftForge.addGrassSeed(new ItemStack(Items.WHEAT), 1);
-			MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:chocolate_cookie")), 2);
+			MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:chocolatecookie")), 2);
 		}
+		
 	}
 	
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event){
 		FuelHandler.initialize();
 		GameRegistry.registerFuelHandler(new FuelHandler());
-		MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:tomato_seeds")), 1);
+		MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:tomatoseeds")), 1);
 		
 		Data.getDataFromServer();
 		MinecraftForge.EVENT_BUS.register(new UpdateHandler.EventHandler());

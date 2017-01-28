@@ -1,10 +1,15 @@
 package net.fexcraft.mod.lib.util.registry;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
-
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.api.block.öBlock;
 import net.fexcraft.mod.lib.api.common.öCreativeTab;
@@ -26,8 +31,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -35,6 +38,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class Registry {
 	
+	private static final boolean writetofile = false;
 	private static Map<ResourceLocation, Block> blocks = new HashMap<ResourceLocation, Block>();
 	private static Map<ResourceLocation, Item> items = new HashMap<ResourceLocation, Item>();
 	private static Map<ResourceLocation, Entity> entities = new HashMap<ResourceLocation, Entity>();
@@ -48,6 +52,7 @@ public class Registry {
 	
 	public static void registerAllBlocks(String modid, ASMDataTable table){
 		Set<ASMData> data = table.getAll(blöck);
+		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Block> cBlock = (Class<? extends Block>)Class.forName(entry.getClassName());
@@ -70,6 +75,7 @@ public class Registry {
 					}
 					if(Static.dev()){
 						Print.log("Registered Block: " + mBlock.getRegistryName().toString());
+						arr.add(mBlock.getRegistryName().toString());
 					}
 				}
 				else continue;
@@ -78,10 +84,59 @@ public class Registry {
 				error(e, entry.getClassName());
 			}
 		}
+		write(modid, "block", arr);
+	}
+	
+	private static final void write(String modid, String type, ArrayList<String> arr){
+		try{
+			if(!Static.dev() || !writetofile){
+				return;
+			}
+			@SuppressWarnings("unused")
+			File file = new File(FCL.getInstance().getConfigDirectory(), "/fcl/LANG-TEMP/" + modid + "_" + type + ".fcl");
+			if(!file.exists()){
+				file.getParentFile().mkdirs();
+				FileWriter flw = new FileWriter(file);
+				flw.write("");
+				flw.close();
+			}
+			Collections.sort(arr);
+			FileWriter fw = new FileWriter(file);
+			fw.write(new String(Files.readAllBytes(file.toPath())));
+			String prefix = type.contains("block") ? "tile." : "item.";
+			for(String s : arr){
+				if(!contains(file, s)){
+					fw.append(prefix + s + ".name=\n");
+				}
+			}
+			fw.flush();
+			fw.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private static boolean contains(File file, String string){
+		try{
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNextLine()){
+				if(scanner.nextLine().contains(string)){
+					scanner.close();
+					return true;
+				}
+			}
+			scanner.close();
+			return false;
+		}
+		catch(Exception e){
+			return false;
+		}
 	}
 	
 	public static void registerAllItems(String modid, ASMDataTable table){
 		Set<ASMData> data = table.getAll(itém);
+		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Item> cItem = (Class<? extends Item>)Class.forName(entry.getClassName());
@@ -95,6 +150,7 @@ public class Registry {
 					registerItemModelLocation(mItem, item.variants(), item.custom_variants());
 					if(Static.dev()){
 						Print.log("Registered Item: " + mItem.getRegistryName().toString());
+						arr.add(mItem.getRegistryName().toString());
 					}
 				}
 				else continue;
@@ -103,6 +159,7 @@ public class Registry {
 				error(e, entry.getClassName());
 			}
 		}
+		write(modid, "item", arr);
 	}
 	
 	public static void registerAllEntities(String modid, ASMDataTable table){
@@ -189,17 +246,17 @@ public class Registry {
 		if(meta > 1){
 			if(names == null || names.length < 1){
 				for(int i = 0; i < meta; i++){
-					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + i, "inventory"));
+					net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + i, "inventory"));
 				}
 			}
 			else{
 				for(int i = 0; i < meta; i++){
-					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + names[i], "inventory"));
+					net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + names[i], "inventory"));
 				}
 			}
 		}
 		else{
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+			net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 	}
 	
@@ -267,6 +324,7 @@ public class Registry {
 				return items.get(res);
 			}
 		}
+		Static.exception(3, rs.toString());
 		return null;
 	}
 	
@@ -280,6 +338,7 @@ public class Registry {
 				return blocks.get(res);
 			}
 		}
+		Static.exception(3, rs.toString());
 		return null;
 	}
 
@@ -292,7 +351,7 @@ public class Registry {
 			try{
 				Class<? extends TileEntitySpecialRenderer> cTESR = (Class<? extends TileEntitySpecialRenderer>)Class.forName(entry.getClassName());
 				öTESR tesr = cTESR.getAnnotation(öTESR.class);
-				ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
+				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
 			}
 			catch(Exception e){
 				error(e, entry.getClassName());
@@ -309,6 +368,9 @@ public class Registry {
 		if(Static.dev()){
 			Print.log("Registered Item: " + item.getRegistryName().toString());
 		}
+		//ArrayList<String> arr = new ArrayList<String>();
+		//arr.add(item.getRegistryName().toString());
+		//write(modid, "item_manual", arr);
 	}
 	
 }

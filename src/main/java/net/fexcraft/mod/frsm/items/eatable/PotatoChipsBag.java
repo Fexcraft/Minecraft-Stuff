@@ -9,7 +9,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-@öItem(modid = FI.MODID, name = "patatochipsbag")
+@öItem(modid = FI.MODID, name = "potatochipsbag")
 public class PotatoChipsBag extends ItemFood {
 
 	public PotatoChipsBag() {

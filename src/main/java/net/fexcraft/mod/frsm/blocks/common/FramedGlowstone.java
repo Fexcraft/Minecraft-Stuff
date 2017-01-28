@@ -17,7 +17,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öBlock(modid = FI.MODID, name = "framedGlowstone", variants = 6, item = FramedGlowstone.IB.class)
+@öBlock(modid = FI.MODID, name = "framedglowstone", variants = 6, item = FramedGlowstone.IB.class)
 public class FramedGlowstone extends Block {
 	
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 5);

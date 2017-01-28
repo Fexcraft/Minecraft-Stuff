@@ -1,7 +1,9 @@
 package net.fexcraft.mod.frsm.blocks.roadsigns;
 
+import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
+import net.fexcraft.mod.lib.api.block.öBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -10,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+@öBlock(modid = FI.MODID, name = "roadsign3", tileentity = RoadSign3.TE.class)
 public class RoadSign3 extends FBC_4R {
 	
 	public RoadSign3() {
@@ -17,9 +20,7 @@ public class RoadSign3 extends FBC_4R {
 		this.setHarvestLevel("pickaxe", 1);
 		this.setHardness(3.0F);
 		this.setResistance(32.0F);
-		this.setCreativeTab(CD.STREETS.getCreativeTab());
-		BlockUtil.register(FI.MODID, this);
-		BlockUtil.registerFIB(this);
+		this.setCreativeTab(CD.STREETS);
 	}
 	
 	@Override
@@ -33,10 +34,5 @@ public class RoadSign3 extends FBC_4R {
 	}
 
 	public static class TE extends TileEntity {}
-	
-	@Override
-	public String getName(){
-		return "roadsign3";
-	}
 	
 }

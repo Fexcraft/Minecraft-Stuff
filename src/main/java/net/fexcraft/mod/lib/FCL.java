@@ -1,5 +1,6 @@
 package net.fexcraft.mod.lib;
 
+import java.io.File;
 import java.util.UUID;
 
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
@@ -46,10 +47,12 @@ public class FCL {
 	@Mod.Instance("fcl")
 	private static FCL instance;
 	private static Side side;
+	private static File configdir;
 	
 	@Mod.EventHandler
     public void init(FMLPreInitializationEvent event) throws Exception{
 		side = event.getSide();
+		configdir = event.getModConfigurationDirectory();
 		Registry.registerAll(event.getAsmData());
 	}
 	@Mod.EventHandler
@@ -79,6 +82,7 @@ public class FCL {
 		//Print.log("[FCL] Loaded.");
 		packet_handler.init();
 		CreativeTab.getIcons();
+		RecipeRegistry.importVanillaRecipes();
 		Print.log("Loading complete.");
 	}
 	
@@ -88,6 +92,10 @@ public class FCL {
 	
 	public static Side getSide(){
 		return side;
+	}
+	
+	public File getConfigDirectory(){
+		return configdir;
 	}
 	
 }

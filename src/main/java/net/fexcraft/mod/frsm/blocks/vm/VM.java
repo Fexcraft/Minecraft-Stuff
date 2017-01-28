@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "vendingmachine", tileentity = VMEntity.class)
+@öBlock(modid = FI.MODID, name = "vendingmashine", tileentity = VMEntity.class)
 public class VM extends FBC_4R_F {
 
 	public VM() {
