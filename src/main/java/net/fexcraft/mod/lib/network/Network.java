@@ -6,16 +6,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.UUID;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
+import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
@@ -23,7 +26,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
  */
 public class Network{
 	
-	/** Checks if connection (to main server) is avaible. */
+	private static boolean fcl_version_checked = false;
+
+	/** Checks if connection (to main server) is available. */
 	public static boolean isConnected(){
 		try{
 			URL url = new URL("http://www.fexcraft.net/files/TXT/connection.test");
@@ -71,34 +76,58 @@ public class Network{
 		}
 	}
 	
-	/** One-Time-Use method to register the mod in the FCL database.<br>
-	 * NOTE: Non-donators can register up to 3 mods, multi-accounting ("alts") tollerated up to 2 accounts per physical person.
-	 * Suspicious registry entries will be deleted if the person doesn't reply in time.
-	 * **/
-	public static void registerMod(String modid, int userid, String rawpassword, UUID[] authors) throws Exception {
-		if(!isConnected()){
-			Print.log("[FCL] Failed to register Mod '" + modid + "'! No internet connection avaible.");
-			return;
-		}
-		if(authors.length < 1){
-			Print.log("[FCL] Failed to register Mod '" + modid + "'! Author list is empty.");
-			return;
-		}
-		JsonObject request = new JsonObject();
-		request.addProperty("modid", modid);
-		request.addProperty("user", userid);
-		request.addProperty("rpwd", rawpassword);
-		request.add("authors", new JsonArray());
-		for(UUID id : authors){
-			request.get("authors").getAsJsonArray().add(new JsonPrimitive(id.toString()));
-		}
-		JsonObject reply = request("http://fexcraft.net/minecraft/fcl/request", "mode=register&modid=" + modid + "&obj=" + request.toString());
-		Print.log("[FCL] Registry state of '" + modid + "' = [" + reply.get("registered").getAsBoolean() + "]");
-		Print.log("[FCL] ERROR-CODE: " + reply.get("error_message").getAsString());
+	public static JsonObject getModData(String modid){
+		return getModData(modid, null);
 	}
 	
-	public static JsonObject getModData(String modid){
-		return request("http://fexcraft.net/minecraft/fcl/request", "mode=requestdata&modid=" + modid);
+	public static JsonObject getModData(String modid, String current_version){
+		JsonObject obj = request("http://fexcraft.net/minecraft/fcl/request", "mode=requestdata&modid=" + modid);
+		if(obj == null){
+			return null;
+		}
+		if(obj.has("blocked_versions") && current_version != null){
+			ArrayList<String> arr = new ArrayList<String>();
+			for(JsonElement elm : obj.get("blocked_versions").getAsJsonArray()){
+				arr.add(elm.getAsString());
+			}
+			ArrayList<String> array = new ArrayList<String>();
+			for(String s : arr){
+				ResourceLocation rs = new ResourceLocation(s);
+				if(rs.getResourceDomain().equals(FCL.mcv)){
+					array.add(rs.getResourcePath());
+				}
+			}
+			for(String s : array){
+				if(s.equals(current_version)){
+					Print.log("THIS VERSION OF " + modid.toUpperCase() + " IS BLOCKED/REMOVED;");
+					Static.halt(1);
+					break;
+				}
+			}
+		}
+		else if(obj.has("blocked_versions") && current_version == null && !fcl_version_checked){
+			JsonObject fcl = request("http://fexcraft.net/minecraft/fcl/request", "mode=requestdata&modid=fcl");
+			ArrayList<String> arr = new ArrayList<String>();
+			for(JsonElement elm : fcl.get("blocked_versions").getAsJsonArray()){
+				arr.add(elm.getAsString());
+			}
+			ArrayList<String> array = new ArrayList<String>();
+			for(String s : arr){
+				ResourceLocation rs = new ResourceLocation(s);
+				if(rs.getResourceDomain().equals(FCL.mcv)){
+					array.add(s);
+				}
+			}
+			for(String s : array){
+				if(s.equals(current_version)){
+					Print.log("THIS VERSION OF " + modid.toUpperCase() + " IS BLOCKED/REMOVED;");
+					Static.halt(1);
+					break;
+				}
+			}
+			fcl_version_checked = true;
+		}
+		return obj;
 	}
 	
 	public static boolean isModRegistered(String modid){

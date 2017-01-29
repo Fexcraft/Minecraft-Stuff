@@ -21,7 +21,7 @@ public class PacketHandler{
 	private static final SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel("frsm");
 	
 	public static void init(){
-		Print.log("[FCL] Initialising Packet Handler.");
+		Print.log("Initialising Packet Handler.");
 		instance.registerMessage(ExamplePacketHandler.class,           Packet.class,                  0, Side.SERVER);
 		instance.registerMessage(TileEntityUpdatePacketHandler.class,  PacketTileEntityUpdate.class,  1, Side.CLIENT);
 		instance.registerMessage(KeyInputPacketHandler.class,          PacketKeyInput.class,          2, Side.SERVER);
@@ -29,7 +29,7 @@ public class PacketHandler{
 		instance.registerMessage(ISUPacketHandler.Client.class,        PacketItemStackUpdate.class,   4, Side.CLIENT);
 		instance.registerMessage(JsonObjectPacketHandler.Server.class, PacketJsonObject.class,        5, Side.SERVER);
 		instance.registerMessage(JsonObjectPacketHandler.Client.class, PacketJsonObject.class,        6, Side.CLIENT);
-		Print.log("[FCL] Done initialising Packet Handler.");
+		Print.log("Done initialising Packet Handler.");
 	}
 	
 	public static SimpleNetworkWrapper getInstance(){

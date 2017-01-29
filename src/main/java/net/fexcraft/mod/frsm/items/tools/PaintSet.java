@@ -2,6 +2,8 @@ package net.fexcraft.mod.frsm.items.tools;
 
 import java.util.List;
 
+import net.fexcraft.mod.frsm.FRSM;
+import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
@@ -110,7 +112,11 @@ public class PaintSet extends Item {
 				}
 			}
 			else{
-				return EnumActionResult.PASS;
+				if(this.getRegistryName().toString().contains("16")){
+					player.openGui(FRSM.getInstance(), GuiHandler.RGB, world, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
+					return EnumActionResult.SUCCESS;
+				}
+				else return EnumActionResult.PASS;
 			}
 			return EnumActionResult.SUCCESS;
 		}

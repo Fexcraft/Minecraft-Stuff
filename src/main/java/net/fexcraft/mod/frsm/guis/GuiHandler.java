@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 public class GuiHandler implements IGuiHandler {
 	
 	public static final int FURNACE1 = 1;
+	public static int RGB = 3;
 
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
@@ -23,7 +24,7 @@ public class GuiHandler implements IGuiHandler {
 			case 0:
 				return null;
 			case 1:
-				return new ContainerFurnace1(player.inventory, (Furnace1bEntity)entity); 
+				return new ContainerFurnace1(player.inventory, (Furnace1bEntity)entity);
 			default:
 				return null;
 		}
@@ -40,6 +41,8 @@ public class GuiHandler implements IGuiHandler {
 				return null;
 			case 1:
 				return new GuiFurnace1(player.inventory, (Furnace1bEntity)entity);
+			case 3:
+				return null;
 			default:
 				return new GuiLoadingScreen();
 		}

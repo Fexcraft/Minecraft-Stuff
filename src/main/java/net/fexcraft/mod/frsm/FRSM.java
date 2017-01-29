@@ -2,7 +2,6 @@ package net.fexcraft.mod.frsm;
 
 import java.io.File;
 
-import net.fexcraft.mod.frsm.commads.MainCommand;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.*;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -23,7 +21,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class FRSM{
 	
 	public static final String version = "4.0.00"; 
-	public static final String vnote = "Some new stuffs. Finally?";
+	public static final String vnote = "A new Age.";
 	
 	@Mod.Instance(FI.MODID)
 	private static FRSM instance;
@@ -61,11 +59,11 @@ public class FRSM{
 	    conf5       = config.getBoolean("robo_entities", "###[> RoboStuff <]###", true, "Should FRSM robots be enabled?");
 	    config.save();
 	    
-	    Registry.registerAllBlocks(FI.MODID, event.getAsmData());
-	    Registry.loadLoadAnnotations(event.getAsmData(), 99);//Other Items
-	    Registry.registerAllItems(FI.MODID, event.getAsmData());
-	    Registry.registerAllEntities(FI.MODID, event.getAsmData());
-	    Registry.loadLoadAnnotations(event.getAsmData(), 101);//Recipes
+	    Registry.registerAllBlocks(FI.MODID);
+	    Registry.loadLoadAnnotations(99);//Other Items
+	    Registry.registerAllItems(FI.MODID);
+	    Registry.registerAllEntities(FI.MODID);
+	    Registry.loadLoadAnnotations(101);//Recipes
 	    
 		if(conf2 == true){
 			MinecraftForge.addGrassSeed(new ItemStack(Items.WHEAT), 1);
@@ -84,11 +82,6 @@ public class FRSM{
 		MinecraftForge.EVENT_BUS.register(new UpdateHandler.EventHandler());
 		UpdateHandler.load();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-	}
-	
-	@Mod.EventHandler
-	public void serverLoad(FMLServerStartingEvent event){
-		event.registerServerCommand(new MainCommand());
 	}
 	
 	@Mod.EventHandler

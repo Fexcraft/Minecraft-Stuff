@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.Set;
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.common.öCommand;
 import net.fexcraft.mod.lib.api.common.öCreativeTab;
 import net.fexcraft.mod.lib.api.common.öLoad;
 import net.fexcraft.mod.lib.api.entity.öEntity;
@@ -26,6 +27,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.command.CommandBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -33,6 +35,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -49,8 +52,9 @@ public class Registry {
 	private static final String mödel = öModel.class.getCanonicalName();
 	private static final String tésr = öTESR.class.getCanonicalName();
 	private static int eid = 0;
+	private static ASMDataTable table;
 	
-	public static void registerAllBlocks(String modid, ASMDataTable table){
+	public static void registerAllBlocks(String modid){
 		Set<ASMData> data = table.getAll(blöck);
 		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
@@ -73,10 +77,8 @@ public class Registry {
 					if(mBlock instanceof ITileEntityProvider){
 						GameRegistry.registerTileEntity(block.tileentity(), mBlock.getRegistryName().toString());
 					}
-					if(Static.dev()){
-						Print.log("Registered Block: " + mBlock.getRegistryName().toString());
-						arr.add(mBlock.getRegistryName().toString());
-					}
+					Print.debug("Registered Block: " + mBlock.getRegistryName().toString());
+					arr.add(mBlock.getRegistryName().toString());
 				}
 				else continue;
 			}
@@ -134,7 +136,7 @@ public class Registry {
 		}
 	}
 	
-	public static void registerAllItems(String modid, ASMDataTable table){
+	public static void registerAllItems(String modid){
 		Set<ASMData> data = table.getAll(itém);
 		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
@@ -148,10 +150,8 @@ public class Registry {
 					items.put(mItem.getRegistryName(), mItem);
 					GameRegistry.register(mItem);
 					registerItemModelLocation(mItem, item.variants(), item.custom_variants());
-					if(Static.dev()){
-						Print.log("Registered Item: " + mItem.getRegistryName().toString());
-						arr.add(mItem.getRegistryName().toString());
-					}
+					Print.debug("Registered Item: " + mItem.getRegistryName().toString());
+					arr.add(mItem.getRegistryName().toString());
 				}
 				else continue;
 			}
@@ -162,7 +162,7 @@ public class Registry {
 		write(modid, "item", arr);
 	}
 	
-	public static void registerAllEntities(String modid, ASMDataTable table){
+	public static void registerAllEntities(String modid){
 		Set<ASMData> data = table.getAll(éntity);
 		for(ASMData entry : data){
 			try{
@@ -171,9 +171,7 @@ public class Registry {
 				if(entity.modid().equals(modid)){
 					ResourceLocation rs = new ResourceLocation(entity.modid(), entity.name());
 					EntityRegistry.registerModEntity(rs, cEntity, rs.toString(), eid++, entity.modid(), entity.tracking_range(), entity.update_frequency(), entity.send_velocity_updates());
-					if(Static.dev()){
-						Print.log("Registered Entity: " + rs.toString());
-					}
+					Print.debug("Registered Entity: " + rs.toString());
 				}
 				else continue;
 			}
@@ -183,7 +181,7 @@ public class Registry {
 		}
 	}
 	
-	public static void scanForModels(ASMDataTable table){
+	public static void scanForModels(){
 		Set<ASMData> data = table.getAll(mödel);
 		for(ASMData entry : data){
 			try{
@@ -196,7 +194,7 @@ public class Registry {
 		}
 	}
 	
-	public static void loadLoadAnnotations(ASMDataTable table, int l){
+	public static void loadLoadAnnotations(int l){
 		Set<ASMData> data = table.getAll(öLoad.class.getCanonicalName());
 		for(ASMData entry : data){
 			try{
@@ -305,13 +303,13 @@ public class Registry {
 		}
 	}
 
-	public static final void registerAll(ASMDataTable table){
-		registerAllBlocks("fcl", table);
+	public static final void registerAll(){
+		registerAllBlocks("fcl");
 		//registerAllItems("fcl", table);
 		//registerAllEntities("fcl", table);
-		registerTESRs(table);
-		scanForModels(table);
-		loadLoadAnnotations(table, 0);
+		registerTESRs();
+		scanForModels();
+		loadLoadAnnotations(0);
 	}
 
 	public static Item getItem(String string){
@@ -342,7 +340,7 @@ public class Registry {
 		return null;
 	}
 
-	public static void registerTESRs(ASMDataTable table){
+	public static void registerTESRs(){
 		if(FCL.getSide().isServer()){
 			return;
 		}
@@ -365,12 +363,24 @@ public class Registry {
 		items.put(item.getRegistryName(), item);
 		GameRegistry.register(item);
 		registerItemModelLocation(item, meta, custom);
-		if(Static.dev()){
-			Print.log("Registered Item: " + item.getRegistryName().toString());
+		Print.debug("Registered Item: " + item.getRegistryName().toString());
+	}
+
+	public static void registerAllCommands(FMLServerStartingEvent event) {
+		Set<ASMData> data = table.getAll(öCommand.class.getCanonicalName());
+		for(ASMData entry : data){
+			try{
+				Class<? extends CommandBase> cmd = (Class<? extends CommandBase>)Class.forName(entry.getClassName());
+				event.registerServerCommand(cmd.newInstance());
+			}
+			catch(Exception e){
+				error(e, entry.getClassName());
+			}
 		}
-		//ArrayList<String> arr = new ArrayList<String>();
-		//arr.add(item.getRegistryName().toString());
-		//write(modid, "item_manual", arr);
+	}
+
+	public static void linkTable(ASMDataTable asmData) {
+		table = asmData;
 	}
 	
 }

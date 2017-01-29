@@ -46,7 +46,6 @@ public class SimpleUpdateHandler{
 		if(!Network.isConnected()){
 			return;
 		}
-		
 		if(Network.isModRegistered(modid)){
 			obj.add(modid, Network.getModData(modid));
 			modids.add(modid);
@@ -54,7 +53,7 @@ public class SimpleUpdateHandler{
 			return;
 		}
 		else{
-			Print.log("[FCL] Tried to register an SimpleUpdateHandler for '" + modid + "', but mod seems to don't be registered in the FCL database.");
+			Print.log("Tried to register an SimpleUpdateHandler for '" + modid + "', but mod seems not to be registered in the FCL database.");
 		}
 	}
 
@@ -65,17 +64,17 @@ public class SimpleUpdateHandler{
 	}
 	
 	private static void checkIfUpdateAvaible(){
-		Print.log("[FCL-SUH] Checking for avaible updates.");
+		Print.log("[SUH] Checking for avaible updates.");
 		for(String modid : modids){
 			if(obj.has(modid)){
 				String latest_version = getLatestVersionOf(modid);
 				if(!latest_version.equals(versions.get(modid))){
-					Print.log("[FCL-SUH] Found update for '" + modid + "'!");
+					Print.log("[SUH] Found update for '" + modid + "'!");
 					mods_to_update.add(modid);
 				}
 			}
 		}
-		Print.log("[FCL-SUH] Done checking for updates.");
+		Print.log("[SUH] Done checking for updates.");
 	}
 	
 	/** 
@@ -108,7 +107,7 @@ public class SimpleUpdateHandler{
 					if(obj.get(modid).getAsJsonObject().has("latest_version")){
 						return obj.get(modid).getAsJsonObject().get("latest_version").getAsString();
 					}
-					else return "<< NO VERSION DATA IN OBJ >]>]> CHECK MOD JSON >>";
+					else return "<< NO VERSION DATA IN OBJ --- CHECK MOD JSON >>";
 				}
 			}
 			catch(Exception ex){

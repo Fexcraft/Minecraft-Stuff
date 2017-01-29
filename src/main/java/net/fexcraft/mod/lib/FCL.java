@@ -53,7 +53,8 @@ public class FCL {
     public void init(FMLPreInitializationEvent event) throws Exception{
 		side = event.getSide();
 		configdir = event.getModConfigurationDirectory();
-		Registry.registerAll(event.getAsmData());
+		Registry.linkTable(event.getAsmData());
+		Registry.registerAll();
 	}
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception{
@@ -68,6 +69,7 @@ public class FCL {
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event){
 		event.registerServerCommand(new Command());
+		Registry.registerAllCommands(event);
 	}
 	
 	@Mod.EventHandler

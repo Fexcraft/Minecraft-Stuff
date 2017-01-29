@@ -1,5 +1,6 @@
 package net.fexcraft.mod.lib.network;
 
+import java.net.InetAddress;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -8,9 +9,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class BlackList {
@@ -35,16 +36,37 @@ public class BlackList {
 	
 	private void getList(){
 		if(server){
+			String net = "127.0.0.1";
+			try{
+				net = InetAddress.getLocalHost().getHostAddress();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			JsonObject check = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=blacklist&id=" + net);
+			if(check == null){
+				Print.log("Couldn't validate Server.");
+			}
+			if(check != null && check.has("unbanned")){
+				if(!check.get("unbanned").getAsBoolean()){
+					Print.log("ERROR, SERVER IS BLACKLISTED;");
+					Print.log("CONTACT FEXCRAFT.NET STAFF IF YOU THINK IS AN ERROR;");
+					Static.halt(1);
+				}
+			}
 			JsonObject obj = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=blacklist");
 			if(obj == null){
 				Print.log("Couldn't retrieve BL.");
+				return;
 			}
 			for(JsonElement elm : obj.get("blacklist").getAsJsonArray()){
 				try{
 					list.add(UUID.fromString(elm.getAsString()));
 				}
 				catch(Exception e){
-					Print.log("[BL] Couldn't parse " + elm.toString() + ".");
+					if(e instanceof IllegalArgumentException){
+						Print.log("[BL] Couldn't parse " + elm.toString() + ".");
+					}
 				}
 			}
 		}
@@ -72,8 +94,7 @@ public class BlackList {
 			((EntityPlayerMP)player).connection.disconnect("[FCL] Blacklisted.");
 		}
 		else{
-			//Runtime.getRuntime().halt(1);//.exit(1);
-			FMLCommonHandler.instance().exitJava(0, true);
+			Static.halt(0);
 		}
 	}
 }

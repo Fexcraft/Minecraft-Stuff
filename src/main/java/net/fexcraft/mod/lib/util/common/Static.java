@@ -45,7 +45,11 @@ public class Static{
 	 * Simple method to halt the current Minecraft Instance, "force close".
 	 */
 	public static void halt(){
-		FMLCommonHandler.instance().exitJava(1, true);
+		halt(1);
+	}
+	
+	public static void halt(int errc){
+		FMLCommonHandler.instance().exitJava(errc, true);
 	}
 	
 	/**

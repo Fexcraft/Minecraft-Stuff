@@ -1,7 +1,5 @@
 package net.fexcraft.mod.frsm.util;
 
-import java.io.File;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,11 +9,10 @@ import net.fexcraft.mod.lib.network.Network;
 
 public class Data{
 	
-	private static File tempfile;
 	private static JsonObject data;
 	
 	public static void getDataFromServer(){
-		JsonObject json = Network.getModData("frsm");
+		JsonObject json = Network.getModData("frsm", FI.VERSION);
 		if(json == null){
 			setDefault();
 		}
