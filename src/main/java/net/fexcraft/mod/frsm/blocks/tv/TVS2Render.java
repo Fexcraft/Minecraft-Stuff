@@ -3,11 +3,11 @@ package net.fexcraft.mod.frsm.blocks.tv;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@öTESR(tileentity = TVS2Entity.class)
+@fTESR(tileentity = TVS2Entity.class)
 public class TVS2Render extends FTESR_4R {
 	
 	private static final TVS2Model model = new TVS2Model();

@@ -1,13 +1,13 @@
 package net.fexcraft.mod.lib.util.cmds;
 
-import net.fexcraft.mod.lib.api.common.öCommand;
+import net.fexcraft.mod.lib.api.common.fCommand;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
-@öCommand
+@fCommand
 public class Command extends CommandBase{
 
 	@Override

@@ -3,11 +3,11 @@ package net.fexcraft.mod.frsm.blocks.pipes;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@öTESR(tileentity = StovePipeEntity.class)
+@fTESR(tileentity = StovePipeEntity.class)
 public class StovePipeRender extends FTESR_4R {
 	
 	private static final ModelStovePipe model = new ModelStovePipe();

@@ -6,14 +6,14 @@ import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBN_4R;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.util.registry.ItemBlock16;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-@öBlock(modid = FI.MODID, name = "laptop_black", item = LaptopBlack.IB.class)
+@fBlock(modid = FI.MODID, name = "laptop_black", item = LaptopBlack.IB.class)
 public class LaptopBlack extends FBN_4R {
     
 	public LaptopBlack() {

@@ -3,12 +3,12 @@ package net.fexcraft.mod.frsm.blocks.palet;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R_F;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "palet1x1_1", tileentity = Palet1x1_1Entity.class)
+@fBlock(modid = FI.MODID, name = "palet1x1_1", tileentity = Palet1x1_1Entity.class)
 public class Palet1x1_1 extends FBC_4R_F {
 	
 	public Palet1x1_1() {

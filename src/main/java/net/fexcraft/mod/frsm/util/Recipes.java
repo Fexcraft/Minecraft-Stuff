@@ -1,6 +1,6 @@
 package net.fexcraft.mod.frsm.util;
 
-import net.fexcraft.mod.lib.api.common.öLoad;
+import net.fexcraft.mod.lib.api.common.fLoad;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.init.Blocks;
@@ -9,7 +9,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@öLoad(turn = 101)
+@fLoad(turn = 101)
 public final class Recipes {
 	
 	public Recipes(){

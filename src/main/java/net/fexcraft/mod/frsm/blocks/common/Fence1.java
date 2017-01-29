@@ -3,9 +3,9 @@ package net.fexcraft.mod.frsm.blocks.common;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.ConnectableBlock;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 
-@öBlock(modid = FI.MODID, name = "fence1")
+@fBlock(modid = FI.MODID, name = "fence1")
 public class Fence1 extends ConnectableBlock {
 	
 	public Fence1() {

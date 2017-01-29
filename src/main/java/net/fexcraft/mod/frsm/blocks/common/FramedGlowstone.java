@@ -2,7 +2,7 @@ package net.fexcraft.mod.frsm.blocks.common;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.util.registry.ItemBlock16;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,7 +17,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öBlock(modid = FI.MODID, name = "framedglowstone", variants = 6, item = FramedGlowstone.IB.class)
+@fBlock(modid = FI.MODID, name = "framedglowstone", variants = 6, item = FramedGlowstone.IB.class)
 public class FramedGlowstone extends Block {
 	
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 5);

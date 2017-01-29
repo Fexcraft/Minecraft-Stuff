@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -25,7 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "tomatoplant")
+@fBlock(modid = FI.MODID, name = "tomatoplant")
 public class TomatoPlant extends BlockBush implements IGrowable{
 	
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);

@@ -3,12 +3,12 @@ package net.fexcraft.mod.frsm.blocks.pillar;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "pillar1", tileentity = PillarEntity.class)
+@fBlock(modid = FI.MODID, name = "pillar1", tileentity = PillarEntity.class)
 public class Pillar extends FBC_4R {
 	
 	public Pillar() {

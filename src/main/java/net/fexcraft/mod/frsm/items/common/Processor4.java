@@ -2,10 +2,10 @@ package net.fexcraft.mod.frsm.items.common;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.item.öItem;
+import net.fexcraft.mod.lib.api.item.fItem;
 import net.minecraft.item.Item;
 
-@öItem(modid = FI.MODID, name = "prozessor4")
+@fItem(modid = FI.MODID, name = "prozessor4")
 public class Processor4 extends Item {
 
 	public Processor4(){

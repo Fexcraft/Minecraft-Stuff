@@ -1,7 +1,7 @@
 package net.fexcraft.mod.frsm.items.usable;
 
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.item.öItem;
+import net.fexcraft.mod.lib.api.item.fItem;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-@öItem(modid = FI.MODID, name = "tomatoseeds")
+@fItem(modid = FI.MODID, name = "tomatoseeds")
 public class TomatoSeeds extends ItemFood implements IPlantable {
     
     private Block tomatoPlant;

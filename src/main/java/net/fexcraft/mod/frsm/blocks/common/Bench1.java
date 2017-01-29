@@ -3,7 +3,7 @@ package net.fexcraft.mod.frsm.blocks.common;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBN_4R;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -12,16 +12,16 @@ import net.minecraft.world.IBlockAccess;
 
 public class Bench1 extends FBN_4R {
 	
-	@öBlock(modid = FI.MODID, name = "bench1")
+	@fBlock(modid = FI.MODID, name = "bench1")
 	public static class Bench1_0 extends Bench1{}
 	
-	@öBlock(modid = FI.MODID, name = "bench1_1")
+	@fBlock(modid = FI.MODID, name = "bench1_1")
 	public static class Bench1_1 extends Bench1{}
 	
-	@öBlock(modid = FI.MODID, name = "bench1_2")
+	@fBlock(modid = FI.MODID, name = "bench1_2")
 	public static class Bench1_2 extends Bench1{}
 	
-	@öBlock(modid = FI.MODID, name = "bench1_3")
+	@fBlock(modid = FI.MODID, name = "bench1_3")
 	public static class Bench1_3 extends Bench1{};
 	
 	public Bench1(){

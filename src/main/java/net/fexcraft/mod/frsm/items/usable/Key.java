@@ -8,7 +8,7 @@ import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.lib.api.common.LockableObject;
 import net.fexcraft.mod.lib.api.item.KeyItem;
-import net.fexcraft.mod.lib.api.item.öItem;
+import net.fexcraft.mod.lib.api.item.fItem;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öItem(modid = FI.MODID, name = "key", variants = 3)
+@fItem(modid = FI.MODID, name = "key", variants = 3)
 public class Key extends KeyItem {
 	
 	public Key() {

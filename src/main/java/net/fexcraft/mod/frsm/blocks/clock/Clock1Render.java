@@ -3,13 +3,13 @@ package net.fexcraft.mod.frsm.blocks.clock;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@öTESR(tileentity = Clock1.TE.class)
+@fTESR(tileentity = Clock1.TE.class)
 public class Clock1Render extends FTESR_4R {
 	
 	private static final ModelClock1 model = new ModelClock1();

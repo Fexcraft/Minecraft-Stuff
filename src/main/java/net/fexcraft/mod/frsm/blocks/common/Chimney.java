@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.frsm.blocks.pipes.StovePipeEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öBlock(modid = FI.MODID, name = "chimney", variants = 5)
+@fBlock(modid = FI.MODID, name = "chimney", variants = 5)
 public class Chimney extends Block implements StovePipeEntity.Connectable {
 	
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 4);

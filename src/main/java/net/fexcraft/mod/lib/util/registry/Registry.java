@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.api.block.öBlock;
-import net.fexcraft.mod.lib.api.common.öCommand;
-import net.fexcraft.mod.lib.api.common.öCreativeTab;
-import net.fexcraft.mod.lib.api.common.öLoad;
-import net.fexcraft.mod.lib.api.entity.öEntity;
-import net.fexcraft.mod.lib.api.item.öItem;
-import net.fexcraft.mod.lib.api.render.öModel;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.block.fBlock;
+import net.fexcraft.mod.lib.api.common.fCommand;
+import net.fexcraft.mod.lib.api.common.fCreativeTab;
+import net.fexcraft.mod.lib.api.common.fLoad;
+import net.fexcraft.mod.lib.api.entity.fEntity;
+import net.fexcraft.mod.lib.api.item.fItem;
+import net.fexcraft.mod.lib.api.render.fModel;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.render.ModelType;
@@ -46,21 +46,21 @@ public class Registry {
 	private static Map<ResourceLocation, Item> items = new HashMap<ResourceLocation, Item>();
 	private static Map<ResourceLocation, Entity> entities = new HashMap<ResourceLocation, Entity>();
 	private static Map<ResourceLocation, Object> models = new HashMap<ResourceLocation, Object>();
-	private static final String blöck = öBlock.class.getCanonicalName();
-	private static final String itém = öItem.class.getCanonicalName();
-	private static final String éntity = öEntity.class.getCanonicalName();
-	private static final String mödel = öModel.class.getCanonicalName();
-	private static final String tésr = öTESR.class.getCanonicalName();
+	private static final String block = fBlock.class.getCanonicalName();
+	private static final String item = fItem.class.getCanonicalName();
+	private static final String entity = fEntity.class.getCanonicalName();
+	private static final String model = fModel.class.getCanonicalName();
+	private static final String tesr = fTESR.class.getCanonicalName();
 	private static int eid = 0;
 	private static ASMDataTable table;
 	
 	public static void registerAllBlocks(String modid){
-		Set<ASMData> data = table.getAll(blöck);
+		Set<ASMData> data = table.getAll(block);
 		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Block> cBlock = (Class<? extends Block>)Class.forName(entry.getClassName());
-				öBlock block = cBlock.getAnnotation(öBlock.class);
+				fBlock block = cBlock.getAnnotation(fBlock.class);
 				if(block.modid().equals(modid)){
 					Block mBlock = cBlock.newInstance();
 					mBlock.setRegistryName(block.modid(), block.name());
@@ -137,12 +137,12 @@ public class Registry {
 	}
 	
 	public static void registerAllItems(String modid){
-		Set<ASMData> data = table.getAll(itém);
+		Set<ASMData> data = table.getAll(item);
 		ArrayList<String> arr = new ArrayList<String>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Item> cItem = (Class<? extends Item>)Class.forName(entry.getClassName());
-				öItem item = cItem.getAnnotation(öItem.class);
+				fItem item = cItem.getAnnotation(fItem.class);
 				if(item.modid().equals(modid)){
 					Item mItem = cItem.newInstance();
 					mItem.setRegistryName(item.modid(), item.name());
@@ -163,11 +163,11 @@ public class Registry {
 	}
 	
 	public static void registerAllEntities(String modid){
-		Set<ASMData> data = table.getAll(éntity);
+		Set<ASMData> data = table.getAll(entity);
 		for(ASMData entry : data){
 			try{
 				Class<? extends Entity> cEntity = (Class<? extends Entity>)Class.forName(entry.getClassName());
-				öEntity entity = cEntity.getAnnotation(öEntity.class);
+				fEntity entity = cEntity.getAnnotation(fEntity.class);
 				if(entity.modid().equals(modid)){
 					ResourceLocation rs = new ResourceLocation(entity.modid(), entity.name());
 					EntityRegistry.registerModEntity(rs, cEntity, rs.toString(), eid++, entity.modid(), entity.tracking_range(), entity.update_frequency(), entity.send_velocity_updates());
@@ -182,10 +182,10 @@ public class Registry {
 	}
 	
 	public static void scanForModels(){
-		Set<ASMData> data = table.getAll(mödel);
+		Set<ASMData> data = table.getAll(model);
 		for(ASMData entry : data){
 			try{
-				öModel model = entry.getClass().getAnnotation(öModel.class);
+				fModel model = entry.getClass().getAnnotation(fModel.class);
 				models.put(new ResourceLocation(model.type().toString(), model.name()), entry.getClass().newInstance());
 			}
 			catch(Exception e){
@@ -195,17 +195,17 @@ public class Registry {
 	}
 	
 	public static void loadLoadAnnotations(int l){
-		Set<ASMData> data = table.getAll(öLoad.class.getCanonicalName());
+		Set<ASMData> data = table.getAll(fLoad.class.getCanonicalName());
 		for(ASMData entry : data){
 			try{
 				Class<?> clazz = Class.forName(entry.getClassName());
-				öLoad load = clazz.getAnnotation(öLoad.class);
+				fLoad load = clazz.getAnnotation(fLoad.class);
 				if(load.turn() == l){
 					clazz.newInstance();
 					if(load.value()){
 						//scan for other stuffs
 						for(Field field : clazz.getDeclaredFields()){
-							öCreativeTab ct = field.getAnnotation(öCreativeTab.class);
+							fCreativeTab ct = field.getAnnotation(fCreativeTab.class);
 							if(ct!= null){
 								CreativeTabs cts = new CreativeTab(ct.name(), ct.icon(), ct.meta());
 								field.set(CreativeTabs.class, cts);
@@ -344,11 +344,11 @@ public class Registry {
 		if(FCL.getSide().isServer()){
 			return;
 		}
-		Set<ASMData> data = table.getAll(tésr);
+		Set<ASMData> data = table.getAll(tesr);
 		for(ASMData entry : data){
 			try{
 				Class<? extends TileEntitySpecialRenderer> cTESR = (Class<? extends TileEntitySpecialRenderer>)Class.forName(entry.getClassName());
-				öTESR tesr = cTESR.getAnnotation(öTESR.class);
+				fTESR tesr = cTESR.getAnnotation(fTESR.class);
 				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
 			}
 			catch(Exception e){
@@ -367,7 +367,7 @@ public class Registry {
 	}
 
 	public static void registerAllCommands(FMLServerStartingEvent event) {
-		Set<ASMData> data = table.getAll(öCommand.class.getCanonicalName());
+		Set<ASMData> data = table.getAll(fCommand.class.getCanonicalName());
 		for(ASMData entry : data){
 			try{
 				Class<? extends CommandBase> cmd = (Class<? extends CommandBase>)Class.forName(entry.getClassName());

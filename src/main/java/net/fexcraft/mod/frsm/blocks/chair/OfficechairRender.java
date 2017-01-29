@@ -3,12 +3,12 @@ package net.fexcraft.mod.frsm.blocks.chair;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@öTESR(tileentity = OfficechairEntity.class)
+@fTESR(tileentity = OfficechairEntity.class)
 public class OfficechairRender extends FTESR_4R {
 	
 	private static final OfficechairModel model = new OfficechairModel();

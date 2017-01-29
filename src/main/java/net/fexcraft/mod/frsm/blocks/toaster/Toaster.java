@@ -3,11 +3,11 @@ package net.fexcraft.mod.frsm.blocks.toaster;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBN_4R;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 
-@öBlock(modid = FI.MODID, name = "toaster")
+@fBlock(modid = FI.MODID, name = "toaster")
 public class Toaster extends FBN_4R {
 	
 	public Toaster() {

@@ -2,14 +2,14 @@ package net.fexcraft.mod.frsm.blocks.streetlamps;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "streetlamp_post", tileentity = StreetLampPostEntity.class)
+@fBlock(modid = FI.MODID, name = "streetlamp_post", tileentity = StreetLampPostEntity.class)
 public class StreetLampPost extends BlockContainer {
 
 	public StreetLampPost(){

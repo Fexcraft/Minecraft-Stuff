@@ -8,7 +8,7 @@ import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.lib.api.common.PaintableObject;
-import net.fexcraft.mod.lib.api.common.öLoad;
+import net.fexcraft.mod.lib.api.common.fLoad;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -28,7 +28,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-@öLoad(turn = 99)
+@fLoad(turn = 99)
 public class PaintSet extends Item {
 	
 	private static PaintSet[] sets;

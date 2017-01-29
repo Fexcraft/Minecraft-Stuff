@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.util.registry.ItemBlock16;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öBlock(modid = FI.MODID, name = "tree_pot", variants = 16)
+@fBlock(modid = FI.MODID, name = "tree_pot", variants = 16)
 public class TreePot extends Block {
 
 	/**

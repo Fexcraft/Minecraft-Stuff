@@ -6,7 +6,7 @@ import net.fexcraft.mod.frsm.FRSM;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@öBlock(modid = FI.MODID, name = "furnace1b", tileentity = Furnace1bEntity.class)
+@fBlock(modid = FI.MODID, name = "furnace1b", tileentity = Furnace1bEntity.class)
 public class Furnace1b extends FBC_4R {
 	
 	private static boolean keepInventory;

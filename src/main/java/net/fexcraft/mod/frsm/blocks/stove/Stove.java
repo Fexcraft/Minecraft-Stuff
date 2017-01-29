@@ -3,12 +3,12 @@ package net.fexcraft.mod.frsm.blocks.stove;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R_F;
-import net.fexcraft.mod.lib.api.block.öBlock;
+import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@öBlock(modid = FI.MODID, name = "stove", tileentity = StoveEntity.class)
+@fBlock(modid = FI.MODID, name = "stove", tileentity = StoveEntity.class)
 public class Stove extends FBC_4R_F {
 	
 	public Stove(){

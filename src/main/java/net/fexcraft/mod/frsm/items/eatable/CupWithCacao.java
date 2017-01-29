@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
-import net.fexcraft.mod.lib.api.item.öItem;
+import net.fexcraft.mod.lib.api.item.fItem;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -13,7 +13,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-@öItem(modid = FI.MODID, name = "cupwithcacao")
+@fItem(modid = FI.MODID, name = "cupwithcacao")
 public class CupWithCacao extends ItemFood {
 
 	public CupWithCacao() {

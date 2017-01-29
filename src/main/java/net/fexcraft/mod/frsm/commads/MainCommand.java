@@ -10,7 +10,7 @@ import net.fexcraft.mod.frsm.util.Data;
 import net.fexcraft.mod.frsm.util.FI;
 import static net.fexcraft.mod.frsm.util.CCS.*;
 
-import net.fexcraft.mod.lib.api.common.öCommand;
+import net.fexcraft.mod.lib.api.common.fCommand;
 import net.fexcraft.mod.lib.network.Browser;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -25,7 +25,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 
-@öCommand
+@fCommand
 public class MainCommand extends CommandBase {
 
 	private final ArrayList aliases;

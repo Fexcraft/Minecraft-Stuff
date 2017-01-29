@@ -1,11 +1,11 @@
 package net.fexcraft.mod.frsm.blocks.palet;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.lib.api.render.öTESR;
+import net.fexcraft.mod.lib.api.render.fTESR;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@öTESR(tileentity = Palet1x1_1Entity.class)
+@fTESR(tileentity = Palet1x1_1Entity.class)
 public class Palet1x1_1Render extends FTESR_4R {
 	
 	private static final Palet1x1_1Model model = new Palet1x1_1Model();
