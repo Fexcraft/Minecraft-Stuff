@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.frsm.util.Data;
 import net.fexcraft.mod.frsm.util.FI;
-import static net.fexcraft.mod.fsmm.util.CCS.*;
+import static net.fexcraft.mod.frsm.util.CCS.*;
 
 import net.fexcraft.mod.lib.api.common.öCommand;
 import net.fexcraft.mod.lib.network.Browser;
@@ -195,7 +195,7 @@ public class MainCommand extends CommandBase {
     public String getRandomPrefix(){
     	int i1 = Static.random.nextInt(15);
     	int i2 = Static.random.nextInt(15);
-    	String string = intToCCS(i1) + "[" + intToCCS(i2) + "#" + intToCCS(i1) + "] " + GRAY;
+    	String string = fromInt(i1) + "[" + fromInt(i2) + "#" + fromInt(i1) + "] " + GRAY;
     	return string;
     }
     

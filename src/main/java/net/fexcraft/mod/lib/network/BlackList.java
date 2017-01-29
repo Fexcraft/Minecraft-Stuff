@@ -64,9 +64,7 @@ public class BlackList {
 					list.add(UUID.fromString(elm.getAsString()));
 				}
 				catch(Exception e){
-					if(e instanceof IllegalArgumentException){
-						Print.log("[BL] Couldn't parse " + elm.toString() + ".");
-					}
+					Print.debug("[BL] Couldn't parse " + elm.toString() + ".");
 				}
 			}
 		}

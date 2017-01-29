@@ -76,8 +76,8 @@ processResources
     }
 }
 
-String frsm_version = '3.7.16';
-String  fcl_version = 'XI.16';
+String frsm_version = '4.0.00';
+String  fcl_version = 'XI.17';
 String fsmm_version = "1.4.7";
 String famm_version = "3.0.2";
 String frsm_bge_version = "1.3.2";

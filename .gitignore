@@ -19,6 +19,7 @@ classes/
 out/
 old/
 run/*
+run_temp/*
 
 #IDE
 .classpath
