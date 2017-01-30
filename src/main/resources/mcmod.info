@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "fcl",
+  "name": "Fexcraft Common Library",
+  "description": "<->",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["FEX___96"],
+  "credits": "FEX___96",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
