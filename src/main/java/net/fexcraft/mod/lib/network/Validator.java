@@ -77,6 +77,7 @@ public class Validator {
 				parameters += "&version=" + FCL.mcv + ":" + FCL.version;
 				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
 				if(object != null){
+					Print.debug(object);
 					return;
 				}
 			}
@@ -112,6 +113,7 @@ public class Validator {
 			JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
 			Print.spam(100, object.toString());
 			if(object != null){
+				Print.debug(object);
 				return;
 			}
 		}
