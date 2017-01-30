@@ -139,7 +139,7 @@ public class Network{
 	}
 	
 	public static boolean isBanned(UUID id){
-		return BlackList.getInstance().isBanned(id);
+		return Validator.getInstance().isBanned(id);
 	}
 
 	public static boolean isDonator(EntityPlayer p) {

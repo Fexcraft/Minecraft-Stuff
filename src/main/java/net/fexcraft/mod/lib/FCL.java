@@ -4,11 +4,12 @@ import java.io.File;
 import java.util.UUID;
 
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
-import net.fexcraft.mod.lib.network.BlackList;
 import net.fexcraft.mod.lib.network.DonorValidator;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
+import net.fexcraft.mod.lib.network.Validator;
 import net.fexcraft.mod.lib.util.cmds.Command;
+import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.registry.CreativeTab;
 import net.fexcraft.mod.lib.util.registry.Registry;
@@ -53,6 +54,7 @@ public class FCL {
     public void init(FMLPreInitializationEvent event) throws Exception{
 		side = event.getSide();
 		configdir = event.getModConfigurationDirectory();
+		FclConfig.initalize(event, event.getSuggestedConfigurationFile());
 		Registry.linkTable(event.getAsmData());
 		Registry.registerAll();
 	}
@@ -79,7 +81,7 @@ public class FCL {
 			SimpleUpdateHandler.setUpdateMessage("fcl", prefix + "Update avaible! (" + SimpleUpdateHandler.getLatestVersionOf("fcl") + ")");
 		}
 		SimpleUpdateHandler.postInit();
-		BlackList.initialize(side);
+		Validator.initialize(side);
 		DonorValidator.initialize(side);
 		//Print.log("[FCL] Loaded.");
 		packet_handler.init();

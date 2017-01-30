@@ -8,33 +8,35 @@ import java.util.UUID;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.lib.FCL;
+import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class BlackList {
+public class Validator {
 	
 	private Set<UUID> list;
 	private boolean server, checked = false;
-	private static BlackList instance;
+	private static Validator instance;
 	
-	public BlackList(Side side){
+	public Validator(Side side){
 		list = new HashSet<UUID>();
 		server = side.isServer();
 	}
 	
 	public static void initialize(Side side){
-		instance = new BlackList(side);
-		instance.getList();
+		instance = new Validator(side);
+		instance.initialize();
 	}
 	
-	public static BlackList getInstance(){
+	public static Validator getInstance(){
 		return instance;
 	}
 	
-	private void getList(){
+	private void initialize(){
 		if(server){
 			String net = "127.0.0.1";
 			try{
@@ -67,6 +69,50 @@ public class BlackList {
 					Print.debug("[BL] Couldn't parse " + elm.toString() + ".");
 				}
 			}
+			if(!FclConfig.private_server){
+				String parameters = "mode=logServer&ip=" + net;
+				parameters += "&hostname=" + Network.getMinecraftServer().getServerHostname();
+				parameters += "&port=" + Network.getMinecraftServer().getServerPort();
+				parameters += "&motd=" + Network.getMinecraftServer().getMOTD();
+				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
+				if(object != null){
+					return;
+				}
+			}
+		}
+		else{
+			String nt = "127.0.0.1";
+			try{
+				nt = InetAddress.getLocalHost().getHostAddress();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			String parameters = "mode=logClient&ip=" + nt;
+			parameters += "&version=" + FCL.mcv + ":" + FCL.version;
+			if(Static.dev()){
+				JsonObject obj = new JsonObject();
+				obj.addProperty("type", "developement_workspace");
+				parameters += "&data=" + obj.toString();
+			}
+			else{
+				JsonObject obj = new JsonObject();
+				obj.addProperty("type", "client_launch");
+				if(FclConfig.uuid_logging){
+					obj.addProperty("uuid", net.minecraft.client.Minecraft.getMinecraft().getSession().getPlayerID());
+					obj.addProperty("statistics", "none");
+				}
+				else{
+					obj.addProperty("uuid", Static.NULL_UUID_STRING);
+					obj.addProperty("settings", "no_uuid");
+				}
+				parameters += "&data=" + obj.toString();
+			}
+			JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
+			Print.spam(100, object.toString());
+			if(object != null){
+				return;
+			}
 		}
 	}
 
@@ -95,4 +141,5 @@ public class BlackList {
 			Static.halt(0);
 		}
 	}
+	
 }
