@@ -36,9 +36,6 @@ public class SimpleUpdateHandler{
 	/**
 	 * Registers a <i><b>"Simple Update Handler"</b></i><br>
 	 * Note that you need to register the mod firstly in the FCL database.<br>
-	 * One-Time-Use method in preinit or init: <i>Network.registerMod(modid, userid, password, authors[]);</i><br><br>
-	 * <b>WARNING!</b> Consider not using quotes or singlequotes, <i>if you must</i>,<br>add an backslash before any of them, but I don't guarantee it will work fine.
-	 * <br><br>If your mod is avaible for multiple minecraft versions, append the minecraft version to the modid,<br>e.g. fcl_1102 or frsm_194
 	 * 
 	 * @param modid Modid of the Mod.
 	 * @param userid Fexcraft.net User ID the mod was registered under
