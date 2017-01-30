@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
+
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.api.common.fCommand;
@@ -57,36 +59,145 @@ public class Registry {
 	public static void registerAllBlocks(String modid){
 		Set<ASMData> data = table.getAll(block);
 		ArrayList<String> arr = new ArrayList<String>();
+		Map<String, Class<? extends Block>> map = new TreeMap<String, Class<? extends Block>>();
 		for(ASMData entry : data){
 			try{
-				Class<? extends Block> cBlock = (Class<? extends Block>)Class.forName(entry.getClassName());
-				fBlock block = cBlock.getAnnotation(fBlock.class);
-				if(block.modid().equals(modid)){
-					Block mBlock = cBlock.newInstance();
-					mBlock.setRegistryName(block.modid(), block.name());
-					mBlock.setUnlocalizedName(mBlock.getRegistryName().toString());
-					blocks.put(mBlock.getRegistryName(), mBlock);
-					GameRegistry.register(mBlock);
-					//Item
-					ItemBlock itemblock = block.item().getConstructor(Block.class).newInstance(mBlock);
-					itemblock.setRegistryName(mBlock.getRegistryName());
-					itemblock.setUnlocalizedName(mBlock.getUnlocalizedName());
-					GameRegistry.register(itemblock);
-					registerItemModelLocation(itemblock, block.variants(), block.custom_variants());
-					//TileEntity
-					if(mBlock instanceof ITileEntityProvider){
-						GameRegistry.registerTileEntity(block.tileentity(), mBlock.getRegistryName().toString());
-					}
-					Print.debug("Registered Block: " + mBlock.getRegistryName().toString());
-					arr.add(mBlock.getRegistryName().toString());
+				Class<? extends Block> clazz = (Class<? extends Block>)Class.forName(entry.getClassName());
+				if(clazz.getAnnotation(fBlock.class).modid().equals(modid)){
+					map.put(clazz.getAnnotation(fBlock.class).name(), clazz);
 				}
-				else continue;
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		for(Class<? extends Block> clazz : map.values()){
+			try{
+				//Block
+				fBlock block = clazz.getAnnotation(fBlock.class);
+				Block mBlock = clazz.newInstance();
+				mBlock.setRegistryName(block.modid(), block.name());
+				mBlock.setUnlocalizedName(mBlock.getRegistryName().toString());
+				blocks.put(mBlock.getRegistryName(), mBlock);
+				GameRegistry.register(mBlock);
+				//Item
+				ItemBlock itemblock = block.item().getConstructor(Block.class).newInstance(mBlock);
+				itemblock.setRegistryName(mBlock.getRegistryName());
+				itemblock.setUnlocalizedName(mBlock.getUnlocalizedName());
+				GameRegistry.register(itemblock);
+				registerItemModelLocation(itemblock, block.variants(), block.custom_variants());
+				//TileEntity
+				if(mBlock instanceof ITileEntityProvider){
+					GameRegistry.registerTileEntity(block.tileentity(), mBlock.getRegistryName().toString());
+				}
+				Print.debug("Registered Block: " + mBlock.getRegistryName().toString());
+				arr.add(mBlock.getRegistryName().toString());
+			}
+			catch(Exception e){
+				error(e, clazz.getName());
+			}
+		}
+		write(modid, "block", arr);
+	}
+	
+	public static void registerAllItems(String modid){
+		Set<ASMData> data = table.getAll(item);
+		ArrayList<String> arr = new ArrayList<String>();
+		Map<String, Class<? extends Item>> map = new TreeMap<String, Class<? extends Item>>();
+		for(ASMData entry : data){
+			try{
+				Class<? extends Item> clazz = (Class<? extends Item>)Class.forName(entry.getClassName());
+				if(clazz.getAnnotation(fItem.class).modid().equals(modid)){
+					map.put(clazz.getAnnotation(fItem.class).name(), clazz);
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		for(Class<? extends Item> clazz : map.values()){
+			try{
+				fItem item = clazz.getAnnotation(fItem.class);
+				Item mItem = clazz.newInstance();
+				mItem.setRegistryName(item.modid(), item.name());
+				mItem.setUnlocalizedName(mItem.getRegistryName().toString());
+				items.put(mItem.getRegistryName(), mItem);
+				GameRegistry.register(mItem);
+				registerItemModelLocation(mItem, item.variants(), item.custom_variants());
+				Print.debug("Registered Item: " + mItem.getRegistryName().toString());
+				arr.add(mItem.getRegistryName().toString());
+			}
+			catch(Exception e){
+				error(e, clazz.getName());
+			}
+		}
+		write(modid, "item", arr);
+	}
+	
+	public static void registerAllEntities(String modid){
+		Set<ASMData> data = table.getAll(entity);
+		Map<String, Class<? extends Entity>> map = new TreeMap<String, Class<? extends Entity>>();
+		for(ASMData entry : data){
+			try{
+				Class<? extends Entity> clazz = (Class<? extends Entity>)Class.forName(entry.getClassName());
+				if(clazz.getAnnotation(fEntity.class).modid().equals(modid)){
+					map.put(clazz.getAnnotation(fEntity.class).name(), clazz);
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		for(Class<? extends Entity> clazz : map.values()){
+			try{
+				fEntity entity = clazz.getAnnotation(fEntity.class);
+				ResourceLocation rs = new ResourceLocation(entity.modid(), entity.name());
+				EntityRegistry.registerModEntity(rs, clazz, rs.toString(), eid++, entity.modid(), entity.tracking_range(), entity.update_frequency(), entity.send_velocity_updates());
+				Print.debug("Registered Entity: " + rs.toString());
+			}
+			catch(Exception e){
+				error(e, clazz.getName());
+			}
+		}
+	}
+
+	public static void registerAllCommands(FMLServerStartingEvent event) {
+		Set<ASMData> data = table.getAll(fCommand.class.getCanonicalName());
+		for(ASMData entry : data){
+			try{
+				Class<? extends CommandBase> cmd = (Class<? extends CommandBase>)Class.forName(entry.getClassName());
+				event.registerServerCommand(cmd.newInstance());
 			}
 			catch(Exception e){
 				error(e, entry.getClassName());
 			}
 		}
-		write(modid, "block", arr);
+	}
+
+	public static void registerTESRs(){
+		if(FCL.getSide().isServer()){
+			return;
+		}
+		Set<ASMData> data = table.getAll(tesr);
+		for(ASMData entry : data){
+			try{
+				Class<? extends TileEntitySpecialRenderer> cTESR = (Class<? extends TileEntitySpecialRenderer>)Class.forName(entry.getClassName());
+				fTESR tesr = cTESR.getAnnotation(fTESR.class);
+				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
+			}
+			catch(Exception e){
+				error(e, entry.getClassName());
+			}
+		}
+	}
+
+	public static void registerItemManually(String modid, String name, int meta, String[] custom, Item item) {
+		item.setRegistryName(modid, name);
+		item.setUnlocalizedName(item.getRegistryName().toString());
+		items.put(item.getRegistryName(), item);
+		GameRegistry.register(item);
+		registerItemModelLocation(item, meta, custom);
+		Print.debug("Registered Item: " + item.getRegistryName().toString());
 	}
 	
 	private static final void write(String modid, String type, ArrayList<String> arr){
@@ -133,51 +244,6 @@ public class Registry {
 		}
 		catch(Exception e){
 			return false;
-		}
-	}
-	
-	public static void registerAllItems(String modid){
-		Set<ASMData> data = table.getAll(item);
-		ArrayList<String> arr = new ArrayList<String>();
-		for(ASMData entry : data){
-			try{
-				Class<? extends Item> cItem = (Class<? extends Item>)Class.forName(entry.getClassName());
-				fItem item = cItem.getAnnotation(fItem.class);
-				if(item.modid().equals(modid)){
-					Item mItem = cItem.newInstance();
-					mItem.setRegistryName(item.modid(), item.name());
-					mItem.setUnlocalizedName(mItem.getRegistryName().toString());
-					items.put(mItem.getRegistryName(), mItem);
-					GameRegistry.register(mItem);
-					registerItemModelLocation(mItem, item.variants(), item.custom_variants());
-					Print.debug("Registered Item: " + mItem.getRegistryName().toString());
-					arr.add(mItem.getRegistryName().toString());
-				}
-				else continue;
-			}
-			catch(Exception e){
-				error(e, entry.getClassName());
-			}
-		}
-		write(modid, "item", arr);
-	}
-	
-	public static void registerAllEntities(String modid){
-		Set<ASMData> data = table.getAll(entity);
-		for(ASMData entry : data){
-			try{
-				Class<? extends Entity> cEntity = (Class<? extends Entity>)Class.forName(entry.getClassName());
-				fEntity entity = cEntity.getAnnotation(fEntity.class);
-				if(entity.modid().equals(modid)){
-					ResourceLocation rs = new ResourceLocation(entity.modid(), entity.name());
-					EntityRegistry.registerModEntity(rs, cEntity, rs.toString(), eid++, entity.modid(), entity.tracking_range(), entity.update_frequency(), entity.send_velocity_updates());
-					Print.debug("Registered Entity: " + rs.toString());
-				}
-				else continue;
-			}
-			catch(Exception e){
-				error(e, entry.getClassName());
-			}
 		}
 	}
 	
@@ -338,45 +404,6 @@ public class Registry {
 		}
 		Static.exception(3, rs.toString());
 		return null;
-	}
-
-	public static void registerTESRs(){
-		if(FCL.getSide().isServer()){
-			return;
-		}
-		Set<ASMData> data = table.getAll(tesr);
-		for(ASMData entry : data){
-			try{
-				Class<? extends TileEntitySpecialRenderer> cTESR = (Class<? extends TileEntitySpecialRenderer>)Class.forName(entry.getClassName());
-				fTESR tesr = cTESR.getAnnotation(fTESR.class);
-				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
-			}
-			catch(Exception e){
-				error(e, entry.getClassName());
-			}
-		}
-	}
-
-	public static void registerItemManually(String modid, String name, int meta, String[] custom, Item item) {
-		item.setRegistryName(modid, name);
-		item.setUnlocalizedName(item.getRegistryName().toString());
-		items.put(item.getRegistryName(), item);
-		GameRegistry.register(item);
-		registerItemModelLocation(item, meta, custom);
-		Print.debug("Registered Item: " + item.getRegistryName().toString());
-	}
-
-	public static void registerAllCommands(FMLServerStartingEvent event) {
-		Set<ASMData> data = table.getAll(fCommand.class.getCanonicalName());
-		for(ASMData entry : data){
-			try{
-				Class<? extends CommandBase> cmd = (Class<? extends CommandBase>)Class.forName(entry.getClassName());
-				event.registerServerCommand(cmd.newInstance());
-			}
-			catch(Exception e){
-				error(e, entry.getClassName());
-			}
-		}
 	}
 
 	public static void linkTable(ASMDataTable asmData) {
