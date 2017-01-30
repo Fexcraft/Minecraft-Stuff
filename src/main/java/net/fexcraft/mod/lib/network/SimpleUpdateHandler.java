@@ -77,9 +77,7 @@ public class SimpleUpdateHandler{
 	}
 	
 	/** 
-	 * Used to set the Update message after SUH registration,<br>
-	 * when e.g. you need the latest version in your update message<br>
-	 * which isn't avaible before registering.
+	 * Used to set the Update message after SUH registration.<br>
 	 */
 	public static void setUpdateMessage(String modid, String string){
 		update_message_queue.put(modid, string);
