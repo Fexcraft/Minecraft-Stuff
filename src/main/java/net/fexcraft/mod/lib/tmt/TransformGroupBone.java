@@ -1,30 +1,32 @@
 package net.fexcraft.mod.lib.tmt;
 
+import net.fexcraft.mod.lib.util.math.Vec3f;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * The PositionTransformGroup class adds a class which allows for vertex transformations.
  * @author GaryCXJk
  *
  */
-public class TransformGroupBone extends TransformGroup
-{
-	public TransformGroupBone(Bone bone, double wght)
-	{
+public class TransformGroupBone extends TransformGroup {
+	
+	protected Angle3D baseAngles;
+	protected Vec3f baseVector;
+	protected Bone attachedBone;
+	protected double weight;
+	
+	public TransformGroupBone(Bone bone, double wght){
 		baseVector = bone.getPosition();
 		baseAngles = bone.getAbsoluteAngle();
 		attachedBone = bone;
 		weight = wght;
 	}
 	
-	public Angle3D getBaseAngles()
-	{
+	public Angle3D getBaseAngles(){
 		return baseAngles.copy();
 	}
 	
-	public Angle3D getTransformAngle()
-	{
+	public Angle3D getTransformAngle(){
 		Angle3D returnAngle = attachedBone.getAbsoluteAngle().copy();
 		returnAngle.angleX-= baseAngles.angleX;
 		returnAngle.angleY-= baseAngles.angleY;
@@ -32,45 +34,37 @@ public class TransformGroupBone extends TransformGroup
 		return returnAngle;
 	}
 	
-	public Vec3d getBaseVector()
-	{
-		return new Vec3d(baseVector.xCoord, baseVector.yCoord, baseVector.zCoord);
+	public Vec3f getBaseVector(){
+		return new Vec3f(baseVector.xCoord, baseVector.yCoord, baseVector.zCoord);
 	}
 	
-	public Vec3d getTransformVector()
-	{
+	public Vec3f getTransformVector(){
 		return baseVector.subtract(attachedBone.getPosition());
 	}
 	
-	public Vec3d getCurrentVector()
-	{
+	public Vec3f getCurrentVector(){
 		return attachedBone.getPosition();
 	}
 	
-	public double getWeight()
-	{
+	public double getWeight(){
 		return weight;
 	}
 	
-	public void attachBone(Bone bone)
-	{
+	public void attachBone(Bone bone){
 		baseVector = bone.getPosition();
 		baseAngles = bone.getAbsoluteAngle();
 		attachedBone = bone;
 	}
 	
-	public Vec3d doTransformation(PositionTransformVertex vertex)
-	{
-		Vec3d vector = new Vec3d(vertex.neutralVector.xCoord, vertex.neutralVector.yCoord, vertex.neutralVector.zCoord);
+	public Vec3f doTransformation(PositionTransformVertex vertex){
+		Vec3f vector = new Vec3f(vertex.neutralVector.xCoord, vertex.neutralVector.yCoord, vertex.neutralVector.zCoord);
 		vector = getBaseVector().subtract(vector);
 		Angle3D angle = getTransformAngle();
 		setVectorRotations(vector, angle.angleX, angle.angleY, angle.angleZ);
-		
 		return vector;
 	}
 	
-	protected void setVectorRotations(Vec3d vector, float xRot, float yRot, float zRot)
-	{
+	protected void setVectorRotations(Vec3f vector, float xRot, float yRot, float zRot){
 		float x = xRot;
 		float y = yRot;
 		float z = zRot;
@@ -98,15 +92,7 @@ public class TransformGroupBone extends TransformGroup
 		xVec = zx;
 		yVec = zy;
 		zVec = yz;
-		
-        /*vector.xCoord = xVec;
-        vector.yCoord = yVec;
-        vector.zCoord = zVec;*/
-		vector = new Vec3d(xVec, yVec, zVec);
+		vector = new Vec3f(xVec, yVec, zVec);
 	}
 	
-	protected Angle3D baseAngles;
-	protected Vec3d baseVector;
-	protected Bone attachedBone;
-	protected double weight;
 }

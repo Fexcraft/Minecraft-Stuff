@@ -65,5 +65,14 @@ public class ModelBase extends Model {
 		translate(r8, x, y, z);
 		translate(r9, x, y, z);
 	}
+
+	@Override
+	protected void rotate(ModelRendererTurbo[] model, float x, float y, float z) {
+		for(ModelRendererTurbo mod : model){
+			mod.rotateAngleX += x;
+			mod.rotateAngleY += y;
+			mod.rotateAngleZ += z;
+		}
+	}
 	
 }

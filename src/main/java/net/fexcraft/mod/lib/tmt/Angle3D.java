@@ -6,16 +6,19 @@ package net.fexcraft.mod.lib.tmt;
  * @author GaryCXJk
  *
  */
-public class Angle3D
-{
+public class Angle3D {
+	
+	public float angleX;
+	public float angleY;
+	public float angleZ;
+	
 	/**
 	 * The constructor to create a new Angle3D.
 	 * @param x the x-rotation
 	 * @param y the y-rotation
 	 * @param z the z-rotation
 	 */
-	public Angle3D(float x, float y, float z)
-	{
+	public Angle3D(float x, float y, float z){
 		angleX = x;
 		angleY = y;
 		angleZ = z;
@@ -27,8 +30,7 @@ public class Angle3D
 	 * @param y the y-rotation
 	 * @param z the z-rotation
 	 */
-	public void addAngles(float x, float y, float z)
-	{
+	public void addAngles(float x, float y, float z){
 		angleX+= x;
 		angleY+= y;
 		angleZ+= z;
@@ -38,8 +40,7 @@ public class Angle3D
 	 * Adds the angles of another Angle3D to the current angles.
 	 * @param angles the Angle3D
 	 */
-	public void addAngles(Angle3D angles)
-	{
+	public void addAngles(Angle3D angles){
 		angleX+= angles.angleX;
 		angleY+= angles.angleY;
 		angleZ+= angles.angleZ;
@@ -51,8 +52,7 @@ public class Angle3D
 	 * @param y the y-rotation
 	 * @param z the z-rotation
 	 */
-	public void multiplyAngles(float x, float y, float z)
-	{
+	public void multiplyAngles(float x, float y, float z){
 		angleX*= x;
 		angleY*= y;
 		angleZ*= z;
@@ -62,8 +62,7 @@ public class Angle3D
 	 * Multiplies the angles with a given Angle3D.
 	 * @param angles the Angle3D
 	 */
-	public void multiplyAngles(Angle3D angles)
-	{
+	public void multiplyAngles(Angle3D angles){
 		angleX*= angles.angleX;
 		angleY*= angles.angleY;
 		angleZ*= angles.angleZ;
@@ -75,8 +74,7 @@ public class Angle3D
 	 * @param angles2 the second Angle3D
 	 * @return the center Angle3D
 	 */
-	public static Angle3D getCenter(Angle3D angles1, Angle3D angles2)
-	{
+	public static Angle3D getCenter(Angle3D angles1, Angle3D angles2){
 		Angle3D angles = new Angle3D(0, 0, 0);
 		angles.addAngles(angles1);
 		angles.addAngles(angles2);
@@ -88,12 +86,8 @@ public class Angle3D
 	 * Copies the current Angle3D over to a new Angle3D instance.
 	 * @return a copy of the Angle3D instance
 	 */
-	public Angle3D copy()
-	{
+	public Angle3D copy(){
 		return new Angle3D(angleX, angleY, angleZ);
 	}
 	
-	public float angleX;
-	public float angleY;
-	public float angleZ;
 }

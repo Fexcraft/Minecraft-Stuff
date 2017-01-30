@@ -6,10 +6,14 @@ package net.fexcraft.mod.lib.tmt;
  * @author GaryCXJk
  *
  */
-public class Coord2D
-{
-	public Coord2D(double x, double y)
-	{
+public class Coord2D {
+
+	public float xCoord;
+	public float yCoord;
+	public int uCoord;
+	public int vCoord;
+	
+	public Coord2D(float x, float y){
 		xCoord = x;
 		yCoord = y;
 		uCoord = (int)Math.floor(x);
@@ -17,15 +21,10 @@ public class Coord2D
 	}
 	
 
-	public Coord2D(double x, double y, int u, int v)
-	{
+	public Coord2D(float x, float y, int u, int v){
 		this(x, y);
 		uCoord = u;
 		vCoord = v;
 	}
-
-	public double xCoord;
-	public double yCoord;
-	public int uCoord;
-	public int vCoord;
+	
 }

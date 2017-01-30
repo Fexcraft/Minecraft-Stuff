@@ -1,9 +1,10 @@
 package net.fexcraft.mod.lib.tmt;
 
-import net.minecraft.util.math.Vec3d;
+import net.fexcraft.mod.lib.util.math.Vec3f;
 
-public abstract class TransformGroup
-{
+public abstract class TransformGroup {
+	
 	public abstract double getWeight();
-	public abstract Vec3d doTransformation(PositionTransformVertex vertex);
+	public abstract Vec3f doTransformation(PositionTransformVertex vertex);
+	
 }

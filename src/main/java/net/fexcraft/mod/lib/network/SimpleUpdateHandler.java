@@ -63,7 +63,7 @@ public class SimpleUpdateHandler{
 	}
 	
 	private static void checkIfUpdateAvaible(){
-		Print.log("[SUH] Checking for avaible updates.");
+		Print.log("[SUH] Checking for available updates.");
 		for(String modid : modids){
 			if(obj.has(modid)){
 				String latest_version = getLatestVersionOf(modid);
