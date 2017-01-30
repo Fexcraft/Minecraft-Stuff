@@ -36,7 +36,7 @@ public class FclConfig {
 	private static final void refresh(boolean f){
 		if(f){
 			config.load();
-			config.setCategoryRequiresMcRestart("Common", true);
+			config.setCategoryRequiresMcRestart("Common", false);
 			config.setCategoryComment("Common", "Common FCL Settings.");
 			config.setCategoryRequiresMcRestart("Statistics", true);
 			config.setCategoryComment("Statistics", "Settings about which data get's sent to the FCL Statistic Database.\nConsider to check it out.");

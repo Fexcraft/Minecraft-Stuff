@@ -18,7 +18,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -77,10 +76,8 @@ public class FCL {
 	
 	@Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) throws Exception{
-		if(!Loader.isModLoaded("frsm")){
-			SimpleUpdateHandler.register("fcl", 1, version);
-			SimpleUpdateHandler.setUpdateMessage("fcl", prefix + "Update avaible! (" + SimpleUpdateHandler.getLatestVersionOf("fcl") + ")");
-		}
+		SimpleUpdateHandler.register("fcl", 1, version);
+		SimpleUpdateHandler.setUpdateMessage("fcl", prefix + "Update avaible! (" + SimpleUpdateHandler.getLatestVersionOf("fcl") + ")");
 		SimpleUpdateHandler.postInit();
 		Validator.initialize(side);
 		DonorValidator.initialize(side);
