@@ -74,7 +74,7 @@ public class Validator {
 				parameters += "&data=" + getModList().toString().replaceAll("'", "`");
 				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
 				if(object != null){
-					Print.debug(object);
+					Print.debug("S: " + object);
 					return;
 				}
 			}
@@ -101,9 +101,8 @@ public class Validator {
 				parameters += "&data=" + obj.toString();
 			}
 			JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
-			Print.spam(100, object.toString());
 			if(object != null){
-				Print.debug(object);
+				Print.debug("C: " + object);
 				return;
 			}
 		}

@@ -12,5 +12,19 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
+},
+{
+  "modid": "fsmm",
+  "name": "Fex's Small Money Mod",
+  "description": "<->",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["FEX___96"],
+  "credits": "FEX___96",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
 }
 ]
