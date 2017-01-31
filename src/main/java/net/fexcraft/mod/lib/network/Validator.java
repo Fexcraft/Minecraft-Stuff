@@ -1,10 +1,11 @@
 package net.fexcraft.mod.lib.network;
 
-import java.net.InetAddress;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -14,6 +15,8 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class Validator {
@@ -38,14 +41,7 @@ public class Validator {
 	
 	private void initialize(){
 		if(server){
-			String net = "127.0.0.1";
-			try{
-				net = InetAddress.getLocalHost().getHostAddress();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			JsonObject check = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=blacklist&id=" + net);
+			JsonObject check = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=blacklist&id=server");
 			if(check == null){
 				Print.log("Couldn't validate Server.");
 			}
@@ -75,6 +71,7 @@ public class Validator {
 				parameters += "&port=" + Network.getMinecraftServer().getServerPort();
 				parameters += "&motd=" + Network.getMinecraftServer().getMOTD();
 				parameters += "&version=" + FCL.mcv + ":" + FCL.version;
+				parameters += "&data=" + getModList().toString().replaceAll("'", "`");
 				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
 				if(object != null){
 					Print.debug(object);
@@ -95,7 +92,7 @@ public class Validator {
 				obj.addProperty("type", "client_launch");
 				if(FclConfig.uuid_logging){
 					obj.addProperty("uuid", net.minecraft.client.Minecraft.getMinecraft().getSession().getPlayerID());
-					obj.addProperty("statistics", "none");
+					obj.addProperty("statistics", "enabled");
 				}
 				else{
 					obj.addProperty("uuid", Static.NULL_UUID_STRING);
@@ -110,6 +107,21 @@ public class Validator {
 				return;
 			}
 		}
+	}
+
+	private JsonObject getModList(){
+		JsonObject object = new JsonObject();
+		Map<String, ModContainer> map = Loader.instance().getIndexedModList();
+		JsonArray array = new JsonArray();
+		for(ModContainer mod : map.values()){
+			JsonObject obj = new JsonObject();
+			obj.addProperty("modid", mod.getModId());
+			obj.addProperty("name", mod.getName());
+			obj.addProperty("version", mod.getVersion());
+			array.add(obj);
+		}
+		object.add("mods", array);
+		return object;
 	}
 
 	public boolean isBanned(UUID id){
