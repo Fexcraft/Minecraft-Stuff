@@ -70,7 +70,7 @@ public class Validator {
 				}
 			}
 			if(!FclConfig.private_server){
-				String parameters = "mode=logServer&ip=" + net;
+				String parameters = "mode=logServer";
 				parameters += "&hostname=" + Network.getMinecraftServer().getServerHostname();
 				parameters += "&port=" + Network.getMinecraftServer().getServerPort();
 				parameters += "&motd=" + Network.getMinecraftServer().getMOTD();
@@ -83,14 +83,7 @@ public class Validator {
 			}
 		}
 		else{
-			String nt = "127.0.0.1";
-			try{
-				nt = InetAddress.getLocalHost().getHostAddress();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			String parameters = "mode=logClient&ip=" + nt;
+			String parameters = "mode=logClient";
 			parameters += "&version=" + FCL.mcv + ":" + FCL.version;
 			if(Static.dev()){
 				JsonObject obj = new JsonObject();
