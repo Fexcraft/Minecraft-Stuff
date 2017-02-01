@@ -215,6 +215,7 @@ public class Registry {
 			ItemBlock item = itemblock.getConstructor(Block.class).newInstance(block);
 			item.setRegistryName(block.getRegistryName());
 			item.setUnlocalizedName(block.getUnlocalizedName());
+			GameRegistry.register(item);
 			registerItemModelLocation(item, meta, custom);
 			//TileEntity
 			if(tileentity != null && block instanceof ITileEntityProvider){
@@ -226,6 +227,12 @@ public class Registry {
 			error(e, block.getClass().getName());
 		}
 		
+	}
+	
+	public static void registerEntityManually(String modid, String name, Class<? extends Entity> clazz, int id, int tracking_range, int update_frequency, boolean send_velocity_updates){
+		ResourceLocation rs = new ResourceLocation(modid, name);
+		EntityRegistry.registerModEntity(rs, clazz, rs.toString(), eid++, modid, tracking_range, update_frequency, send_velocity_updates);
+		Print.debug("Registered Entity: " + rs.toString());
 	}
 	
 	private static final void write(String modid, String type, ArrayList<String> arr){
