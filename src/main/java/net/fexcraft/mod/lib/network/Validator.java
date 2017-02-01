@@ -78,6 +78,16 @@ public class Validator {
 					return;
 				}
 			}
+			else{
+				String parameters = "mode=logServer";
+				parameters += "&port=" + Network.getMinecraftServer().getServerPort();
+				parameters += "&data=REMOVE";
+				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
+				if(object != null){
+					Print.debug("S: " + object);
+					return;
+				}
+			}
 		}
 		else{
 			String parameters = "mode=logClient";
@@ -85,6 +95,8 @@ public class Validator {
 			if(Static.dev()){
 				JsonObject obj = new JsonObject();
 				obj.addProperty("type", "developement_workspace");
+				obj.addProperty("uuid", Static.DEF1_UUID_STRING);
+				obj.addProperty("settings", "workspace_mode");
 				parameters += "&data=" + obj.toString();
 			}
 			else{
@@ -92,11 +104,11 @@ public class Validator {
 				obj.addProperty("type", "client_launch");
 				if(FclConfig.uuid_logging){
 					obj.addProperty("uuid", net.minecraft.client.Minecraft.getMinecraft().getSession().getPlayerID());
-					obj.addProperty("statistics", "enabled");
+					obj.addProperty("settings", "enabled");
 				}
 				else{
 					obj.addProperty("uuid", Static.NULL_UUID_STRING);
-					obj.addProperty("settings", "no_uuid");
+					obj.addProperty("settings", FclConfig.remove_from_db ? "remove" : "disabled");
 				}
 				parameters += "&data=" + obj.toString();
 			}

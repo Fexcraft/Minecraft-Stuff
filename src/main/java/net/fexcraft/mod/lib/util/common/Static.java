@@ -35,6 +35,7 @@ public class Static{
 	public static final String Null_2048 = Null_1024 + Null_1024;
 	public static final String Null_4096 = Null_2048 + Null_2048;
 	public static final String NULL_UUID_STRING = "00000000-0000-0000-0000-000000000000";
+	public static final String DEF1_UUID_STRING = "11111111-1111-1111-1111-111111111111";
 	public static final MoverType SELF = MoverType.SELF;
 	public static final Random random = new Random();
 	
