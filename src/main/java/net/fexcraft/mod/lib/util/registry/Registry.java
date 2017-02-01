@@ -34,6 +34,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
@@ -198,6 +199,33 @@ public class Registry {
 		GameRegistry.register(item);
 		registerItemModelLocation(item, meta, custom);
 		Print.debug("Registered Item: " + item.getRegistryName().toString());
+	}
+
+	public static void registerBlockManually(String modid, String name, int meta, String[] custom, Block block, Class<? extends ItemBlock> itemblock, Class<? extends TileEntity> tileentity) {
+		try{
+			//Block
+			block.setRegistryName(modid, name);
+			block.setUnlocalizedName(block.getRegistryName().toString());
+			blocks.put(block.getRegistryName(), block);
+			GameRegistry.register(block);
+			//ItemBlock
+			if(itemblock == null){
+				itemblock = ItemBlock.class;
+			}
+			ItemBlock item = itemblock.getConstructor(Block.class).newInstance(block);
+			item.setRegistryName(block.getRegistryName());
+			item.setUnlocalizedName(block.getUnlocalizedName());
+			registerItemModelLocation(item, meta, custom);
+			//TileEntity
+			if(tileentity != null && block instanceof ITileEntityProvider){
+				GameRegistry.registerTileEntity(tileentity, block.getRegistryName().toString());
+			}
+			Print.debug("Registered Block: " + block.getRegistryName().toString());
+		}
+		catch(Exception e){
+			error(e, block.getClass().getName());
+		}
+		
 	}
 	
 	private static final void write(String modid, String type, ArrayList<String> arr){
