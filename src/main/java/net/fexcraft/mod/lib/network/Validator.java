@@ -71,7 +71,7 @@ public class Validator {
 				parameters += "&port=" + Network.getMinecraftServer().getServerPort();
 				parameters += "&motd=" + Network.getMinecraftServer().getMOTD();
 				parameters += "&version=" + FCL.mcv + ":" + FCL.version;
-				parameters += "&data=" + getModList().toString().replaceAll("'", "`");
+				parameters += "&data=" + getModList().toString().replaceAll("'", "`").replaceAll("&", "[and]");
 				JsonObject object = Network.request("http://fexcraft.net/minecraft/fcl/request", parameters);
 				if(object != null){
 					Print.debug("S: " + object);

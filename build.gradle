@@ -281,7 +281,7 @@ task scc(type: Jar) {
         include 'LICENSE.txt'
     }
     baseName = 'SSC'
-    appendix = '1.1'
+    appendix = '1.2'
 }
 
 build {
