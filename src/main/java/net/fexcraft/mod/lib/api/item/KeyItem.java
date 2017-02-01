@@ -2,9 +2,9 @@ package net.fexcraft.mod.lib.api.item;
 
 import java.util.UUID;
 
-import net.fexcraft.mod.frsm.util.CCS;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 
 /**
  * @author Ferdinand (FEX___96)
@@ -45,13 +45,13 @@ public abstract class KeyItem extends Item {
 		public String toText(){
 			switch(this){
 				case ADMIN:
-					return CCS.RED + string;
+					return TextFormatting.RED + string;
 				case COMMON:
-					return CCS.AQUA + string;
+					return TextFormatting.AQUA + string;
 				case PRIVATE:
-					return CCS.GREEN + string;
+					return TextFormatting.GREEN + string;
 				default:
-					return CCS.DRED + "ERROR";
+					return TextFormatting.DARK_RED + "ERROR";
 			}
 		}
 		
