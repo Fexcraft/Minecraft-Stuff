@@ -57,7 +57,7 @@ public abstract class KeyItem extends Item {
 		
 	}
 
-	public String getNewKeyCode(){
+	public static String getNewKeyCode(){
 		return UUID.randomUUID().toString().substring(0, 8);
 	}
 	
