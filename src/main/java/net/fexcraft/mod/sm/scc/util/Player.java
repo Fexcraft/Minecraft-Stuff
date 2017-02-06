@@ -32,4 +32,5 @@ public class Player {
 		object.addProperty("owned_chunks", chunks);
 		Util.writeJson(uuid, object);
 	}
+	
 }

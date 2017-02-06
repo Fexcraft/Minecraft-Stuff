@@ -6,13 +6,10 @@
  */
 package net.fexcraft.mod.sm.scc.util;
 
-import java.util.ArrayList;
-
 import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 	
-	public static ArrayList<String> fbl;
 	public static int maxChunkPerPlayer;
 	public static boolean protectUnclaimed;
 	public static boolean allowed, tnt_explosions;

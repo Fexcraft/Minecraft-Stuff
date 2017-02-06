@@ -7,9 +7,6 @@
 package net.fexcraft.mod.sm.scc.util;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -20,34 +17,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import net.fexcraft.mod.lib.util.json.JsonUtil;
+
 public class Util {
 	
 	private static final JsonParser parser = new JsonParser();
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public static JsonObject getObject(int x, int z){
-		try{
-			File file = new File(Data.chunk, x + "_" + z + ".scc");
-			JsonElement elm = null;
-			FileReader fr = new FileReader(file);
-			elm = parser.parse(fr); fr.close();
-			return elm.getAsJsonObject();
-		}
-		catch(IOException e){
-			return new JsonObject();
-		}
+		return JsonUtil.get(getFile(x, z));
 	}
 	
 	public static void writeJson(JsonObject obj){
-		try{
-			File file = getFile(obj.get("x").getAsInt(), obj.get("z").getAsInt());
-			FileWriter fw = new FileWriter(file);
-			fw.write(gson.toJson(obj));
-			fw.close();
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
+		JsonUtil.write(getFile(obj.get("x").getAsInt(), obj.get("z").getAsInt()), obj);
 	}
 	
 	private static File getFile(int x, int z){
@@ -58,29 +40,12 @@ public class Util {
 		return gson.toJson(elm);
 	}
 
-	public static JsonObject getObject(UUID uuid) {
-		try{
-			File file = getFile(uuid);
-			JsonElement elm = null;
-			FileReader fr = new FileReader(file);
-			elm = parser.parse(fr); fr.close();
-			return elm.getAsJsonObject();
-		}
-		catch(IOException e){
-			return new JsonObject();
-		}
+	public static JsonObject getObject(UUID uuid){
+		return JsonUtil.get(getFile(uuid));
 	}
 
-	public static void writeJson(UUID uuid, JsonObject object) {
-		try{
-			File file = getFile(uuid);
-			FileWriter fw = new FileWriter(file);
-			fw.write(gson.toJson(object));
-			fw.close();
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
+	public static void writeJson(UUID uuid, JsonObject object){
+		JsonUtil.write(getFile(uuid), object);
 	}
 
 	private static File getFile(UUID uuid) {
