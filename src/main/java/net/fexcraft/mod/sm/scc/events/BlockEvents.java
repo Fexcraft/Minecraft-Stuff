@@ -52,7 +52,7 @@ public class BlockEvents {
 	
 	@SubscribeEvent
 	public void onSpawn(EntityEvent event){
-		if(event.getEntity() instanceof EntityTNTPrimed){
+		if(event.getEntity() instanceof EntityTNTPrimed && !Config.tnt_explosions){
 			event.getEntity().setDead();
 		}
 	}
