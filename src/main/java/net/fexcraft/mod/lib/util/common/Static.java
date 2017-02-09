@@ -113,5 +113,10 @@ public class Static{
 	public static Side side(){
 		return FMLCommonHandler.instance().getSide();
 	}
+
+	public static String crashString(){
+		Static.exception(5);
+		return null;
+	}
 	
 }

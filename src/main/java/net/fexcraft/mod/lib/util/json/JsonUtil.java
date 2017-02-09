@@ -1,9 +1,12 @@
 package net.fexcraft.mod.lib.util.json;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
@@ -24,6 +27,7 @@ import net.fexcraft.mod.lib.util.common.Print;
  */
 public class JsonUtil{
 	
+	private static final JsonUtil instance = new JsonUtil();
 	private static final JsonParser parser = new JsonParser();
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
@@ -354,6 +358,14 @@ public class JsonUtil{
 		return null;
 	}
 	
+	public static JsonElement getElementIfExists(JsonObject obj, String target, boolean b){
+		JsonElement elm = getIfExists(obj, target);
+		if(elm == null && b){
+			return new JsonObject();
+		}
+		return elm;
+	}
+	
 	////>>>> ARRAYS >>>>////
 	
 	/**
@@ -488,7 +500,7 @@ public class JsonUtil{
 		return ja;
 	}
 
-	public static boolean isJsonFile(File file) {
+	public static boolean isJsonFile(File file){
 		try{
 			FileReader fr = new FileReader(file);
 			parser.parse(fr);
@@ -497,6 +509,33 @@ public class JsonUtil{
 		}
 		catch(IOException e){
 			return false;
+		}
+	}
+
+	public static JsonUtil getInstance(){
+		return instance;
+	}
+	
+	/**
+	 * Transforms the InputStream into a String and then parses it into a JsonObject;
+	 * <BR>Does also close the InputStream.
+	 * @param stream
+	 * @return
+	 */
+	public static JsonObject getFromInputStream(InputStream stream){
+		try{
+			BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+			String input;
+			StringBuffer response = new StringBuffer();
+			while ((input = in.readLine()) != null) {
+				response.append(input);
+			}
+			in.close();
+			return JsonUtil.getObjectFromString(response.toString());	
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package net.fexcraft.mod.lib.util.render;
 
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +20,12 @@ public class RGB {
 		this.red = r;
 		this.green = g;
 		this.blue = b;
+	}
+	
+	public RGB(RGB rgb){
+		this.red = rgb.red;
+		this.blue = rgb.blue;
+		this.green = rgb.green;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -223,6 +231,29 @@ public class RGB {
 	@Override
 	public String toString(){
 		return "[" + red + ":" + green + ":" + blue + "]";
+	}
+
+	public static RGB fromJSON(JsonObject object, boolean write){
+		RGB rgb = new RGB();
+		String[] red = {"Red", "red", "r", "R"};
+		String[] blue = {"Blue", "blue", "b", "B"};
+		String[] green = {"Green", "green", "g", "G"};
+		rgb.red = getFJO(red, object, write, 0);
+		rgb.blue = getFJO(blue, object, write, 0);
+		rgb.green = getFJO(green, object, write, 0);
+		return rgb;
+	}
+	
+	private static final float getFJO(String[] strings, JsonObject obj, boolean write, int i){
+		for(String s : strings){
+			if(obj.has(s)){
+				return obj.get(s).getAsFloat();
+			}
+		}
+		if(write){
+			obj.addProperty(strings[i], 1f);
+		}
+		return 0f;
 	}
 	
 }

@@ -36,8 +36,8 @@ public class ModelBase extends Model {
 		render(r9);
 	}
 	
-	public void render(ModelRendererTurbo[] part){
-		for(ModelRendererTurbo mrt : part){
+	public void render(ModelRendererTurbo[] model){
+		for(ModelRendererTurbo mrt : model){
 			mrt.render();
 		}
 	}

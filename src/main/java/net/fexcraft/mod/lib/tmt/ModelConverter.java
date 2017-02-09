@@ -67,8 +67,11 @@ public class ModelConverter extends ModelBase {
 		flip(steeringWheelModel);
 	}
 	
-	private void flip(ModelRendererTurbo[] bodyModel2) {
-		// TODO Auto-generated method stub
+	private void flip(ModelRendererTurbo[] model) {
+		for(ModelRendererTurbo sub : model){
+			sub.doMirror(false, true, true);
+			sub.setRotationPoint(sub.rotationPointX, -sub.rotationPointY, -sub.rotationPointZ);
+		}
 	}
 
 	public void translateAll(float x, float y, float z){
