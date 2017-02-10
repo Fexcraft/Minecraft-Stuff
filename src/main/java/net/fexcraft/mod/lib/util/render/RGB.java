@@ -1,5 +1,6 @@
 package net.fexcraft.mod.lib.util.render;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.util.common.Print;
@@ -242,6 +243,14 @@ public class RGB {
 		rgb.blue = getFJO(blue, object, write, 0);
 		rgb.green = getFJO(green, object, write, 0);
 		return rgb;
+	}
+
+	public JsonElement toJSON(){
+		JsonObject obj = new JsonObject();
+		obj.addProperty("Red", red);
+		obj.addProperty("Blue", blue);
+		obj.addProperty("Green", green);
+		return obj;
 	}
 	
 	private static final float getFJO(String[] strings, JsonObject obj, boolean write, int i){

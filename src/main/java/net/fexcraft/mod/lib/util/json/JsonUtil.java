@@ -444,6 +444,9 @@ public class JsonUtil{
 	
 	public static ArrayList<String> jsonArrayToStringArray(JsonArray array){
 		ArrayList<String> list = new ArrayList<String>();
+		if(array == null){
+			return list;
+		}
 		for(JsonElement e : array){
 			try{
 				if(e.isJsonPrimitive()){
@@ -484,21 +487,37 @@ public class JsonUtil{
 		array.add(new JsonPrimitive(number));
 	}
 	
-	public static JsonArray getArrayFromStringList(ArrayList<String> array){
+	/*public static JsonArray getArrayFromStringList(ArrayList<String> array){
 		JsonArray ja = new JsonArray();
 		for(String s : array){
 			add(ja, s);
 		}
 		return ja;
+	}*/
+	
+	public static JsonArray getArrayFromList(ArrayList<Object> array){
+		JsonArray ja = new JsonArray();
+		for(Object obj : array){
+			if(obj instanceof Number){
+				ja.add(new JsonPrimitive((Number)obj));
+			}
+			else if(obj instanceof String){
+				ja.add(new JsonPrimitive((String)obj));
+			}
+			else{
+				Print.log(obj + " isn't a number nor string! Can not add to JSON ARRAY;");
+			}
+		}
+		return ja;
 	}
 	
-	public static JsonArray getArrayFromIntegerList(ArrayList<Integer> array){
+	/*public static JsonArray getArrayFromIntegerList(ArrayList<Integer> array){
 		JsonArray ja = new JsonArray();
 		for(int i : array){
 			add(ja, i);
 		}
 		return ja;
-	}
+	}*/
 
 	public static boolean isJsonFile(File file){
 		try{

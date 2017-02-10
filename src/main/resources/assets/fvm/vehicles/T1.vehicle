@@ -1,0 +1,16 @@
+{
+    "RegistryName": "T1",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "net.fexcraft.mod.fvm.models.ModelT1P.class",
+    "ConstructionSettings": {
+        "Length": 4,
+        "HeightOffset": 8,
+        "WheelOffset": 20
+    },
+    "TextureSettings":{
+        "Textures":[
+            "flansmod:skins/skin_vehicle_t1p.png"
+        ],
+        "Default": 0
+    }
+}
