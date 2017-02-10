@@ -1,5 +1,9 @@
 package net.fexcraft.mod.lib.util.math;
 
+import org.lwjgl.opengl.GL11;
+
+import com.google.gson.JsonObject;
+
 public class Pos{
 	
 	public float x, y, z;
@@ -44,6 +48,29 @@ public class Pos{
 	
 	public float to16FloatZ(){
 		return 0.0625f * z;
+	}
+
+	public static Pos fromJSON(JsonObject obj){
+		float x = obj.get("x").getAsFloat();
+		float y = obj.get("y").getAsFloat();
+		float z = obj.get("z").getAsFloat();
+		return new Pos(x, y, z);
+	}
+
+	public JsonObject toJSON(){
+		JsonObject obj = new JsonObject();
+		obj.addProperty("x", x);
+		obj.addProperty("y", y);
+		obj.addProperty("z", z);
+		return obj;
+	}
+
+	public void translate(){
+		GL11.glTranslatef(this.to16FloatX(), this.to16FloatY(), this.to16FloatZ());
+	}
+	
+	public void translateR(){
+		GL11.glTranslatef(-this.to16FloatX(), -this.to16FloatY(), -this.to16FloatZ());
 	}
 	
 }

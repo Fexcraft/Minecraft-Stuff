@@ -46,6 +46,27 @@ public class ModelConverter extends ModelBase {
 		render(steeringWheelModel);
 	}
 
+	public void translateAll(float x, float y, float z){
+		translate(bodyModel, x, y, z);
+		translate(model, x, y, z);
+		translate(bodyDoorOpenModel, x, y, z);
+		translate(bodyDoorCloseModel, x, y, z);
+		translate(turretModel, x, y, z);
+		translate(barrelModel, x, y, z);
+		translate(frontWheelModel, x, y, z);
+		translate(backWheelModel, x, y, z);
+		translate(leftFrontWheelModel, x, y, z);
+		translate(rightFrontWheelModel, x, y, z);
+		translate(leftBackWheelModel, x, y, z);
+		translate(rightBackWheelModel, x, y, z);
+		translate(rightTrackModel, x, y, z);
+		translate(leftTrackModel, x, y, z);
+		translate(rightTrackWheelModels, x, y, z);
+		translate(leftTrackWheelModels, x, y, z);
+		translate(trailerModel, x, y, z);
+		translate(steeringWheelModel, x, y, z);
+	}
+	
 	public void flipAll(){
 		flip(bodyModel);
 		flip(model);
@@ -73,25 +94,5 @@ public class ModelConverter extends ModelBase {
 			sub.setRotationPoint(sub.rotationPointX, -sub.rotationPointY, -sub.rotationPointZ);
 		}
 	}
-
-	public void translateAll(float x, float y, float z){
-		translate(bodyModel, x, y, z);
-		translate(model, x, y, z);
-		translate(bodyDoorOpenModel, x, y, z);
-		translate(bodyDoorCloseModel, x, y, z);
-		translate(turretModel, x, y, z);
-		translate(barrelModel, x, y, z);
-		translate(frontWheelModel, x, y, z);
-		translate(backWheelModel, x, y, z);
-		translate(leftFrontWheelModel, x, y, z);
-		translate(rightFrontWheelModel, x, y, z);
-		translate(leftBackWheelModel, x, y, z);
-		translate(rightBackWheelModel, x, y, z);
-		translate(rightTrackModel, x, y, z);
-		translate(leftTrackModel, x, y, z);
-		translate(rightTrackWheelModels, x, y, z);
-		translate(leftTrackWheelModels, x, y, z);
-		translate(trailerModel, x, y, z);
-		translate(steeringWheelModel, x, y, z);
-	}
+	
 }

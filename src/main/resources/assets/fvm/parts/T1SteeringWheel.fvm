@@ -1,0 +1,33 @@
+{
+    "RegistryName": "t1_steering_wheel",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "net.fexcraft.mod.fvm.models.ModelT1SW.class",
+    "Category": "steering_wheel",
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_t1p.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Compatible": [
+            {
+                "Vehicle": "T1",
+                "Offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        ],
+        "Incompatible": [
+            {
+                "Vehicle": "T2S",
+                "Parts": [
+                    "Any"
+                ]
+            }
+            ],
+        "Requires": []
+    }
+}
