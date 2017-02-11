@@ -39,8 +39,8 @@ public class ModelRendererTurbo extends ModelRenderer {
 
     private PositionTextureVertex vertices[];
     private TexturedPolygon faces[];
-    private int textureOffsetX;
-    private int textureOffsetY;
+    public int textureOffsetX;
+    public int textureOffsetY;
     private boolean compiled;
     private int displayList;
     private int displayListArray[];

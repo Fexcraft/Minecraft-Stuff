@@ -423,7 +423,7 @@ public class Registry {
 				return items.get(res);
 			}
 		}
-		Static.exception(3, rs.toString());
+		Static.exception(5, rs.toString());
 		return null;
 	}
 	
@@ -437,7 +437,7 @@ public class Registry {
 				return blocks.get(res);
 			}
 		}
-		Static.exception(3, rs.toString());
+		Static.exception(5, rs.toString());
 		return null;
 	}
 

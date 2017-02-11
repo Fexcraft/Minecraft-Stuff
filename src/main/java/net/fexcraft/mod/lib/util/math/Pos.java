@@ -66,11 +66,11 @@ public class Pos{
 	}
 
 	public void translate(){
-		GL11.glTranslatef(this.to16FloatX(), this.to16FloatY(), this.to16FloatZ());
+		GL11.glTranslatef(x == 0 ? 0 : this.to16FloatX(), y == 0 ? 0 : this.to16FloatY(), z == 0 ? 0 : this.to16FloatZ());
 	}
 	
 	public void translateR(){
-		GL11.glTranslatef(-this.to16FloatX(), -this.to16FloatY(), -this.to16FloatZ());
+		GL11.glTranslatef(x == 0 ? 0 : -this.to16FloatX(), y == 0 ? 0 : -this.to16FloatY(), z == 0 ? 0 : -this.to16FloatZ());
 	}
 	
 }

@@ -1,0 +1,24 @@
+{
+    "RegistryName": "t1_dc1",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "fvm:models/parts/t1dc1.jtmt",
+    "Category": "top_deflector",
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/null_texture.png"
+        ]
+    },
+    "Removable": true,
+    "ConstructionSettings":{
+        "Compatible": [
+            {
+                "Vehicle": "T1",
+                "Offset": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                }
+            }
+        ]
+    }
+}

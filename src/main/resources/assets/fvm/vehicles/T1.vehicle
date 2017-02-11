@@ -32,7 +32,7 @@
     },
     "PartSettings": {
         "Parts": [
-            "t1_steering_wheel"
+            "steering_wheel:t1_steering_wheel"
         ]
     }
 }
