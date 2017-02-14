@@ -15,19 +15,24 @@ public class ApiUtil{
 	private static final int range = 32;
 	
 	public static void sendTileEntityUpdatePacket(World world, BlockPos pos, NBTTagCompound nbt){
-		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(world.provider.getDimension(), pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
 	}
 	
 	public static void sendTileEntityUpdatePacket(World world, BlockPos pos, NBTTagCompound nbt, int range){
-		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(world.provider.getDimension(), pos, nbt), new TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
 	}
 	
 	public static void sendTileEntityUpdatePacket(int dim, BlockPos pos, NBTTagCompound nbt){
-		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(dim, pos.getX(), pos.getY(), pos.getZ(), 32));
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(dim, pos, nbt), new TargetPoint(dim, pos.getX(), pos.getY(), pos.getZ(), 32));
 	}
 	
 	public static void sendTileEntityUpdatePacket(int dim, BlockPos pos, NBTTagCompound nbt, int range){
-		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(pos, nbt), new TargetPoint(dim, pos.getX(), pos.getY(), pos.getZ(), range));
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(dim, pos, nbt), new TargetPoint(dim, pos.getX(), pos.getY(), pos.getZ(), range));
+	}
+
+	public static void sendTileEntityUpdatePacket(TileEntity entity, NBTTagCompound nbt, int i) {
+		BlockPos pos = entity.getPos();
+		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(entity.getWorld().provider.getDimension(), pos, nbt), new TargetPoint(entity.getWorld().provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), i));
 	}
 	
 	public static void tryTransfer(Cable sender, World w, BlockPos pos, EnumFacing side){

@@ -8,8 +8,9 @@
             "fvm:textures/entities/skin_vehicle_t1p.png"
         ]
     },
-    "Removable": true,
+    "Removable": false,
     "ConstructionSettings":{
+        "Available": false,
         "Compatible": [
             {
                 "Vehicle": "T1",

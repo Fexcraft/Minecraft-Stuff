@@ -487,17 +487,17 @@ public class JsonUtil{
 		array.add(new JsonPrimitive(number));
 	}
 	
-	/*public static JsonArray getArrayFromStringList(ArrayList<String> array){
+	public static JsonArray getArrayFromStringList(ArrayList<String> array){
 		JsonArray ja = new JsonArray();
 		for(String s : array){
 			add(ja, s);
 		}
 		return ja;
-	}*/
+	}
 	
-	public static JsonArray getArrayFromList(ArrayList<Object> array){
+	/*public static JsonArray getArrayFromList(ArrayList<String> requires){
 		JsonArray ja = new JsonArray();
-		for(Object obj : array){
+		for(Object obj : requires){
 			if(obj instanceof Number){
 				ja.add(new JsonPrimitive((Number)obj));
 			}
@@ -509,15 +509,15 @@ public class JsonUtil{
 			}
 		}
 		return ja;
-	}
+	}*/
 	
-	/*public static JsonArray getArrayFromIntegerList(ArrayList<Integer> array){
+	public static JsonArray getArrayFromIntegerList(ArrayList<Integer> array){
 		JsonArray ja = new JsonArray();
 		for(int i : array){
 			add(ja, i);
 		}
 		return ja;
-	}*/
+	}
 
 	public static boolean isJsonFile(File file){
 		try{

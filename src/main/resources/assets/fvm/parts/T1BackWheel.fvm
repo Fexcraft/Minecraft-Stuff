@@ -10,6 +10,7 @@
     },
     "Removable": false,
     "ConstructionSettings":{
+        "Available": false,
         "Compatible": [
             {
                 "Vehicle": "T1",

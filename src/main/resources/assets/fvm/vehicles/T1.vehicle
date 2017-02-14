@@ -15,7 +15,7 @@
     "ConstructionSettings": {
         "Length": 6,
         "HeightOffset": 12.5,
-        "WheelOffset": 20,
+        "WheelOffset": 19.5,
         "Requires": [
             "right_front_wheel",
             "left_front_wheel",
@@ -31,7 +31,7 @@
         "Default": 0
     },
     "PartSettings": {
-        "Parts": [
+        "PreInstalled": [
             "steering_wheel:t1_steering_wheel"
         ]
     }

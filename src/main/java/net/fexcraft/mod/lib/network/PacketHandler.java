@@ -22,13 +22,14 @@ public class PacketHandler{
 	
 	public static void init(){
 		Print.log("Initialising Packet Handler.");
-		instance.registerMessage(ExamplePacketHandler.class,           Packet.class,                  0, Side.SERVER);
-		instance.registerMessage(TileEntityUpdatePacketHandler.class,  PacketTileEntityUpdate.class,  1, Side.CLIENT);
-		instance.registerMessage(KeyInputPacketHandler.class,          PacketKeyInput.class,          2, Side.SERVER);
-		instance.registerMessage(ISUPacketHandler.Server.class,        PacketItemStackUpdate.class,   3, Side.SERVER);
-		instance.registerMessage(ISUPacketHandler.Client.class,        PacketItemStackUpdate.class,   4, Side.CLIENT);
-		instance.registerMessage(JsonObjectPacketHandler.Server.class, PacketJsonObject.class,        5, Side.SERVER);
-		instance.registerMessage(JsonObjectPacketHandler.Client.class, PacketJsonObject.class,        6, Side.CLIENT);
+		instance.registerMessage(ExamplePacketHandler.class,                  Packet.class,                  0, Side.SERVER);
+		instance.registerMessage(TileEntityUpdatePacketHandler.Client.class,  PacketTileEntityUpdate.class,  1, Side.CLIENT);
+		instance.registerMessage(TileEntityUpdatePacketHandler.Server.class,  PacketTileEntityUpdate.class,  2, Side.SERVER);
+		instance.registerMessage(KeyInputPacketHandler.class,                 PacketKeyInput.class,          3, Side.SERVER);
+		instance.registerMessage(ISUPacketHandler.Server.class,               PacketItemStackUpdate.class,   4, Side.SERVER);
+		instance.registerMessage(ISUPacketHandler.Client.class,               PacketItemStackUpdate.class,   5, Side.CLIENT);
+		instance.registerMessage(JsonObjectPacketHandler.Server.class,        PacketJsonObject.class,        6, Side.SERVER);
+		instance.registerMessage(JsonObjectPacketHandler.Client.class,        PacketJsonObject.class,        7, Side.CLIENT);
 		Print.log("Done initialising Packet Handler.");
 	}
 	
@@ -58,7 +59,10 @@ public class PacketHandler{
 				break;
 			case TILEENTITY:
 				if(side.isClient()){
-					TileEntityUpdatePacketHandler.addListener(listener);
+					TileEntityUpdatePacketHandler.Client.addListener(listener);
+				}
+				if(side.isServer()){
+					TileEntityUpdatePacketHandler.Server.addListener(listener);
 				}
 				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type TILEENTITY for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 				break;

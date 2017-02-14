@@ -1,5 +1,5 @@
 {
-    "RegistryName": "t1_dc1",
+    "RegistryName": "t1_deflector",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "fvm:models/parts/t1dc1.jtmt",
     "Category": "top_deflector",
@@ -18,6 +18,14 @@
                     "y": 1,
                     "z": 0
                 }
+            }
+        ],
+        "Incompatible": [
+            {
+                "Vehicle": "T1",
+                "Parts": [
+                    "t1_dc2"
+                ]
             }
         ]
     }

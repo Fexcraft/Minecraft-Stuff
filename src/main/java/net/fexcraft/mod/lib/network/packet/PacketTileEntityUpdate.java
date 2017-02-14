@@ -13,17 +13,20 @@ public class PacketTileEntityUpdate extends Packet implements IPacket, IMessage{
 	
 	public BlockPos pos;
 	public NBTTagCompound nbt;
+	public int dim;
 	
 	public PacketTileEntityUpdate(){}
 	
-	public PacketTileEntityUpdate(BlockPos pos, NBTTagCompound nbt){
+	public PacketTileEntityUpdate(int dim, BlockPos pos, NBTTagCompound nbt){
 		this.pos = pos;
 		this.nbt = nbt;
+		this.dim = dim;
 	}
 
 	@Override
 	public void toBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
+		buf.writeInt(dim);
 		buf.writeBlockPos(pos);
 		buf.writeCompoundTag(nbt);
 	}
@@ -31,6 +34,7 @@ public class PacketTileEntityUpdate extends Packet implements IPacket, IMessage{
 	@Override
 	public void fromBytes(ByteBuf bbuf){
 		PacketBuffer buf = new PacketBuffer(bbuf);
+		dim = buf.readInt();
 		pos = buf.readBlockPos();
 		try {
 			nbt = buf.readCompoundTag();
