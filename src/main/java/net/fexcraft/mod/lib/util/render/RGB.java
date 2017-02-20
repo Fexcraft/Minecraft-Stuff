@@ -59,11 +59,11 @@ public class RGB {
 		org.lwjgl.opengl.GL11.glColor3f(1F, 1F, 1F);
 	}
 	
-	public static final RGB RED   = new RGB(1, 0, 0);
-	public static final RGB GREEN = new RGB(0, 1, 0);
-	public static final RGB BLUE  = new RGB(0, 0, 1);
-	public static final RGB BLACK = new RGB(0, 0, 0);
-	public static final RGB WHITE = new RGB(1, 1, 1);
+	public static final RGB RED   = new RGB(1f, 0f, 0f);
+	public static final RGB GREEN = new RGB(0f, 1f, 0f);
+	public static final RGB BLUE  = new RGB(0f, 0f, 1f);
+	public static final RGB BLACK = new RGB(0f, 0f, 0f);
+	public static final RGB WHITE = new RGB(1f, 1f, 1f);
 	
 	public void fromDyeColor(EnumDyeColor e){
 		switch(e){
