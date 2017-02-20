@@ -26,7 +26,7 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	private static FloatBuffer fbuf = bbuf.asFloatBuffer();
 	private static ShortBuffer sbuf = bbuf.asShortBuffer();
 	private static IntBuffer ibuf = bbuf.asIntBuffer();
-	private double u, v, w, x_o, y_o, z_o;
+	private double u, v, w, x, y, z;
 	private int[] rb;
 	
 	public static Tessellator getInstance(){
@@ -49,7 +49,7 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	public void draw(){
 		if(drawing){
 			drawing = false; int o = 0;
-			while (o < verts){
+			while(o < verts){
 				int vtc = Math.min(verts - o, 0x200000 >> 5);
 				ibuf.clear(); ibuf.put(rb, o * 10, vtc * 10); bbuf.position(0); bbuf.limit(vtc * 40); o += vtc;
 				if(ht){
@@ -98,9 +98,9 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 			rb[rbi + 5] = Float.floatToRawIntBits(0.0F); rb[rbi + 6] = Float.floatToRawIntBits((float)w);
 		}
 		if(in){rb[rbi + 8] = n;}
-		rb[rbi] = Float.floatToRawIntBits((float)(par1 + x_o));
-		rb[rbi + 1] = Float.floatToRawIntBits((float)(par3 + y_o));
-		rb[rbi + 2] = Float.floatToRawIntBits((float)(par5 + z_o));
+		rb[rbi] = Float.floatToRawIntBits((float)(par1 + x));
+		rb[rbi + 1] = Float.floatToRawIntBits((float)(par3 + y));
+		rb[rbi + 2] = Float.floatToRawIntBits((float)(par5 + z));
 		rbi += 10; verts++; vertices++;
 	}
 	
@@ -127,11 +127,11 @@ public class Tessellator extends net.minecraft.client.renderer.Tessellator{
 	}
 	
 	public void setTranslation(double x, double y, double z){
-		x_o = x; y_o = y; z_o = z;
+		this.x = x; this.y = y; this.z = z;
 	}
 	
 	public void addTranslation(float x, float y, float z){
-		x_o += x; y_o += y; z_o += z;
+		this.x += x; this.y += y; this.z += z;
 	}
 	
 }

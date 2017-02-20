@@ -1,11 +1,11 @@
 {
-    "RegistryName": "T1",
+    "RegistryName": "OT1",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.ModelT1P.class",
+    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1.class",
     "PrimaryColor": {
-        "Red": 0.0,
-        "Blue": 1.0,
-        "Green": 0.0
+        "Red": 0.027,
+        "Blue": 0.639,
+        "Green": 0.396
     },
     "SecondaryColor": {
         "Red": 1.0,
@@ -15,7 +15,7 @@
     "ConstructionSettings": {
         "Length": 6,
         "HeightOffset": 12.5,
-        "WheelOffset": 19.5,
+        "WheelOffset": 19,
         "Requires": [
             "right_front_wheel",
             "left_front_wheel",
@@ -26,13 +26,13 @@
     },
     "TextureSettings": {
         "Textures": [
-            "fvm:textures/entities/skin_vehicle_t1p.png"
+            "fvm:textures/entities/skin_vehicle_ot1.png"
         ],
         "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [
-            "steering_wheel:t1_steering_wheel"
+            "steering_wheel:ot1_steering_wheel"
         ]
     }
 }

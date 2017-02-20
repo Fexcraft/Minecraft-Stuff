@@ -1,5 +1,8 @@
 package net.fexcraft.mod.lib.util.render;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -21,6 +24,23 @@ public class RGB {
 		this.red = r;
 		this.green = g;
 		this.blue = b;
+	}
+	
+	public RGB(float[] f){
+		try{
+			this.red = f[0];
+			this.green= f[1];
+			this.blue = f[2];
+		}
+		catch(Exception e){
+			copyFrom(WHITE);
+		}
+	}
+	
+	public RGB(int r, int g, int b){
+		this.red = fromInt(r);
+		this.green = fromInt(g);
+		this.blue = fromInt(b);
 	}
 	
 	public RGB(RGB rgb){
@@ -263,6 +283,52 @@ public class RGB {
 			obj.addProperty(strings[i], 1f);
 		}
 		return 0f;
+	}
+	
+	public static RGB fromUnknown(String x, String y, String z){
+		try{
+			return fromUnknown(Float.parseFloat(x), Float.parseFloat(y), Float.parseFloat(z));
+		}
+		catch(Exception e){
+			return new RGB();
+		}
+	}
+	
+	public static RGB fromUnknown(float x, float y, float z){
+		float[] f = new float[3];
+		if(x % 1 != 0){
+			f[0] = truncate(x);
+		}
+		else{
+			f[0] = fromInt(x);
+		}
+		//
+		if(y % 1 != 0){
+			f[1] = truncate(y);
+		}
+		else{
+			f[1] = fromInt(y);
+		}
+		//
+		if(z % 1 != 0){
+			f[2] = truncate(z);
+		}
+		else{
+			f[2] = fromInt(z);
+		}
+		return new RGB(f);
+	}
+	
+	private static final DecimalFormat df = new DecimalFormat("##.#####");
+	
+	private static final float truncate(float f){
+		df.setRoundingMode(RoundingMode.DOWN);
+		String s = df.format(f);
+		return Float.parseFloat(s);
+	}
+	
+	private static final float fromInt(Number number){
+		return truncate(number.intValue() / 255f);
 	}
 	
 }

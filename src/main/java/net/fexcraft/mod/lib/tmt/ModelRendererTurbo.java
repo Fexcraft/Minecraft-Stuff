@@ -1485,9 +1485,9 @@ public class ModelRendererTurbo extends ModelRenderer {
     
     /**
      * Renders the shape.
-     * @param worldScale the scale of the shape. Usually is 0.0625.
+     * @param scale the scale of the shape. Usually is 0.0625.
      */
-    public void render(float worldScale){
+    public void render(float scale){
         if(field_1402_i){
             return;
         }
@@ -1495,11 +1495,11 @@ public class ModelRendererTurbo extends ModelRenderer {
             return;
         }
         if(!compiled || forcedRecompile){
-            compileDisplayList(worldScale);
+            compileDisplayList(scale);
         }
         if(rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F){
             GL11.glPushMatrix();
-            GL11.glTranslatef(rotationPointX * worldScale, rotationPointY * worldScale, rotationPointZ * worldScale);
+            GL11.glTranslatef(rotationPointX * scale, rotationPointY * scale, rotationPointZ * scale);
             if(rotateAngleZ != 0.0F){
                 GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
             }
@@ -1512,26 +1512,26 @@ public class ModelRendererTurbo extends ModelRenderer {
             callDisplayList();
             if(childModels != null){
                 for(Object child : childModels){
-                    ((ModelRenderer)child).render(worldScale);
+                    ((ModelRenderer)child).render(scale);
                 }
             }
             GL11.glPopMatrix();
         } else
         if(rotationPointX != 0.0F || rotationPointY != 0.0F || rotationPointZ != 0.0F){
-            GL11.glTranslatef(rotationPointX * worldScale, rotationPointY * worldScale, rotationPointZ * worldScale);
+            GL11.glTranslatef(rotationPointX * scale, rotationPointY * scale, rotationPointZ * scale);
             callDisplayList();
             if(childModels != null){
                 for(Object child : childModels){
-                    ((ModelRenderer)child).render(worldScale);
+                    ((ModelRenderer)child).render(scale);
                 }
             }
-            GL11.glTranslatef(-rotationPointX * worldScale, -rotationPointY * worldScale, -rotationPointZ * worldScale);
+            GL11.glTranslatef(-rotationPointX * scale, -rotationPointY * scale, -rotationPointZ * scale);
         }
         else{
         	callDisplayList();
         	if(childModels != null){
                 for(Object child : childModels){
-                    ((ModelRenderer)child).render(worldScale);
+                    ((ModelRenderer)child).render(scale);
                 }
             }
         }
@@ -1608,9 +1608,9 @@ public class ModelRendererTurbo extends ModelRenderer {
     	}
     }
 
-    private void compileDisplayList(float worldScale){
+    private void compileDisplayList(float scale){
     	if(useLegacyCompiler){
-    		compileLegacyDisplayList(worldScale);
+    		compileLegacyDisplayList(scale);
     	}
     	else{    		
     		Collection<TextureGroup> textures = textureGroup.values();
@@ -1622,7 +1622,7 @@ public class ModelRendererTurbo extends ModelRenderer {
     			Tessellator tessellator = Tessellator.getInstance();
     			TextureGroup usedGroup = (TextureGroup)itr.next();
     			for(int j = 0; j < usedGroup.poly.size(); j++){
-    				usedGroup.poly.get(j).draw(tessellator, worldScale);
+    				usedGroup.poly.get(j).draw(tessellator, scale);
     			}
     			GL11.glEndList();
     		}
@@ -1630,12 +1630,12 @@ public class ModelRendererTurbo extends ModelRenderer {
         compiled = true;
     }
     
-    private void compileLegacyDisplayList(float worldScale){
+    private void compileLegacyDisplayList(float scale){
         displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(displayList, 4864 /*GL_COMPILE*/);
         Tessellator tessellator = Tessellator.getInstance();
         for(int i = 0; i < faces.length; i++){
-            faces[i].draw(tessellator, worldScale);
+            faces[i].draw(tessellator, scale);
         }
         GL11.glEndList();
     }

@@ -1,0 +1,34 @@
+{
+    "RegistryName": "ot1_back_wheel",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1BW.class",
+    "Category": "wheels",
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_ot1.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false,
+        "Compatible": [
+            {
+                "Vehicle": "OT1",
+                "Offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        ],
+        "AlternativeUse":[
+            {
+                "Vehicle": "OT1",
+                "Category": [
+                    "right_back_wheel",
+                    "left_back_wheel"
+                ]
+            }
+        ]
+    }
+}

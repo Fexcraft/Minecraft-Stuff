@@ -1,7 +1,7 @@
 {
-    "RegistryName": "t1_back_wheel",
+    "RegistryName": "t1_front_wheel",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.ModelT1BW.class",
+    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1FW.class",
     "Category": "wheels",
     "TextureSettings": {
         "Textures": [
@@ -25,8 +25,8 @@
             {
                 "Vehicle": "T1",
                 "Category": [
-                    "right_back_wheel",
-                    "left_back_wheel"
+                    "right_front_wheel",
+                    "left_front_wheel"
                 ]
             }
         ]

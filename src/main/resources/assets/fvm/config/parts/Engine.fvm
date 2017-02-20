@@ -1,19 +1,19 @@
 {
-    "RegistryName": "t1_type1_cargoupgrade",
+    "RegistryName": "common_engine",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.ModelT1_1.class",
-    "Category": "cargo",
+    "ModelFile": "null",
+    "Category": "engine",
     "TextureSettings": {
         "Textures": [
-            "fvm:textures/entities/skin_vehicle_t1_1p.png"
+            "fvm:textures/entities/null_texture.png"
         ]
     },
     "Removable": true,
     "ConstructionSettings":{
-        "Available": true,
+        "Available": false,
         "Compatible": [
             {
-                "Vehicle": "T1",
+                "Vehicle": "Any",
                 "Offset": {
                     "x": 0,
                     "y": 0,

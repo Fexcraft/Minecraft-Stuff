@@ -1,0 +1,33 @@
+{
+    "RegistryName": "wheel1_front_left",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelWheel1.class",
+    "Category": "wheels",
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/null_texture.png"
+        ]
+    },
+    "Removable": true,
+    "ConstructionSettings":{
+        "Available": false,
+        "Compatible": [
+            {
+                "Vehicle": "T1",
+                "Offset": {
+                    "x": 35,
+                    "y": 9,
+                    "z": 20
+                }
+            }
+        ],
+        "AlternativeUse":[
+            {
+                "Vehicle": "T1",
+                "Category": [
+                    "left_front_wheel"
+                ]
+            }
+        ]
+    }
+}
