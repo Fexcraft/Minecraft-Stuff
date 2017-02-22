@@ -22,10 +22,9 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
  * Fex's Vehicle Mod
- * A mod a custom addon part system to create customisable vehicles.
- * Currently makes use of other mod's entities, althrought can also
- * run standalone, but only construction and display blocks are
- * available then.
+ * A Modification adding a custom add-on part system to create customizable vehicles.
+ * Currently makes use of other mod's entities, although can also run stand-alone,
+ * but then only the construction and display blocks are available.
  * 
  * License: http://fexcraft.net/license?id=mods
  * @author Ferdinand
