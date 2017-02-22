@@ -2,7 +2,9 @@
     "RegistryName": "common_engine",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "null",
-    "Category": "engine",
+    "Category": [
+        "engine"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/null_texture.png"

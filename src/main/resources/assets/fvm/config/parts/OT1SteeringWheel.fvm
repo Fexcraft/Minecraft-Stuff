@@ -2,7 +2,9 @@
     "RegistryName": "ot1_steering_wheel",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "fvm:models/parts/ot1st.jtmt",
-    "Category": "steering_wheel",
+    "Category": [
+        "steering_wheel"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/skin_vehicle_ot1.png"

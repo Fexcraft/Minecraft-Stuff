@@ -2,7 +2,11 @@
     "RegistryName": "t1_front_wheel",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1FW.class",
-    "Category": "wheels",
+    "Category": [
+        "wheels",
+        "right_front_wheel",
+        "left_front_wheel"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/skin_vehicle_t1p.png"
@@ -19,15 +23,6 @@
                     "y": 0,
                     "z": 0
                 }
-            }
-        ],
-        "AlternativeUse":[
-            {
-                "Vehicle": "T1",
-                "Category": [
-                    "right_front_wheel",
-                    "left_front_wheel"
-                ]
             }
         ]
     }

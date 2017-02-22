@@ -2,7 +2,10 @@
     "RegistryName": "wheel1_front_left",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelWheel1.class",
-    "Category": "wheels",
+    "Category": [
+        "wheels",
+        "left_front_wheel"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/null_texture.png"
@@ -19,14 +22,6 @@
                     "y": 9,
                     "z": 20
                 }
-            }
-        ],
-        "AlternativeUse":[
-            {
-                "Vehicle": "T1",
-                "Category": [
-                    "left_front_wheel"
-                ]
             }
         ]
     }

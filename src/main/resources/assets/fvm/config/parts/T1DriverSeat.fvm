@@ -1,0 +1,30 @@
+{
+    "RegistryName": "t1_driver_seat",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "null",
+    "Category": [
+        "driver_seat"
+    ],
+    "Attributes":[
+        "seat"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_t1p.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false
+    },
+    "AttributeSettings":{
+        "Passengers":[
+            {
+                "driver": true,
+                "x": 33,
+                "y": 15,
+                "z": -11
+            }
+        ]    
+    }
+}

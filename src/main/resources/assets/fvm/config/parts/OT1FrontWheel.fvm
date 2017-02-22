@@ -2,7 +2,11 @@
     "RegistryName": "ot1_front_wheel",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1FW.class",
-    "Category": "wheels",
+    "Category": [
+        "wheels",
+        "right_front_wheel",
+        "left_front_wheel"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/skin_vehicle_ot1.png"
@@ -19,15 +23,6 @@
                     "y": 0,
                     "z": 0
                 }
-            }
-        ],
-        "AlternativeUse":[
-            {
-                "Vehicle": "OT1",
-                "Category": [
-                    "right_front_wheel",
-                    "left_front_wheel"
-                ]
             }
         ]
     }

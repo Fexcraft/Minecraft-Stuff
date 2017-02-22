@@ -2,7 +2,9 @@
     "RegistryName": "t1_deflector",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "fvm:models/parts/t1dc1.jtmt",
-    "Category": "top_deflector",
+    "Category": [
+        "top_deflector"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/null_texture.png"

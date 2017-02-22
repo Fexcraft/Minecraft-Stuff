@@ -12,6 +12,28 @@
         "Blue": 0.0,
         "Green": 0.0
     },
+    "WheelPos":[
+        {
+            "x": -71,
+            "y": -10,
+            "z": -17
+        },
+        {
+            "x": -71,
+            "y": -10,
+            "z": 17
+        },
+        {
+            "x": 35,
+            "y": -10,
+            "z": 17
+        },
+        {
+            "x": 35,
+            "y": -10,
+            "z": -17
+        }
+    ],
     "ConstructionSettings": {
         "Length": 6,
         "HeightOffset": 12.5,
@@ -32,7 +54,8 @@
     },
     "PartSettings": {
         "PreInstalled": [
-            "steering_wheel:t1_steering_wheel"
+            "steering_wheel:t1_steering_wheel",
+            "driver_seat:t1_driver_seat"
         ]
     }
 }

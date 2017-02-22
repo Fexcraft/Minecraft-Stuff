@@ -2,7 +2,9 @@
     "RegistryName": "t1_type1_cargoupgrade",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1_1.class",
-    "Category": "cargo",
+    "Category": [
+        "cargo"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/skin_vehicle_t1_1p.png"
