@@ -5,6 +5,9 @@
     "Category": [
         "engine"
     ],
+    "Attributes":[
+        "engine"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/null_texture.png"
@@ -23,5 +26,9 @@
                 }
             }
         ]
+    },
+    "AttributeSettings":{
+        "EngineSpeed": 1.0,
+        "FuelConsumption": 0.7 
     }
 }

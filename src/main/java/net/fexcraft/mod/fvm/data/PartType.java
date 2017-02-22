@@ -38,13 +38,16 @@ public class PartType extends DataObject {
 	public Map<String, ArrayList<String>> requires = new HashMap<String, ArrayList<String>>();
 	//public Map<String, ArrayList<String>> alternative = new HashMap<String, ArrayList<String>>();
 	public boolean availableInConstructor;
-	public ArrayList<Seat> seats = new ArrayList<Seat>();
 	//
 	public ArrayList<ResourceLocation> textures = new ArrayList<ResourceLocation>();
 	public int current_texture = 0;
-	//
-	public float fuelConsumption = 1;//TODO obj
-	public float engineSpeed = 1.5f;//TODO obj
+	
+	//Seat Attribute
+	public ArrayList<Seat> seats = new ArrayList<Seat>();
+	//Engine Attribute
+	public float fuelConsumption = 0;
+	public float engineSpeed = 0f;
+	
 	
 	public PartType(LoadedIn state, JsonObject obj){
 		super(state);
@@ -126,6 +129,10 @@ public class PartType extends DataObject {
 						seats.add(new Seat(elm.getAsJsonObject()));
 					}
 				}
+			}
+			if(attributes.contains("engine") || attributes.contains("main_engine")){
+				engineSpeed = ju.getIfExists(cs, "EngineSpeed", 1f).floatValue();
+				fuelConsumption = ju.getIfExists(cs, "FuelConsumption", 1f).floatValue();
 			}
 			//general modifiers
 		}

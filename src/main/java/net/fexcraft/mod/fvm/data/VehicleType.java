@@ -70,10 +70,10 @@ public class VehicleType extends DataObject {
 	public float cameraDistance;
 	public int fuelStored;
 	public int fuelTankSize;
-	public float maxThrottle = 1f;
-	public float maxNegativeThrottle = 0.25f;
-	public float turnLeftModifier = 1f;
-	public float turnRightModifier = 1f;
+	public float maxThrottle;
+	public float maxNegativeThrottle;
+	public float turnLeftModifier;
+	public float turnRightModifier;
 	public String lock_code = KeyItem.getNewKeyCode();
 	private DriveType driveType = DriveType.FWD;
 	
@@ -175,7 +175,7 @@ public class VehicleType extends DataObject {
 			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", "fwd"));
 			hasLock = ju.getIfExists(vd, "Lockable", true);
 			wheelStepHeight = ju.getIfExists(vd, "WheelStepHight", 1f).floatValue();
-			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.5f).floatValue();
+			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.25f).floatValue();
 			maxThrottle = ju.getIfExists(vd, "MaxThrottle", 1f).floatValue();
 			maxNegativeThrottle = ju.getIfExists(vd, "MaxNegativeThrottle", 0.5f).floatValue();
 			turnLeftModifier = ju.getIfExists(vd, "TurnLeftModifier", 1f).floatValue();
