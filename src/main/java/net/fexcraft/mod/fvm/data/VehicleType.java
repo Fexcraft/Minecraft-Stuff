@@ -65,15 +65,15 @@ public class VehicleType extends DataObject {
 	private Container container;
 	//Resyncables
 	public SortableList<Seat> seats = new SortableList<Seat>();
-	public float wheelStepHeight = 1.0f;//TODO obj
-	public float wheelSpringStrength = 0.5f;//TODO resync, nbt
-	public float cameraDistance = 5f;//TODO obj
-	public int fuelStored = 100;//TODO nbt
-	public int fuelTankSize = 200;//TODO obj
-	public float maxThrottle = 1f;//TODO obj
-	public float maxNegativeThrottle = 0.25f;//TODO obj
-	public float turnLeftModifier = 1f;//TODO resync, nbt
-	public float turnRightModifier = 1f;//TODO resync, nbt
+	public float wheelStepHeight;
+	public float wheelSpringStrength;
+	public float cameraDistance;
+	public int fuelStored;
+	public int fuelTankSize;
+	public float maxThrottle = 1f;
+	public float maxNegativeThrottle = 0.25f;
+	public float turnLeftModifier = 1f;
+	public float turnRightModifier = 1f;
 	public String lock_code = KeyItem.getNewKeyCode();
 	private DriveType driveType = DriveType.FWD;
 	
@@ -163,7 +163,7 @@ public class VehicleType extends DataObject {
 			JsonObject rs = obj.get("RenderSettings").getAsJsonObject();
 			scale = ju.getIfExists(rs, "Scale", 1f).floatValue();
 			rotateWheels = ju.getIfExists(rs, "RotateWheels", true);
-			
+			cameraDistance = ju.getIfExists(rs, "CameraDistance", 5f).floatValue();
 		}
 		if(obj.has("InventorySettings")){
 			JsonObject is = obj.get("InventorySettings").getAsJsonObject();
@@ -174,6 +174,12 @@ public class VehicleType extends DataObject {
 			JsonObject vd = obj.get("VehicleDefaults").getAsJsonObject();
 			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", "fwd"));
 			hasLock = ju.getIfExists(vd, "Lockable", true);
+			wheelStepHeight = ju.getIfExists(vd, "WheelStepHight", 1f).floatValue();
+			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.5f).floatValue();
+			maxThrottle = ju.getIfExists(vd, "MaxThrottle", 1f).floatValue();
+			maxNegativeThrottle = ju.getIfExists(vd, "MaxNegativeThrottle", 0.5f).floatValue();
+			turnLeftModifier = ju.getIfExists(vd, "TurnLeftModifier", 1f).floatValue();
+			turnRightModifier = ju.getIfExists(vd, "TurnRightModifier", 1f).floatValue();
 		}
 		
 		//Other

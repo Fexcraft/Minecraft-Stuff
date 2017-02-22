@@ -12,11 +12,11 @@ public enum DriveType {
 	NULL("null", new String[]{});
 	
 	private String string;
-	private ArrayList<String> alternative;
+	private ArrayList<String> alternative = new ArrayList<String>();
 	
 	DriveType(String s, String[] arr){
 		string = s;
-		alternative = (ArrayList<String>)Arrays.asList(arr);
+		alternative.addAll(Arrays.asList(arr));
 	}
 	
 	@Override

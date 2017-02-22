@@ -20,6 +20,17 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+/**
+ * Fex's Vehicle Mod
+ * A mod a custom addon part system to create customisable vehicles.
+ * Currently makes use of other mod's entities, althrought can also
+ * run standalone, but only construction and display blocks are
+ * available then.
+ * 
+ * License: http://fexcraft.net/license?id=mods
+ * @author Ferdinand
+ *
+ */
 @Mod(modid = FvmResources.MODID, name = "Fex's Vehicle and Transportation Mod (It's a parasite, isn't it?)", version = FVM.VERSION, dependencies = "required-after:fcl")
 public class FVM {
 	
