@@ -6,7 +6,7 @@ import net.fexcraft.mod.lib.util.math.Pos;
 
 public class Seat {
 	
-	public boolean driver;
+	public boolean driver = false;
 	public Pos pos;
 	
 	public Seat(JsonObject obj){

@@ -45,8 +45,8 @@ public class PartType extends DataObject {
 	//Seat Attribute
 	public ArrayList<Seat> seats = new ArrayList<Seat>();
 	//Engine Attribute
-	public float fuelConsumption = 0;
-	public float engineSpeed = 0f;
+	public float fuelConsumption;
+	public float engineSpeed;
 	
 	
 	public PartType(LoadedIn state, JsonObject obj){

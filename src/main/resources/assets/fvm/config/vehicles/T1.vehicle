@@ -60,16 +60,18 @@
     },
     "RenderSettings": {
         "RotateWheels": true
-    
     },
     "InventorySettings": {
         "TankSize": 25000,
         "Size": 64
     },
     "VehicleDefaults": {
-        "DriveType": "front",
-        "Lockable": true
-    
-    
+        "DriveType": "4wd",
+        "Lockable": true,
+        "MaxThrottle": 1.0,
+        "MaxNegativeThrottle": 0.2,
+        "TurnLeftModifier": 0.7,
+        "TurnRightModifier": 0.7
     }
+    
 }

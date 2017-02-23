@@ -92,6 +92,11 @@ public class PartItem extends Item {
 				tooltip.add(StringUtils.capitalize(TextFormatting.AQUA + string));
 			}
 		}
+		if(type.attributes.contains("engine")){
+			tooltip.add("- - - - - - - -");
+			tooltip.add("Engine_Speed: " + type.engineSpeed + "fmp");
+			tooltip.add("Fuel Consupmtion: " + type.fuelConsumption);
+		}
 		if(type.getModel() != null){
 			tooltip.add("- - - - - - - -");
 			tooltip.add("Creators:");

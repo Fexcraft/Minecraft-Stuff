@@ -1,12 +1,12 @@
 {
-    "RegistryName": "t1_driver_seat",
+    "RegistryName": "ot1_front_seats",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "null",
     "Category": [
-        "driver_seat"
+        "front_seats"
     ],
     "Attributes":[
-        "seat"
+        "seats"
     ],
     "TextureSettings": {
         "Textures": [
@@ -21,10 +21,16 @@
         "Passengers":[
             {
                 "driver": true,
-                "x": 33,
-                "y": 12,
-                "z": -11
+                "x": 29,
+                "y": 8,
+                "z": -8
+            },
+            {
+                "x": 29,
+                "y": 8,
+                "z": 8
             }
         ]    
     }
+    
 }

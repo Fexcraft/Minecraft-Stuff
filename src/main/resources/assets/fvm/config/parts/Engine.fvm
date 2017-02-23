@@ -28,7 +28,7 @@
         ]
     },
     "AttributeSettings":{
-        "EngineSpeed": 1.0,
+        "EngineSpeed": 1.00,
         "FuelConsumption": 0.7 
     }
 }

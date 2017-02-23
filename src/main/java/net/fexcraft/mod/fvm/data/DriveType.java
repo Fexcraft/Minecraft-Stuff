@@ -6,7 +6,7 @@ import java.util.Arrays;
 public enum DriveType {
 	
 	FWD("fwd", new String[]{"front", "Front"}),
-	RWD("rwd", new String[]{"rear", "Rear"}),
+	RWD("rwd", new String[]{"rear", "Rear", "back", "Back"}),
 	AWD("4wd", new String[]{"4wd", "Four"}),
 	TRACK("track", new String[]{"tracked", "tank"}),
 	NULL("null", new String[]{});

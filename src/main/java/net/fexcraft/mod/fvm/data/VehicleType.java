@@ -68,7 +68,7 @@ public class VehicleType extends DataObject {
 	public float wheelStepHeight;
 	public float wheelSpringStrength;
 	public float cameraDistance;
-	public int fuelStored;
+	public int fuelStored = 50;
 	public int fuelTankSize;
 	public float maxThrottle;
 	public float maxNegativeThrottle;
@@ -167,14 +167,16 @@ public class VehicleType extends DataObject {
 		}
 		if(obj.has("InventorySettings")){
 			JsonObject is = obj.get("InventorySettings").getAsJsonObject();
-			container = new Container(is.get("Size").getAsInt());
+			if(is.has("Size")){
+				container = new Container(is.get("Size").getAsInt());
+			}
 			fuelTankSize = ju.getIfExists(is, "TankSize", 1000).intValue();
 		}
 		if(obj.has("VehicleDefaults")){
 			JsonObject vd = obj.get("VehicleDefaults").getAsJsonObject();
-			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", "fwd"));
+			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", driveType.toString()));
 			hasLock = ju.getIfExists(vd, "Lockable", true);
-			wheelStepHeight = ju.getIfExists(vd, "WheelStepHight", 1f).floatValue();
+			wheelStepHeight = ju.getIfExists(vd, "WheelStepHeight", 1f).floatValue();
 			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.25f).floatValue();
 			maxThrottle = ju.getIfExists(vd, "MaxThrottle", 1f).floatValue();
 			maxNegativeThrottle = ju.getIfExists(vd, "MaxNegativeThrottle", 0.5f).floatValue();
@@ -245,7 +247,26 @@ public class VehicleType extends DataObject {
 		obj.add("PartSettings", ps);
 		JsonObject rs = new JsonObject();
 		rs.addProperty("Scale", scale);
+		rs.addProperty("RotateWheels", rotateWheels);
+		rs.addProperty("CameraDistance", cameraDistance);
 		obj.add("RenderSettings", rs);
+		JsonObject is = new JsonObject();
+		if(container != null){
+			obj.addProperty("Size", container.getSizeInventory());
+		}
+		obj.addProperty("TankSize", fuelTankSize);
+		obj.add("InventorySettings", is);
+		JsonObject vd = new JsonObject();
+		vd.addProperty("DriveType", driveType.toString());
+		vd.addProperty("Lockable", hasLock);
+		vd.addProperty("WheelStepHeight", wheelStepHeight);
+		vd.addProperty("WheelSpringStrength", wheelSpringStrength);
+		vd.addProperty("MaxThrottle", maxThrottle);
+		vd.addProperty("MaxNegativeThrottle", maxNegativeThrottle);
+		vd.addProperty("TurnLeftModifier", turnLeftModifier);
+		vd.addProperty("TurnRightModifier", turnRightModifier);
+		obj.add("VehicleDefaults", vd);
+		//
 		JsonArray wheelpos = new JsonArray();
 		if(wheelPos != null){
 			for(Pos pos : wheelPos){
