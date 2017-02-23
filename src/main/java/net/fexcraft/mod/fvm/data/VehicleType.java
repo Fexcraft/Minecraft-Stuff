@@ -491,7 +491,11 @@ public class VehicleType extends DataObject {
 	public static class Container implements IInventory {
 		
 		private NonNullList<ItemStack> stacks;
-
+		
+		public Container(){
+			stacks = NonNullList.<ItemStack>withSize(0, ItemStack.EMPTY);
+		}
+		
 		public Container(int i){
 			stacks = NonNullList.<ItemStack>withSize(i, ItemStack.EMPTY);
 		}
@@ -502,10 +506,6 @@ public class VehicleType extends DataObject {
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 			return ItemStackHelper.saveAllItems(tag, stacks);
-		}
-
-		public Container(){
-			stacks = NonNullList.<ItemStack>withSize(0, ItemStack.EMPTY);
 		}
 
 		@Override
