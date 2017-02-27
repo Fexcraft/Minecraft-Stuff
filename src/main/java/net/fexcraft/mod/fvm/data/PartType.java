@@ -32,7 +32,7 @@ public class PartType extends DataObject {
 	public ArrayList<String> attributes = new ArrayList<String>();
 	//
 	public boolean removable;
-	public ItemStack itemstack;
+	public PartItem item;
 	public Map<String, Pos> compatible = new HashMap<String, Pos>();
 	public Map<String, ArrayList<String>> incompatible = new HashMap<String, ArrayList<String>>();
 	public Map<String, ArrayList<String>> requires = new HashMap<String, ArrayList<String>>();
@@ -229,14 +229,18 @@ public class PartType extends DataObject {
 		}
 	}
 
-	public void setItem(ItemStack stack){
-		itemstack = stack;
+	public void setItem(PartItem item){
+		this.item = item;
 	}
 
 	public void render(VehicleType type) {
 		if(model != null){
 			model.render(type);
 		}
+	}
+
+	public ItemStack newStack(){
+		return new ItemStack(item, 1, 0);
 	}
 	
 }

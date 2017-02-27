@@ -40,7 +40,7 @@ public class FvmResources {
 	public static boolean FFMM = false;
 	public static final String MODID = "fvm";
 	private static File configpath;
-	
+	//
 	private static final TreeSet<VehicleType> rawTypes = new TreeSet<VehicleType>();
 	private static final TreeSet<PartType> rawParts = new TreeSet<PartType>();
 	private static final HashSet<JsonObject> temp_objs = new HashSet<JsonObject>();
@@ -56,7 +56,7 @@ public class FvmResources {
 	public static final CreativeTabs PARTS = new CreativeTabs("fvm_parts"){
 		@Override
 		public ItemStack getTabIconItem(){
-			return new ItemStack(Registry.getItem("fvm:part_item"));
+			return new ItemStack(Registry.getItem("fvm:part_null"));
 		}
 	};
 	
@@ -322,6 +322,10 @@ public class FvmResources {
 			}
 		}
 		return false;
+	}
+
+	public static TreeSet<PartType> getParts(){
+		return rawParts;
 	}
 	
 }

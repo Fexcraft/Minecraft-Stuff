@@ -276,6 +276,7 @@ public class ConstructorGui extends GuiContainer {
 				return;
 			}
 			if(obj.installed){
+				ItemStack stack = obj.type.newStack();
 				GlStateManager.pushMatrix();
 				RenderHelper.enableGUIStandardItemLighting();
 				GlStateManager.disableLighting();
@@ -283,8 +284,8 @@ public class ConstructorGui extends GuiContainer {
 				GlStateManager.enableColorMaterial();
 				GlStateManager.enableLighting();
 				this.itemRender.zLevel = 100.0F;
-				this.itemRender.renderItemAndEffectIntoGUI(obj.type.itemstack, this.guiLeft + 9, this.guiTop + (21 + (k * 20)));
-				this.itemRender.renderItemOverlays(this.fontRendererObj, obj.type.itemstack, this.guiLeft + 9, this.guiTop + (21 + (k * 20)));
+				this.itemRender.renderItemAndEffectIntoGUI(stack, this.guiLeft + 9, this.guiTop + (21 + (k * 20)));
+				this.itemRender.renderItemOverlays(this.fontRendererObj, stack, this.guiLeft + 9, this.guiTop + (21 + (k * 20)));
 				this.itemRender.zLevel = 0.0F;
 				GlStateManager.disableLighting();
 				GlStateManager.popMatrix();

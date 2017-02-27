@@ -152,7 +152,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 				}
 				PartType part = type.parts.remove(string);
 				EntityItem ent = new EntityItem(world);
-				ent.setEntityItemStack(part.itemstack.copy());
+				ent.setEntityItemStack(part.newStack());
 				ent.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
 				world.spawnEntity(ent);
 				break;

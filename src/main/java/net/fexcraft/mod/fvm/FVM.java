@@ -3,8 +3,6 @@ package net.fexcraft.mod.fvm;
 import net.fexcraft.mod.fvm.entities.EntityLandVehicle;
 import net.fexcraft.mod.fvm.entities.RenderLandVehicle;
 import net.fexcraft.mod.fvm.gui.FvmGuiHandler;
-import net.fexcraft.mod.fvm.items.PartItem;
-import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.network.FvmPacketHandler;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.KeyHandler;
@@ -52,8 +50,6 @@ public class FVM {
 		
 		
 		if(event.getSide().isClient()){
-			PartItem.reRegisterItemModels();
-			VehicleItem.reRegisterItemModels();
 			RenderingRegistry.registerEntityRenderingHandler(EntityLandVehicle.class, RenderLandVehicle::new);
 		}
 	}

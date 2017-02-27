@@ -21,6 +21,7 @@ import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
@@ -40,7 +41,7 @@ public class VehicleType extends DataObject {
 	public VehicleModel model;
 	public String modelname;
 	//
-	public ItemStack itemstack;
+	public Item item;
 	//
 	public RGB primaryColor = new RGB();
 	public RGB secondaryColor = new RGB();
@@ -82,9 +83,20 @@ public class VehicleType extends DataObject {
 		load(obj);
 	}
 
-	public VehicleType(LoadedIn state, NBTTagCompound tag) {
+	public VehicleType(LoadedIn state, NBTTagCompound tag){
 		super(state);
 		read(tag);
+	}
+	
+	public VehicleType(LoadedIn state, boolean b){
+		super(state);
+		if(b){
+			load(null);
+			registryname = "item";
+		}
+		else{
+			return;
+		}
 	}
 
 	@Override
@@ -177,7 +189,7 @@ public class VehicleType extends DataObject {
 			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", driveType.toString()));
 			hasLock = ju.getIfExists(vd, "Lockable", true);
 			wheelStepHeight = ju.getIfExists(vd, "WheelStepHeight", 1f).floatValue();
-			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.25f).floatValue();
+			wheelSpringStrength = ju.getIfExists(vd, "WheelSpringStrength", 0.5f).floatValue();
 			maxThrottle = ju.getIfExists(vd, "MaxThrottle", 1f).floatValue();
 			maxNegativeThrottle = ju.getIfExists(vd, "MaxNegativeThrottle", 0.5f).floatValue();
 			turnLeftModifier = ju.getIfExists(vd, "TurnLeftModifier", 1f).floatValue();
@@ -360,8 +372,8 @@ public class VehicleType extends DataObject {
 		return registryname.compareTo(((VehicleType)o).registryname);
 	}
 
-	public void setItem(ItemStack stack){
-		this.itemstack = stack;
+	public void setItem(Item item){
+		this.item = item;
 	}
 
 	public boolean hasPartType(String string){
@@ -628,6 +640,10 @@ public class VehicleType extends DataObject {
 	
 	public DriveType drive(){
 		return driveType;
+	}
+
+	public ItemStack newStack(){
+		return new ItemStack(item, 1, 0);
 	}
 	
 }
