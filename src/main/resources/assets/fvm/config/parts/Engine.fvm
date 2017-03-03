@@ -33,13 +33,6 @@
     },
     "Recipes":[
         {
-            "Type": "Shapeless",
-            "Ingredients":[
-                "minecraft:iron_ingot",
-                "minecraft:gold_ingot"
-            ]
-        },
-        {
             "Type": "Shaped",
             "Grid":[
                 "AAABB",

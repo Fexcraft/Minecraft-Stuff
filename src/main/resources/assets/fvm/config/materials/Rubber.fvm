@@ -1,0 +1,17 @@
+{
+    "RegistryName": "steel_ingot",
+    "AddOn": "Default FVM Addon Pack",
+    "FullName": "Steel Ingot",
+    "MaxStackSize": 32,
+    "Recipes":[
+        {
+            "Type": "Shapeless",
+            "Ingredients":[
+                "minecraft:slimeball",
+                "minecraft:slimeball",
+                "minecraft:slimeball",
+                "minecraft:slimeball"
+            ]
+        }
+    ]
+}

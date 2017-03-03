@@ -89,7 +89,7 @@ public class FvmResources {
 		List<File> mods = new ArrayList<File>();
 		File modDir = new File(event.getModConfigurationDirectory().getParentFile(), "/mods");
 		for(File file : modDir.listFiles()){
-			if(file.isDirectory() || file.getName().contains(".zip") || file.getName().contains(".jar")){
+			if(file.isDirectory() || file.getName().endsWith(".zip") || file.getName().endsWith(".jar")){
 				mods.add(file);
 			}
 		}
@@ -270,7 +270,7 @@ public class FvmResources {
 			File assets = new File(dfile, prefix);
 			if(assets.exists()){
 				for(File file : assets.listFiles()){
-					if(file.getName().contains(suffix)){
+					if(file.getName().endsWith(suffix)){
 						try{
 							set.add(JsonUtil.getFromInputStream(new FileInputStream(file)));
 						}
@@ -282,14 +282,19 @@ public class FvmResources {
 			}
 		}
 		else{
+			if(prefix.startsWith("/")){
+				prefix = prefix.substring(1, prefix.length());
+			}
 			try{
 				ZipFile zip = new ZipFile(dfile);
 				ZipInputStream stream = new ZipInputStream(new FileInputStream(dfile));
 				BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-				ZipEntry entry = stream.getNextEntry();
-				while(entry != null){
-					//startsWith
-					if(entry.getName().contains(prefix) && entry.getName().contains(suffix)){
+				while(true){
+					ZipEntry entry = stream.getNextEntry();
+					if(entry == null){
+						break;
+					}
+					if(entry.getName().contains(prefix) && entry.getName().endsWith(suffix)){
 						try{
 							set.add(JsonUtil.getFromInputStream(zip.getInputStream(entry)));
 						}

@@ -5,16 +5,6 @@
     "MaxStackSize": 32,
     "Recipes":[
         {
-            "Type": "Shaped",
-            "Grid":[
-                " AAA ",
-                "AABAA",
-                " AAA "
-            ],
-            "A": "minecraft:iron_ingot",
-            "B": "minecraft:coal"
-        },
-        {
             "Type": "Smelting",
             "Input": "minecraft:iron_ingot",
             "InputMeta": 0,
