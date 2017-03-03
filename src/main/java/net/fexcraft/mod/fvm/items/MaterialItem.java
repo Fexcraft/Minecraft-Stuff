@@ -20,11 +20,11 @@ public class MaterialItem extends Item {
 	private static ArrayList<MaterialItem> parts = new ArrayList<MaterialItem>();
 	private Material type;
 	
-	public MaterialItem(Material part){
+	public MaterialItem(Material type){
 		this.setCreativeTab(FvmResources.MATERIALS);
 		this.setHasSubtypes(true);
-		this.setMaxStackSize(1);
-		this.type = part;
+		this.setMaxStackSize(type.maxStackSize);
+		this.type = type;
 		this.type.setItem(this);
 		
 		Registry.registerItemManually(FvmResources.MODID, "material_" + type.registryname, 0, null, this);

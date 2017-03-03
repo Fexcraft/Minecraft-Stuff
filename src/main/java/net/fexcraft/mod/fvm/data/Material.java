@@ -17,6 +17,7 @@ public class Material extends DataObject {
 	public String fullname;
 	public ArrayList<String> description = new ArrayList<String>();
 	public MaterialItem item;
+	public int maxStackSize;
 	
 	public Material(LoadedIn state, JsonObject obj){
 		super(state);
@@ -39,6 +40,7 @@ public class Material extends DataObject {
 		if(obj.has("Description")){
 			description = ju.jsonArrayToStringArray(obj.get("Description").getAsJsonArray());
 		}
+		maxStackSize = ju.getIfExists(obj, "MaxStackSize", 64).intValue();
 		
 		if(this.state().isLoadedInMemory()){
 			MaterialItem.addMaterial(this);

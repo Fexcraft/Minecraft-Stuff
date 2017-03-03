@@ -2,6 +2,7 @@
     "RegistryName": "steel_ingot",
     "AddOn": "Default FVM Addon Pack",
     "FullName": "Steel Ingot",
+    "MaxStackSize": 32,
     "Recipes":[
         {
             "Type": "Shaped",
@@ -12,6 +13,12 @@
             ],
             "A": "minecraft:iron_ingot",
             "B": "minecraft:coal"
+        },
+        {
+            "Type": "Smelting",
+            "Input": "minecraft:iron_ingot",
+            "InputMeta": 0,
+            "Output": 1
         }
     ]
 }

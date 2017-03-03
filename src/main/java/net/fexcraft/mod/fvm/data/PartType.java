@@ -34,6 +34,7 @@ public class PartType extends DataObject {
 	//
 	public boolean removable;
 	public PartItem item;
+	public int maxStackSize;
 	public TreeMap<String, Integer> recipe = new TreeMap<String, Integer>();
 	public Map<String, Pos> compatible = new HashMap<String, Pos>();
 	public Map<String, ArrayList<String>> incompatible = new HashMap<String, ArrayList<String>>();
@@ -81,6 +82,7 @@ public class PartType extends DataObject {
 			attributes = ju.jsonArrayToStringArray(obj.get("Attributes").getAsJsonArray());
 		}
 		removable = ju.getIfExists(obj, "Removable", false);
+		maxStackSize = ju.getIfExists(obj, "MaxStackSize", 1).intValue();
 		
 		if(obj.has("TextureSettings")){
 			JsonObject ts = obj.get("TextureSettings").getAsJsonObject();
