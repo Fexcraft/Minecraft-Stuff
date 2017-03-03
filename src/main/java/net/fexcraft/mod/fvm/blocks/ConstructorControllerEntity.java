@@ -1,6 +1,6 @@
 package net.fexcraft.mod.fvm.blocks;
 
-import com.google.gson.JsonObject;
+import java.util.UUID;
 
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.PartType;
@@ -13,7 +13,7 @@ import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.fexcraft.mod.lib.util.common.ApiUtil;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.entity.item.EntityItem;
@@ -141,8 +141,21 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 				break;
 			case "add":
 				String[] data = packet.nbt.getString("Data").split("//");
-				type.requires.remove(data[0]);
-				type.parts.put(data[0], FvmResources.getPart(data[1]));
+				EntityPlayer player = Static.getServer().getPlayerList().getPlayerByUUID(UUID.fromString(data[2]));
+				if(player != null){
+					for(int i = 0; i < player.inventory.mainInventory.size(); i++){
+						ItemStack stack = player.inventory.mainInventory.get(i);
+						if(stack.getItem() instanceof PartItem){
+							PartType type = PartItem.getType(stack);
+							if(type.registryname.equals(data[1])){
+								player.inventory.removeStackFromSlot(i);
+								this.type.requires.remove(data[0]);
+								this.type.parts.put(data[0], FvmResources.getPart(data[1]));
+								break;
+							}
+						}
+					}
+				}
 				break;
 			case "remove":
 				String string = packet.nbt.getString("Data");
@@ -157,12 +170,11 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 				world.spawnEntity(ent);
 				break;
 			case "create_vehicle":
-				String str = type.toString();
-				type = null;
 				ItemStack stack = new ItemStack(Registry.getItem("fvm:vehicle_item"), 1, 0);
 				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setString("VehicleType", str);
+				type.write(nbt);
 				stack.setTagCompound(nbt);
+				type = null;
 				EntityItem entity = new EntityItem(world);
 				entity.setPosition(pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5);
 				entity.setEntityItemStack(stack);
@@ -208,7 +220,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 			setLinked(packet.nbt.getBoolean("Linked"));
 		}
 		if(packet.nbt.hasKey("VehicleType")){
-			type = new VehicleType(LoadedIn.TILE, JsonUtil.getFromString(packet.nbt.getString("VehicleType")).getAsJsonObject());
+			type = new VehicleType(LoadedIn.TILE, packet.nbt);
 			FvmResources.loadVehicleModel(type);
 			Print.debug(packet.nbt.getString("VehicleType"));
 		}
@@ -222,7 +234,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("Linked", isLinked());
 		if(type != null){
-			nbt.setString("VehicleType", type.save(new JsonObject()).toString());
+			type.write(nbt);
 		}
 		ApiUtil.sendTileEntityUpdatePacket(world, pos, nbt, 256);
 	}
@@ -251,7 +263,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 		super.writeToNBT(compound);
 		compound.setBoolean("Linked", isLinked());
 		if(type != null){
-			compound.setString("VehicleType", type.save(null).toString());
+			type.write(compound);
 		}
 		return compound;
 	}
@@ -261,7 +273,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 		super.readFromNBT(compound);
 		setLinked(compound.getBoolean("Linked"));
 		if(compound.hasKey("VehicleType")){
-			type = new VehicleType(LoadedIn.TILE, JsonUtil.getFromString(compound.getString("VehicleType")).getAsJsonObject());
+			type = new VehicleType(LoadedIn.TILE, compound);
 			FvmResources.loadVehicleModel(type);
 		}
 	}

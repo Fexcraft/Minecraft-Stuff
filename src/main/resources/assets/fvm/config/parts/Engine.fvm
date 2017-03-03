@@ -30,5 +30,23 @@
     "AttributeSettings":{
         "EngineSpeed": 1.00,
         "FuelConsumption": 0.7 
-    }
+    },
+    "Recipes":[
+        {
+            "Type": "Shapeless",
+            "Ingredients":[
+                "minecraft:iron_ingot",
+                "minecraft:gold_ingot"
+            ]
+        },
+        {
+            "Type": "Shaped",
+            "Grid":[
+                "AAABB",
+                "AAABB"
+            ],
+            "A": "minecraft:iron_ingot",
+            "B": "minecraft:gold_ingot"
+        }
+    ]
 }

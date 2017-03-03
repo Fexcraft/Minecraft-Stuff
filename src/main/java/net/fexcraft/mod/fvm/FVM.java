@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvm;
 
+import net.fexcraft.mod.fvm.data.RecipeObject;
 import net.fexcraft.mod.fvm.entities.EntityLandVehicle;
 import net.fexcraft.mod.fvm.entities.RenderLandVehicle;
 import net.fexcraft.mod.fvm.gui.FvmGuiHandler;
@@ -47,7 +48,7 @@ public class FVM {
 		
     	FvmResources.setup(event);
 		FvmResources.scanForContent(event);
-		
+		RecipeObject.registerRecipes();
 		
 		if(event.getSide().isClient()){
 			RenderingRegistry.registerEntityRenderingHandler(EntityLandVehicle.class, RenderLandVehicle::new);

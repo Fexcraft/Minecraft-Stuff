@@ -225,7 +225,7 @@ public class ConstructorGui extends GuiContainer {
 				int i = button.id - 17;
 				Object obj = list.get(i);
 				if(!obj.installed && obj.installable){
-					tile.notifyServer("add:" + obj.id + "//" + removeItem(obj.id));
+					tile.notifyServer("add:" + obj.id + "//" + removeItem(obj.id) + "//" + mc.player.getGameProfile().getId());
 				}
 				else if(obj.installed && obj.type.removable){
 					String s = tile.type.usedAs(obj.type);
@@ -245,7 +245,7 @@ public class ConstructorGui extends GuiContainer {
 			if(stack.getItem() instanceof PartItem){
 				PartType type = PartItem.getType(stack);
 				if(type.category.contains(id)){
-					this.playerInventory.removeStackFromSlot(i);
+					//this.playerInventory.removeStackFromSlot(i);
 					return type.registryname;
 				}
 			}

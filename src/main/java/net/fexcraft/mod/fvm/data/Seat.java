@@ -40,4 +40,9 @@ public class Seat {
 		return pos.to16FloatZ();
 	}
 	
+	@Override
+	public String toString(){
+		return "[=" + driver + "=](" + pos.x + ", " + pos.y + ", " + pos.z + ");";
+	}
+	
 }

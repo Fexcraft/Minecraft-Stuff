@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -206,10 +207,20 @@ public class VehicleType extends DataObject {
 		}
 		
 		
-		
 		this.refreshAttributes();
 		if(state.isLoadedInMemory()){
 			VehicleItem.addVehicle(this);
+			if(obj.has("Recipes")){
+				JsonArray arr = obj.get("Recipes").getAsJsonArray();
+				for(JsonElement elm : arr){
+					try{
+						RecipeObject.parse(newStack(), elm.getAsJsonObject());
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 
@@ -404,6 +415,9 @@ public class VehicleType extends DataObject {
 					}
 				}
 			}
+		}
+		if(!part.compatible.containsKey(this.registryname) && !part.compatible.containsKey("Any") && !part.compatible.containsKey("any")){
+			return false;
 		}
 		return hasRequiredParts(part);
 	}

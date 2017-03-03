@@ -1,5 +1,6 @@
 {
-    "RegistryName": "ot1_front_seats",
+    "RegistryName": "t1_front_seats",
+    "FullName": "T1 Front Passenger Seats",
     "AddOn": "Default FVM Addon Pack",
     "ModelFile": "null",
     "Category": [
@@ -20,15 +21,14 @@
     "AttributeSettings":{
         "Passengers":[
             {
-                "driver": true,
-                "x": 29,
-                "y": 6.5,
-                "z": -8
+                "x": 33,
+                "y": 12,
+                "z": 6
             },
             {
-                "x": 29,
-                "y": 6.5,
-                "z": 8
+                "x": 33,
+                "y": 12,
+                "z": 14
             }
         ]    
     }

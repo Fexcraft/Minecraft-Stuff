@@ -128,7 +128,7 @@ public class VehicleItem extends Item {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
-		if(!FvmResources.FFMM || entityplayer.getHeldItemMainhand().getMetadata() != 0){
+		if(!FvmResources.FFMM || !this.type.registryname.equals("item")){
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
         float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);

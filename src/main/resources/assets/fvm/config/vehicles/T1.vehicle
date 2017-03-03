@@ -55,7 +55,8 @@
     "PartSettings": {
         "PreInstalled": [
             "steering_wheel:t1_steering_wheel",
-            "driver_seat:t1_driver_seat"
+            "driver_seat:t1_driver_seat",
+            "passenger_seats:t1_front_seats"
         ]
     },
     "RenderSettings": {

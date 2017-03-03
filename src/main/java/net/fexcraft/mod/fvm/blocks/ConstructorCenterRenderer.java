@@ -23,6 +23,22 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+		double d = 60;
+		switch(tileentity.getBlockMetadata()){
+			case 2:
+				d = 0;
+				break;
+			case 3:
+				d = -180d;
+				break;
+			case 4:
+				d = -90;
+				break;
+			case 5:
+				d = -270d;
+				break;
+		}
+		GL11.glRotated(d, 0, 1, 0);
 		GL11.glRotated(90 , 0, 1D, 0);
 		ConstructorCenterEntity te = (ConstructorCenterEntity)tileentity;
 		//

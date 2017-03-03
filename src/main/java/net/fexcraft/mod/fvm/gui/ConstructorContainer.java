@@ -46,4 +46,10 @@ public class ConstructorContainer extends Container {
 		
 	}
 	
+	@Override
+	public void onContainerClosed(EntityPlayer playerIn){
+        super.onContainerClosed(playerIn);
+        this.tile.closeInventory(playerIn);
+    }
+	
 }

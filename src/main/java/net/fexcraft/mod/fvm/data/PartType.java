@@ -3,6 +3,7 @@ package net.fexcraft.mod.fvm.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,6 +34,8 @@ public class PartType extends DataObject {
 	//
 	public boolean removable;
 	public PartItem item;
+	public int recipe_output;
+	public TreeMap<String, Integer> recipe = new TreeMap<String, Integer>();
 	public Map<String, Pos> compatible = new HashMap<String, Pos>();
 	public Map<String, ArrayList<String>> incompatible = new HashMap<String, ArrayList<String>>();
 	public Map<String, ArrayList<String>> requires = new HashMap<String, ArrayList<String>>();
@@ -140,6 +143,17 @@ public class PartType extends DataObject {
 		
 		if(this.state().isLoadedInMemory()){
 			PartItem.addPart(this);
+			if(obj.has("Recipes")){
+				JsonArray arr = obj.get("Recipes").getAsJsonArray();
+				for(JsonElement elm : arr){
+					try{
+						RecipeObject.parse(newStack(), elm.getAsJsonObject());
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 
