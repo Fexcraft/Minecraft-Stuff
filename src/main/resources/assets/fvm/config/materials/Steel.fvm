@@ -1,0 +1,17 @@
+{
+    "RegistryName": "steel_ingot",
+    "AddOn": "Default FVM Addon Pack",
+    "FullName": "Steel Ingot",
+    "Recipes":[
+        {
+            "Type": "Shaped",
+            "Grid":[
+                " AAA ",
+                "AABAA",
+                " AAA "
+            ],
+            "A": "minecraft:iron_ingot",
+            "B": "minecraft:coal"
+        }
+    ]
+}

@@ -35,6 +35,9 @@ public class RecipeObject {
 				for(String s : rcp.lines){
 					String[] ca = s.split("");
 					for(String c : ca){
+						if(c.equals(" ")){
+							continue;
+						}
 						if(!chars.contains(c)){
 							chars.add(c);
 						}

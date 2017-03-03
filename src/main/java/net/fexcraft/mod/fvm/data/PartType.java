@@ -34,7 +34,6 @@ public class PartType extends DataObject {
 	//
 	public boolean removable;
 	public PartItem item;
-	public int recipe_output;
 	public TreeMap<String, Integer> recipe = new TreeMap<String, Integer>();
 	public Map<String, Pos> compatible = new HashMap<String, Pos>();
 	public Map<String, ArrayList<String>> incompatible = new HashMap<String, ArrayList<String>>();

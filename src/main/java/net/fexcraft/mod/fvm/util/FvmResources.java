@@ -18,8 +18,10 @@ import java.util.zip.ZipInputStream;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.data.LoadedIn;
+import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
+import net.fexcraft.mod.fvm.items.MaterialItem;
 import net.fexcraft.mod.fvm.items.PartItem;
 import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -43,8 +45,10 @@ public class FvmResources {
 	//
 	private static final TreeSet<VehicleType> rawTypes = new TreeSet<VehicleType>();
 	private static final TreeSet<PartType> rawParts = new TreeSet<PartType>();
+	private static final TreeSet<Material> rawMaterials = new TreeSet<Material>();
 	private static final HashSet<JsonObject> temp_objs = new HashSet<JsonObject>();
 	private static final HashSet<JsonObject> part_objs = new HashSet<JsonObject>();
+	private static final HashSet<JsonObject> mate_objs = new HashSet<JsonObject>();
 	
 	public static final CreativeTabs VEHICLES = new CreativeTabs("fvm_vehicles"){
 		@Override
@@ -57,6 +61,13 @@ public class FvmResources {
 		@Override
 		public ItemStack getTabIconItem(){
 			return new ItemStack(Registry.getItem("fvm:part_null"));
+		}
+	};
+	
+	public static final CreativeTabs MATERIALS = new CreativeTabs("fvm_materials"){
+		@Override
+		public ItemStack getTabIconItem(){
+			return new ItemStack(Registry.getItem("fvm:material_null"));
 		}
 	};
 	
@@ -84,14 +95,31 @@ public class FvmResources {
 		}
 		for(File rpack : mods){
 			temp_objs.addAll(getObjects(rpack, "/assets/" + MODID + "/config/vehicles", ".vehicle"));
-		}
-		for(File rpack : mods){
 			part_objs.addAll(getObjects(rpack, "/assets/" + MODID + "/config/parts", ".fvm"));
+			mate_objs.addAll(getObjects(rpack, "/assets/" + MODID + "/config/materials", ".fvm"));
 		}
 		if(Static.dev()){
 			temp_objs.addAll(getObjects(new File(modDir.getParentFile().getParentFile(), "/src/main/resources"), "/assets/" + MODID + "/config/vehicles", ".vehicle"));
 			part_objs.addAll(getObjects(new File(modDir.getParentFile().getParentFile(), "/src/main/resources"), "/assets/" + MODID + "/config/parts", ".fvm"));
+			mate_objs.addAll(getObjects(new File(modDir.getParentFile().getParentFile(), "/src/main/resources"), "/assets/" + MODID + "/config/materials", ".fvm"));
 		}
+		for(JsonObject obj : mate_objs){
+			try{
+				rawMaterials.add(new Material(LoadedIn.MEMORY, obj));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		mate_objs.clear();
+		ArrayList<Material> mtypes = new ArrayList<Material>();
+		for(Material type : rawMaterials){
+			if(type.registryname == null || type.registryname.equals("null")){
+				mtypes.add(type);
+			}
+		}
+		rawMaterials.removeAll(mtypes);
+		//Load Parts after the Materials.
 		for(JsonObject obj : part_objs){
 			try{
 				rawParts.add(new PartType(LoadedIn.MEMORY, obj));
@@ -312,6 +340,10 @@ public class FvmResources {
 	public static PartType getPart(ItemStack stack){
 		return ((PartItem)stack.getItem()).getType(stack);
 	}
+	
+	public static Material getMaterial(ItemStack stack){
+		return ((MaterialItem)stack.getItem()).getType(stack);
+	}
 
 	public static boolean isDefaultPart(String registryname, String category){
 		for(VehicleType type : rawTypes){
@@ -326,6 +358,10 @@ public class FvmResources {
 
 	public static TreeSet<PartType> getParts(){
 		return rawParts;
+	}
+	
+	public static TreeSet<Material> getMaterails(){
+		return rawMaterials;
 	}
 	
 }
