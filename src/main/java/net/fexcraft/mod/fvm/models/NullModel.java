@@ -27,7 +27,7 @@ public class NullModel extends PartModel {
 	}
 	
 	@Override
-	public void render(VehicleType data){
+	public void render(VehicleType data, String usedAs){
 		return;
 	}
 

@@ -60,7 +60,7 @@ public class PartModel extends FvmModelBase {
 		wheel_back_right = parse("wheel_back_right", obj, tx, ty);
 	}
 
-	public void render(VehicleType data){
+	public void render(VehicleType data, String usedAS){
 		//Vehicle Body
 		render(body);
 		if(data.doors){
@@ -107,7 +107,7 @@ public class PartModel extends FvmModelBase {
 		render(TEST);
 	}
 	
-	public void render(VehicleType data, com.flansmod.fvm.LandVehicle vehicle){
+	public void render(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle){
 		//Vehicle Body
 		render(body);
 		if(data.doors){

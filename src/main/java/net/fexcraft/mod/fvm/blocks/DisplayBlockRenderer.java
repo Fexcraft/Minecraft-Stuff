@@ -38,10 +38,11 @@ public class DisplayBlockRenderer extends TileEntitySpecialRenderer {
 				GL11.glTranslatef(0, (type.construction_height_offset + 2) * 0.0625f, 0);
 				modvec.render(type);
 				if(type.parts.size() > 0){
-					for(PartType part : type.parts.values()){
+					for(String key : type.parts.keySet()){
+						PartType part = type.parts.get(key);
 						Minecraft.getMinecraft().renderEngine.bindTexture(part.textures.get(type.current_texture));
 						part.translate(type.registryname);
-						part.getModel().render(type);
+						part.getModel().render(type, key);
 						part.translateR(type.registryname);
 					}
 				}

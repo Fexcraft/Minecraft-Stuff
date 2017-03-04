@@ -440,12 +440,30 @@ public class ModelOT1FW extends PartModel {
 	}
 	
 	@Override
-	public void render(VehicleType data){
-		if(data.hasPartType("left_front_wheel")){
+	public void render(VehicleType data, String us){
+		if(us.equals("left_front_wheel")){
 			render(wheel_front_left);
 		}
-		if(data.hasPartType("right_front_wheel")){
+		if(us.equals("right_front_wheel")){
 			render(wheel_front_right);
+		}
+	}
+	
+	@Override
+	public void render(VehicleType data, String us, com.flansmod.fvm.LandVehicle vehicle){
+		if(us.equals("left_front_wheel")){
+			for(ModelRendererTurbo element : wheel_front_left){
+				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+				element.render();
+				element.rotateAngleZ = 0;
+			}
+		}
+		if(us.equals("right_front_wheel")){
+			for(ModelRendererTurbo element : wheel_front_right){
+				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+				element.render();
+				element.rotateAngleZ = 0;
+			}
 		}
 	}
 	

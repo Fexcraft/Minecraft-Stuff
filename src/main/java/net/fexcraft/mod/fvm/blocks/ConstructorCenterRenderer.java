@@ -50,10 +50,11 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 				GL11.glTranslatef(0, type.construction_height_offset * 0.0625f, 0);
 				modvec.render(te.link.type);
 				if(type.parts.size() > 0){
-					for(PartType part : type.parts.values()){
+					for(String key : type.parts.keySet()){
+						PartType part = type.parts.get(key);
 						Minecraft.getMinecraft().renderEngine.bindTexture(part.textures.get(type.current_texture));
 						part.translate(type.registryname);
-						part.render(type);
+						part.render(type, key);
 						part.translateR(type.registryname);
 					}
 				}

@@ -207,7 +207,7 @@ public class ModelWheel1 extends PartModel {
 	}
 	
 	@Override
-	public void render(VehicleType type){
+	public void render(VehicleType type, String us){
 		GL11.glPushMatrix();
 		GL11.glScalef(0.9f, 0.9f, 0.9f);
 		rotate(wheel_front_left, 0, 0, 0.0174533f);

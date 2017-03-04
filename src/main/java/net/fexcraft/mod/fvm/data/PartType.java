@@ -248,9 +248,9 @@ public class PartType extends DataObject {
 		this.item = item;
 	}
 
-	public void render(VehicleType type) {
+	public void render(VehicleType type, String us){
 		if(model != null){
-			model.render(type);
+			model.render(type, us);
 		}
 	}
 

@@ -48,10 +48,11 @@ public class RenderLandVehicle extends Render implements IRenderFactory{
 		VehicleModel modvec = (VehicleModel)vehicle.data.getModel();
 		modvec.render(vehicle.data);
 		if(vehicle.data.parts.size() > 0){
-			for(PartType part : vehicle.data.parts.values()){
+			for(String key : vehicle.data.parts.keySet()){
+				PartType part = vehicle.data.parts.get(key);
 				Minecraft.getMinecraft().renderEngine.bindTexture(part.textures.get(vehicle.data.current_texture));
 				part.translate(vehicle.data.registryname);
-				part.getModel().render(vehicle.data);
+				part.getModel().render(vehicle.data, key);
 				part.translateR(vehicle.data.registryname);
 			}
 		}
