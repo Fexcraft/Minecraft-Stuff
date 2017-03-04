@@ -1,16 +1,16 @@
 {
-    "RegistryName": "steel_ingot",
+    "RegistryName": "rubber",
     "AddOn": "Default FVM Addon Pack",
-    "FullName": "Steel Ingot",
+    "FullName": "Rubber",
     "MaxStackSize": 32,
     "Recipes":[
         {
             "Type": "Shapeless",
             "Ingredients":[
-                "minecraft:slimeball",
-                "minecraft:slimeball",
-                "minecraft:slimeball",
-                "minecraft:slimeball"
+                "minecraft:slime_ball",
+                "minecraft:slime_ball",
+                "minecraft:slime_ball",
+                "minecraft:slime_ball"
             ]
         }
     ]

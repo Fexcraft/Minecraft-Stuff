@@ -107,47 +107,53 @@ public class RecipeObject {
 	
 	public static void registerRecipes(){
 		for(RecipeObject obj : temp_list){
-			switch(obj.type){
-				case SHAPED:
-					Object[] array = new Object[obj.lines.length + obj.cingredients.length + obj.ringredients.length];
-					for(int i = 0; i < obj.lines.length; i++){
-						array[i] = obj.lines[i];
-					}
-					int k = 0, l = 0;
-					for(int j = 0; j < obj.cingredients.length + obj.ringredients.length; j++){
-						if(j % 2 == 0){
-							array[j + obj.lines.length] = obj.cingredients[k].toCharArray()[0];
-							k++;
+			Print.debug("[FVM] Registering recipe for " + obj.stack.toString() + ";");
+			try{
+				switch(obj.type){
+					case SHAPED:
+						Object[] array = new Object[obj.lines.length + obj.cingredients.length + obj.ringredients.length];
+						for(int i = 0; i < obj.lines.length; i++){
+							array[i] = obj.lines[i];
+						}
+						int k = 0, l = 0;
+						for(int j = 0; j < obj.cingredients.length + obj.ringredients.length; j++){
+							if(j % 2 == 0){
+								array[j + obj.lines.length] = obj.cingredients[k].toCharArray()[0];
+								k++;
+							}
+							else{
+								array[j + obj.lines.length] = Item.getByNameOrId(obj.ringredients[l]);
+								l++;
+							}
+						}
+						GameRegistry.addShapedRecipe(obj.stack, array);
+						break;
+					case SHAPELESS:
+						Object[] arrey = new Object[obj.singredients.length];
+						for(int i = 0; i < arrey.length; i++){
+							arrey[i] = Item.getByNameOrId(obj.singredients[i]);
+						}
+						GameRegistry.addShapelessRecipe(obj.stack, arrey);
+						break;
+					case BLUEPRINT:
+						break;
+					case SMELTING:
+						ItemStack istack = null;
+						if(obj.container == null){
+							istack = new ItemStack(Item.getByNameOrId(obj.input), 1, obj.inputmeta);
 						}
 						else{
-							array[j + obj.lines.length] = Item.getByNameOrId(obj.ringredients[l]);
-							l++;
+							istack = new ItemStack(Item.getByNameOrId(obj.input).setContainerItem(Item.getByNameOrId(obj.container)), 1, obj.inputmeta);
 						}
-					}
-					GameRegistry.addShapedRecipe(obj.stack, array);
-					break;
-				case SHAPELESS:
-					Object[] arrey = new Object[obj.singredients.length];
-					for(int i = 0; i < arrey.length; i++){
-						arrey[i] = Item.getByNameOrId(obj.singredients[i]);
-					}
-					GameRegistry.addShapelessRecipe(obj.stack, arrey);
-					break;
-				case BLUEPRINT:
-					break;
-				case SMELTING:
-					ItemStack istack = null;
-					if(obj.container == null){
-						istack = new ItemStack(Item.getByNameOrId(obj.input), 1, obj.inputmeta);
-					}
-					else{
-						istack = new ItemStack(Item.getByNameOrId(obj.input).setContainerItem(Item.getByNameOrId(obj.container)), 1, obj.inputmeta);
-					}
-					GameRegistry.addSmelting(istack, obj.stack, obj.exp);
-					break;
-				case NULL:
-				default:
-					break;
+						GameRegistry.addSmelting(istack, obj.stack, obj.exp);
+						break;
+					case NULL:
+					default:
+						break;
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		temp_list.clear();
