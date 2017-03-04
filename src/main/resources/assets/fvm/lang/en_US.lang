@@ -1,0 +1,4 @@
+## FVM Lang File
+item.fvm:vehicle_t1.name=T1
+item.fvm:part_engine.name=Common Engine
+item.fvm:material_rubber.name=Rubber
