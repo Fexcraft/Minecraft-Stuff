@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLModContainer;
+import net.minecraftforge.fml.common.MetadataCollection;
+import net.minecraftforge.fml.common.discovery.ContainerType;
+import net.minecraftforge.fml.common.discovery.ModCandidate;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -310,6 +315,15 @@ public class FvmResources {
 			catch(Exception e){
 				e.printStackTrace();
 			}
+		}
+		if(Static.side().isClient()){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("modid", MODID);
+			map.put("name", "FMV : " + dfile.getName());
+			map.put("version", "1");
+			FMLModContainer container = new FMLModContainer("net.fexcraft.mod.fvm.FVM", new ModCandidate(dfile, dfile, dfile.isDirectory() ? ContainerType.DIR : ContainerType.JAR), map);
+			container.bindMetadata(MetadataCollection.from(null, ""));
+			net.minecraftforge.fml.client.FMLClientHandler.instance().addModAsResource(container);
 		}
 		return set;
 	}
