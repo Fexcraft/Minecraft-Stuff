@@ -53,6 +53,9 @@ public class MaterialItem extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
+		if(((MaterialItem)itemIn).type.registryname.equals("null")){
+			return;
+		}
 		subItems.add(new ItemStack(itemIn, 1, 0));
     }
 

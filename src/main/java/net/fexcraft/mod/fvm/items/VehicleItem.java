@@ -92,6 +92,9 @@ public class VehicleItem extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
+		if(((VehicleItem)itemIn).type.registryname.equals("item")){
+			return;
+		}
 		subItems.add(new ItemStack(itemIn, 1, 0));
 		/*for(int i = 1; i < types.size(); i++){
 			subItems.add(new ItemStack(itemIn, 1, i));

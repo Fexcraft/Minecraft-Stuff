@@ -76,6 +76,9 @@ public class PartItem extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
+		if(((PartItem)itemIn).type.registryname.equals("null")){
+			return;
+		}
 		subItems.add(new ItemStack(itemIn, 1, 0));
 		/*for(int i = 1; i < parts.size(); i++){
 			subItems.add(new ItemStack(itemIn, 1, i));

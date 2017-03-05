@@ -7,7 +7,7 @@
 // Created on: 25.02.2016 - 16:09:52
 // Last changed on: 25.02.2016 - 16:09:52
 
-package net.fexcraft.mod.fvm.models.vehicle;
+package net.fexcraft.mod.fvm.models.part;
 
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.models.PartModel;
