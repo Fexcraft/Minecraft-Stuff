@@ -8,6 +8,7 @@ import net.fexcraft.mod.lib.network.DonorValidator;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.network.Validator;
+import net.fexcraft.mod.lib.perms.PermissionManager;
 import net.fexcraft.mod.lib.util.cmds.Command;
 import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -57,6 +58,8 @@ public class FCL {
 		FclConfig.initalize(event, event.getSuggestedConfigurationFile());
 		Registry.linkTable(event.getAsmData());
 		Registry.registerAll();
+		
+		PermissionManager.initialize();
 	}
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception{
