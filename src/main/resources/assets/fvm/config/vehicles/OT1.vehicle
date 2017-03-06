@@ -63,7 +63,23 @@
     },
     "InventorySettings": {
         "TankSize": 18000,
-        "Size": 48
+        "Size": 35,
+        "DefContent":[
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt",
+            "minecraft:grass",
+            "minecraft:dirt"
+        ]
     },
     "VehicleDefaults": {
         "DriveType": "4wd",

@@ -9,6 +9,7 @@ import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -57,7 +58,7 @@ public class VehicleItem extends Item {
 		if(!stack.hasTagCompound()){
 			stack.setTagCompound(type.write(new NBTTagCompound()));
 		}
-    }
+	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced){
@@ -87,11 +88,14 @@ public class VehicleItem extends Item {
 				tooltip.add(s);
 			}
 		}
+		if(Static.dev() && stack.hasTagCompound()){
+			tooltip.add(stack.getTagCompound().toString());
+		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
 		if(((VehicleItem)itemIn).type.registryname.equals("item")){
 			return;
 		}
@@ -99,7 +103,7 @@ public class VehicleItem extends Item {
 		/*for(int i = 1; i < types.size(); i++){
 			subItems.add(new ItemStack(itemIn, 1, i));
 		}*/
-    }
+	}
 
 	public static VehicleType getType(ItemStack itemstack){
 		if(itemstack.getItem() instanceof VehicleItem == false){
@@ -109,24 +113,24 @@ public class VehicleItem extends Item {
 	}
 	
 	/*@Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if(worldIn.isRemote || facing != EnumFacing.UP){
-            return EnumActionResult.FAIL;
-        }
-        else if (!player.canPlayerEdit(pos.offset(facing), facing, player.getHeldItem(hand))){
-            return EnumActionResult.FAIL;
-        }
-        else if(worldIn.getBlockState(pos).isSideSolid(worldIn, pos, facing) && worldIn.isAirBlock(pos.up())){
-        	ItemStack stack = player.getHeldItemMainhand();
-            EntityLandVehicle vehicle = new EntityLandVehicle(worldIn, FvmResources.getNewInstanceOf(LoadedIn.ENTITY, stack));
-            vehicle.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-            worldIn.spawnEntity(vehicle);
-            return EnumActionResult.PASS;
-        }
-        else{
-            return EnumActionResult.FAIL;
-        }
-    }*/
+			return EnumActionResult.FAIL;
+		}
+		else if (!player.canPlayerEdit(pos.offset(facing), facing, player.getHeldItem(hand))){
+			return EnumActionResult.FAIL;
+		}
+		else if(worldIn.getBlockState(pos).isSideSolid(worldIn, pos, facing) && worldIn.isAirBlock(pos.up())){
+			ItemStack stack = player.getHeldItemMainhand();
+			EntityLandVehicle vehicle = new EntityLandVehicle(worldIn, FvmResources.getNewInstanceOf(LoadedIn.ENTITY, stack));
+			vehicle.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+			worldIn.spawnEntity(vehicle);
+			return EnumActionResult.PASS;
+		}
+		else{
+			return EnumActionResult.FAIL;
+		}
+	}*/
 	
 	
 	@Override
@@ -134,31 +138,28 @@ public class VehicleItem extends Item {
 		if(!FvmResources.FFMM || !this.type.registryname.equals("item")){
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
-        float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
-        float sinYaw = MathHelper.sin(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
-        float cosPitch = -MathHelper.cos(-entityplayer.rotationPitch * 0.01745329F);
-        float sinPitch = MathHelper.sin(-entityplayer.rotationPitch * 0.01745329F);
-        double length = 5D;
-        Vec3d posVec = new Vec3d(entityplayer.posX, entityplayer.posY + 1.62D - entityplayer.getYOffset(), entityplayer.posZ);        
-        Vec3d lookVec = posVec.addVector(sinYaw * cosPitch * length, sinPitch * length, cosYaw * cosPitch * length);
-        RayTraceResult movingobjectposition = world.rayTraceBlocks(posVec, lookVec, false/*water*/);
-        
-        if(movingobjectposition == null){
-            return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
-        }
-        if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK){
-            BlockPos pos = movingobjectposition.getBlockPos();
-            //Block block = world.getBlockState(pos).getBlock();
-            //if(type.placeableOnLand || block instanceof BlockLiquid){
-	            if(!world.isRemote){
-	        		VehicleType type = FvmResources.getNewInstanceOf(LoadedIn.ENTITY, entityplayer.getHeldItemMainhand());
-	        		Print.debug(type.toString());
-					world.spawnEntity(new com.flansmod.fvm.LandVehicle(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, type));
-	            }
-				if(!entityplayer.capabilities.isCreativeMode){	
-					entityplayer.getHeldItemMainhand().shrink(1);
-				}
-			//}
+		float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
+		float sinYaw = MathHelper.sin(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
+		float cosPitch = -MathHelper.cos(-entityplayer.rotationPitch * 0.01745329F);
+		float sinPitch = MathHelper.sin(-entityplayer.rotationPitch * 0.01745329F);
+		double length = 5D;
+		Vec3d posVec = new Vec3d(entityplayer.posX, entityplayer.posY + 1.62D - entityplayer.getYOffset(), entityplayer.posZ);		
+		Vec3d lookVec = posVec.addVector(sinYaw * cosPitch * length, sinPitch * length, cosYaw * cosPitch * length);
+		RayTraceResult movingobjectposition = world.rayTraceBlocks(posVec, lookVec, false/*water*/);
+		
+		if(movingobjectposition == null){
+			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
+		}
+		if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK){
+			BlockPos pos = movingobjectposition.getBlockPos();
+			if(!world.isRemote){
+				VehicleType type = FvmResources.getNewInstanceOf(LoadedIn.ENTITY, entityplayer.getHeldItemMainhand());
+				Print.debug(type.toString());
+				world.spawnEntity(new com.flansmod.fvm.LandVehicle(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, type));
+			}
+			if(!entityplayer.capabilities.isCreativeMode){	
+				entityplayer.getHeldItemMainhand().shrink(1);
+			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, entityplayer.getHeldItemMainhand());
 	}

@@ -223,7 +223,7 @@ public class FvmResources {
 	
 	public static VehicleType getNewInstanceOf(LoadedIn state, ItemStack itemstack){
 		if(itemstack.getMetadata() == 0){
-			VehicleType type = new VehicleType(state, JsonUtil.getObjectFromString(itemstack.getTagCompound().getString("VehicleType")));
+			VehicleType type = new VehicleType(state, itemstack.getTagCompound());
 			loadVehicleModel(type);
 			return type;
 		}

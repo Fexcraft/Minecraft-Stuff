@@ -19,6 +19,7 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.SortableList;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -184,6 +185,18 @@ public class VehicleType extends DataObject {
 				container = new Container(is.get("Size").getAsInt());
 			}
 			fuelTankSize = ju.getIfExists(is, "TankSize", 1000).intValue();
+			//debug stuff
+			if(is.has("DefContent")){
+				JsonArray array = is.get("DefContent").getAsJsonArray();
+				for(int i = 0; i < array.size(); i++){
+					if(i >= container.getSizeInventory()){
+						break;
+					}
+					Block block = Block.getBlockFromName(array.get(i).getAsString());
+					Item item = block == null ? Item.getByNameOrId(array.get(i).getAsString()) : Item.getItemFromBlock(block);
+					container.setInventorySlotContents(i, new ItemStack(item, 1, 0));
+				}
+			}
 		}
 		if(obj.has("VehicleDefaults")){
 			JsonObject vd = obj.get("VehicleDefaults").getAsJsonObject();
@@ -275,9 +288,9 @@ public class VehicleType extends DataObject {
 		obj.add("RenderSettings", rs);
 		JsonObject is = new JsonObject();
 		if(container != null){
-			obj.addProperty("Size", container.getSizeInventory());
+			is.addProperty("Size", container.getSizeInventory());
 		}
-		obj.addProperty("TankSize", fuelTankSize);
+		is.addProperty("TankSize", fuelTankSize);
 		obj.add("InventorySettings", is);
 		JsonObject vd = new JsonObject();
 		vd.addProperty("DriveType", driveType.toString());
@@ -318,19 +331,22 @@ public class VehicleType extends DataObject {
 		if(compound.hasKey("Fuel")){
 			this.fuelStored = compound.getInteger("Fuel");
 		}
-		if(compound.hasKey("Inventory")){
-			container.readFromNBT(compound.getCompoundTag("Inventory"));
+		if(container != null){
+			container.readFromNBT(compound);
 		}
 	}
 
 	@Override
 	public NBTTagCompound write(NBTTagCompound compound){
+		if(compound == null){
+			compound = new NBTTagCompound();
+		}
 		compound.setString("VehicleType", this.toString());
 		compound.setBoolean("Locked", isLocked);
 		compound.setString("LockCode", lock_code);
 		compound.setInteger("Fuel", fuelStored);
 		if(container != null){
-			compound.setTag("Inventory", container.writeToNBT(new NBTTagCompound()));
+			container.writeToNBT(compound);
 		}
 		return compound;
 	}
