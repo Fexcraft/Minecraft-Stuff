@@ -1,4 +1,17 @@
 ## FVM Lang File
-item.fvm:vehicle_t1.name=T1
+item.fvm:vehicle_t1.name=T1 Frame
 item.fvm:part_engine.name=Common Engine
 item.fvm:material_rubber.name=Rubber
+item.fvm:material_steel_ingot.name=Steel Ingot
+item.fvm:part_t1_type1_cargoupgrade.name=T1 Cargo Upgrade
+item.fvm:part_ot1_back_wheel.name=OT1 Back Wheel
+item.fvm:part_ot1_front_seats.name=OT1 Front Seats
+item.fvm:part_ot1_front_wheel.name=OT1 Front Wheel
+item.fvm:part_ot1_steering_wheel.name=OT1 Steering Wheel
+item.fvm:part_t1_back_wheel.name=T1 Back Wheel
+item.fvm:part_t1_deflector.name=T1 Deflector
+item.fvm:part_t1_driver_seat.name=T1 Driver Seat
+item.fvm:part_t1_front_seats.name=T1 Back Wheel
+item.fvm:part_t1_front_wheel.name=T1 Front Wheel
+item.fvm:part_t1_steering_wheel.name=T1 Steering Wheel
+item.fvm:vehicle_ot1.name=OT1 Frame
