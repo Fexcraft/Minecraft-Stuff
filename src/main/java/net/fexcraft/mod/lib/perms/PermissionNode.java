@@ -1,9 +1,10 @@
 package net.fexcraft.mod.lib.perms;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
-public class PermissionNode {
+public abstract class PermissionNode implements Comparable<PermissionNode>{
 	
 	protected String id;
 	protected Type type;
@@ -52,9 +53,9 @@ public class PermissionNode {
 		else{
 			return;
 		}
-	}	
+	}
 	
-	protected static enum Type {
+	public static enum Type {
 		BOOLEAN("boolean"),
 		NUMBER("number"),
 		STRING("string");
@@ -98,9 +99,7 @@ public class PermissionNode {
 	 * @param node PermissionNode to be compared to.
 	 * @return if the other PermissionNode's value equals
 	 */
-	public boolean equals(PermissionNode node){
-		return false;
-	}
+	public abstract boolean equals(PermissionNode node);
 
 	public boolean isString(){
 		return type == Type.STRING;
@@ -126,16 +125,29 @@ public class PermissionNode {
 		return value;
 	}
 
-	public String getStringValue(){
-		return (String)value;
+	public abstract String getStringValue();
+
+	public abstract Number getNumberValue();
+
+	public abstract Boolean getBooleanValue();
+
+	@Override
+	public int compareTo(PermissionNode o){
+		return id.compareTo(o.id);
 	}
 
-	public Number getNumberValue(){
-		return (Number)value;
-	}
-
-	public Boolean getBooleanValue(){
-		return (Boolean)value;
+	public JsonElement toJsonElement(){
+		switch(type){
+			case BOOLEAN:
+				return new JsonPrimitive((boolean)value);
+			case NUMBER:
+				return new JsonPrimitive((Number)value);
+			case STRING:
+				return new JsonPrimitive((String)value);
+			default:
+				break;
+		}
+		return new JsonNull();
 	}
 	
 }

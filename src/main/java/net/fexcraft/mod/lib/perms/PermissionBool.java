@@ -1,9 +1,15 @@
 package net.fexcraft.mod.lib.perms;
 
+import com.google.gson.JsonElement;
+
 public class PermissionBool extends PermissionNode {
 
 	public PermissionBool(String id, Type type, Object def_value){
 		super(id, type, def_value);
+	}
+
+	public PermissionBool(String id, JsonElement elm){
+		super(id, elm);
 	}
 
 	@Override
@@ -28,6 +34,21 @@ public class PermissionBool extends PermissionNode {
 	
 	public boolean get(){
 		return this.getBooleanValue();
+	}
+
+	@Override
+	public String getStringValue(){
+		return (boolean)value + "";
+	}
+
+	@Override
+	public Number getNumberValue(){
+		return (boolean)value == true ? 1 : 0;
+	}
+
+	@Override
+	public Boolean getBooleanValue(){
+		return (boolean)value;
 	}
 	
 }

@@ -5,8 +5,10 @@ import net.fexcraft.mod.fvm.entities.EntityLandVehicle;
 import net.fexcraft.mod.fvm.entities.RenderLandVehicle;
 import net.fexcraft.mod.fvm.gui.FvmGuiHandler;
 import net.fexcraft.mod.fvm.network.FvmPacketHandler;
+import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.KeyHandler;
+import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,6 +55,10 @@ public class FVM {
 		if(event.getSide().isClient()){
 			RenderingRegistry.registerEntityRenderingHandler(EntityLandVehicle.class, RenderLandVehicle::new);
 		}
+		
+		//PermStuff
+		PermManager.setEnabled(FvmResources.MODID);
+		FvmPerms.register();
 	}
 	
 	@Mod.EventHandler

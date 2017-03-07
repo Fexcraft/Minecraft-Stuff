@@ -2,10 +2,16 @@ package net.fexcraft.mod.lib.perms;
 
 import java.math.BigDecimal;
 
+import com.google.gson.JsonElement;
+
 public class PermissionNumber extends PermissionNode {
 
 	public PermissionNumber(String id, Type type, Object value){
 		super(id, type, value);
+	}
+
+	public PermissionNumber(String id, JsonElement elm){
+		super(id, elm);
 	}
 
 	@Override
@@ -36,6 +42,21 @@ public class PermissionNumber extends PermissionNode {
 		BigDecimal nn = new BigDecimal(n.doubleValue());
 		BigDecimal ii = new BigDecimal(i);
 		return nn.compareTo(ii) == 1;
+	}
+
+	@Override
+	public String getStringValue(){
+		return (Number)value + "";
+	}
+
+	@Override
+	public Number getNumberValue(){
+		return (Number)value;
+	}
+
+	@Override
+	public Boolean getBooleanValue(){
+		return compare((Number)value, 1);
 	}
 	
 }

@@ -7,9 +7,10 @@ import java.util.Map.Entry;
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
+import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -88,9 +89,9 @@ public class VehicleItem extends Item {
 				tooltip.add(s);
 			}
 		}
-		if(Static.dev() && stack.hasTagCompound()){
+		/*if(Static.dev() && stack.hasTagCompound()){
 			tooltip.add(stack.getTagCompound().toString());
-		}
+		}*/
 	}
 	
 	@Override
@@ -135,7 +136,11 @@ public class VehicleItem extends Item {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
-		if(!FvmResources.FFMM || !this.type.registryname.equals("item")){
+		if(world.isRemote || !FvmResources.FFMM || !this.type.registryname.equals("item") || hand == EnumHand.OFF_HAND){
+			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
+		}
+		if(!PermManager.getPlayerPerms(entityplayer).hasPermission(FvmPerms.LAND_VEHICLE_PLACE)){
+			Print.chat(entityplayer, "No permission to place land vehicles.");
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
 		float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
