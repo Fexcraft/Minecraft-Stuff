@@ -180,5 +180,9 @@ public class VehicleItem extends Item {
 	private void setType(VehicleType type){
 		this.type = type;
 	}
+
+	public static Item defaultItem(){
+		return Registry.getItem("fvm:vehicle_item");
+	}
 	
 }
