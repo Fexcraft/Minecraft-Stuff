@@ -159,7 +159,7 @@ public class ModelRendererTurbo extends ModelRenderer {
     	copyTo(verts, new TexturedPolygon[] {addPolygonReturn(verts, u1, v1, u2, v2)});
     }
     
-    private TexturedPolygon addPolygonReturn(PositionTextureVertex[] verts, int f, int g, int h, int j){
+    private TexturedPolygon addPolygonReturn(PositionTextureVertex[] verts, float f, float g, float h, float j){
     	if(verts.length < 3){
     		return null;
     	}
@@ -216,7 +216,7 @@ public class ModelRendererTurbo extends ModelRenderer {
      * @param h the height of the shape, used in determining the texture
      * @param d the depth of the shape, used in determining the texture
      */
-    public void addRectShape(float[] v, float[] v1, float[] v2, float[] v3, float[] v4, float[] v5, float[] v6, float[] v7, int w, int h, int d){
+    public void addRectShape(float[] v, float[] v1, float[] v2, float[] v3, float[] v4, float[] v5, float[] v6, float[] v7, float w, float h, float d){
     	PositionTextureVertex[] verts = new PositionTextureVertex[8];
         TexturedPolygon[] poly = new TexturedPolygon[6];
         PositionTextureVertex positionTexturevertex = new PositionTextureVertex(v[0], v[1], v[2], 0.0F, 0.0F);
@@ -300,7 +300,11 @@ public class ModelRendererTurbo extends ModelRenderer {
      * @param expansion the expansion of the box. It increases the size in each direction by that many. It's independent from the scale.
      * @param scale
      */
-    public void addBox(float x, float y, float z, int w, int h, int d, float expansion, float scale){
+    public void addBox(float x, float y, float z, float w, float h, float d, float expansion, float scale){
+    	if(w ==0){ w=0.001F; }
+    	if(h ==0){ h=0.001F; }
+    	if(d ==0){ d=0.001F; }
+    	
         float scaleX = w * scale;
         float scaleY = h * scale;
         float scaleZ = d * scale;
@@ -319,8 +323,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         x1 += expansion;
         y1 += expansion;
         z1 += expansion;
-        if(mirror)
-        {
+        if(mirror){
             float xTemp = x1;
             x1 = x;
             x = xTemp;
