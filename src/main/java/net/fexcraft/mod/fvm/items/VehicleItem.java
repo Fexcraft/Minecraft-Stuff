@@ -41,8 +41,8 @@ public class VehicleItem extends Item {
 		this.setCreativeTab(FvmResources.VEHICLES);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
-		this.type = vehicle;
-		this.type.setItem(this);
+		this.setType(vehicle);
+		this.getType().setItem(this);
 		
 		Registry.registerItemManually(FvmResources.MODID, "vehicle_" + vehicle.registryname, 0, null, this);
 	}
@@ -57,18 +57,18 @@ public class VehicleItem extends Item {
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected){
 		if(!stack.hasTagCompound()){
-			stack.setTagCompound(type.write(new NBTTagCompound()));
+			stack.setTagCompound(getType().write(new NBTTagCompound()));
 		}
 	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced){
 		VehicleType type = null;
-		if(this.type.registryname.equals("item") && stack.hasTagCompound() && stack.getTagCompound().hasKey("VehicleType")){
+		if(this.getType().registryname.equals("item") && stack.hasTagCompound() && stack.getTagCompound().hasKey("VehicleType")){
 			type = new VehicleType(LoadedIn.NULL, stack.getTagCompound());
 		}
 		else{
-			type = this.type;
+			type = this.getType();
 		}
 		tooltip.add("Vehicle: " + type.fullname);
 		if(type.description.size() > 0){
@@ -97,7 +97,7 @@ public class VehicleItem extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems){
-		if(((VehicleItem)itemIn).type.registryname.equals("item")){
+		if(((VehicleItem)itemIn).getType().registryname.equals("item")){
 			return;
 		}
 		subItems.add(new ItemStack(itemIn, 1, 0));
@@ -136,11 +136,15 @@ public class VehicleItem extends Item {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
-		if(world.isRemote || !FvmResources.FFMM || !this.type.registryname.equals("item") || hand == EnumHand.OFF_HAND){
+		if(world.isRemote || !FvmResources.FFMM || !this.getType().registryname.equals("item") || hand == EnumHand.OFF_HAND){
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
 		if(!PermManager.getPlayerPerms(entityplayer).hasPermission(FvmPerms.LAND_VEHICLE_PLACE)){
 			Print.chat(entityplayer, "No permission to place land vehicles.");
+			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
+		}
+		if(!PermManager.getPlayerPerms(entityplayer).hasPermission(FvmPerms.permPlace(entityplayer.getHeldItemMainhand()))){
+			Print.chat(entityplayer, "No permission to place a vehicle of this type.");
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
 		float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
@@ -167,6 +171,14 @@ public class VehicleItem extends Item {
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, entityplayer.getHeldItemMainhand());
+	}
+
+	public VehicleType getType(){
+		return type;
+	}
+
+	private void setType(VehicleType type){
+		this.type = type;
 	}
 	
 }

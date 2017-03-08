@@ -11,6 +11,7 @@ import com.google.gson.JsonPrimitive;
 
 import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.models.VehicleModel;
+import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.api.item.KeyItem;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -234,7 +235,10 @@ public class VehicleType extends DataObject {
 					}
 				}
 			}
+			FvmPerms.addVehicle(registryname);
 		}
+		
+		
 	}
 
 	@Override

@@ -93,7 +93,13 @@ public class Rank {
 		}
 		PermissionNode perm = permissions.get(s);
 		if(perm == null){
-			return parent == null ? false : parent.hasPermission(s);
+			if(parent == null){
+				PermissionNode node = PermManager.getPermission(s);
+				return node == null ? false : node.getBooleanValue();
+			}
+			else{
+				return parent.hasPermission(s);
+			}
 		}
 		else return perm.getBooleanValue();
 	}
