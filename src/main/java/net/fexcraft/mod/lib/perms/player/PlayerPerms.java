@@ -21,6 +21,7 @@ public class PlayerPerms implements IPlayerPerms {
 	
 	private TreeMap<String, PermissionNode> permissions = new TreeMap<String, PermissionNode>();
 	private Rank rank;
+	public JsonObject data = new JsonObject();
 	
 	public PlayerPerms(){
 		//
@@ -37,6 +38,7 @@ public class PlayerPerms implements IPlayerPerms {
 		else{
 			JsonObject obj = elm.getAsJsonObject();
 			setRank(PermManager.getRank(obj.get("Rank").getAsString()));
+			data = JsonUtil.getElementIfExists(elm.getAsJsonObject(), "Data", true).getAsJsonObject();
 		}
 	}
 	
@@ -44,6 +46,7 @@ public class PlayerPerms implements IPlayerPerms {
 	public void save(UUID uuid){
 		JsonObject obj = new JsonObject();
 		obj.addProperty("Rank", rank.getId());
+		obj.add("Data", data);
 		JsonUtil.write(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), obj);
 	}
 
@@ -122,6 +125,15 @@ public class PlayerPerms implements IPlayerPerms {
 					return false;
 			}
 		}
+	}
+	
+	/**
+	 * This player's additional Json Data Object.<br>
+	 * Used to e.g. store additinal data needed for your mod.
+	 * @return
+	 */
+	public JsonObject getData(){
+		return data;
 	}
 	
 }

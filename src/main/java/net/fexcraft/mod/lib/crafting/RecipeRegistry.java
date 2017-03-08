@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.fexcraft.mod.lib.crafting.gui.CraftingGui;
 import net.fexcraft.mod.lib.crafting.gui.WorkbenchContainer;
-import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -59,7 +58,13 @@ public class RecipeRegistry {
 	}
 
 	public static Object getWorkBench(){
-		return Registry.getBlock("fcl:workbench");
+		return workbench;
+	}
+	
+	private static WorkBench workbench;
+
+	public static void initialize(){
+		workbench = new WorkBench();
 	}
 	
 }

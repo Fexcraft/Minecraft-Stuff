@@ -1,7 +1,7 @@
 package net.fexcraft.mod.lib.crafting;
 
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.api.block.fBlock;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -18,7 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-@fBlock(modid = "fcl", name = "workbench")
+//@fBlock(modid = "fcl", name = "workbench")
 public class WorkBench extends Block {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -30,6 +30,8 @@ public class WorkBench extends Block {
     	this.setHardness(1.0F);
     	this.setResistance(32.0F);
     	this.setCreativeTab(CreativeTabs.TOOLS);
+    	
+    	Registry.registerBlockManually("fcl", "workbench", 0, null, this, null, null);
 	}
 
     @Override

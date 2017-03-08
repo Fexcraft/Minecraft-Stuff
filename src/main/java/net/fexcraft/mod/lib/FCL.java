@@ -58,16 +58,20 @@ public class FCL {
 		FclConfig.initalize(event, event.getSuggestedConfigurationFile());
 		Registry.linkTable(event.getAsmData());
 		Registry.registerAll();
-		
+		if(!FclConfig.serverSideOnly){
+			RecipeRegistry.initialize();
+		}
 	}
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception{
 		MinecraftForge.EVENT_BUS.register(new SimpleUpdateHandler.EventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
 		
-    	GameRegistry.addShapelessRecipe(new ItemStack(Registry.getBlock("fcl:workbench"), 4), new Object[]{
-    		Items.IRON_INGOT, Blocks.CRAFTING_TABLE, Blocks.LOG
-    	});
+		if(!FclConfig.serverSideOnly){
+	    	GameRegistry.addShapelessRecipe(new ItemStack(Registry.getBlock("fcl:workbench"), 4), new Object[]{
+	    		Items.IRON_INGOT, Blocks.CRAFTING_TABLE, Blocks.LOG
+	    	});
+		}
 	}
 	
 	@Mod.EventHandler
