@@ -65,8 +65,9 @@ public class FVM {
 	public void init(FMLInitializationEvent event){
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new FvmGuiHandler());
 		
-		MinecraftForge.EVENT_BUS.register(new KeyHandler());
-		
+		if(event.getSide().isClient()){
+			MinecraftForge.EVENT_BUS.register(new KeyHandler());
+		}
 	}
 	
 	@Mod.EventHandler
