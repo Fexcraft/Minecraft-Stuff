@@ -52,7 +52,7 @@ public class PartItem extends Item {
 				tooltip.add(s);
 			}
 		}
-		if(advanced){
+		if(type.compatible.keySet().size() > 0){
 			tooltip.add("- - - - - - - -");
 			tooltip.add("Compatible with:");
 			for(String string : type.compatible.keySet()){
