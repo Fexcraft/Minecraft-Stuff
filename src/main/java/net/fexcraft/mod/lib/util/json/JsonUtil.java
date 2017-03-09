@@ -194,8 +194,13 @@ public class JsonUtil{
 	 * @param file target file
 	 * @param obj JsonElement to be written into the file
 	 */
-	public static void write(File file, JsonElement obj){
+	public static void write(File file, JsonElement obj, boolean check){
 		try{
+			if(check){
+				if(!file.getParentFile().exists()){
+					file.getParentFile().mkdirs();
+				}
+			}
 			FileWriter fw = new FileWriter(file);
 			fw.write(gson.toJson(obj));
 			fw.flush();
@@ -204,6 +209,10 @@ public class JsonUtil{
 		catch(IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public static void write(File file, JsonElement obj){
+		write(file, obj, false);
 	}
 	
 	/**

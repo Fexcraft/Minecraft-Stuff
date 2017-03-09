@@ -1,8 +1,10 @@
 package net.fexcraft.mod.lib.perms.player;
 
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -14,7 +16,9 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class PlayerHandler {
@@ -37,6 +41,7 @@ public class PlayerHandler {
 		public Provider(EntityPlayer entity){
 			instance = PERMISSIONS.getDefaultInstance();
 			player = entity;
+			loaded = false;
 		}
 		
 		@Override
@@ -84,19 +89,21 @@ public class PlayerHandler {
 		
 		@SubscribeEvent
 		public void attachCapabilities(AttachCapabilitiesEvent<Entity> event){
-			if(event.getObject() instanceof EntityPlayer){
+			if(event.getObject() instanceof EntityPlayer || event.getObject() instanceof EntityPlayerMP){
 				event.addCapability(new ResourceLocation("fcl", "perms"), new Provider((EntityPlayer)event.getObject()));
 			}
 		}
 		
-		/*@SubscribeEvent
+		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public void onJoin(PlayerLoggedInEvent event){
-			event.player.getCapability(PERMISSIONS, null).load(event.player.getGameProfile().getId());
-		}*/
+			if(Static.side().isServer()){
+				event.player.getCapability(PERMISSIONS, null).load(event.player.getGameProfile().getId());
+			}
+		}
 		
 		@SubscribeEvent
 		public void clonePlayer(PlayerEvent.Clone event){;
-			getPerms(event.getEntityPlayer()).copy(getPerms(event.getOriginal()));
+			event.getEntityPlayer().getCapability(PERMISSIONS, null).copy(event.getOriginal().getCapability(PERMISSIONS, null).getInstance());
 		}
 	}
 	

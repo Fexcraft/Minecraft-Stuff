@@ -26,7 +26,7 @@ public class Rank {
 	public Rank(){
 		id = "default";
 		name = "Default";
-		prefix = "def-rank";
+		setPrefix("def-rank");
 		def = true;
 	}
 	
@@ -69,6 +69,9 @@ public class Rank {
 			array.add(node.id, node.toJsonElement());
 		}
 		obj.add("Permissions", array);
+		if(prefix != null){
+			obj.addProperty("Prefix", prefix);
+		}
 		return obj;
 	}
 	
@@ -195,6 +198,14 @@ public class Rank {
 				permissions.put(node.id, node);
 			}
 		}
+	}
+
+	public String getPrefix(){
+		return prefix;
+	}
+
+	public void setPrefix(String prefix){
+		this.prefix = prefix;
 	}
 	
 }

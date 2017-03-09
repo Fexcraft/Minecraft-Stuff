@@ -25,8 +25,8 @@ public class PermManager {
 	public static File rankDir, userDir;
 	
 	public static final void initialize(){
-		add(Permissions.GENRAL_BLOCK_BREAK, Type.BOOLEAN, true, true);
-		add(Permissions.GENRAL_BLOCK_PLACE, Type.BOOLEAN, true, true);
+		add(Permissions.GENERAL_BLOCK_BREAK, Type.BOOLEAN, true, true);
+		add(Permissions.GENERAL_BLOCK_PLACE, Type.BOOLEAN, true, true);
 		
 		File parent = new File(FCL.getInstance().getConfigDirectory().getParentFile(), "/fcl-perms");
 		rankDir = new File(parent, "/ranks/");

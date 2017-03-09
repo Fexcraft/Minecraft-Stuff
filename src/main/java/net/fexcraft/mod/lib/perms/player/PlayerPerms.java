@@ -1,6 +1,8 @@
 package net.fexcraft.mod.lib.perms.player;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -20,8 +22,9 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 public class PlayerPerms implements IPlayerPerms {
 	
 	private TreeMap<String, PermissionNode> permissions = new TreeMap<String, PermissionNode>();
+	private TreeMap<String, AttachedData> data = new TreeMap<String, AttachedData>();
+	private static final HashSet<Class> set = new HashSet<Class>();
 	private Rank rank;
-	public JsonObject data = new JsonObject();
 	
 	public PlayerPerms(){
 		//
@@ -33,12 +36,32 @@ public class PlayerPerms implements IPlayerPerms {
 		if(elm == null){
 			setRank(PermManager.getRank("default"));
 			Print.debug("No perm data for " + uuid.toString() + " found! Setting to default rank and saving.");
+			for(Class clazz : set){
+				try{
+					AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
+					iad.load(uuid, null);
+					this.data.put(iad.getId(), iad);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 			save(uuid);
 		}
 		else{
 			JsonObject obj = elm.getAsJsonObject();
 			setRank(PermManager.getRank(obj.get("Rank").getAsString()));
-			data = JsonUtil.getElementIfExists(elm.getAsJsonObject(), "Data", true).getAsJsonObject();
+			JsonObject data = JsonUtil.getElementIfExists(elm.getAsJsonObject(), "AttachedData", true).getAsJsonObject();
+			for(Class clazz : set){
+				try{
+					AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
+					iad.load(uuid, data.get(iad.getId()));
+					this.data.put(iad.getId(), iad);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -46,14 +69,24 @@ public class PlayerPerms implements IPlayerPerms {
 	public void save(UUID uuid){
 		JsonObject obj = new JsonObject();
 		obj.addProperty("Rank", rank.getId());
-		obj.add("Data", data);
+		JsonObject data = new JsonObject();
+		for(Entry<String, AttachedData> entry : this.data.entrySet()){
+			data.add(entry.getKey(), entry.getValue().save(uuid));
+		}
+		obj.add("AttachedData", data);
 		JsonUtil.write(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), obj);
 	}
 
 	@Override
 	public void copy(PlayerPerms ipd){
 		PlayerPerms data = (PlayerPerms)ipd;
-		rank = data.rank;
+		this.permissions = data.permissions;
+		this.rank = data.rank;
+		this.data = data.data;
+		
+		/*for(AttachedData entry : this.data.values()){
+			entry.copy(ipd);
+		}*/
 	}
 
 	public Rank getRank(){
@@ -127,13 +160,12 @@ public class PlayerPerms implements IPlayerPerms {
 		}
 	}
 	
-	/**
-	 * This player's additional Json Data Object.<br>
-	 * Used to e.g. store additinal data needed for your mod.
-	 * @return
-	 */
-	public JsonObject getData(){
-		return data;
+	public static void addAdditionalData(Class type){
+		set.add(type);
+	}
+	
+	public AttachedData getAdditionalData(String id){
+		return data.get(id);
 	}
 	
 }
