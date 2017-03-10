@@ -16,6 +16,10 @@ public class FvmGuiHandler implements IGuiHandler {
 				return new PaintTableContainer(world.getTileEntity(new BlockPos(x, y, z)));
 			case 344:
 				return new CreatorContainer(world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
+			case 356:
+				return new VehicleMain.MainContainer();
+			case 3556:
+				return new VehicleInventory.InventoryContainer(player, ((com.flansmod.fvm.EntitySeat)player.getRidingEntity()).vehicle);
 		}
 		return null;
 	}
@@ -29,6 +33,10 @@ public class FvmGuiHandler implements IGuiHandler {
 				return new PaintTableGui(world.getTileEntity(new BlockPos(x, y, z)));
 			case 344:
 				return new CreatorGui(world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
+			case 356:
+				return new VehicleMain(player);
+			case 3556:
+				return new VehicleInventory(player, ((com.flansmod.fvm.EntitySeat)player.getRidingEntity()).vehicle);
 		}
 		return null;
 	}

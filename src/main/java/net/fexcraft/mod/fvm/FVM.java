@@ -4,11 +4,14 @@ import net.fexcraft.mod.fvm.data.RecipeObject;
 import net.fexcraft.mod.fvm.entities.EntityLandVehicle;
 import net.fexcraft.mod.fvm.entities.RenderLandVehicle;
 import net.fexcraft.mod.fvm.gui.FvmGuiHandler;
+import net.fexcraft.mod.fvm.gui.Receiver;
 import net.fexcraft.mod.fvm.network.FvmPacketHandler;
 import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.KeyHandler;
+import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
+import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.Registry;
@@ -22,6 +25,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Fex's Vehicle Mod
@@ -74,6 +78,7 @@ public class FVM {
 		
 		SimpleUpdateHandler.register("fvm", 1, VERSION);
 		SimpleUpdateHandler.setUpdateMessage("fvm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvm") + ")&7");
+		PacketHandler.registerListener(PacketHandlerType.JSON, Side.SERVER, new Receiver());
 	}
 	
 	@Mod.EventHandler

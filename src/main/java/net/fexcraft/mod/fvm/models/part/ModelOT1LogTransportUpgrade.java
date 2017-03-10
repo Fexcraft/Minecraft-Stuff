@@ -288,10 +288,14 @@ public class ModelOT1LogTransportUpgrade extends PartModel {
 	public void render(VehicleType data, String us, com.flansmod.fvm.LandVehicle vehicle){
 		super.render(data, us, vehicle);
 		int j = cargo.length > data.getContainer().getSizeInventory() ? data.getContainer().getSizeInventory() : cargo.length;
+		int k = 0;
 		for(int i = 0; i < j; i++){
 			if(!data.getContainer().getStackInSlot(i).isEmpty()){
-				cargo[i].render();
+				k++;
 			}
+		}
+		for(int i = 0; i < k; i++){
+			cargo[i].render();
 		}
 		
 	}

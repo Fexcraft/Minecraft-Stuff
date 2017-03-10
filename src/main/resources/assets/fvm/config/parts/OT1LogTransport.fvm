@@ -5,6 +5,10 @@
     "Category": [
         "cargo"
     ],
+    "Attributes":[
+        "cargo",
+        "item_discriminator"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/ot1_logtransportupgrade.png"
@@ -22,6 +26,20 @@
                     "z": 0
                 }
             }
+        ]
+    },
+    "AttributeSettings":{
+        "AcceptedItems":[
+            "minecraft:log",
+            "minecraft:log2",
+            "minecraft:planks",
+            "minecraft:oak_stairs",
+            "minecraft:spruce_stairs",
+            "minecraft:birch_stairs",
+            "minecraft:jungle_stairs",
+            "minecraft:acacia_stairs",
+            "minecraft:dark_oak_stairs",
+            "minecraft:wooden_slab"
         ]
     }
 }

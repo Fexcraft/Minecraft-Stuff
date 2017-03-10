@@ -296,7 +296,7 @@ public class ConstructorGui extends GuiContainer {
 		}
 	}
 	
-	private static class Object {
+	public static class Object {
 		PartType type;
 		boolean installed, installable;
 		String id;

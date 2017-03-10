@@ -66,7 +66,8 @@ public class VehicleType extends DataObject {
 	public boolean isLocked = false;
 	public boolean rotateWheels = true;
 	//Inventory
-	private Container container;
+	public Container container;
+	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
 	//Resyncables
 	public SortableList<Seat> seats = new SortableList<Seat>();
 	public float wheelStepHeight;
@@ -485,6 +486,9 @@ public class VehicleType extends DataObject {
 			if(part.attributes.contains("seats") || part.attributes.contains("seat")){
 				seats.addAll(part.seats);
 			}
+			if(part.attributes.contains("cargo") || part.attributes.contains("item_discriminator")){
+				itemDiscriminator.addAll(part.itemDiscriminator);
+			}
 			//general modifiers
 		}
 		if(seats.size() > 0 && !seats.get(0).isDriver()){
@@ -581,6 +585,9 @@ public class VehicleType extends DataObject {
 
 		@Override
 		public ItemStack getStackInSlot(int index){
+			if(index >= stacks.size()){
+				return stacks.get(0);
+			}
 			return stacks.get(index);
 		}
 
@@ -596,6 +603,10 @@ public class VehicleType extends DataObject {
 
 		@Override
 		public void setInventorySlotContents(int index, ItemStack stack) {
+			if(index >= stacks.size()){
+				stacks.set(0, stack);
+				return;
+			}
 			stacks.set(index, stack);
 		}
 

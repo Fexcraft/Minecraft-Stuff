@@ -13,6 +13,7 @@ import net.fexcraft.mod.fvm.items.PartItem;
 import net.fexcraft.mod.fvm.models.NullModel;
 import net.fexcraft.mod.fvm.models.PartModel;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,6 +33,7 @@ public class PartType extends DataObject {
 	public ArrayList<String> category = new ArrayList<String>();
 	public ArrayList<String> attributes = new ArrayList<String>();
 	//
+	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
 	public boolean removable;
 	public PartItem item;
 	public int maxStackSize;
@@ -137,6 +139,11 @@ public class PartType extends DataObject {
 			if(attributes.contains("engine") || attributes.contains("main_engine")){
 				engineSpeed = ju.getIfExists(cs, "EngineSpeed", 1f).floatValue();
 				fuelConsumption = ju.getIfExists(cs, "FuelConsumption", 1f).floatValue();
+			}
+			if(attributes.contains("cargo") || attributes.contains("item_discriminator")){
+				if(cs.has("AcceptedItems")){
+					itemDiscriminator = JsonUtil.jsonArrayToStringArray(cs.get("AcceptedItems").getAsJsonArray());
+				}
 			}
 			//general modifiers
 		}
