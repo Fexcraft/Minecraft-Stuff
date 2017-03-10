@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.util.common.FclConfig;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -123,7 +124,7 @@ public class SimpleUpdateHandler{
 			for(String modid : mods_to_update){
 				String string = update_message_queue.get(modid);
 				if(string != null && string.length() > 4){
-					Print.chat(event.player, update_message_queue.get(modid));
+					Print.chat(event.player, Formatter.format(update_message_queue.get(modid)));
 				}
 			}
 			if(Validator.getInstance().isBanned(event.player.getGameProfile().getId())){

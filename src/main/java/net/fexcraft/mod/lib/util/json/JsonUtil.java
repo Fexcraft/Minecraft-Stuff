@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -500,6 +501,14 @@ public class JsonUtil{
 		JsonArray ja = new JsonArray();
 		for(String s : array){
 			add(ja, s);
+		}
+		return ja;
+	}
+	
+	public static JsonElement getArrayFromUUIDList(ArrayList<UUID> array){
+		JsonArray ja = new JsonArray();
+		for(UUID s : array){
+			add(ja, s.toString());
 		}
 		return ja;
 	}
