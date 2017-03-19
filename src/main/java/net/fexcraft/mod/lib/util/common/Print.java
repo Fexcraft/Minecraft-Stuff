@@ -4,8 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.fexcraft.mod.lib.util.math.Time;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Print{
 	
@@ -24,7 +27,7 @@ public class Print{
 	}
 	
 	public static void chat(ICommandSender sender, String string){
-		sender.sendMessage(new TextComponentString(string));
+		sender.sendMessage(new TextComponentString(Formatter.format(string)));
 	}
 	
 	private static int sec = -1;
@@ -46,6 +49,11 @@ public class Print{
 		if(Static.dev()){
 			log(obj);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void debugChat(String string){
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(string));
 	}
 	
 }

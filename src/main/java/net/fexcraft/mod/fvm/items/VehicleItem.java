@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.perms.PermManager;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -55,6 +59,22 @@ public class VehicleItem extends Item {
 	}
 	
 	@Override
+	public String getUnlocalizedName(ItemStack stack){
+		if(stack.getItem().getRegistryName().equals("item")){
+			if(stack.hasTagCompound()){
+				JsonObject obj = JsonUtil.getFromString(stack.getTagCompound().getString("VehicleType")).getAsJsonObject();
+				if(obj.has("FullName")){
+					return obj.get("FullName").getAsString() + " - " + getUnlocalizedName();
+				}
+				else if(obj.has("RegistryName")){
+					return obj.get("RegistryName").getAsString() + " - " + getUnlocalizedName();
+				}
+			}			
+		}
+		return getUnlocalizedName();
+	}
+	
+	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected){
 		if(!stack.hasTagCompound()){
 			stack.setTagCompound(getType().write(new NBTTagCompound()));
@@ -73,7 +93,7 @@ public class VehicleItem extends Item {
 		tooltip.add("Vehicle: " + type.fullname);
 		if(type.description.size() > 0){
 			for(String s : type.description){
-				tooltip.add(s);
+				tooltip.add(Formatter.format(s));
 			}
 		}
 		if(advanced){
@@ -81,6 +101,10 @@ public class VehicleItem extends Item {
 			for(Entry<String, PartType> part : type.parts.entrySet()){
 				tooltip.add(part.getValue().fullname + TextFormatting.AQUA + " (" + part.getKey().replace("_", " ") + ")");
 			}
+		}
+		if(type.scriptlist.size() > 0){
+			tooltip.add("- - - - - - - -");
+			tooltip.add("Scripts: " + type.scriptlist.size());
 		}
 		if(type.getModel() != null){
 			tooltip.add("- - - - - - - -");

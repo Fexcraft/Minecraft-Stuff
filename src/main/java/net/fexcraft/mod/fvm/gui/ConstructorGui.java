@@ -225,7 +225,7 @@ public class ConstructorGui extends GuiContainer {
 				int i = button.id - 17;
 				Object obj = list.get(i);
 				if(!obj.installed && obj.installable){
-					tile.notifyServer("add:" + obj.id + "//" + removeItem(obj.id) + "//" + mc.player.getGameProfile().getId());
+					tile.notifyServer("add:" + obj.id + "//" + removeItem(tile.type.registryname, obj.id) + "//" + mc.player.getGameProfile().getId());
 				}
 				else if(obj.installed && obj.type.removable){
 					String s = tile.type.usedAs(obj.type);
@@ -239,12 +239,12 @@ public class ConstructorGui extends GuiContainer {
 		}
 	}
 	
-	private String removeItem(String id) {
+	private String removeItem(String veh, String id){
 		for(int i = 0; i < this.playerInventory.mainInventory.size(); i++){
 			ItemStack stack = this.playerInventory.mainInventory.get(i);
 			if(stack.getItem() instanceof PartItem){
 				PartType type = PartItem.getType(stack);
-				if(type.category.contains(id)){
+				if(type.category.contains(id) && ss(type, veh)){
 					//this.playerInventory.removeStackFromSlot(i);
 					return type.registryname;
 				}
@@ -253,14 +253,18 @@ public class ConstructorGui extends GuiContainer {
 		return "null";
 	}
 	
-	private boolean canInstall(String id){
+	private static final boolean ss(PartType type, String veh){
+		return type.compatible.containsKey(veh) || type.compatible.containsKey("Any") || type.compatible.containsKey("any") || type.compatible.containsKey("*");
+	}
+	
+	private boolean canInstall(String veh, String id){
 		if(id == null || id.equals("null")){
 			return false;
 		}
 		for(ItemStack stack : this.playerInventory.mainInventory){
 			if(stack.getItem() instanceof PartItem){
 				PartType type = PartItem.getType(stack);
-				if(type.category.contains(id)){
+				if(type.category.contains(id) && ss(type, veh)){
 					return true;
 				}
 			}
@@ -296,7 +300,7 @@ public class ConstructorGui extends GuiContainer {
 		}
 	}
 	
-	public static class Object {
+	private static class Object {
 		PartType type;
 		boolean installed, installable;
 		String id;
@@ -334,7 +338,7 @@ public class ConstructorGui extends GuiContainer {
 		
 		for(Object obj : list){
 			if(!obj.installed){
-				obj.installable = canInstall(obj.id);
+				obj.installable = canInstall(tile.type.registryname, obj.id);
 			}
 		}
 		

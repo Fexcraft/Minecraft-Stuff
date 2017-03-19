@@ -11,6 +11,8 @@ public class FvmPerms {
 	public static final String LAND_VEHICLE_PLACE = "fvm.entity.land_vehicle.place";
 	public static final String LAND_VEHICLE_BREAK = "fvm.entity.land_vehicle.break";
 	public static final String LAND_VEHICLE_CREATE = "fvm.entity.land_vehicle.create";
+	public static final String PRESET_USE = "fvm.entity.preset.use";
+	public static final String PRESET_CREATE = "fvm.entity.preset.create";
 	
 	public static void register(){
 		PermManager.add(LAND_VEHICLE_PLACE, Type.BOOLEAN, true, true);

@@ -25,5 +25,26 @@
                 }
             }
         ]
-    }
+    },
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Parts",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 3
+                },
+                {
+                    "Item": "fvm:material_rubber",
+                    "Amount": 6
+                },
+                {
+                    "Item": "minecraft:dye",
+                    "Amount": 8
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

@@ -2,10 +2,10 @@ package net.fexcraft.mod.fvm.util;
 
 import org.lwjgl.input.Keyboard;
 
-import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -35,11 +35,11 @@ public class KeyHandler{
 	
 	@SubscribeEvent
 	public void checkKeyInput(KeyInputEvent event){
-		/*if(minecraft.currentScreen != null || FMLClientHandler.instance().isGUIOpen(GuiContainer.class)){
+		if(minecraft.currentScreen != null || FMLClientHandler.instance().isGUIOpen(GuiContainer.class)){
 			return;
-		}*/
+		}
 
-		if(minecraft.player.getRidingEntity() instanceof EntityLivingBase){
+		/*if(minecraft.player.getRidingEntity() instanceof EntityLivingBase){
 			//entity
 			if(minecraft.gameSettings.keyBindForward.isPressed()){
 				//send packet
@@ -73,7 +73,7 @@ public class KeyHandler{
 			if(doors.isPressed()){
 				//send packet
 			}
-		}
+		}*/
 	}
 	
 }

@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "fvm:items/c1r1_steering_wheel"
+    }
+}

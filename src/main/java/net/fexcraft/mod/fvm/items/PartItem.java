@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,7 @@ public class PartItem extends Item {
 		tooltip.add("Part: " + type.fullname);
 		if(type.description.size() > 0){
 			for(String s : type.description){
-				tooltip.add(s);
+				tooltip.add(Formatter.format(s));
 			}
 		}
 		if(type.compatible.keySet().size() > 0){
@@ -63,6 +64,10 @@ public class PartItem extends Item {
 			tooltip.add("- - - - - - - -");
 			tooltip.add("Engine_Speed: " + type.engineSpeed + "fmp");
 			tooltip.add("Fuel Consupmtion: " + type.fuelConsumption);
+		}
+		if(type.scriptlist.size() > 0){
+			tooltip.add("- - - - - - - -");
+			tooltip.add("Scripts: " + type.scriptlist.size());
 		}
 		if(type.getModel() != null){
 			tooltip.add("- - - - - - - -");

@@ -17,8 +17,19 @@ public class Static{
 	public static final float eighth = 0.125F;
 	public static final float quarter = 0.250F;
 	public static final float half = 0.5F;
-	
-	//
+
+	public static final float rad160 = 2.79253f;
+	public static final float rad120 = 2.0944f;
+	public static final float rad90 = 1.5708f;
+	public static final float rad60 = 1.0472f;
+	public static final float rad45 = 0.785398f;
+	public static final float rad30 = 0.523599f;
+	public static final float rad20 = 0.349066f;
+	public static final float rad12 = 0.20944f;
+	public static final float rad10 = 0.174533f;
+	public static final float rad6 = 0.10472f;
+	public static final float rad5 = 0.0872665f;
+	public static final float rad1 = 0.0174533f;
 	
 	//
 	
@@ -117,6 +128,10 @@ public class Static{
 	public static String crashString(){
 		Static.exception(5);
 		return null;
+	}
+
+	public static String sideString(){
+		return side().isClient() ? "Client" : "Server";
 	}
 	
 }

@@ -33,6 +33,7 @@ public class PartType extends DataObject {
 	public ArrayList<String> category = new ArrayList<String>();
 	public ArrayList<String> attributes = new ArrayList<String>();
 	//
+	public ArrayList<Class> scriptlist = new ArrayList<Class>();
 	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
 	public boolean removable;
 	public PartItem item;
@@ -148,6 +149,19 @@ public class PartType extends DataObject {
 			//general modifiers
 		}
 		
+
+		if(obj.has("Scripts")){
+			JsonArray array = obj.get("Scripts").getAsJsonArray();
+			for(JsonElement elm : array){
+				try{
+					Class clazz = Class.forName(elm.getAsString().replace(".class", ""));
+					scriptlist.add(clazz);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		if(this.state().isLoadedInMemory()){
 			PartItem.addPart(this);

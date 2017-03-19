@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,10 @@ public class RecipeObject {
 	private int inputmeta = 0;
 	private String container;
 	private float exp = 0.0f;
+	//
+	private String[] components;
+	private int[] camount, cmeta;
+	private String category;
 	
 	public static void parse(ItemStack stack, JsonObject obj) throws Exception {
 		RecipeObject rcp = new RecipeObject();
@@ -79,6 +84,23 @@ public class RecipeObject {
 				temp_list.add(rcp);
 				break;
 			case BLUEPRINT:
+				JsonArray arrey  = obj.get("Components").getAsJsonArray();
+				rcp.components = new String[arrey.size()];
+				rcp.camount = new int[arrey.size()];
+				rcp.cmeta = new int[arrey.size()];
+				for(int i = 0; i < arrey.size(); i++){
+					JsonObject elm = arrey.get(i).getAsJsonObject();
+					rcp.components[i] = elm.get("Item").getAsString();
+					rcp.camount[i] = elm.has("Amount") ? elm.get("Amount").getAsInt() : 1;
+					rcp.cmeta[i] = elm.has("Meta") ? elm.get("Meta").getAsInt() : 0;
+				}
+				if(obj.has("Output")){
+					stack.setCount(obj.get("Output").getAsInt());
+				}
+				if(obj.has("Category")){
+					rcp.category = obj.get("Category").getAsString();
+				}
+				temp_list.add(rcp);
 				break;
 			case SMELTING:
 				if(obj.has("Input")){
@@ -136,6 +158,11 @@ public class RecipeObject {
 						GameRegistry.addShapelessRecipe(obj.stack, arrey);
 						break;
 					case BLUEPRINT:
+						ItemStack[] iarr = new ItemStack[obj.components.length];
+						for(int i = 0; i < iarr.length; i++){
+							iarr[i] = new ItemStack(Item.getByNameOrId(obj.components[i]), obj.camount[i], obj.cmeta[i]);
+						}
+						RecipeRegistry.addBluePrintRecipe(obj.category == null ? "FVM Categoryless Recipes" : obj.category, obj.stack, iarr);
 						break;
 					case SMELTING:
 						ItemStack istack = null;

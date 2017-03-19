@@ -14,16 +14,9 @@ import net.minecraft.world.World;
 
 public class ManagerCrafting {
 	
-    private static final ManagerCrafting instance = new ManagerCrafting();
-    private final List<IRecipe> recipes = Lists.<IRecipe>newArrayList();
+    private final static List<IRecipe> recipes = Lists.<IRecipe>newArrayList();
     
-    public static ManagerCrafting getInstance(){
-        return instance;
-    }
-
-    private ManagerCrafting(){}
-    
-    public ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents){
+    public static ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents){
         String s = "";
         int i = 0;
         int j = 0;
@@ -70,11 +63,11 @@ public class ManagerCrafting {
             }
         }
         ShapedRecipes shapedrecipes = new ShapedRecipes(j, k, aitemstack, stack);
-        this.recipes.add(shapedrecipes);
+        recipes.add(shapedrecipes);
         return shapedrecipes;
     }
     
-    public void addShapelessRecipe(ItemStack stack, Object... recipeComponents){
+    public static void addShapelessRecipe(ItemStack stack, Object... recipeComponents){
         List<ItemStack> list = Lists.<ItemStack>newArrayList();
         for(Object object : recipeComponents){
             if(object instanceof ItemStack){
@@ -90,15 +83,15 @@ public class ManagerCrafting {
                 list.add(new ItemStack((Block)object));
             }
         }
-        this.recipes.add(new ShapelessRecipes(stack, list));
+        recipes.add(new ShapelessRecipes(stack, list));
     }
     
-    public void addRecipe(IRecipe recipe){
-        this.recipes.add(recipe);
+    public static void addRecipe(IRecipe recipe){
+        recipes.add(recipe);
     }
     
-    public ItemStack findMatchingRecipe(CraftingInventory craftMatrix, World worldIn){
-        for(IRecipe irecipe : this.recipes){
+    public static ItemStack findMatchingRecipe(CraftingInventory craftMatrix, World worldIn){
+        for(IRecipe irecipe : recipes){
             if(irecipe.matches(craftMatrix, worldIn)){
                 return irecipe.getCraftingResult(craftMatrix);
             }
@@ -106,8 +99,8 @@ public class ManagerCrafting {
         return ItemStack.EMPTY;
     }
 
-    public NonNullList<ItemStack> getRemainingItems(CraftingInventory craftMatrix, World worldIn){
-        for(IRecipe irecipe : this.recipes){
+    public static NonNullList<ItemStack> getRemainingItems(CraftingInventory craftMatrix, World worldIn){
+        for(IRecipe irecipe : recipes){
             if(irecipe.matches(craftMatrix, worldIn)){
                 return irecipe.getRemainingItems(craftMatrix);
             }
@@ -119,8 +112,8 @@ public class ManagerCrafting {
         return nonnulllist;
     }
 
-    public List<IRecipe> getRecipeList(){
-        return this.recipes;
+    public static List<IRecipe> getRecipeList(){
+        return recipes;
     }
     
 }

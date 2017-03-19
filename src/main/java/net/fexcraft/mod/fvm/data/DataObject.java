@@ -34,9 +34,9 @@ public abstract class DataObject implements Comparable {
 		return state();
 	}
 	
-	public abstract void load(JsonObject obj);
+	protected abstract void load(JsonObject obj);
 	
-	public abstract JsonObject save(JsonObject obj);
+	protected abstract JsonObject save(JsonObject obj);
 	
 	public abstract void read(NBTTagCompound compound);
 	

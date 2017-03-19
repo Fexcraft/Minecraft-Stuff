@@ -12,6 +12,7 @@
 itemGroup.fvm_vehicles=FVM - Vehicles
 itemGroup.fvm_parts=FVM - Parts
 itemGroup.fvm_materials=FVM - Materials
+itemGroup.fvm_blocks=FVM - Blocks
 
 #Blocks
 tile.fvm:constructor_controller.name=Constructor Controller
@@ -21,7 +22,8 @@ tile.fvm:paint_table.name=Paint Table
 tile.fvm:vehicle_crafter=Blueprint Table
 
 #Parts
-item.fvm:part_common_engine.name=Common Engine
+item.fvm:part_null.name=Part Null Item
+item.fvm:part_common_engine.name=Engine (C)
 item.fvm:part_ot1_back_wheel.name=OT1 Back Wheel
 item.fvm:part_ot1_front_seats.name=OT1 Front Seats
 item.fvm:part_ot1_front_wheel.name=OT1 Front Wheel
@@ -36,10 +38,13 @@ item.fvm:part_t1_type1_cargoupgrade.name=T1 Cargo Upgrade
 item.fvm:part_ot1_logtransport.name=OT1 Log Transport
 
 #Materials
+item.fvm:material_null.name=Material Null Item
 item.fvm:material_rubber.name=Rubber
 item.fvm:material_steel_ingot.name=Steel Ingot
 
 #Vehicles
+item.fvm:vehicle_item.name=Vehicle Container Item
+item.fvm:vehicle_c1r1.name=C1 - R1
 item.fvm:vehicle_t1.name=T1 Frame
 item.fvm:vehicle_ot1.name=OT1 Frame
 

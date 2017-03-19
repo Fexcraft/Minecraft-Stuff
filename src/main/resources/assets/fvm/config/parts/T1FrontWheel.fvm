@@ -33,5 +33,22 @@
                 }
             }
         ]
-    }
+    },
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Parts",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 4
+                },
+                {
+                    "Item": "fvm:material_rubber",
+                    "Amount": 8
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

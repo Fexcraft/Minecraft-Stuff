@@ -183,6 +183,19 @@ public class PartModel extends FvmModelBase {
 		render(OTHER);
 		render(TEST);
 	}
+	
+	public void rotate(ModelRendererTurbo[] part, float x, float y, float z, boolean mode){
+		if(!mode){
+			super.rotate(part, x, y, z);
+		}
+		else{
+			for(ModelRendererTurbo model : part){
+				model.rotateAngleX = x;
+				model.rotateAngleY = y;
+				model.rotateAngleZ = z;
+			}
+		}
+	}
 
 	public void translateAll(float x, float y, float z){
 		translate(body, x, y, z);

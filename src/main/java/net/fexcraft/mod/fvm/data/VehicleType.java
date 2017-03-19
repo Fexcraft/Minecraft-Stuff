@@ -13,6 +13,7 @@ import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.models.VehicleModel;
 import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.fvm.util.ScriptList;
 import net.fexcraft.mod.lib.api.item.KeyItem;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -81,6 +82,9 @@ public class VehicleType extends DataObject {
 	public float turnRightModifier;
 	public String lock_code = KeyItem.getNewKeyCode();
 	private DriveType driveType = DriveType.FWD;
+	//Scripts
+	public ArrayList<Class> scriptlist = new ArrayList<Class>();
+	public ScriptList scripts = new ScriptList();
 	
 	public VehicleType(LoadedIn state, JsonObject obj){
 		super(state);
@@ -104,7 +108,7 @@ public class VehicleType extends DataObject {
 	}
 
 	@Override
-	public void load(JsonObject obj){
+	protected void load(JsonObject obj){
 		if(obj == null){
 			addonpack = "none";
 			registryname = "null";
@@ -339,6 +343,15 @@ public class VehicleType extends DataObject {
 		if(container != null){
 			container.readFromNBT(compound);
 		}
+		if(scripts.size() > 0){
+			scripts.read(compound);
+		}
+		else{
+			if(state == LoadedIn.ENTITY){
+				loadScripts(LoadedIn.ENTITY);
+				scripts.read(compound);
+			}
+		}
 	}
 
 	@Override
@@ -353,6 +366,7 @@ public class VehicleType extends DataObject {
 		if(container != null){
 			container.writeToNBT(compound);
 		}
+		scripts.write(compound);
 		return compound;
 	}
 
@@ -488,6 +502,9 @@ public class VehicleType extends DataObject {
 			}
 			if(part.attributes.contains("cargo") || part.attributes.contains("item_discriminator")){
 				itemDiscriminator.addAll(part.itemDiscriminator);
+			}
+			if(part.scriptlist.size() > 0){
+				scriptlist.addAll(part.scriptlist);
 			}
 			//general modifiers
 		}
@@ -689,6 +706,18 @@ public class VehicleType extends DataObject {
 
 	public ItemStack newStack(){
 		return new ItemStack(item, 1, 0);
+	}
+
+	public void loadScripts(LoadedIn state){
+		for(Class clazz : scriptlist){
+			try{
+				Script script = (Script)clazz.getConstructor(LoadedIn.class).newInstance(state);
+				scripts.add(script);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

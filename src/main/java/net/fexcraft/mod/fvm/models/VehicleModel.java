@@ -82,6 +82,15 @@ public class VehicleModel extends FvmModelBase {
 		render(wheels_import);
 		
 	}
+	
+	@Override
+	public void rotate(ModelRendererTurbo[] mod, float d, float d1, float d2){
+		for(ModelRendererTurbo model : mod){
+			model.rotateAngleX = d;
+			model.rotateAngleY = d1;
+			model.rotateAngleZ = d2;
+		}
+	}
 
 	public void translateAll(float x, float y, float z){
 		translate(chassis, x, y, z);

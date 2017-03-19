@@ -1,0 +1,30 @@
+{
+    "RegistryName": "c1r1_steering_wheel",
+    "FullName": "C1R1 Steering Wheel",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "null",
+    "Category": [
+        "steering_wheel"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_c1_r1.png"
+        ]
+    },
+    "Scripts":[
+        "net.fexcraft.mod.fvm.scripts.MultiDoorScript.class"
+    ],
+    "Removable": false,
+    "ConstructionSettings":{
+        "Compatible": [
+            {
+                "Vehicle": "C1R1",
+                "Offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        ]
+    }
+}

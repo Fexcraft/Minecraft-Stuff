@@ -1,0 +1,29 @@
+{
+    "RegistryName": "steel_plate",
+    "AddOn": "Default FVM Addon Pack",
+    "FullName": "Steel Plate",
+    "MaxStackSize": 32,
+    "Recipes":[
+        {
+            "Type": "Shaped",
+            "Grid":[
+                "AAAAA",
+                "AAAAA",
+                "AAAAA"
+            ],
+            "A": "minecraft:iron_ingot",
+            "Output": 7
+        },
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Materials",
+            "Components":[
+                {
+                    "Item": "fvm:material_steel_ingot",
+                    "Amount": 6
+                }
+            ],
+            "Output": 3
+        }
+    ]
+}

@@ -9,6 +9,21 @@
             "Input": "minecraft:iron_ingot",
             "InputMeta": 0,
             "Output": 1
+        },
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Materials",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 2
+                },
+                {
+                    "Item": "minecraft:coal",
+                    "Amount": 1
+                }
+            ],
+            "Output": 3
         }
     ]
 }

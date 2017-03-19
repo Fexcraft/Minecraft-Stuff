@@ -24,5 +24,32 @@
                 }
             }
         ]
-    }
+    },
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Parts",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_block",
+                    "Amount": 1
+                },
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 2
+                },
+                {
+                    "Item": "fvm:material_steel_plate",
+                    "Amount": 12,
+                    "Meta": 0
+                },
+                {
+                    "Item": "minecraft:dye",
+                    "Amount": 2,
+                    "Meta": 7
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

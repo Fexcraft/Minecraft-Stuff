@@ -55,6 +55,14 @@ public class PaintTable extends BlockContainer {
 			}
 			return true;
 		}
+		if(w.getTileEntity(te.getPos().add(te.getFacing().getDirectionVec())) == null){
+			Print.chat(p, "No Controller found.");
+			return true;
+		}
+		if(((ConstructorControllerEntity)w.getTileEntity(te.getPos().add(te.getFacing().getDirectionVec()))).isTypeNull()){
+			Print.chat(p, "No Type in Controller.");
+			return true;
+		}
 		p.openGui(FVM.INSTANCE, 12, w, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
