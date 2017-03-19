@@ -47,7 +47,7 @@ public class WorkbenchContainer extends Container {
     }
     
     public void onCraftMatrixChanged(IInventory inventoryIn){
-        this.craftResult.setInventorySlotContents(0, ManagerCrafting.getInstance().findMatchingRecipe(this.craftMatrix, this.world));
+        this.craftResult.setInventorySlotContents(0, ManagerCrafting.findMatchingRecipe(this.craftMatrix, this.world));
     }
     
     public void onContainerClosed(EntityPlayer playerIn){

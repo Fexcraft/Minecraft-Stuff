@@ -89,7 +89,7 @@ public class CraftingSlot extends Slot {
     public ItemStack onTake(EntityPlayer player, ItemStack stack){
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
-        NonNullList<ItemStack> nonnulllist = ManagerCrafting.getInstance().getRemainingItems(this.craftMatrix, player.world);
+        NonNullList<ItemStack> nonnulllist = ManagerCrafting.getRemainingItems(this.craftMatrix, player.world);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
         for (int i = 0; i < nonnulllist.size(); ++i){
             ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
