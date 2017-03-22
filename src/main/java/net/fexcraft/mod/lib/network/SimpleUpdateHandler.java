@@ -10,6 +10,8 @@ import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -127,14 +129,16 @@ public class SimpleUpdateHandler{
 					Print.chat(event.player, Formatter.format(update_message_queue.get(modid)));
 				}
 			}
-			if(Validator.getInstance().isBanned(event.player.getGameProfile().getId())){
-				Validator.getInstance().kick(event.player);
+			if(Static.side().isServer() && Network.isBanned(event.player.getGameProfile().getId())){
+				((EntityPlayerMP)event.player).connection.disconnect("[FCL] Blacklisted.");
 			}
 			if(FclConfig.remind){
 				Print.chat(event.player, FCL.prefix + "Please check the FCL config, there are some important settings regarding statistical data sent to the FCL Database.");
 				Print.chat(event.player, FCL.prefix + TextFormatting.DARK_AQUA + "You can get rid of this reminder\n" + FCL.prefix + TextFormatting.DARK_AQUA + "message in the config also.");
 			}
-			Network.isDonator(event.player);
+			if(Network.isDonator(event.player)){
+				//
+			}
 		}
 	}
 		

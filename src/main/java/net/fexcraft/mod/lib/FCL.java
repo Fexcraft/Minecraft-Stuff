@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.UUID;
 
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
-import net.fexcraft.mod.lib.network.DonorValidator;
+import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
-import net.fexcraft.mod.lib.network.Validator;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.cmds.Command;
 import net.fexcraft.mod.lib.util.common.FclConfig;
@@ -42,7 +41,7 @@ guiFactory = "net.fexcraft.mod.lib.util.common.GuiFactory")
 public class FCL {
 	
 	public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_AQUA + "FCL" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";
-	public static final String version = "XI.20";
+	public static final String version = "XI.21";
 	public static final String mcv = "1.11.2";
 	public static final UUID[] authors = new UUID[]{UUID.fromString("01e4af9b-2a30-471e-addf-f6338ffce04b")};
 	private static PacketHandler packet_handler;
@@ -85,8 +84,7 @@ public class FCL {
 		SimpleUpdateHandler.register("fcl", 1, version);
 		SimpleUpdateHandler.setUpdateMessage("fcl", prefix + "Update avaible! (" + SimpleUpdateHandler.getLatestVersionOf("fcl") + ")");
 		SimpleUpdateHandler.postInit();
-		Validator.initialize(side);
-		DonorValidator.initialize(side);
+		Network.initializeValidator(event.getSide());
 		//Print.log("[FCL] Loaded.");
 		PermManager.initialize();
 		packet_handler.init();
