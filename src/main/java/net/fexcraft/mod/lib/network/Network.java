@@ -66,7 +66,26 @@ public class Network{
 				wr.flush();
 				wr.close();
 			
-			JsonObject obj = JsonUtil.getFromInputStream(connection.getInputStream());	
+			JsonObject obj = JsonUtil.getObjectFromInputStream(connection.getInputStream()).getAsJsonObject();	
+			
+			connection.disconnect();
+			return obj;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static JsonElement request(String adress){
+		try{
+			URL url = new URL(adress);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+				connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+			
+			JsonElement obj = JsonUtil.getElementFromInputStream(connection.getInputStream());	
 			
 			connection.disconnect();
 			return obj;

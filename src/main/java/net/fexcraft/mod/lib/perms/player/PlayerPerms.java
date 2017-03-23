@@ -68,7 +68,7 @@ public class PlayerPerms implements IPlayerPerms {
 	@Override
 	public void save(UUID uuid){
 		JsonObject obj = new JsonObject();
-		obj.addProperty("Rank", rank.getId());
+		obj.addProperty("Rank", rank == null ? "default" : rank.getId());
 		JsonObject data = new JsonObject();
 		for(Entry<String, AttachedData> entry : this.data.entrySet()){
 			data.add(entry.getKey(), entry.getValue().save(uuid));

@@ -261,7 +261,7 @@ public class FvmResources {
 	@SideOnly(Side.CLIENT)
 	public static final JsonObject getObject(ResourceLocation rs){
 		try{
-			return JsonUtil.getFromInputStream(Minecraft.getMinecraft().getResourceManager().getResource(rs).getInputStream());
+			return JsonUtil.getObjectFromInputStream(Minecraft.getMinecraft().getResourceManager().getResource(rs).getInputStream());
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -277,7 +277,7 @@ public class FvmResources {
 				for(File file : assets.listFiles()){
 					if(file.getName().endsWith(suffix)){
 						try{
-							set.add(JsonUtil.getFromInputStream(new FileInputStream(file)));
+							set.add(JsonUtil.getObjectFromInputStream(new FileInputStream(file)));
 						}
 						catch(FileNotFoundException e){
 							e.printStackTrace();
@@ -301,7 +301,7 @@ public class FvmResources {
 					}
 					if(entry.getName().contains(prefix) && entry.getName().endsWith(suffix)){
 						try{
-							set.add(JsonUtil.getFromInputStream(zip.getInputStream(entry)));
+							set.add(JsonUtil.getObjectFromInputStream(zip.getInputStream(entry)));
 						}
 						catch(FileNotFoundException e){
 							e.printStackTrace();

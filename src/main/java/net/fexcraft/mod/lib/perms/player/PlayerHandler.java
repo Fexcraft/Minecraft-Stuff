@@ -1,7 +1,6 @@
 package net.fexcraft.mod.lib.perms.player;
 
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -96,9 +95,9 @@ public class PlayerHandler {
 		
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public void onJoin(PlayerLoggedInEvent event){
-			if(Static.side().isServer()){
+			//if(Static.side().isServer()){
 				event.player.getCapability(PERMISSIONS, null).load(event.player.getGameProfile().getId());
-			}
+			//}
 		}
 		
 		@SubscribeEvent
