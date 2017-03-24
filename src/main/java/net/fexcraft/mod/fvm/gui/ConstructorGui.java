@@ -37,6 +37,8 @@ public class ConstructorGui extends GuiContainer {
 	public Hybrid[] names = new Hybrid[6];
 	public Remove[] remove = new Remove[6];
 	public Mini finish;
+	public Blue spawn;
+	public Yellow include;
 
 	public ConstructorGui(TileEntity tileentity, InventoryPlayer inventory){
 		super(new ConstructorContainer(tileentity, inventory));
@@ -75,6 +77,8 @@ public class ConstructorGui extends GuiContainer {
 		this.buttonList.add(remove[4] = new Remove(21, this.guiLeft + 216, this.guiTop + 100));
 		this.buttonList.add(remove[5] = new Remove(22, this.guiLeft + 216, this.guiTop + 120));
 		this.buttonList.add(finish = new Mini(23, this.guiLeft + 242, this.guiTop + 243));
+		this.buttonList.add(spawn = new Blue(24, this.guiLeft + 232, this.guiTop + 243));
+		this.buttonList.add(include = new Yellow(25, this.guiLeft + 222, this.guiTop + 243));
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
@@ -176,7 +180,7 @@ public class ConstructorGui extends GuiContainer {
 			}
 		}
 		
-		finish.enabled = tile.type.isReadyToUse();
+		finish.enabled = spawn.enabled = tile.type.isReadyToUse();
 		
 	}
 	
@@ -234,6 +238,14 @@ public class ConstructorGui extends GuiContainer {
 				break;
 			case 23:
 				tile.notifyServer("create_vehicle");
+				mc.displayGuiScreen((GuiScreen)null);
+				break;
+			case 24:
+				tile.notifyServer("spawn_vehicle:" + mc.player.getGameProfile().getId());
+				mc.displayGuiScreen((GuiScreen)null);
+				break;
+			case 25:
+				tile.notifyServer("despawn_vehicle:" + mc.player.getGameProfile().getId());
 				mc.displayGuiScreen((GuiScreen)null);
 				break;
 		}
@@ -568,6 +580,78 @@ public class ConstructorGui extends GuiContainer {
 				}
 				else{
 					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 16, this.width, this.height);
+				}
+			}
+			else{
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 64, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 8, this.width, this.height);
+				}
+			}
+		}
+		
+	}
+	
+
+	
+	public static class Blue extends GuiButton {
+		
+		public Blue(int id, int x, int y){
+			super(id, x, y, 8, 8, "");
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(ASSETS);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			if(this.enabled){
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 40, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 24, this.width, this.height);
+				}
+			}
+			else{
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 64, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 8, this.width, this.height);
+				}
+			}
+		}
+		
+	}
+	
+	public static class Yellow extends GuiButton {
+		
+		public Yellow(int id, int x, int y){
+			super(id, x, y, 8, 8, "");
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(ASSETS);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			if(this.enabled){
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 48, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 216, 32, this.width, this.height);
 				}
 			}
 			else{

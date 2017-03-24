@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvm.util;
 
+import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.perms.PermissionNode.Type;
@@ -48,6 +49,14 @@ public class FvmPerms {
 		PermManager.add(LAND_VEHICLE_PLACE.replace("land_vehicle", "land_vehicle." + registryname), Type.BOOLEAN, true, false);
 		PermManager.add(LAND_VEHICLE_BREAK.replace("land_vehicle", "land_vehicle." + registryname), Type.BOOLEAN, true, false);
 		PermManager.add(LAND_VEHICLE_CREATE.replace("land_vehicle", "land_vehicle." + registryname), Type.BOOLEAN, true, false);
+	}
+
+	public static String permPlace(VehicleType type){
+		return LAND_VEHICLE_PLACE.replace("land_vehicle", "land_vehicle." + type.registryname);
+	}
+	
+	public static String permBreak(VehicleType type){
+		return LAND_VEHICLE_BREAK.replace("land_vehicle", "land_vehicle." + type.registryname);
 	}
 	
 }

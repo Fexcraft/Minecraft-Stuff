@@ -1,5 +1,7 @@
 package net.fexcraft.mod.fvm.blocks;
 
+import java.util.ArrayList;
+
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.items.VehicleItem;
@@ -65,44 +67,17 @@ public class ConstructorController extends BlockContainer {
 		else{
 			if(w.getTileEntity(pos) != null){
 				if(!te.isLinked()){
-					Print.chat(p, "Scanning...");
-					int x = pos.getX() - 8;
-					int y = pos.getY();
-					int z = pos.getZ() - 8;
-					for(int i = 0; i < 16; i++){
-						for(int j = 0; j < 16; j++){
-							TileEntity tile = w.getTileEntity(new BlockPos(x + i, y, z + j));
-							if(tile != null && tile instanceof ConstructorCenterEntity){
-								if(((ConstructorCenterEntity)tile).link == null){
-									((ConstructorCenterEntity)tile).link(pos);
-									te.setLinked(true);
-									Print.chat(p, "Connected! " + ((ConstructorCenterEntity)tile).getPos().toString());
-									break;
-								}
-							}
-							if(!te.isLinked()){
-								tile = w.getTileEntity(new BlockPos(x + i, y - 1, z + j));
-								if(tile != null && tile instanceof ConstructorCenterEntity){
-									if(((ConstructorCenterEntity)tile).link == null){
-										((ConstructorCenterEntity)tile).link(pos);
-										te.setLinked(true);
-										Print.chat(p, "Connected! " + ((ConstructorCenterEntity)tile).getPos().toString());
-										break;
-									}
-								}
-							}
-							if(!te.isLinked()){
-								tile = w.getTileEntity(new BlockPos(x + i, y + 1, z + j));
-								if(tile != null && tile instanceof ConstructorCenterEntity){
-									if(((ConstructorCenterEntity)tile).link == null){
-										((ConstructorCenterEntity)tile).link(pos);
-										te.setLinked(true);
-										Print.chat(p, "Connected! " + ((ConstructorCenterEntity)tile).getPos().toString());
-										break;
-									}
-								}
-							}
+					ArrayList<ConstructorCenterEntity> list = this.findCenter(w, p, pos);
+					for(ConstructorCenterEntity en : list){
+						if(en.link == null){
+							en.link(pos);
+							te.setLinked(true);
+							Print.chat(p, "Connected! " + en.getPos().toString());
+							break;
 						}
+					}
+					if(!te.isLinked()){
+						Print.chat(p, "No center block found.");
 					}
 				}
 				else{
@@ -118,6 +93,31 @@ public class ConstructorController extends BlockContainer {
 		}
 		return false;
     }
+	
+	public static ArrayList<ConstructorCenterEntity> findCenter(World w, EntityPlayer p, BlockPos pos){
+		Print.chat(p, "Scanning...");
+		ArrayList<ConstructorCenterEntity> list = new ArrayList<ConstructorCenterEntity>();
+		int x = pos.getX() - 8;
+		int y = pos.getY();
+		int z = pos.getZ() - 8;
+		for(int i = 0; i < 16; i++){
+			for(int j = 0; j < 16; j++){
+				TileEntity tile = w.getTileEntity(new BlockPos(x + i, y, z + j));
+				if(tile != null && tile instanceof ConstructorCenterEntity){
+					list.add((ConstructorCenterEntity)tile);
+				}
+				tile = w.getTileEntity(new BlockPos(x + i, y - 1, z + j));
+				if(tile != null && tile instanceof ConstructorCenterEntity){
+					list.add((ConstructorCenterEntity)tile);
+				}
+				tile = w.getTileEntity(new BlockPos(x + i, y + 1, z + j));
+				if(tile != null && tile instanceof ConstructorCenterEntity){
+					list.add((ConstructorCenterEntity)tile);
+				}
+			}
+		}
+		return list;
+	}
 	
 	//================================== > VANILLA
 	

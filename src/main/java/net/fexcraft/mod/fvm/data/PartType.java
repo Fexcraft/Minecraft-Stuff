@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fvm.items.PartItem;
 import net.fexcraft.mod.fvm.models.NullModel;
 import net.fexcraft.mod.fvm.models.PartModel;
+import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
@@ -150,7 +151,7 @@ public class PartType extends DataObject {
 		}
 		
 
-		if(obj.has("Scripts")){
+		if(obj.has("Scripts") && FvmResources.FFMM){
 			JsonArray array = obj.get("Scripts").getAsJsonArray();
 			for(JsonElement elm : array){
 				try{

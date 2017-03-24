@@ -2,7 +2,7 @@
 {
   "modid": "fcl",
   "name": "Fexcraft Common Library",
-  "description": "A Library an API needed for most Fexcraft mods to run.",
+  "description": "A Library and API needed for most Fexcraft mods to run.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "http://fexcraft.net",

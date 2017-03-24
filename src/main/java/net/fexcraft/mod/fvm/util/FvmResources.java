@@ -32,6 +32,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
@@ -236,6 +237,15 @@ public class FvmResources {
 			vehc.model = type.model;
 			return vehc;
 		}
+	}
+
+	public static VehicleType getNewInstanceOf(LoadedIn state, VehicleType origin){
+		if(origin == null){
+			Static.exception(4);
+		}
+		VehicleType type = new VehicleType(state, origin.write(new NBTTagCompound()));
+		type.model = origin.model;
+		return type;
 	}
 	
 	public static final PartType getPart(String s){

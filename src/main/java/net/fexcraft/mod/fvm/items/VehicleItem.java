@@ -161,6 +161,9 @@ public class VehicleItem extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
 		if(world.isRemote || !FvmResources.FFMM || !this.getType().registryname.equals("item") || hand == EnumHand.OFF_HAND){
+			if(!FvmResources.FFMM){
+				Print.chat(entityplayer, "&7FlansMod Minus isn't installed, can't place vehicles.");
+			}
 			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItemMainhand());
 		}
 		if(!PermManager.getPlayerPerms(entityplayer).hasPermission(FvmPerms.LAND_VEHICLE_PLACE)){
@@ -188,7 +191,15 @@ public class VehicleItem extends Item {
 			if(!world.isRemote){
 				VehicleType type = FvmResources.getNewInstanceOf(LoadedIn.ENTITY, entityplayer.getHeldItemMainhand());
 				Print.debug(type.toString());
-				world.spawnEntity(new com.flansmod.fvm.LandVehicle(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, type));
+				try{
+					Class clazz = Class.forName("com.flansmod.fvm.LandVehicle");
+					Entity ent = (Entity)clazz.getConstructor(World.class, double.class, double.class, double.class, EntityPlayer.class, VehicleType.class).newInstance(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, type);
+					world.spawnEntity(ent);
+					//Compilicated code to prevent runtime crashes when flansmod is missing.
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
 			}
 			if(!entityplayer.capabilities.isCreativeMode){	
 				entityplayer.getHeldItemMainhand().shrink(1);

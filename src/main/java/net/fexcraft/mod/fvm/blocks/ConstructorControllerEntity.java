@@ -1,21 +1,25 @@
 package net.fexcraft.mod.fvm.blocks;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.items.PartItem;
+import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
+import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.common.ApiUtil;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -26,6 +30,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ConstructorControllerEntity extends TileEntity implements IInventory, IPacketReceiver {
 	
@@ -180,6 +186,53 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 				entity.setEntityItemStack(stack);
 				world.spawnEntity(entity);
 				break;
+			case "spawn_vehicle":
+				String uuid = packet.nbt.getString("Data");
+				EntityPlayer ep = Static.getServer().getPlayerList().getPlayerByUUID(UUID.fromString(uuid));
+				if(!PermManager.getPlayerPerms(ep).hasPermission(FvmPerms.LAND_VEHICLE_PLACE)){
+					Print.chat(ep, "No permission to place land vehicles.");
+					break;
+				}
+				if(!PermManager.getPlayerPerms(ep).hasPermission(FvmPerms.permPlace(type))){
+					Print.chat(ep, "No permission to place a vehicle of this type.");
+					break;
+				}
+				if(!this.linked){
+					Print.chat(ep, "This Controller isn't connected to a Center block!");
+					break;
+				}
+				BlockPos pos = null;
+				ArrayList<ConstructorCenterEntity> list = ConstructorController.findCenter(world, ep, this.pos);
+				for(ConstructorCenterEntity cce : list){
+					if(cce.remote != null && cce.remote.equals(this.pos)){
+						pos = cce.getPos();
+						break;
+					}
+				}
+				if(pos != null){
+					VehicleType type = FvmResources.getNewInstanceOf(LoadedIn.ENTITY, this.type);
+					Print.debug(type.toString());
+					try{
+						Class clazz = Class.forName("com.flansmod.fvm.LandVehicle");
+						Entity enti = (Entity)clazz.getConstructor(World.class, double.class, double.class, double.class, int.class, VehicleType.class).newInstance(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, this.getBlockMetadata(), type);
+						world.spawnEntity(enti);
+						//Compilicated code to prevent runtime crashes when flansmod is missing.
+						if(!ep.capabilities.isCreativeMode){	
+							ep.getHeldItemMainhand().shrink(1);
+						}
+						//Reset Controller
+						this.type = null;
+						//Confirm in chat
+						Print.chat(ep, "Vehicle spawned;");
+					}
+					catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+				else{
+					Print.chat(ep, "Error, Center block not found!");
+				}
+				break;
 			case "painttable":
 				String[] rgbs = packet.nbt.getString("Data").split("//");
 				try{
@@ -205,6 +258,27 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 					else{
 						type.secondaryColor.copyFrom(RGB.WHITE);
 					}
+				}
+				break;
+			case "despawn_vehicle":
+				EntityPlayer epm = Static.getServer().getPlayerList().getPlayerByUUID(UUID.fromString(packet.nbt.getString("Data")));
+				if(type != null){
+					Print.chat(epm, "Constructor Controller already holds a VehicleType;");
+					break;
+				}
+				BlockPos pes = null;
+				ArrayList<ConstructorCenterEntity> lest = ConstructorController.findCenter(world, epm, this.pos);
+				for(ConstructorCenterEntity cce : lest){
+					if(cce.remote != null && cce.remote.equals(this.pos)){
+						pes = cce.getPos();
+						break;
+					}
+				}
+				if(pes != null){
+					//
+				}
+				else{
+					Print.chat(epm, "Error, Center block not found!");
 				}
 				break;
 			default:
