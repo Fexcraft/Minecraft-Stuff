@@ -196,7 +196,7 @@ public class Network{
 			}
 			//
 			JsonObject jsn = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=isDonor&id=" + uuid);
-			checked = !jsn.get("expired").getAsBoolean();
+			checked = jsn == null ? false : !jsn.get("expired").getAsBoolean();
 			//
 			String parameters = "mode=logClient";
 			parameters += "&version=" + FCL.mcv + ":" + FCL.version;
