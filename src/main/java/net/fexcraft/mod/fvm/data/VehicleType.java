@@ -133,7 +133,7 @@ public class VehicleType extends DataObject {
 		if(obj.has("ConstructionSettings")){
 			JsonObject cs = obj.get("ConstructionSettings").getAsJsonObject();
 			construction_length = ju.getIfExists(cs, "Length", 3).intValue();
-			construction_height_offset = ju.getIfExists(cs, "HeightOffset", 0).floatValue();
+			construction_height_offset = ju.getIfExists(cs, "HeightOffset", 12.5f).floatValue();
 			construction_wheel_offset = ju.getIfExists(cs, "WheelOffset", 8).floatValue();
 			if(cs.has("Requires")){
 				requires = ju.jsonArrayToStringArray(cs.get("Requires").getAsJsonArray());
