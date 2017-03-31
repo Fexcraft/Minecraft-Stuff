@@ -2,9 +2,14 @@ package net.fexcraft.mod.fvm.models;
 
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
+import net.fexcraft.mod.fvm.util.FvmTickHandler;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.math.Pos;
+import net.minecraft.util.math.Vec3d;
 
 public class PartModel extends FvmModelBase {
 	
@@ -25,6 +30,10 @@ public class PartModel extends FvmModelBase {
 	public ModelRendererTurbo wheel_back_left[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo wheel_front_right[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo wheel_back_right[] = new ModelRendererTurbo[0];
+	//
+	public ModelRendererTurbo track_wheels[] = new ModelRendererTurbo[0];
+	public ModelRendererTurbo track_wheels_right[] = new ModelRendererTurbo[0];
+	public ModelRendererTurbo track_wheels_left[] = new ModelRendererTurbo[0];
 	//
 	public ModelRendererTurbo OTHER[] = new ModelRendererTurbo[0];//GRMS
 	public ModelRendererTurbo TEST[] = new ModelRendererTurbo[0];
@@ -101,6 +110,10 @@ public class PartModel extends FvmModelBase {
 		render(wheel_back_right);
 		render(wheel_front_left);
 		render(wheel_back_left);
+		//
+		render(track_wheels);
+		render(track_wheels_right);
+		render(track_wheels_left);
 		
 		//Render Other
 		render(OTHER);
@@ -146,42 +159,67 @@ public class PartModel extends FvmModelBase {
 		for(ModelRendererTurbo element : wheel_back_left){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheel_back_right){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheel_back){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheel_front_left){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheel_front_right){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheel_front){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
-			element.rotateAngleZ = 0;
 		}
 		for(ModelRendererTurbo element : wheels){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 			element.render();
-			element.rotateAngleZ = 0;
+		}
+		for(ModelRendererTurbo element : track_wheels){
+			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.render();
+		}
+		for(ModelRendererTurbo element : track_wheels_right){
+			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.render();
+		}
+		for(ModelRendererTurbo element : track_wheels_left){
+			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.render();
+		}
+		
+		//Particles
+		if(vehicle.throttle != 0 && data.parts.get(usedAS).pspawners != null){
+			PartType part = data.parts.get(usedAS);
+			for(int i = 0; i < part.pspawners.length; i++){
+				if(FvmTickHandler.getClientTick() % part.pspawners[i].freq == 0){
+					Vec3d vec = calculatePos(vehicle, part.pspawners[i].pos);
+					vehicle.world.spawnParticle(part.pspawners[i].type, vec.xCoord, vec.yCoord, vec.zCoord, part.pspawners[i].sx, part.pspawners[i].sy, part.pspawners[i].sz);
+				}
+			}
 		}
 		
 		//Render Other
 		render(OTHER);
 		render(TEST);
+	}
+	
+	protected static Vec3d calculatePos(com.flansmod.fvm.LandVehicle vehicle, Pos pos){
+		com.flansmod.common.vector.Vector3f loc = new com.flansmod.common.vector.Vector3f(pos.to16FloatX(), pos.to16FloatY(), pos.to16FloatZ());
+		com.flansmod.common.vector.Vector3f rel = vehicle.axes.findLocalVectorGlobally(loc);
+		return new Vec3d(vehicle.posX + rel.x, vehicle.posY + rel.y, vehicle.posZ + rel.z);
 	}
 	
 	public void rotate(ModelRendererTurbo[] part, float x, float y, float z, boolean mode){
@@ -207,6 +245,35 @@ public class PartModel extends FvmModelBase {
 		translate(bodyDoorCloseColoredPrimary, x, y, z);
 		translate(turret, x, y, z);
 		translate(steering, x, y, z);
+	}
+	
+	public void flip(ModelRendererTurbo[] mod){
+		for(ModelRendererTurbo sub : mod){
+			sub.doMirror(false, true, true);
+			sub.setRotationPoint(sub.rotationPointX, - sub.rotationPointY, - sub.rotationPointZ);
+		}
+	}
+
+	public void flipAll(){
+		flip(body);
+		flip(bodyColoredPrimary);
+		flip(bodyColoredSecondary);
+		flip(bodyDoorOpen);
+		flip(bodyDoorClose);
+		flip(bodyDoorOpenColoredPrimary);
+		flip(bodyDoorCloseColoredPrimary);
+		flip(turret);
+		flip(steering);
+		flip(wheels);
+		flip(wheel_front);
+		flip(wheel_back);
+		flip(wheel_front_left);
+		flip(wheel_front_right);
+		flip(wheel_back_left);
+		flip(wheel_back_right);
+		flip(track_wheels);
+		flip(track_wheels_right);
+		flip(track_wheels_left);
 	}
 	
 }

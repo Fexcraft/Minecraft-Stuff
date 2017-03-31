@@ -1,0 +1,63 @@
+{
+    "RegistryName": "c2_interior",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "null",
+    "Category": [
+        "interior"
+    ],
+    "Attributes":[
+        "seat",
+        "particle_spawner"
+    ],
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false
+    },
+    "AttributeSettings":{
+        "Passengers":[
+            {
+                "driver": true,
+                "x": -4,
+                "y": 12,
+                "z": -13
+            },
+            {
+                "x": -4,
+                "y": 12,
+                "z": 13
+            }
+        ],
+        "ParticleSpawners":[
+            {
+                "x": -83,
+                "y": 7,
+                "z": 14,
+                "speed_x": 0,
+                "speed_y": 0.000005,
+                "speed_z": -0.02,
+                "type": "smoke",
+                "frequency": 10
+            },
+            {
+                "x": -83,
+                "y": 7,
+                "z": 14,
+                "speed_x": 0,
+                "speed_y": 0.000005,
+                "speed_z": -0.02,
+                "type": "smoke",
+                "frequency": 8
+            },
+            {
+                "x": -83,
+                "y": 7,
+                "z": 14,
+                "speed_x": 0,
+                "speed_y": 0.000005,
+                "speed_z": -0.02,
+                "type": "smoke",
+                "frequency": 5
+            }
+        ] 
+    }
+}

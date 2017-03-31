@@ -8,6 +8,7 @@ import net.fexcraft.mod.fvm.gui.Receiver;
 import net.fexcraft.mod.fvm.network.FvmPacketHandler;
 import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.fvm.util.FvmTickHandler;
 import net.fexcraft.mod.fvm.util.KeyHandler;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
@@ -44,7 +45,7 @@ public class FVM {
 	public static FVM INSTANCE;
 	
 	public static final String PREFIX = Formatter.format("&0[&9FVM&0]&7 ");
-	public static final String VERSION = "1.0-alpha5";
+	public static final String VERSION = "1.0-alpha6";
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
@@ -74,6 +75,7 @@ public class FVM {
 		
 		if(event.getSide().isClient()){
 			MinecraftForge.EVENT_BUS.register(new KeyHandler());
+			MinecraftForge.EVENT_BUS.register(new FvmTickHandler.Client());
 		}
 		
 		SimpleUpdateHandler.register("fvm", 1, VERSION);

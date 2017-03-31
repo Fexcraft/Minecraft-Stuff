@@ -20,7 +20,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2223"
+    version = "1.11.2-13.20.0.2260"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -77,13 +77,13 @@ processResources
 }
 
 String frsm_version = '4.0.00';
-String  fcl_version = 'XI.23';
+String  fcl_version = 'XI.24';
 String fsmm_version = "1.5.0";
 String famm_version = "3.1.0";
 String frsm_bge_version = "1.3.2";
 String frsm_cae_version = "1.2";
 String frsm_ce__version = "1.1";
-String fvm_version = "1.0-alpha5";
+String fvm_version = "1.0-alpha6";
 
 task frsm(type: Jar) {
     from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
@@ -143,7 +143,7 @@ task fsu_server(type: Jar) {
         include 'LICENSE.txt'
     }
     baseName = 'FSUR-Server'
-    appendix = '1.768'
+    appendix = '2.5.x10'
 }
 
 task fsu_client(type: Jar) {
@@ -219,7 +219,7 @@ task flansmod(type: Jar) {
         include 'LICENSE.txt'
     }
     baseName = 'FlansMod Minus'
-    appendix = '5.F1.8-EX'
+    appendix = '5.F2.0-EX'
 }
 
 task frsm_ie(type: Jar) {

@@ -214,7 +214,15 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 					Print.debug(type.toString());
 					try{
 						Class clazz = Class.forName("com.flansmod.fvm.LandVehicle");
-						Entity enti = (Entity)clazz.getConstructor(World.class, double.class, double.class, double.class, int.class, VehicleType.class).newInstance(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, this.getBlockMetadata(), type);
+						int j = 0;
+						switch(world.getBlockState(pos).getValue(ConstructorController.FACING)){
+							case EAST: j = 3; break;
+							case NORTH: j = 2; break;
+							case SOUTH: j = 0; break;
+							case WEST: j = 1; break;
+							default: break;
+						}
+						Entity enti = (Entity)clazz.getConstructor(World.class, double.class, double.class, double.class, int.class, VehicleType.class).newInstance(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, j, type);
 						world.spawnEntity(enti);
 						//Compilicated code to prevent runtime crashes when flansmod is missing.
 						if(!ep.capabilities.isCreativeMode){	

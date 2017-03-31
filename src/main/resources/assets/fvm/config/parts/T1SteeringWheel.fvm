@@ -5,6 +5,9 @@
     "Category": [
         "steering_wheel"
     ],
+    "Attributes":[
+        "particle_spawner"
+    ],
     "TextureSettings": {
         "Textures": [
             "fvm:textures/entities/skin_vehicle_t1p.png"
@@ -31,5 +34,29 @@
             }
             ],
         "Requires": []
+    },
+    "AttributeSettings":{
+        "ParticleSpawners":[
+            {
+                "x": 19.5,
+                "y": 3,
+                "z": -22.5,
+                "speed_x": -0.02,
+                "speed_y": 0.000005,
+                "speed_z": 0,
+                "type": "smoke",
+                "frequency": 10
+            },
+            {
+                "x": 19.5,
+                "y": 3,
+                "z": -22.5,
+                "speed_x": -0.02,
+                "speed_y": 0.000005,
+                "speed_z": 0,
+                "type": "smoke",
+                "frequency": 8
+            }
+        ] 
     }
 }

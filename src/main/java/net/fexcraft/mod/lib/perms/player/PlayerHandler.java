@@ -95,9 +95,7 @@ public class PlayerHandler {
 		
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public void onJoin(PlayerLoggedInEvent event){
-			//if(Static.side().isServer()){
-				event.player.getCapability(PERMISSIONS, null).load(event.player.getGameProfile().getId());
-			//}
+			event.player.getCapability(PERMISSIONS, null).load(event.player.getGameProfile().getId());
 		}
 		
 		@SubscribeEvent

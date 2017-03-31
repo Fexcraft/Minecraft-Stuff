@@ -520,7 +520,6 @@ public class ModelT1BW extends PartModel {
 
 		wheel_back_right[61].addShapeBox(-2F, 5F, -3F, 1, 1, 1, 0F, -0.3F, -0.3F, -0.6F, -0.3F, -0.3F, -0.6F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.3F, -0.3F, -0.6F, -0.3F, -0.3F, -0.6F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F); // Box 608
 		wheel_back_right[61].setRotationPoint(-71F, 0F, -17F);
-		
 	}
 	
 	@Override
@@ -539,14 +538,14 @@ public class ModelT1BW extends PartModel {
 			for(ModelRendererTurbo element : wheel_back_left){
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 				element.render();
-				element.rotateAngleZ = 0;
+				//element.rotateAngleZ = 0;
 			}
 		}
 		if(us.equals("right_back_wheel")){
 			for(ModelRendererTurbo element : wheel_back_right){
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 				element.render();
-				element.rotateAngleZ = 0;
+				//element.rotateAngleZ = 0;
 			}
 		}
 	}

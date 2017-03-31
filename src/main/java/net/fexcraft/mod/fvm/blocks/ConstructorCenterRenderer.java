@@ -52,7 +52,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 				if(type.parts.size() > 0){
 					for(String key : type.parts.keySet()){
 						PartType part = type.parts.get(key);
-						Minecraft.getMinecraft().renderEngine.bindTexture(part.textures.get(type.current_texture));
+						part.bindTexture();
 						part.translate(type.registryname);
 						part.render(type, key);
 						part.translateR(type.registryname);

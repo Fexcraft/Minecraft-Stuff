@@ -35,7 +35,7 @@ public class PlayerPerms implements IPlayerPerms {
 		JsonElement elm = JsonUtil.read(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), false);
 		if(elm == null){
 			setRank(PermManager.getRank("default"));
-			Print.debug("No perm data for " + uuid.toString() + " found! Setting to default rank and saving.");
+			Print.log("No perm data for " + uuid.toString() + " found! Setting to default rank and saving.");
 			for(Class clazz : set){
 				try{
 					AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
@@ -51,17 +51,30 @@ public class PlayerPerms implements IPlayerPerms {
 		else{
 			JsonObject obj = elm.getAsJsonObject();
 			setRank(PermManager.getRank(obj.get("Rank").getAsString()));
-			JsonObject data = JsonUtil.getElementIfExists(elm.getAsJsonObject(), "AttachedData", true).getAsJsonObject();
-			for(Class clazz : set){
-				try{
-					AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
-					iad.load(uuid, data.get(iad.getId()));
-					this.data.put(iad.getId(), iad);
-				}
-				catch(Exception e){
-					e.printStackTrace();
+			JsonElement data = obj.get("AttachedData").getAsJsonObject();
+			if(data != null){
+				for(Class clazz : set){
+					try{
+						AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
+						JsonElement jsn = data.getAsJsonObject().get(iad.getId());
+						iad.load(uuid, jsn == null ? null : jsn.getAsJsonObject());
+						this.data.put(iad.getId(), iad);
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
 				}
 			}
+			if(obj.has("Permissions")){
+				JsonObject perms = obj.get("Permissions").getAsJsonObject();
+				for(Entry<String, JsonElement> entry : perms.entrySet()){
+					PermissionNode perm = PermManager.loadPermission(entry);
+					if(perm != null){
+						permissions.put(entry.getKey(), perm);
+					}
+				}
+			}
+			save(uuid);
 		}
 	}
 	
@@ -74,7 +87,13 @@ public class PlayerPerms implements IPlayerPerms {
 			data.add(entry.getKey(), entry.getValue().save(uuid));
 		}
 		obj.add("AttachedData", data);
+		JsonObject array = new JsonObject();
+		for(PermissionNode node : permissions.values()){
+			array.add(node.getId(), node.toJsonElement());
+		}
+		obj.add("Permissions", array);
 		JsonUtil.write(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), obj);
+		Print.debug(obj);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ public class Static{
 	public static final float quarter = 0.250F;
 	public static final float half = 0.5F;
 
+	public static final float rad180 = 3.14159f;
 	public static final float rad160 = 2.79253f;
 	public static final float rad120 = 2.0944f;
 	public static final float rad90 = 1.5708f;

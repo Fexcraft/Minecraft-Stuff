@@ -12,6 +12,7 @@ package net.fexcraft.mod.fvm.models.part;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.models.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
+import net.fexcraft.mod.lib.util.common.Static;
 
 public class ModelOT1FW extends PartModel {
 	
@@ -454,15 +455,15 @@ public class ModelOT1FW extends PartModel {
 		if(us.equals("left_front_wheel")){
 			for(ModelRendererTurbo element : wheel_front_left){
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+				element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 				element.render();
-				element.rotateAngleZ = 0;
 			}
 		}
 		if(us.equals("right_front_wheel")){
 			for(ModelRendererTurbo element : wheel_front_right){
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+				element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 				element.render();
-				element.rotateAngleZ = 0;
 			}
 		}
 	}

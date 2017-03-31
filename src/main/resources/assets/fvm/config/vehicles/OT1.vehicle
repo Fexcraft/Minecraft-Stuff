@@ -70,8 +70,8 @@
         "Lockable": true,
         "MaxThrottle": 0.75,
         "MaxNegativeThrottle": 0.25,
-        "TurnLeftModifier": 0.65,
-        "TurnRightModifier": 0.65
+        "TurnLeftModifier": 1.45,
+        "TurnRightModifier": 1.45
     }
     
 }

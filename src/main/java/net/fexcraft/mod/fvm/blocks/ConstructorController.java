@@ -58,7 +58,7 @@ public class ConstructorController extends BlockContainer {
 					return true;
 				}
 				te.type = FvmResources.getNewInstanceOf(LoadedIn.TILE, stack);
-				Print.chat(p, "Vehicle: " + ((VehicleItem)stack.getItem()).getType(stack).registryname);
+				Print.chat(p, "Vehicle: " + te.type.fullname);
 				p.getHeldItemMainhand().shrink(64);
 				te.sendUpdate();
 				return true;

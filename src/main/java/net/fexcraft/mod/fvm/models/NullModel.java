@@ -9,8 +9,10 @@
 
 package net.fexcraft.mod.fvm.models;
 
+import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.models.PartModel;
+import net.minecraft.util.math.Vec3d;
 
 public class NullModel extends PartModel {
 	
@@ -28,6 +30,18 @@ public class NullModel extends PartModel {
 	
 	@Override
 	public void render(VehicleType data, String usedAs){
+		return;
+	}
+	
+	@Override
+	public void render(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle){
+		if(vehicle.throttle != 0 && data.parts.get(usedAS).pspawners != null){
+			PartType part = data.parts.get(usedAS);
+			for(int i = 0; i < part.pspawners.length; i++){
+				Vec3d vec = calculatePos(vehicle, part.pspawners[i].pos);
+				vehicle.world.spawnParticle(part.pspawners[i].type, vec.xCoord, vec.yCoord, vec.zCoord, part.pspawners[i].sx, part.pspawners[i].sy, part.pspawners[i].sz);
+			}
+		}
 		return;
 	}
 

@@ -12,6 +12,7 @@ package net.fexcraft.mod.fvm.models.part;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.models.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
+import net.fexcraft.mod.lib.util.common.Static;
 
 public class ModelT1FW extends PartModel {
 	
@@ -816,13 +817,11 @@ public class ModelT1FW extends PartModel {
 
 		wheel_front_right[98].addShapeBox(-2F, 3.5F, -6.5F, 1, 1, 1, 0F, -0.3F, -0.3F, -0.6F, -0.3F, -0.3F, -0.6F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.3F, -0.3F, -0.6F, -0.3F, -0.3F, -0.6F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F); // Box 624
 		wheel_front_right[98].setRotationPoint(35F, 0F, -17F);
-		
 	}
-	
+
 	@Override
 	public void render(VehicleType data, String us){
 		if(us.equals("left_front_wheel")){
-			//rotate(wheel_front_left, 0, 0, 0.0174533f);
 			render(wheel_front_left);
 		}
 		if(us.equals("right_front_wheel")){
@@ -835,15 +834,15 @@ public class ModelT1FW extends PartModel {
 		if(us.equals("left_front_wheel")){
 			for(ModelRendererTurbo element : wheel_front_left){
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+				element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 				element.render();
-				element.rotateAngleZ = 0;
 			}
 		}
 		if(us.equals("right_front_wheel")){
 			for(ModelRendererTurbo element : wheel_front_right){
+				element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 				element.render();
-				element.rotateAngleZ = 0;
 			}
 		}
 	}

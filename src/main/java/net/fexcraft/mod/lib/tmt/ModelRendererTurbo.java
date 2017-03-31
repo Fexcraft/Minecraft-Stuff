@@ -1483,14 +1483,14 @@ public class ModelRendererTurbo extends ModelRenderer {
     }
     
     public void render(){
-    	render(0.0625F);
+    	render(0.0625F, false);
     }
     
     /**
      * Renders the shape.
      * @param scale the scale of the shape. Usually is 0.0625.
      */
-    public void render(float scale){
+    public void render(float scale, boolean bool){
         if(field_1402_i){
             return;
         }
@@ -1503,11 +1503,21 @@ public class ModelRendererTurbo extends ModelRenderer {
         if(rotateAngleX != 0.0F || rotateAngleY != 0.0F || rotateAngleZ != 0.0F){
             GL11.glPushMatrix();
             GL11.glTranslatef(rotationPointX * scale, rotationPointY * scale, rotationPointZ * scale);
-            if(rotateAngleZ != 0.0F){
-                GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
+            if(bool){
+                if(rotateAngleZ != 0.0F){
+                    GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
+                }
+                if(rotateAngleY != 0.0F){
+                    GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
+                }
             }
-            if(rotateAngleY != 0.0F){
-                GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
+            else{
+                if(rotateAngleY != 0.0F){
+                    GL11.glRotatef(rotateAngleY * 57.29578F, 0.0F, 1.0F, 0.0F);
+                }
+                if(rotateAngleZ != 0.0F){
+                    GL11.glRotatef(rotateAngleZ * 57.29578F, 0.0F, 0.0F, 1.0F);
+                }
             }
             if(rotateAngleX != 0.0F){
                 GL11.glRotatef(rotateAngleX * 57.29578F, 1.0F, 0.0F, 0.0F);

@@ -56,6 +56,10 @@ public class PartType extends DataObject {
 	public float engineSpeed;
 	
 	
+	@SideOnly(Side.CLIENT)
+	public ParticleSpawner[] pspawners;
+	
+	
 	public PartType(LoadedIn state, JsonObject obj){
 		super(state);
 		if(state.isLoadedInMemory() || obj == null){
@@ -145,6 +149,15 @@ public class PartType extends DataObject {
 			if(attributes.contains("cargo") || attributes.contains("item_discriminator")){
 				if(cs.has("AcceptedItems")){
 					itemDiscriminator = JsonUtil.jsonArrayToStringArray(cs.get("AcceptedItems").getAsJsonArray());
+				}
+			}
+			if(Static.side().isClient() && attributes.contains("particle_spawner")){
+				if(cs.has("ParticleSpawners")){
+					JsonArray arr = cs.get("ParticleSpawners").getAsJsonArray();
+					pspawners = new ParticleSpawner[arr.size()];
+					for(int i = 0; i < arr.size(); i++){
+						pspawners[i] = new ParticleSpawner(arr.get(i).getAsJsonObject());
+					}
 				}
 			}
 			//general modifiers
@@ -278,6 +291,47 @@ public class PartType extends DataObject {
 
 	public ItemStack newStack(){
 		return new ItemStack(item, 1, 0);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class ParticleSpawner {
+		
+		public ParticleSpawner(JsonObject obj){
+			try{
+				pos = Pos.fromJSON(obj);
+				sx = obj.has("speed_x") ? obj.get("speed_x").getAsDouble() : 0;
+				sy = obj.has("speed_y") ? obj.get("speed_y").getAsDouble() : 0;
+				sz = obj.has("speed_z") ? obj.get("speed_z").getAsDouble() : 0;
+				type = fromString(obj.has("type") ? obj.get("type").getAsString() : "null");
+				freq = obj.has("frequency") ? obj.get("frequency").getAsInt() : 5;
+			}
+			catch(Exception e){
+				Static.stop();
+				pos = new Pos(0, 0, 0);
+				sx = sy = sz = 5;
+				type = type.BARRIER;
+			}
+		}
+		
+		private net.minecraft.util.EnumParticleTypes fromString(String s){
+			if(!s.equals("null")){
+				return type.getByName(s);
+			}
+			return type.BARRIER;
+		}
+
+		public double sx, sy, sz;
+		public Pos pos;
+		public int freq;//TODO implement this
+		public net.minecraft.util.EnumParticleTypes type;
+		
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void bindTexture(){
+		if(textures.size() > 0){
+			net.minecraft.client.Minecraft.getMinecraft().renderEngine.bindTexture(textures.get(current_texture));
+		}
 	}
 	
 }

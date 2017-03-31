@@ -105,4 +105,25 @@ public class VehicleModel extends FvmModelBase {
 		translate(steering, x, y, z);
 	}
 	
+	public void flip(ModelRendererTurbo[] mod){
+		for(ModelRendererTurbo sub : mod){
+			sub.doMirror(false, true, true);
+			sub.setRotationPoint(sub.rotationPointX, - sub.rotationPointY, - sub.rotationPointZ);
+		}
+	}
+
+	public void flipAll(){
+		flip(chassis);
+		flip(body);
+		flip(bodyColoredPrimary);
+		flip(bodyColoredSecondary);
+		flip(bodyDoorOpen);
+		flip(bodyDoorClose);
+		flip(bodyDoorOpenColoredPrimary);
+		flip(bodyDoorCloseColoredPrimary);
+		flip(turret);
+		flip(steering);
+		flip(wheels_import);
+	}
+	
 }
