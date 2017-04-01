@@ -18,7 +18,7 @@ public class ModelC2 extends VehicleModel {
 	int textureY = 512;
 
 	public ModelC2(){
-		body = new ModelRendererTurbo[40];
+		body = new ModelRendererTurbo[38];
 		body[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 233, 1, textureX, textureY); // Box 1
 		body[2] = new ModelRendererTurbo(this, 337, 57, textureX, textureY); // Box 7
@@ -54,11 +54,9 @@ public class ModelC2 extends VehicleModel {
 		body[32] = new ModelRendererTurbo(this, 1, 89, textureX, textureY); // Box 90
 		body[33] = new ModelRendererTurbo(this, 217, 1, textureX, textureY); // Box 91
 		body[34] = new ModelRendererTurbo(this, 241, 1, textureX, textureY); // Box 92
-		body[35] = new ModelRendererTurbo(this, 361, 1, textureX, textureY); // Box 97
-		body[36] = new ModelRendererTurbo(this, 481, 1, textureX, textureY); // Box 98
-		body[37] = new ModelRendererTurbo(this, 465, 49, textureX, textureY); // Box 102
-		body[38] = new ModelRendererTurbo(this, 505, 17, textureX, textureY); // Box 148
-		body[39] = new ModelRendererTurbo(this, 273, 33, textureX, textureY); // Box 149
+		body[35] = new ModelRendererTurbo(this, 465, 49, textureX, textureY); // Box 102
+		body[36] = new ModelRendererTurbo(this, 505, 17, textureX, textureY); // Box 148
+		body[37] = new ModelRendererTurbo(this, 273, 33, textureX, textureY); // Box 149
 
 		body[0].addBox(0F, 0F, 0F, 64, 5, 48, 0F); // Box 0
 		body[0].setRotationPoint(-47F, -12F, -24F);
@@ -168,21 +166,15 @@ public class ModelC2 extends VehicleModel {
 		body[34].setRotationPoint(8F, -23F, -0.5F);
 		body[34].rotateAngleZ = -0.34906585F;
 
-		body[35].addShapeBox(0F, 0F, 0F, 3, 2, 2, 0F, -3F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -3F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 97
-		body[35].setRotationPoint(14F, -14F, 9F);
+		body[35].addShapeBox(0F, 0F, 0F, 12, 2, 2, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, -1F, 0F, 0F, 0F, 0F); // Box 102
+		body[35].setRotationPoint(-82F, -8F, -14F);
 
-		body[36].addShapeBox(0F, 0F, 0F, 3, 2, 2, 0F, -3F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -3F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 98
-		body[36].setRotationPoint(14F, -14F, 13F);
+		body[36].addBox(0F, 0F, 0F, 1, 7, 2, 0F); // Box 148
+		body[36].setRotationPoint(-82.2F, -25F, 20.5F);
 
-		body[37].addShapeBox(0F, 0F, 0F, 12, 2, 2, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, -1F, 0F, 0F, 0F, 0F); // Box 102
-		body[37].setRotationPoint(-82F, -8F, -14F);
-
-		body[38].addBox(0F, 0F, 0F, 1, 7, 2, 0F); // Box 148
-		body[38].setRotationPoint(-82.2F, -25F, 20.5F);
-
-		body[39].addBox(0F, 0F, 0F, 1, 7, 2, 0F); // Box 149
-		body[39].setRotationPoint(-82.2F, -25F, -22.5F);
-
+		body[37].addBox(0F, 0F, 0F, 1, 7, 2, 0F); // Box 149
+		body[37].setRotationPoint(-82.2F, -25F, -22.5F);
+		
 
 		bodyDoorOpenColoredPrimary = new ModelRendererTurbo[8];
 		bodyDoorOpenColoredPrimary[0] = new ModelRendererTurbo(this, 65, 241, textureX, textureY); // Box 112

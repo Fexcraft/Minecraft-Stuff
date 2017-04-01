@@ -33,6 +33,7 @@ public class PartType extends DataObject {
 	public String modelname;
 	public ArrayList<String> category = new ArrayList<String>();
 	public ArrayList<String> attributes = new ArrayList<String>();
+	public TreeMap<String, JsonObject> modelsettings = new TreeMap<String, JsonObject>();
 	//
 	public ArrayList<Class> scriptlist = new ArrayList<Class>();
 	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
@@ -161,6 +162,16 @@ public class PartType extends DataObject {
 				}
 			}
 			//general modifiers
+		}
+		
+		if(obj.has("ModelSettings")){
+			JsonArray array = obj.get("ModelSettings").getAsJsonArray();
+			for(JsonElement elm : array){
+				JsonObject jsn = elm.getAsJsonObject();
+				if(jsn.has("Vehicle")){
+					modelsettings.put(jsn.get("Vehicle").getAsString(), jsn);
+				}
+			}
 		}
 		
 

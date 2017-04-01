@@ -51,19 +51,24 @@ public class PlayerPerms implements IPlayerPerms {
 		else{
 			JsonObject obj = elm.getAsJsonObject();
 			setRank(PermManager.getRank(obj.get("Rank").getAsString()));
-			JsonElement data = obj.get("AttachedData").getAsJsonObject();
-			if(data != null){
-				for(Class clazz : set){
-					try{
-						AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
-						JsonElement jsn = data.getAsJsonObject().get(iad.getId());
-						iad.load(uuid, jsn == null ? null : jsn.getAsJsonObject());
-						this.data.put(iad.getId(), iad);
-					}
-					catch(Exception e){
-						e.printStackTrace();
+			try{
+				JsonElement data = obj.get("AttachedData").getAsJsonObject();
+				if(data != null){
+					for(Class clazz : set){
+						try{
+							AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
+							JsonElement jsn = data.getAsJsonObject().get(iad.getId());
+							iad.load(uuid, jsn == null ? null : jsn.getAsJsonObject());
+							this.data.put(iad.getId(), iad);
+						}
+						catch(Exception e){
+							e.printStackTrace();
+						}
 					}
 				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
 			}
 			if(obj.has("Permissions")){
 				JsonObject perms = obj.get("Permissions").getAsJsonObject();

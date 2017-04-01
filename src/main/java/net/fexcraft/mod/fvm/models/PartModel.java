@@ -151,7 +151,7 @@ public class PartModel extends FvmModelBase {
 		
 		//Render Steering
 		for (ModelRendererTurbo submodel : steering) {
-			submodel.rotateAngleX = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
+			submodel.rotateAngleY = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
 			submodel.render();
 		}
 		
@@ -170,17 +170,17 @@ public class PartModel extends FvmModelBase {
 		}
 		for(ModelRendererTurbo element : wheel_front_left){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
-			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front_right){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
-			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front){
 			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
-			element.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheels){
@@ -274,6 +274,56 @@ public class PartModel extends FvmModelBase {
 		flip(track_wheels);
 		flip(track_wheels_right);
 		flip(track_wheels_left);
+	}
+	
+	public void def_renderWheels4(VehicleType type, String us){
+		switch(us){
+			case "left_front_wheel":
+				render(wheel_front_left);
+				break;
+			case "right_front_wheel":
+				render(wheel_front_right);
+				break;
+			case "left_back_wheel":
+				render(wheel_back_left);
+				break;
+			case "right_back_wheel":
+				render(wheel_back_right);
+				break;
+		}
+	}
+	
+	public void def_renderWheels4(VehicleType type, String us, com.flansmod.fvm.LandVehicle vehicle){
+		switch(us){
+			case "left_front_wheel":
+				for(ModelRendererTurbo element : wheel_front_left){
+					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+					element.render();
+					element.rotateAngleY = 0;
+				}
+				break;
+			case "right_front_wheel":
+				for(ModelRendererTurbo element : wheel_front_right){
+					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+					element.render();
+					element.rotateAngleY = 0;
+				}
+				break;
+			case "left_back_wheel":
+				for(ModelRendererTurbo element : wheel_back_left){
+					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.render();
+				}
+				break;
+			case "right_back_wheel":
+				for(ModelRendererTurbo element : wheel_back_right){
+					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.render();
+				}
+				break;
+		}
 	}
 	
 }

@@ -94,6 +94,15 @@ public class FvmModelBase extends Model {
 			mod.rotateAngleX += x;
 			mod.rotateAngleY += y;
 			mod.rotateAngleZ += z;
+			if(mod.rotateAngleX > 6.28319){
+				mod.rotateAngleX -= 6.28319;
+			}
+			if(mod.rotateAngleY > 6.28319){
+				mod.rotateAngleY -= 6.28319;
+			}
+			if(mod.rotateAngleZ > 6.28319){
+				mod.rotateAngleZ -= 6.28319;
+			}
 		}
 	}
 	

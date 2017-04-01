@@ -524,30 +524,12 @@ public class ModelT1BW extends PartModel {
 	
 	@Override
 	public void render(VehicleType data, String us){
-		if(us.equals("left_back_wheel")){
-			render(wheel_back_left);
-		}
-		if(us.equals("right_back_wheel")){
-			render(wheel_back_right);
-		}
+		this.def_renderWheels4(data, us);
 	}
 	
 	@Override
 	public void render(VehicleType data, String us, com.flansmod.fvm.LandVehicle vehicle){
-		if(us.equals("left_back_wheel")){
-			for(ModelRendererTurbo element : wheel_back_left){
-				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
-				element.render();
-				//element.rotateAngleZ = 0;
-			}
-		}
-		if(us.equals("right_back_wheel")){
-			for(ModelRendererTurbo element : wheel_back_right){
-				element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
-				element.render();
-				//element.rotateAngleZ = 0;
-			}
-		}
+		this.def_renderWheels4(data, us, vehicle);
 	}
 	
 }
