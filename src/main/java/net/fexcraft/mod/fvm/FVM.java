@@ -38,14 +38,14 @@ import net.minecraftforge.fml.relauncher.Side;
  * @author Ferdinand
  *
  */
-@Mod(modid = FvmResources.MODID, name = "Fex's Vehicle and Transportation Mod (It's a parasite, isn't it?)", version = FVM.VERSION, dependencies = "required-after:fcl")
+@Mod(modid = FvmResources.MODID, name = "Fex's Vehicle and Transportation Mod", version = FVM.VERSION, dependencies = "required-after:fcl")
 public class FVM {
 	
 	@Mod.Instance
 	public static FVM INSTANCE;
 	
 	public static final String PREFIX = Formatter.format("&0[&9FVM&0]&7 ");
-	public static final String VERSION = "1.0-alpha6";
+	public static final String VERSION = "1.0-alpha7";
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){

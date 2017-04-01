@@ -162,7 +162,8 @@ public class VehicleType extends DataObject {
 						parts.put(part[0], FvmResources.getPart(part[1]));
 					}
 					catch(Exception e){
-						//
+						e.printStackTrace();
+						Static.stop();
 					}
 				}
 			}
@@ -174,7 +175,8 @@ public class VehicleType extends DataObject {
 						parts.put(part[0], FvmResources.getPart(part[1]));
 					}
 					catch(Exception e){
-						//
+						e.printStackTrace();
+						Static.stop();
 					}
 				}
 			}
@@ -497,6 +499,9 @@ public class VehicleType extends DataObject {
 
 	private void refreshAttributes(){
 		for(PartType part : parts.values()){
+			if(part == null || part.attributes == null){
+				continue;
+			}
 			if(part.attributes.contains("seats") || part.attributes.contains("seat")){
 				seats.addAll(part.seats);
 			}

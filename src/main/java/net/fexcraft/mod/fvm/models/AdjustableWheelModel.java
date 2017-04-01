@@ -5,11 +5,9 @@ import net.fexcraft.mod.lib.util.math.Pos;
 
 public abstract class AdjustableWheelModel extends PartModel {
 	
-	private Pos pos;
-	
 	@Override
 	public void render(VehicleType data, String usedAS){
-		pos = Pos.fromJSON(data.parts.get(usedAS).modelsettings.get(data.registryname).get(usedAS).getAsJsonObject());
+		Pos pos = Pos.fromJSON(data.parts.get(usedAS).modelsettings.get(data.registryname).get(usedAS).getAsJsonObject());
 		pos.translate();
 		switch(usedAS){
 			case "left_front_wheel":
@@ -46,7 +44,7 @@ public abstract class AdjustableWheelModel extends PartModel {
 
 	@Override
 	public void render(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle){
-		pos = Pos.fromJSON(data.parts.get(usedAS).modelsettings.get(data.registryname).get(usedAS).getAsJsonObject());
+		Pos pos = Pos.fromJSON(data.parts.get(usedAS).modelsettings.get(data.registryname).get(usedAS).getAsJsonObject());
 		pos.translate();
 		switch(usedAS){
 			case "left_front_wheel":

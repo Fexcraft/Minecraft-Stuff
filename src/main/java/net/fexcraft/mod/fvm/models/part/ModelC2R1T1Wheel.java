@@ -272,25 +272,25 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 	public void renderRightBack(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle) {
 		GL11.glPushMatrix();
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
-		GL11.glRotated(180, 0, 1, 0);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
-		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	public void renderLeftBack(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle) {
 		GL11.glPushMatrix();
+		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
+		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
 
@@ -298,7 +298,6 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 	public void renderRightFront(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle) {
 		GL11.glPushMatrix();
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
-		GL11.glRotated(180, 0, 1, 0);
 		for(ModelRendererTurbo model : wheels){
 			model.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			model.render();
@@ -313,13 +312,13 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 			model.render();
 		}
 		data.secondaryColor.glColorReset();
-		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	public void renderLeftFront(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle) {
 		GL11.glPushMatrix();
+		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
 		for(ModelRendererTurbo model : wheels){
 			model.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
@@ -335,6 +334,7 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 			model.render();
 		}
 		data.secondaryColor.glColorReset();
+		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
 
@@ -347,25 +347,25 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 	public void renderRightBack(VehicleType data, String usedAS) {
 		GL11.glPushMatrix();
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
-		GL11.glRotated(180, 0, 1, 0);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
-		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	public void renderLeftBack(VehicleType data, String usedAS) {
 		GL11.glPushMatrix();
+		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
+		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 		return;
 	}
@@ -374,13 +374,11 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 	public void renderRightFront(VehicleType data, String usedAS) {
 		GL11.glPushMatrix();
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
-		GL11.glRotated(180, 0, 1, 0);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
-		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 		return;
 	}
@@ -388,12 +386,14 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 	@Override
 	public void renderLeftFront(VehicleType data, String usedAS) {
 		GL11.glPushMatrix();
+		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
 		render(wheels);
 		render(body);
 		data.secondaryColor.glColorApply();
 		render(bodyColoredSecondary);
 		data.secondaryColor.glColorReset();
+		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 		return;
 	}

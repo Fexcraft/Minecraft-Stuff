@@ -1,14 +1,26 @@
 package net.fexcraft.mod.fvm.models;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.data.CargoRenderPos;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.util.FvmTickHandler;
+import net.fexcraft.mod.lib.api.item.fItem;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.Vec3d;
 
 public class PartModel extends FvmModelBase {
@@ -151,7 +163,7 @@ public class PartModel extends FvmModelBase {
 		
 		//Render Steering
 		for (ModelRendererTurbo submodel : steering) {
-			submodel.rotateAngleY = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
+			submodel.rotateAngleX = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
 			submodel.render();
 		}
 		
@@ -210,10 +222,56 @@ public class PartModel extends FvmModelBase {
 				}
 			}
 		}
+		//CargoPos
+		if(data.getContainer().getSizeInventory() > 0 && data.parts.get(usedAS).cargopos.size() > 0){
+			PartType part = data.parts.get(usedAS);
+            net.minecraft.client.Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			for(int i = 0; i < data.container.getSizeInventory(); i++){
+				if(i >= part.cargopos.size()){
+					break;
+				}
+				CargoRenderPos pos = part.cargopos.get(i);
+				if(!pos.renderAlways && data.parts.containsKey("cargo")){
+					continue;
+				}
+				IBlockState state = getBlockToRender(i, data);
+				if(state.getRenderType() != EnumBlockRenderType.INVISIBLE){;
+					pos.pos.translate();
+		            /*GlStateManager.pushMatrix();
+		            if(pos.scale != 1f){
+		            	GL11.glScalef(pos.scale, pos.scale, pos.scale);
+		            }*/
+		            GlStateManager.pushMatrix();
+	            	//GL11.glRotatef( 180, 0, 0, 1);
+		            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(state, vehicle.getBrightness(Minecraft.getMinecraft().getRenderPartialTicks()));
+	            	//GL11.glRotatef(-180, 0, 0, 1);
+		            GlStateManager.popMatrix();
+		            //GlStateManager.popMatrix();
+		            pos.pos.translateR();
+		        }
+			}
+            part.bindTexture();
+		}
 		
 		//Render Other
 		render(OTHER);
 		render(TEST);
+	}
+	
+	protected static IBlockState getBlockToRender(int index, VehicleType data){
+		if(data.container.getStackInSlot(index).isEmpty()){
+			return Blocks.AIR.getDefaultState();
+		}
+		else if(data.container.getStackInSlot(index).getItem() instanceof ItemBlock == false){
+			return Blocks.CHEST.getDefaultState();//TODO add crate block
+		}
+		else if(data.container.getStackInSlot(index).getItem() instanceof fItem){
+			return Blocks.BEDROCK.getDefaultState();
+		}
+		else{
+			ItemStack stack = data.container.getStackInSlot(index);
+			return ((ItemBlock)stack.getItem()).block.getStateFromMeta(stack.getMetadata());
+		}
 	}
 	
 	protected static Vec3d calculatePos(com.flansmod.fvm.LandVehicle vehicle, Pos pos){

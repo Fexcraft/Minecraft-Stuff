@@ -9,9 +9,15 @@
 
 package net.fexcraft.mod.fvm.models;
 
+import net.fexcraft.mod.fvm.data.CargoRenderPos;
 import net.fexcraft.mod.fvm.data.PartType;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.fvm.models.PartModel;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.Vec3d;
 
 public class NullModel extends PartModel {
@@ -35,12 +41,43 @@ public class NullModel extends PartModel {
 	
 	@Override
 	public void render(VehicleType data, String usedAS, com.flansmod.fvm.LandVehicle vehicle){
+		//Particle
 		if(vehicle.throttle != 0 && data.parts.get(usedAS).pspawners != null){
 			PartType part = data.parts.get(usedAS);
 			for(int i = 0; i < part.pspawners.length; i++){
 				Vec3d vec = calculatePos(vehicle, part.pspawners[i].pos);
 				vehicle.world.spawnParticle(part.pspawners[i].type, vec.xCoord, vec.yCoord, vec.zCoord, part.pspawners[i].sx, part.pspawners[i].sy, part.pspawners[i].sz);
 			}
+		}
+		//CargoPos
+		if(data.getContainer().getSizeInventory() > 0 && data.parts.get(usedAS).cargopos.size() > 0){
+			PartType part = data.parts.get(usedAS);
+            net.minecraft.client.Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			for(int i = 0; i < data.container.getSizeInventory(); i++){
+				if(i >= part.cargopos.size()){
+					break;
+				}
+				CargoRenderPos pos = part.cargopos.get(i);
+				if(!pos.renderAlways && data.parts.containsKey("cargo")){
+					continue;
+				}
+				IBlockState state = getBlockToRender(i, data);
+				if(state.getRenderType() != EnumBlockRenderType.INVISIBLE){;
+					pos.pos.translate();
+		            /*GlStateManager.pushMatrix();
+		            if(pos.scale != 1f){
+		            	GL11.glScalef(pos.scale, pos.scale, pos.scale);
+		            }*/
+		            GlStateManager.pushMatrix();
+	            	//GL11.glRotatef( 180, 0, 0, 1);
+		            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(state, vehicle.getBrightness(Minecraft.getMinecraft().getRenderPartialTicks()));
+	            	//GL11.glRotatef(-180, 0, 0, 1);
+		            GlStateManager.popMatrix();
+		            //GlStateManager.popMatrix();
+		            pos.pos.translateR();
+		        }
+			}
+            part.bindTexture();
 		}
 		return;
 	}

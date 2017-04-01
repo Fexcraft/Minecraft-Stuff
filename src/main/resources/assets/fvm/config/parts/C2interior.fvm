@@ -1,6 +1,7 @@
 {
     "RegistryName": "c2_interior",
     "AddOn": "Default FVM Addon Pack",
+    "FullName": "C2 Interior & Settings",
     "ModelFile": "null",
     "Category": [
         "interior"
@@ -12,6 +13,66 @@
     "Removable": false,
     "ConstructionSettings":{
         "Available": false
+    },
+    "RenderSettings": {
+        "CargoRender":[
+            {
+                "id":"id01",
+                "x": -29,
+                "y": -28,
+                "z": 6,
+                "render_always": false
+            },
+            {
+                "id":"id02",
+                "x": -29,
+                "y": -28,
+                "z": -22,
+                "render_always": false
+            },
+            {
+                "id":"id03",
+                "x": -46,
+                "y": -28,
+                "z": 6,
+                "render_always": false
+            },
+            {
+                "id":"id04",
+                "x": -46,
+                "y": -28,
+                "z": -22,
+                "render_always": false
+            },
+            {
+                "id":"id05",
+                "x": -63,
+                "y": -28,
+                "z": 0,
+                "render_always": false
+            },
+            {
+                "id":"id06",
+                "x": -63,
+                "y": -28,
+                "z": -17,
+                "render_always": false
+            },
+            {
+                "id":"id07",
+                "x": -80,
+                "y": -28,
+                "z": 1,
+                "render_always": false
+            },
+            {
+                "id":"id08",
+                "x": -80,
+                "y": -28,
+                "z": -16,
+                "render_always": false
+            }
+        ]
     },
     "AttributeSettings":{
         "Passengers":[

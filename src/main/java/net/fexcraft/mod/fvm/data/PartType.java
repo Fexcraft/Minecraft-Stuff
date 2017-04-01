@@ -33,7 +33,9 @@ public class PartType extends DataObject {
 	public String modelname;
 	public ArrayList<String> category = new ArrayList<String>();
 	public ArrayList<String> attributes = new ArrayList<String>();
+	//
 	public TreeMap<String, JsonObject> modelsettings = new TreeMap<String, JsonObject>();
+	public ArrayList<CargoRenderPos> cargopos = new ArrayList<CargoRenderPos>();
 	//
 	public ArrayList<Class> scriptlist = new ArrayList<Class>();
 	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
@@ -170,6 +172,16 @@ public class PartType extends DataObject {
 				JsonObject jsn = elm.getAsJsonObject();
 				if(jsn.has("Vehicle")){
 					modelsettings.put(jsn.get("Vehicle").getAsString(), jsn);
+				}
+			}
+		}
+		
+		if(obj.has("RenderSettings")){
+			JsonObject rs = obj.get("RenderSettings").getAsJsonObject();
+			if(rs.has("CargoRender")){
+				JsonArray cr = rs.get("CargoRender").getAsJsonArray();
+				for(int i = 0; i < cr.size(); i++){
+					cargopos.add(new CargoRenderPos(cr.get(i).getAsJsonObject(), i));
 				}
 			}
 		}

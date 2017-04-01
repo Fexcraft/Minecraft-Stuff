@@ -115,6 +115,7 @@ public class FvmResources {
 			}
 			catch(Exception e){
 				e.printStackTrace();
+				Static.stop();
 			}
 		}
 		mate_objs.clear();
@@ -132,6 +133,7 @@ public class FvmResources {
 			}
 			catch(Exception e){
 				e.printStackTrace();
+				Static.stop();
 			}
 		}
 		part_objs.clear();
