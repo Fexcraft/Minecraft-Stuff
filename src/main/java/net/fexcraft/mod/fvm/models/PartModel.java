@@ -1,7 +1,5 @@
 package net.fexcraft.mod.fvm.models;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.data.CargoRenderPos;

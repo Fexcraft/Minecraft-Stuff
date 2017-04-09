@@ -10,6 +10,11 @@
         "seat",
         "particle_spawner"
     ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/null_texture.png"
+        ]
+    },
     "Removable": false,
     "ConstructionSettings":{
         "Available": false

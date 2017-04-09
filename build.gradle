@@ -53,7 +53,6 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
 
 processResources
@@ -83,7 +82,7 @@ String famm_version = "3.1.0";
 String frsm_bge_version = "1.3.2";
 String frsm_cae_version = "1.2";
 String frsm_ce__version = "1.1";
-String fvm_version = "1.0-alpha6";
+String fvm_version = "1.0-alpha7";
 
 task frsm(type: Jar) {
     from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
