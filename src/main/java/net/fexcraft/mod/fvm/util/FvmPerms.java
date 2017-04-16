@@ -58,5 +58,9 @@ public class FvmPerms {
 	public static String permBreak(VehicleType type){
 		return LAND_VEHICLE_BREAK.replace("land_vehicle", "land_vehicle." + type.registryname);
 	}
+
+	public static String permCreate(VehicleType type){
+		return LAND_VEHICLE_CREATE.replace("land_vehicle", "land_vehicle." + type.registryname);
+	}
 	
 }

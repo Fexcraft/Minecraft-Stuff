@@ -237,7 +237,7 @@ public class ConstructorGui extends GuiContainer {
 				}
 				break;
 			case 23:
-				tile.notifyServer("create_vehicle");
+				tile.notifyServer("create_vehicle:" + mc.player.getGameProfile().getId());
 				mc.displayGuiScreen((GuiScreen)null);
 				break;
 			case 24:

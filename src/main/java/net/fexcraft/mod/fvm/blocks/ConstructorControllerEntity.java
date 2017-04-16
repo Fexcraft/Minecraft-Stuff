@@ -176,6 +176,16 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 				world.spawnEntity(ent);
 				break;
 			case "create_vehicle":
+				String plui = packet.nbt.getString("Data");
+				EntityPlayer eps = Static.getServer().getPlayerList().getPlayerByUUID(UUID.fromString(plui));
+				if(!PermManager.getPlayerPerms(eps).hasPermission(FvmPerms.LAND_VEHICLE_CREATE)){
+					Print.chat(eps, "No permission to create land vehicles.");
+					break;
+				}
+				if(!PermManager.getPlayerPerms(eps).hasPermission(FvmPerms.permCreate(type))){
+					Print.chat(eps, "No permission to create a vehicle of this type.");
+					break;
+				}
 				ItemStack stack = new ItemStack(Registry.getItem("fvm:vehicle_item"), 1, 0);
 				NBTTagCompound nbt = new NBTTagCompound();
 				type.write(nbt);

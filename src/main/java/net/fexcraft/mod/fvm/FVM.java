@@ -29,12 +29,11 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * Fex's Vehicle Mod
- * A Modification adding a custom add-on part system to create customizable vehicles.
- * Currently makes use of other mod's entities, although can also run stand-alone,
- * but then only the construction and display blocks are available.
- * 
- * License: http://fexcraft.net/license?id=mods
+ * Fex's Vehicle and Transportation Mod
+ * A Modification adding a custom add-on part system to create customizable vehicles
+ * and, <i>more</i>.
+ * <br>
+ * License: <a href="http://fexcraft.net/license?id=mods">http://fexcraft.net/license?id=mods</a>
  * @author Ferdinand
  *
  */
@@ -45,7 +44,7 @@ public class FVM {
 	public static FVM INSTANCE;
 	
 	public static final String PREFIX = Formatter.format("&0[&9FVM&0]&7 ");
-	public static final String VERSION = "1.0-alpha7";
+	public static final String VERSION = "1.0-alpha8";
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
