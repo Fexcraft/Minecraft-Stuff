@@ -69,7 +69,7 @@
     "VehicleDefaults": {
         "DriveType": "4wd",
         "Lockable": true,
-        "MaxThrottle": 1.0,
+        "MaxThrottle": 1.2,
         "MaxNegativeThrottle": 0.2,
         "TurnLeftModifier": 1.5,
         "TurnRightModifier": 1.5

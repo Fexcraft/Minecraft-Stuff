@@ -66,6 +66,7 @@ public class VehicleType extends DataObject {
 	public Pos[] wheelPos;
 	public boolean isLocked = false;
 	public boolean rotateWheels = true;
+	public int current_gear = 0;
 	//Inventory
 	public Container container;
 	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
@@ -76,8 +77,8 @@ public class VehicleType extends DataObject {
 	public float cameraDistance;
 	public int fuelStored = 50;
 	public int fuelTankSize;
-	public float maxThrottle;
-	public float maxNegativeThrottle;
+	public float maxThrottle = 2.25f;
+	public float maxNegativeThrottle = 0.75f;
 	public float turnLeftModifier;
 	public float turnRightModifier;
 	public String lock_code = KeyItem.getNewKeyCode();
@@ -206,8 +207,8 @@ public class VehicleType extends DataObject {
 				}
 			}
 		}
-		if(obj.has("VehicleDefaults")){
-			JsonObject vd = obj.get("VehicleDefaults").getAsJsonObject();
+		if(obj.has("VehicleDefaults") || obj.has("FlansmodDefaults")){
+			JsonObject vd = obj.has("VehicleDefaults") ? obj.get("VehicleDefaults").getAsJsonObject() : obj.get("FlansmodDefaults").getAsJsonObject();
 			driveType = DriveType.fromString(ju.getIfExists(vd, "DriveType", driveType.toString()));
 			hasLock = ju.getIfExists(vd, "Lockable", true);
 			wheelStepHeight = ju.getIfExists(vd, "WheelStepHeight", 1f).floatValue();
@@ -342,6 +343,12 @@ public class VehicleType extends DataObject {
 		if(compound.hasKey("Fuel")){
 			this.fuelStored = compound.getInteger("Fuel");
 		}
+		if(compound.hasKey("CurrentGear")){
+			current_gear = compound.getInteger("CurrentGear");
+		}
+		else{
+			current_gear = 0;
+		}
 		if(container != null){
 			container.readFromNBT(compound);
 		}
@@ -365,6 +372,7 @@ public class VehicleType extends DataObject {
 		compound.setBoolean("Locked", isLocked);
 		compound.setString("LockCode", lock_code);
 		compound.setInteger("Fuel", fuelStored);
+		compound.setInteger("CurrentGear", current_gear);
 		if(container != null){
 			container.writeToNBT(compound);
 		}

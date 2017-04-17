@@ -57,6 +57,10 @@ public class PartType extends DataObject {
 	//Engine Attribute
 	public float fuelConsumption;
 	public float engineSpeed;
+	//GearBox attrubite;
+	public boolean automatic_gearbox = false;
+	public TreeMap<Integer, Float> gears;
+	public int gear_cooldown = 20;
 	
 	
 	@SideOnly(Side.CLIENT)
@@ -161,6 +165,28 @@ public class PartType extends DataObject {
 					for(int i = 0; i < arr.size(); i++){
 						pspawners[i] = new ParticleSpawner(arr.get(i).getAsJsonObject());
 					}
+				}
+			}
+			if(attributes.contains("gearbox")){
+				gears = new TreeMap<Integer, Float>();
+				automatic_gearbox = cs.has("AutomaticGearbox") ? cs.get("AutomaticGearbox").getAsBoolean() : automatic_gearbox;
+				gear_cooldown = cs.has("Cooldown") ? cs.get("Cooldown").getAsInt() : gear_cooldown;
+				if(cs.has("Gears")){
+					for(JsonElement elm : cs.get("Gears").getAsJsonArray()){
+						JsonObject jsn = elm.getAsJsonObject();
+						if(jsn.get("gear").getAsInt() == 0){
+							continue;
+						}
+						gears.put(jsn.get("gear").getAsInt(), jsn.get("value").getAsFloat());
+					}
+				}
+				else{
+					gears.put(-1, 0.25f);
+					gears.put(1, 0.2f);
+					gears.put(2, 0.3f);
+					gears.put(3, 0.5f);
+					gears.put(4, 0.7f);
+					gears.put(5, 1.0f);
 				}
 			}
 			//general modifiers
