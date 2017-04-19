@@ -23,6 +23,7 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 	int textureY = 64;
 
 	public ModelC2R2T1Wheel(){
+		this.creators.add("Ferdinand (FEX___96)");
 		wheels = new ModelRendererTurbo[48];
 		wheels[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 18
 		wheels[1] = new ModelRendererTurbo(this, 17, 1, textureX, textureY); // Box 19

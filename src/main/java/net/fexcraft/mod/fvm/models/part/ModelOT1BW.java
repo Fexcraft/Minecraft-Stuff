@@ -20,7 +20,6 @@ public class ModelOT1BW extends PartModel {
 
 	public ModelOT1BW(){
 		creators.add("Ferdinand (FEX___96)");
-		
 		wheel_back_left = new ModelRendererTurbo[42];
 		wheel_back_left[0] = new ModelRendererTurbo(this, 305, 73, textureX, textureY); // Box 164
 		wheel_back_left[1] = new ModelRendererTurbo(this, 305, 33, textureX, textureY); // Box 165

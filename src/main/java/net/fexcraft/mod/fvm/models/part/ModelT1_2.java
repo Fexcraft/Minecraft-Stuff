@@ -22,6 +22,8 @@ public class ModelT1_2 extends PartModel {
 	int textureY = 512;
 
 	public ModelT1_2(){
+		this.creators.add("Ferdinand (FEX___96)");
+		
 		body = new ModelRendererTurbo[79];
 		body[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 65, 1, textureX, textureY); // Box 1

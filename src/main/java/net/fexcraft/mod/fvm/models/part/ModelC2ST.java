@@ -18,6 +18,7 @@ public class ModelC2ST extends PartModel {
 	int textureY = 512;
 
 	public ModelC2ST(){
+		this.creators.add("Ferdinand (FEX___96)");
 		steering = new ModelRendererTurbo[1];
 		steering[0] = new ModelRendererTurbo(this, 425, 81, textureX, textureY); // Box 94
 

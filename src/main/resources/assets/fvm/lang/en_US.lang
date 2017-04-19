@@ -36,6 +36,11 @@ item.fvm:part_t1_front_wheel.name=T1 Front Wheel
 item.fvm:part_t1_steering_wheel.name=T1 Steering Wheel
 item.fvm:part_t1_type1_cargoupgrade.name=T1 Cargo Upgrade
 item.fvm:part_ot1_logtransport.name=OT1 Log Transport
+item.fvm:part_c1r1_wheel.name=C1R1 Wheel
+item.fvm:part_c2r1t1_wheel.name=C2R1T1 Wheel
+item.fvm:part_c2r2t1_wheel.name=C2R2T1 Wheel
+item.fvm:part_c2_interior.name=C2 Interior
+item.fvm:part_c2_steering_wheel.name=C2 Default Steering Wheel
 
 #Materials
 item.fvm:material_null.name=Material Null Item
@@ -47,6 +52,8 @@ item.fvm:vehicle_item.name=Vehicle Container Item
 item.fvm:vehicle_c1r1.name=C1 - R1
 item.fvm:vehicle_t1.name=T1 Frame
 item.fvm:vehicle_ot1.name=OT1 Frame
+item.fvm:vehicle_c2.name=C2
+item.fvm:vehicle_c7.name=C7
 
 
 

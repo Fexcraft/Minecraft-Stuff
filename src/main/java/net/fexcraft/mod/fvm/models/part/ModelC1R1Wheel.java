@@ -28,6 +28,7 @@ public class ModelC1R1Wheel extends PartModel {
 	}
 
 	private void initleftFrontWheelModel_1(){
+		this.creators.add("Ferdinand (FEX___96)");
 		wheel_front_left = new ModelRendererTurbo[78];
 		wheel_front_left[0] = new ModelRendererTurbo(this, 17, 1, textureX, textureY); // Box 6
 		wheel_front_left[1] = new ModelRendererTurbo(this, 265, 1, textureX, textureY); // Box 11

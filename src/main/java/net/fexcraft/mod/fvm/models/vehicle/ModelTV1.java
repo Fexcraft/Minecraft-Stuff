@@ -27,6 +27,7 @@ public class ModelTV1 extends VehicleModel {
 	int textureY = 128;
 
 	public ModelTV1(){
+		this.creators.add("Ferdinand (FEX___96");
 		body = new ModelRendererTurbo[36];
 		body[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 161, 1, textureX, textureY); // Box 1

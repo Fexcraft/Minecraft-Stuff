@@ -19,6 +19,7 @@ public class ModelC1R1_Spoiler extends PartModel {
 	int textureY = 32;
 
 	public ModelC1R1_Spoiler(){
+		this.creators.add("Ferdinand (FEX___96)");
 		bodyColoredSecondary = new ModelRendererTurbo[5];
 		bodyColoredSecondary[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		bodyColoredSecondary[1] = new ModelRendererTurbo(this, 17, 1, textureX, textureY); // Box 1

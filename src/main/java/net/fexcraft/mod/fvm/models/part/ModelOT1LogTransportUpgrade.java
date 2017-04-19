@@ -12,7 +12,7 @@ public class ModelOT1LogTransportUpgrade extends PartModel {
 	int textureY = 512;
 
 	public ModelOT1LogTransportUpgrade(){
-	
+		this.creators.add("Ferdinand (FEX___96)");
 		body = new ModelRendererTurbo[39];
 		body[0] = new ModelRendererTurbo(this, 1, 249, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 201, 249, textureX, textureY); // Box 1

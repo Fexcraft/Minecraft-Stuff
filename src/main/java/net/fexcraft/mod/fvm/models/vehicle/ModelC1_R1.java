@@ -28,6 +28,7 @@ public class ModelC1_R1 extends VehicleModel {
 	}
 
 	private void initbody_1(){
+		this.creators.add("Ferdinand (FEX___96");
 		body = new ModelRendererTurbo[147];
 		body[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 177, 1, textureX, textureY); // Box 1
