@@ -18,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-public class PaintTableGui extends GuiContainer{
+public class PaintTableGui extends GuiContainer {
 	
 	public static final ResourceLocation TEXTURE = new ResourceLocation("fvm:textures/guis/paint_table.png");
 	//
@@ -206,9 +206,9 @@ public class PaintTableGui extends GuiContainer{
 				rgb[0][2].setText(con.type.primaryColor.blue + "");
 				break;
 			case 1:
-				rgb[0][0].setText(con.type.secondaryColor.red + "");
-				rgb[0][1].setText(con.type.secondaryColor.green + "");
-				rgb[0][2].setText(con.type.secondaryColor.blue + "");
+				rgb[1][0].setText(con.type.secondaryColor.red + "");
+				rgb[1][1].setText(con.type.secondaryColor.green + "");
+				rgb[1][2].setText(con.type.secondaryColor.blue + "");
 				break;
 			default:
 				break;

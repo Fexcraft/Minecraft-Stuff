@@ -43,8 +43,7 @@
             "left_front_wheel",
             "right_back_wheel",
             "left_back_wheel",
-            "engine",
-            "gearbox"
+            "engine"
         ]
     },
     "TextureSettings": {

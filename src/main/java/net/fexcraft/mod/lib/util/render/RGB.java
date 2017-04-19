@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,6 +34,7 @@ public class RGB {
 			this.blue = f[2];
 		}
 		catch(Exception e){
+			if(Static.dev()){e.printStackTrace();}
 			copyFrom(WHITE);
 		}
 	}
@@ -290,27 +292,28 @@ public class RGB {
 			return fromUnknown(Float.parseFloat(x), Float.parseFloat(y), Float.parseFloat(z));
 		}
 		catch(Exception e){
+			if(Static.dev()){e.printStackTrace();}
 			return new RGB();
 		}
 	}
 	
 	public static RGB fromUnknown(float x, float y, float z){
 		float[] f = new float[3];
-		if(x % 1 != 0){
+		if(x % 1 != 0 && x != 1f){
 			f[0] = truncate(x);
 		}
 		else{
 			f[0] = fromInt(x);
 		}
 		//
-		if(y % 1 != 0){
+		if(y % 1 != 0 && y != 1f){
 			f[1] = truncate(y);
 		}
 		else{
 			f[1] = fromInt(y);
 		}
 		//
-		if(z % 1 != 0){
+		if(z % 1 != 0 && z != 1f){
 			f[2] = truncate(z);
 		}
 		else{
@@ -324,7 +327,7 @@ public class RGB {
 	private static final float truncate(float f){
 		df.setRoundingMode(RoundingMode.DOWN);
 		String s = df.format(f);
-		return Float.parseFloat(s);
+		return Float.parseFloat(s.replace(",", "."));//replace to get sure locale doesn't mess up stuff
 	}
 	
 	private static final float fromInt(Number number){

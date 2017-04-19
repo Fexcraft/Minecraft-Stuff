@@ -102,7 +102,7 @@ public class ModelConstructionBlock extends ModelConverter {
 	
 	private static final ResourceLocation texture = new ResourceLocation(FvmResources.MODID, "textures/blocks/constructionblock.png");
 
-	public ResourceLocation getTexture(){
+	public static final ResourceLocation getTexture(){
 		return texture;
 	}
 	

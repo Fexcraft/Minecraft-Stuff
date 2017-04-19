@@ -265,6 +265,8 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 						type.primaryColor.copyFrom(RGB.WHITE);
 					}
 				}
+				Print.debug(rgbs[0] + " | " +  rgbs[1] + " | " + rgbs[2]);
+				Print.debug(type.primaryColor.toString());
 				try{
 					type.secondaryColor = RGB.fromUnknown(rgbs[3], rgbs[4], rgbs[5]);
 				}
@@ -277,6 +279,8 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 						type.secondaryColor.copyFrom(RGB.WHITE);
 					}
 				}
+				Print.debug(rgbs[3] + " | " + rgbs[4] + " | " + rgbs[5]);
+				Print.debug(type.secondaryColor.toString());
 				break;
 			case "despawn_vehicle":
 				EntityPlayer epm = Static.getServer().getPlayerList().getPlayerByUUID(UUID.fromString(packet.nbt.getString("Data")));
@@ -327,6 +331,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 		nbt.setBoolean("Linked", isLinked());
 		if(type != null){
 			type.write(nbt);
+			
 		}
 		ApiUtil.sendTileEntityUpdatePacket(world, pos, nbt, 256);
 	}

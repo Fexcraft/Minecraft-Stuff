@@ -135,4 +135,8 @@ public class Static{
 		return side().isClient() ? "Client" : "Server";
 	}
 	
+	public static final boolean isOp(String name){
+		return getServer().getPlayerList().getOppedPlayers().getGameProfileFromName(name) != null;
+	}
+	
 }

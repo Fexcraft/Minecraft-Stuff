@@ -66,7 +66,7 @@ public class VehicleType extends DataObject {
 	public Pos[] wheelPos;
 	public boolean isLocked = false;
 	public boolean rotateWheels = true;
-	public int current_gear = 0;
+	public int spawnedKeys = 0;
 	//Inventory
 	public Container container;
 	public ArrayList<String> itemDiscriminator = new ArrayList<String>();
@@ -257,8 +257,6 @@ public class VehicleType extends DataObject {
 		obj.addProperty("AddOn", addonpack);
 		obj.addProperty("RegistryName", registryname);
 		obj.addProperty("ModelFile", modelname);
-		obj.add("PrimaryColor", primaryColor.toJSON());
-		obj.add("SecondaryColor", secondaryColor.toJSON());
 		//
 		JsonObject cs = new JsonObject();
 		cs.addProperty("Length", construction_length);
@@ -343,11 +341,14 @@ public class VehicleType extends DataObject {
 		if(compound.hasKey("Fuel")){
 			this.fuelStored = compound.getInteger("Fuel");
 		}
-		if(compound.hasKey("CurrentGear")){
-			current_gear = compound.getInteger("CurrentGear");
+		if(compound.hasKey("PrimaryColor")){
+			this.primaryColor = RGB.fromJSON(JsonUtil.getObjectFromString(compound.getString("PrimaryColor")), false);
 		}
-		else{
-			current_gear = 0;
+		if(compound.hasKey("SecondaryColor")){
+			this.secondaryColor = RGB.fromJSON(JsonUtil.getObjectFromString(compound.getString("SecondaryColor")), false);
+		}
+		if(compound.hasKey("SpawnedKeys")){
+			this.spawnedKeys = compound.getInteger("SpawnedKeys");
 		}
 		if(container != null){
 			container.readFromNBT(compound);
@@ -372,7 +373,9 @@ public class VehicleType extends DataObject {
 		compound.setBoolean("Locked", isLocked);
 		compound.setString("LockCode", lock_code);
 		compound.setInteger("Fuel", fuelStored);
-		compound.setInteger("CurrentGear", current_gear);
+		compound.setString("PrimaryColor", this.primaryColor.toJSON().toString());
+		compound.setString("SecondaryColor", this.secondaryColor.toJSON().toString());
+		compound.setInteger("SpawnedKeys", spawnedKeys);
 		if(container != null){
 			container.writeToNBT(compound);
 		}

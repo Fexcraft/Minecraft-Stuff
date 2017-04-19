@@ -86,6 +86,9 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 	}
 	
 	public void sendUpdate(){
+		if(world.isRemote){
+			return;
+		}
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("Linked", remote != null);
 		if(remote != null){

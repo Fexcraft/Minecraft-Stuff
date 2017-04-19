@@ -99,7 +99,12 @@ public class VehicleItem extends Item {
 		if(advanced){
 			tooltip.add("- - - - - - - -");
 			for(Entry<String, PartType> part : type.parts.entrySet()){
-				tooltip.add(part.getValue().fullname + TextFormatting.AQUA + " (" + part.getKey().replace("_", " ") + ")");
+				try{
+					tooltip.add(part.getValue().fullname + TextFormatting.AQUA + " (" + part.getKey().replace("_", " ") + ")");
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		}
 		if(type.scriptlist.size() > 0){
@@ -112,6 +117,10 @@ public class VehicleItem extends Item {
 			for(String s : type.getModel().creators){
 				tooltip.add(s);
 			}
+		}
+		if(type.lock_code != null){
+			tooltip.add("- - - - - - - -");
+			tooltip.add(Formatter.format("&9LockCode: &3" + type.lock_code + "&8;"));
 		}
 		/*if(Static.dev() && stack.hasTagCompound()){
 			tooltip.add(stack.getTagCompound().toString());
