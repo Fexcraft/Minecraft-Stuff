@@ -76,13 +76,13 @@ processResources
 }
 
 String frsm_version = '4.0.00';
-String  fcl_version = 'XI.24';
+String  fcl_version = 'XI.25';
 String fsmm_version = "1.5.0";
 String famm_version = "3.1.0";
 String frsm_bge_version = "1.3.2";
 String frsm_cae_version = "1.2";
 String frsm_ce__version = "1.1";
-String fvm_version = "1.0-alpha7";
+String fvm_version = "1.0-alpha8";
 
 task frsm(type: Jar) {
     from (zipTree("${destinationDir}/${archiveName}")) { include 'net/fexcraft/mod/frsm/'}
@@ -218,7 +218,7 @@ task flansmod(type: Jar) {
         include 'LICENSE.txt'
     }
     baseName = 'FlansMod Minus'
-    appendix = '5.F2.0-EX'
+    appendix = '5.F2.1-EX'
 }
 
 task frsm_ie(type: Jar) {
