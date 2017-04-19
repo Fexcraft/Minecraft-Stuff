@@ -47,7 +47,7 @@ public class PartItem extends Item {
 		if(type == null){
 			return;
 		}
-		tooltip.add("Part: " + type.fullname);
+		tooltip.add(Formatter.format("&9Part: &3" + type.fullname));
 		if(type.description.size() > 0){
 			for(String s : type.description){
 				tooltip.add(Formatter.format(s));
@@ -67,11 +67,11 @@ public class PartItem extends Item {
 		}
 		if(type.scriptlist.size() > 0){
 			tooltip.add("- - - - - - - -");
-			tooltip.add("Scripts: " + type.scriptlist.size());
+			tooltip.add(Formatter.format("&9Scripts: &3" + type.scriptlist.size()));
 		}
 		if(type.getModel() != null){
 			tooltip.add("- - - - - - - -");
-			tooltip.add("Creators:");
+			tooltip.add(Formatter.format("&9Creators:&3"));
 			for(String s : type.getModel().creators){
 				tooltip.add(s);
 			}

@@ -6,6 +6,7 @@ import java.util.List;
 import net.fexcraft.mod.fvm.data.LoadedIn;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +43,7 @@ public class MaterialItem extends Item {
 		if(type == null){
 			return;
 		}
-		tooltip.add("Material: " + type.fullname);
+		tooltip.add(Formatter.format("&9Material: &3" + type.fullname));
 		if(type.description.size() > 0){
 			for(String s : type.description){
 				tooltip.add(s);

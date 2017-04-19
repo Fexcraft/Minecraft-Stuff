@@ -90,7 +90,7 @@ public class VehicleItem extends Item {
 		else{
 			type = this.getType();
 		}
-		tooltip.add("Vehicle: " + type.fullname);
+		tooltip.add(Formatter.format("&9Vehicle: &3" + type.fullname));
 		if(type.description.size() > 0){
 			for(String s : type.description){
 				tooltip.add(Formatter.format(s));
