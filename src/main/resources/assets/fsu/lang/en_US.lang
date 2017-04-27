@@ -1,0 +1,10 @@
+tile.fsu:ADB1.name=ADB1
+tile.fsu:ADB2.name=ADB2
+tile.fsu:ADB3.name=ADB3
+item.fsu:cactus_meat.name=Cactus Meat
+item.fsu:roasted_cactus_meat.name=Roasted Cactus Meat
+itemGroup.tabFSU=FSU Stuff
+item.fsu:gelatine.name=Gelatine
+item.fsu:slimeball_synthetic.name=Synthetic Slimeball
+item.fsu:backup_item.name=Coupon (BackupItem)
+tile.fsu:shelf_oak.name=Shop Shelf
