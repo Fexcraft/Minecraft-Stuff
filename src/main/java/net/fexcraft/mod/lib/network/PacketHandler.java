@@ -5,6 +5,7 @@ import net.fexcraft.mod.lib.network.handlers.ExamplePacketHandler;
 import net.fexcraft.mod.lib.network.handlers.ISUPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.JsonObjectPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.KeyInputPacketHandler;
+import net.fexcraft.mod.lib.network.handlers.NBTTagCompoundPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.TileEntityUpdatePacketHandler;
 import net.fexcraft.mod.lib.network.packet.Packet;
 import net.fexcraft.mod.lib.network.packet.PacketItemStackUpdate;
@@ -38,7 +39,7 @@ public class PacketHandler{
 	}
 	
 	public static enum PacketHandlerType{
-		TILEENTITY, KEYINPUT, ITEMSTACK, JSON;
+		TILEENTITY, KEYINPUT, ITEMSTACK, JSON, NBT;
 	}
 	
 	public static void registerListener(PacketHandlerType type, Side side, IPacketListener listener){
@@ -50,6 +51,10 @@ public class PacketHandler{
 			case JSON:
 				JsonObjectPacketHandler.addListener(side, listener);
 				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type JSON for Side:" + (side.isClient() ? "Client" : "Server") + ".");
+				break;
+			case NBT:
+				NBTTagCompoundPacketHandler.addListener(side, listener);
+				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type NBT for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 				break;
 			case KEYINPUT:
 				if(side.isServer()){

@@ -2,7 +2,7 @@ package net.fexcraft.mod.lib.network.handlers;
 
 import java.util.HashMap;
 import net.fexcraft.mod.lib.api.network.IPacketListener;
-import net.fexcraft.mod.lib.network.packet.PacketJsonObject;
+import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IThreadListener;
@@ -12,23 +12,23 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class JsonObjectPacketHandler{
+public class NBTTagCompoundPacketHandler {
 	
 	private static HashMap<String, IPacketListener> sls = new HashMap<String, IPacketListener>();
 	private static HashMap<String, IPacketListener> cls = new HashMap<String, IPacketListener>();
 	
-	public static class Server implements IMessageHandler<PacketJsonObject, IMessage> {
+	public static class Server implements IMessageHandler<PacketNBTTagCompound, IMessage> {
 		@Override
-		public IMessage onMessage(final PacketJsonObject packet, final MessageContext ctx) {
+		public IMessage onMessage(final PacketNBTTagCompound packet, final MessageContext ctx) {
 			IThreadListener ls = FMLCommonHandler.instance().getMinecraftServerInstance();
 			ls.addScheduledTask(new Runnable(){
 				@Override
 				public void run(){
-					if(!packet.obj.has("target_listener")){
-						Print.log("[FCL] Received JSON Packet, but had no target listener, ignoring!");
+					if(!packet.nbt.hasKey("target_listener")){
+						Print.log("[FCL] Received NBT Packet, but had no target listener, ignoring!");
 						return;
 					}
-					IPacketListener listener = sls.get(packet.obj.get("target_listener").getAsString());
+					IPacketListener listener = sls.get(packet.nbt.getString("target_listener"));
 					if(listener != null){
 						listener.process(packet, new Object[]{ctx.getServerHandler().playerEntity});
 					}
@@ -38,18 +38,18 @@ public class JsonObjectPacketHandler{
 		}
 	}
 	
-	public static class Client implements IMessageHandler<PacketJsonObject, IMessage> {
+	public static class Client implements IMessageHandler<PacketNBTTagCompound, IMessage> {
 		@Override
-		public IMessage onMessage(final PacketJsonObject packet, final MessageContext ctx) {
+		public IMessage onMessage(final PacketNBTTagCompound packet, final MessageContext ctx) {
 			IThreadListener ls = Minecraft.getMinecraft();
 			ls.addScheduledTask(new Runnable(){
 				@Override
 				public void run(){
-					if(!packet.obj.has("target_listener")){
-						Print.log("[FCL] Received JSON Packet, but had no target listener, ignoring!");
+					if(!packet.nbt.hasKey("target_listener")){
+						Print.log("[FCL] Received NBT Packet, but had no target listener, ignoring!");
 						return;
 					}
-					IPacketListener listener = cls.get(packet.obj.get("target_listener").getAsString());
+					IPacketListener listener = cls.get(packet.nbt.getString("target_listener"));
 					if(listener != null){
 						listener.process(packet, new Object[]{Minecraft.getMinecraft().player});
 					}
