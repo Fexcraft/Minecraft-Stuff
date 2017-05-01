@@ -47,6 +47,7 @@ public class VehicleType extends DataObject {
 	//
 	public String license_code;
 	public ArrayList<TextObject> license_plates = new ArrayList<TextObject>();
+	public ArrayList<TextObject> text_areas = new ArrayList<TextObject>();
 	//
 	public Item item;
 	//
@@ -535,6 +536,9 @@ public class VehicleType extends DataObject {
 			}
 			if(!part.licenseplates.isEmpty()){
 				license_plates.addAll(part.licenseplates);
+			}
+			if(!part.textareas.isEmpty()){
+				text_areas.addAll(part.textareas);
 			}
 			//general modifiers
 		}

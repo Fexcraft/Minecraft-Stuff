@@ -35,6 +35,22 @@
             ],
         "Requires": []
     },
+    "RenderSettings": {
+        "LicensePlates":[
+            {
+                "x": 59.60,
+                "y": -1,
+                "z": 0,
+                "pitch_rot": 15
+            },
+            {
+                "x": -100.30,
+                "y": -4,
+                "z": 0,
+                "yaw_rot": 180
+            }
+        ]
+    },
     "AttributeSettings":{
         "ParticleSpawners":[
             {

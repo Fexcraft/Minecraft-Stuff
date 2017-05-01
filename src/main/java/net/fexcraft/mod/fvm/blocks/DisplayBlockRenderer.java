@@ -36,7 +36,7 @@ public class DisplayBlockRenderer extends TileEntitySpecialRenderer {
 				VehicleType type = te.getType();
 				Minecraft.getMinecraft().renderEngine.bindTexture(type.textures.get(type.current_texture));
 				GL11.glTranslatef(0, (type.construction_height_offset + 2) * 0.0625f, 0);
-				modvec.render(type, null);
+				modvec.render(type, null, te.getBlockMetadata());
 				if(type.parts.size() > 0){
 					for(String key : type.parts.keySet()){
 						PartType part = type.parts.get(key);

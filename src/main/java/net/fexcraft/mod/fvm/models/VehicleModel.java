@@ -49,10 +49,10 @@ public class VehicleModel extends FvmModelBase {
 	
 
 	public void render(VehicleType data){
-		render(data, null);
+		render(data, null, 0);
 	}
 	
-	public void render(VehicleType data, @Nullable Entity entity){
+	public void render(VehicleType data, @Nullable Entity entity, int meta){
 		//Vehicle Chassis
 		render(chassis);
 		
@@ -92,6 +92,9 @@ public class VehicleModel extends FvmModelBase {
 		
 		if(entity != null){
 			TextObject.render(data, entity.rotationYaw, entity.rotationPitch);
+		}
+		else{
+			TextObject.render(data, meta);
 		}
 	}
 	

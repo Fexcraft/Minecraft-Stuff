@@ -61,6 +61,24 @@ public class TextObject {
 			}
 			plate.render(plate.isLicensePlate ? str : plate.text, yaw, pitch);
 		}
+		for(TextObject plate : type.text_areas){
+			if(plate.onDoor && !type.doors){
+				continue;
+			}
+			plate.render(plate.isLicensePlate ? str : plate.text, yaw, pitch);
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void render(VehicleType type, int facing){
+		double d = 60;
+		switch(facing){
+			case 2: d = 0; break;
+			case 3: d = -180d; break;
+			case 4: d = -90; break;
+			case 5: d = -270d; break;
+		}
+		render(type, d, 0);
 	}
 
 	@SideOnly(Side.CLIENT)

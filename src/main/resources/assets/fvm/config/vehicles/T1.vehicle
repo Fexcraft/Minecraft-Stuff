@@ -1,6 +1,7 @@
 {
     "RegistryName": "T1",
     "AddOn": "Default FVM Addon Pack",
+    "FullName": "T1 Type P-",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelT1P.class",
     "PrimaryColor": {
         "Red": 0.0,

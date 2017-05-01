@@ -1,6 +1,7 @@
 {
     "RegistryName": "TV1",
     "AddOn": "FVM Test Pack",
+    "FullName": "Test Vehicle 1",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelTV1.class",
     "PrimaryColor": {
         "Red": 0.5,

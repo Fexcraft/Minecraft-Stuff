@@ -1,7 +1,7 @@
 {
     "RegistryName": "C7",
     "AddOn": "Default FVM Addon Pack",
-    "FullName": "C7",
+    "FullName": "C7 Raw",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelC7.class",
     "PrimaryColor": {
         "Red": 1,

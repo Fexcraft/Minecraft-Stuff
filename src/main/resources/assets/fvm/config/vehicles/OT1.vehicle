@@ -1,6 +1,7 @@
 {
     "RegistryName": "OT1",
     "AddOn": "Default FVM Addon Pack",
+    "FullName": "OT1 Type P",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1.class",
     "PrimaryColor": {
         "Red": 0.027,

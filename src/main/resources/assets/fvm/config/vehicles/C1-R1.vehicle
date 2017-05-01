@@ -1,6 +1,7 @@
 {
     "RegistryName": "C1R1",
     "AddOn": "Default FVM Addon Pack",
+    "FullName": "C1-R1",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelC1_R1.class",
     "PrimaryColor": {
         "Red": 0.5,
