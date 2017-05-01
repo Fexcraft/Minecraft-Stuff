@@ -45,6 +45,9 @@ public class VehicleType extends DataObject {
 	public VehicleModel model;
 	public String modelname;
 	//
+	public String license_code;
+	public ArrayList<TextObject> license_plates = new ArrayList<TextObject>();
+	//
 	public Item item;
 	//
 	public RGB primaryColor = new RGB();
@@ -229,7 +232,7 @@ public class VehicleType extends DataObject {
 		}
 		
 		
-		this.refreshAttributes();
+		this.refreshAttributes(false);
 		if(state.isLoadedInMemory()){
 			VehicleItem.addVehicle(this);
 			if(obj.has("Recipes")){
@@ -256,6 +259,7 @@ public class VehicleType extends DataObject {
 		}
 		obj.addProperty("AddOn", addonpack);
 		obj.addProperty("RegistryName", registryname);
+		obj.addProperty("FullName", fullname);
 		obj.addProperty("ModelFile", modelname);
 		//
 		JsonObject cs = new JsonObject();
@@ -499,7 +503,7 @@ public class VehicleType extends DataObject {
 				if(!parts.containsKey(s)){
 					parts.put(s, type);
 					installed = true;
-					this.refreshAttributes();
+					this.refreshAttributes(true);
 				}
 			}
 			if(!installed){
@@ -508,7 +512,14 @@ public class VehicleType extends DataObject {
 		}
 	}
 
-	private void refreshAttributes(){
+	private void refreshAttributes(boolean clear){
+		if(clear){
+			this.scriptlist.clear();
+			this.scripts.clear();
+			this.seats.clear();
+			this.itemDiscriminator.clear();
+			this.license_plates.clear();
+		}
 		for(PartType part : parts.values()){
 			if(part == null || part.attributes == null){
 				continue;
@@ -519,8 +530,11 @@ public class VehicleType extends DataObject {
 			if(part.attributes.contains("cargo") || part.attributes.contains("item_discriminator")){
 				itemDiscriminator.addAll(part.itemDiscriminator);
 			}
-			if(part.scriptlist.size() > 0){
+			if(!part.scriptlist.isEmpty()){
 				scriptlist.addAll(part.scriptlist);
+			}
+			if(!part.licenseplates.isEmpty()){
+				license_plates.addAll(part.licenseplates);
 			}
 			//general modifiers
 		}

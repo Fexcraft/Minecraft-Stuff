@@ -11,6 +11,7 @@ import net.fexcraft.mod.lib.network.packet.Packet;
 import net.fexcraft.mod.lib.network.packet.PacketItemStackUpdate;
 import net.fexcraft.mod.lib.network.packet.PacketJsonObject;
 import net.fexcraft.mod.lib.network.packet.PacketKeyInput;
+import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -31,6 +32,8 @@ public class PacketHandler{
 		instance.registerMessage(ISUPacketHandler.Client.class,               PacketItemStackUpdate.class,   5, Side.CLIENT);
 		instance.registerMessage(JsonObjectPacketHandler.Server.class,        PacketJsonObject.class,        6, Side.SERVER);
 		instance.registerMessage(JsonObjectPacketHandler.Client.class,        PacketJsonObject.class,        7, Side.CLIENT);
+		instance.registerMessage(NBTTagCompoundPacketHandler.Server.class,    PacketNBTTagCompound.class,    8, Side.SERVER);
+		instance.registerMessage(NBTTagCompoundPacketHandler.Client.class,    PacketNBTTagCompound.class,    9, Side.CLIENT);
 		Print.log("Done initialising Packet Handler.");
 	}
 	

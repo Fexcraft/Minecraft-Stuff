@@ -1,10 +1,14 @@
 package net.fexcraft.mod.fvm.models;
 
+import javax.annotation.Nullable;
+
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.data.TextObject;
 import net.fexcraft.mod.fvm.data.VehicleType;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.minecraft.entity.Entity;
 
 public class VehicleModel extends FvmModelBase {
 	
@@ -42,8 +46,13 @@ public class VehicleModel extends FvmModelBase {
 		turret = parse("turret", obj, tx, ty);
 		wheels_import = parse("wheels_import", obj, tx, ty);
 	}
+	
 
 	public void render(VehicleType data){
+		render(data, null);
+	}
+	
+	public void render(VehicleType data, @Nullable Entity entity){
 		//Vehicle Chassis
 		render(chassis);
 		
@@ -81,6 +90,9 @@ public class VehicleModel extends FvmModelBase {
 		//Other
 		render(wheels_import);
 		
+		if(entity != null){
+			TextObject.render(data, entity.rotationYaw, entity.rotationPitch);
+		}
 	}
 	
 	@Override

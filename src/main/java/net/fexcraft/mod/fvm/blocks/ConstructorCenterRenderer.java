@@ -48,7 +48,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 				VehicleType type = te.link.type;
 				Minecraft.getMinecraft().renderEngine.bindTexture(type.textures.get(type.current_texture));
 				GL11.glTranslatef(0, type.construction_height_offset * 0.0625f, 0);
-				modvec.render(te.link.type);
+				modvec.render(te.link.type, null);
 				if(type.parts.size() > 0){
 					for(String key : type.parts.keySet()){
 						PartType part = type.parts.get(key);

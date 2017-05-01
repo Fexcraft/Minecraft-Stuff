@@ -2,7 +2,7 @@ package net.fexcraft.mod.lib.util.render;
 
 public enum ModelType {
 	
-	JSON("json"), JAVA("java"), TMT("tmt"), OBJ("obj"), NONE("null");
+	JSON("json"), JAVA("java"), JTMT("jtmt"), TMT("tmt"), OBJ("obj"), NONE("null");
 	
 	private String name;
 	

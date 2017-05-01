@@ -51,7 +51,10 @@ public class PartType extends DataObject {
 	//
 	public ArrayList<ResourceLocation> textures = new ArrayList<ResourceLocation>();
 	public int current_texture = 0;
-	
+	//
+	public ArrayList<TextObject> licenseplates = new ArrayList<TextObject>();
+	public ArrayList<TextObject> textareas = new ArrayList<TextObject>();
+	//
 	//Seat Attribute
 	public ArrayList<Seat> seats = new ArrayList<Seat>();
 	//Engine Attribute
@@ -182,6 +185,18 @@ public class PartType extends DataObject {
 				JsonArray cr = rs.get("CargoRender").getAsJsonArray();
 				for(int i = 0; i < cr.size(); i++){
 					cargopos.add(new CargoRenderPos(cr.get(i).getAsJsonObject(), i));
+				}
+			}
+			if(rs.has("LicensePlates")){
+				JsonArray lp = rs.get("LicensePlates").getAsJsonArray();
+				for(JsonElement elm : lp){
+					this.licenseplates.add(new TextObject(elm.getAsJsonObject(), true));
+				}
+			}
+			if(rs.has("TextAreas")){
+				JsonArray lp = rs.get("TextAreas").getAsJsonArray();
+				for(JsonElement elm : lp){
+					this.textareas.add(new TextObject(elm.getAsJsonObject(), false));
 				}
 			}
 		}
