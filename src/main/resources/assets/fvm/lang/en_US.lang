@@ -46,6 +46,7 @@ item.fvm:part_c2_steering_wheel.name=C2 Default Steering Wheel
 item.fvm:material_null.name=Material Null Item
 item.fvm:material_rubber.name=Rubber
 item.fvm:material_steel_ingot.name=Steel Ingot
+item.fvm:material_steel_plate.name=Steel Plate
 
 #Vehicles
 item.fvm:vehicle_item.name=Vehicle Container Item
