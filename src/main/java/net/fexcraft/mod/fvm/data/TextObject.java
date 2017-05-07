@@ -18,7 +18,7 @@ public class TextObject {
 	private Pos offset;
 	private boolean onDoor, isLicensePlate;
 	private int color;
-	private String text;
+	private String desc, id;
 	
 	public TextObject(JsonObject obj, boolean b){
 		this.isLicensePlate = b;
@@ -36,12 +36,14 @@ public class TextObject {
 		catch(Exception e){
 			color = 0x000000;
 		}
-		text = JsonUtil.getIfExists(obj, "text", "<null>");
+		desc = JsonUtil.getIfExists(obj, "desc", "<null>");
+		id = JsonUtil.getIfExists(obj, "id", "null");
 	}
 	
-	public TextObject(String str, boolean isLP, float xs, float ys, float yaw, float pitch, float roll, Pos offsetpos, boolean door, int colour){
+	public TextObject(String id, String str, boolean isLP, float xs, float ys, float yaw, float pitch, float roll, Pos offsetpos, boolean door, int colour){
 		this.isLicensePlate = isLP;
-		this.text = str;
+		this.id = id;
+		this.desc = str;
 		xscale = xs; yscale = ys;
 		yaw_rot = yaw; pitch_rot = pitch; roll_rot = roll;
 		offset = offsetpos; onDoor = door;
@@ -59,13 +61,13 @@ public class TextObject {
 			if(plate.onDoor && !type.doors){
 				continue;
 			}
-			plate.render(plate.isLicensePlate ? str : plate.text, yaw, pitch);
+			plate.render(str, yaw, pitch);
 		}
-		for(TextObject plate : type.text_areas){
-			if(plate.onDoor && !type.doors){
+		for(TextObject obj : type.text_areas){
+			if((obj.onDoor && !type.doors) || !type.textareas.containsKey(obj.id)){
 				continue;
 			}
-			plate.render(plate.isLicensePlate ? str : plate.text, yaw, pitch);
+			obj.render(type.textareas.get(obj.id), yaw, pitch);
 		}
 	}
 	
@@ -99,6 +101,10 @@ public class TextObject {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         offset.translateR();
         GlStateManager.popMatrix();
+	}
+
+	public String getDesc(){
+		return desc;
 	}
 	
 }

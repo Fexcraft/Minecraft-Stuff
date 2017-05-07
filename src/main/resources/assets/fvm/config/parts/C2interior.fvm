@@ -52,7 +52,9 @@
                 "pitch_rot": 0,
                 "roll_rot": 0,
                 "onDoor": false,
-                "color": "#000000"
+                "color": "#c56748",
+                "desc": "Test Text Area at the Side.",
+                "id": "side_test"
             }
         ],
         "CargoRender":[

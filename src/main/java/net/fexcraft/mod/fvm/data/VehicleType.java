@@ -48,6 +48,7 @@ public class VehicleType extends DataObject {
 	public String license_code;
 	public ArrayList<TextObject> license_plates = new ArrayList<TextObject>();
 	public ArrayList<TextObject> text_areas = new ArrayList<TextObject>();
+	public TreeMap<String, String> textareas = new TreeMap<String, String>();
 	//
 	public Item item;
 	//
@@ -355,6 +356,13 @@ public class VehicleType extends DataObject {
 		if(compound.hasKey("SpawnedKeys")){
 			this.spawnedKeys = compound.getInteger("SpawnedKeys");
 		}
+		if(compound.hasKey("TextAreas")){
+			JsonArray array = JsonUtil.getFromString(compound.getString("TextAreas")).getAsJsonArray();
+			for(JsonElement elm : array){
+				JsonObject obj = elm.getAsJsonObject();
+				this.textareas.put(obj.get("id").getAsString(), obj.get("text").getAsString());
+			}
+		}
 		if(container != null){
 			container.readFromNBT(compound);
 		}
@@ -381,6 +389,14 @@ public class VehicleType extends DataObject {
 		compound.setString("PrimaryColor", this.primaryColor.toJSON().toString());
 		compound.setString("SecondaryColor", this.secondaryColor.toJSON().toString());
 		compound.setInteger("SpawnedKeys", spawnedKeys);
+		JsonArray textareas = new JsonArray();
+		for(Entry<String, String> set : this.textareas.entrySet()){
+			JsonObject obj = new JsonObject();
+			obj.addProperty("id", set.getKey());
+			obj.addProperty("text", set.getValue());
+			textareas.add(textareas);
+		}
+		compound.setString("TextAreas", textareas.toString());
 		if(container != null){
 			container.writeToNBT(compound);
 		}
@@ -520,6 +536,8 @@ public class VehicleType extends DataObject {
 			this.seats.clear();
 			this.itemDiscriminator.clear();
 			this.license_plates.clear();
+			this.text_areas.clear();
+			this.textareas.clear();
 		}
 		for(PartType part : parts.values()){
 			if(part == null || part.attributes == null){
