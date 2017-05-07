@@ -1,6 +1,6 @@
 {
 "parent": "item/generated",
 "textures": {
-"layer0": "fvm:items/steel_ingotmaterial_steel_ingot"
+"layer0": "fvm:items/steel_ingot"
 }
 }
