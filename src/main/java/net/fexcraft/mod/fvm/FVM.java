@@ -9,6 +9,7 @@ import net.fexcraft.mod.fvm.network.FvmPacketHandler;
 import net.fexcraft.mod.fvm.util.FvmPerms;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.FvmTickHandler;
+import net.fexcraft.mod.fvm.util.FvmUpdateHandler;
 import net.fexcraft.mod.fvm.util.KeyHandler;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
@@ -44,7 +45,7 @@ public class FVM {
 	public static FVM INSTANCE;
 	
 	public static final String PREFIX = Formatter.format("&0[&9FVM&0]&7 ");
-	public static final String VERSION = "1.0-alpha9";
+	public static final String VERSION = "1.0-alpha10";
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
@@ -80,6 +81,8 @@ public class FVM {
 		SimpleUpdateHandler.register("fvm", 1, VERSION);
 		SimpleUpdateHandler.setUpdateMessage("fvm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvm") + ")&7");
 		PacketHandler.registerListener(PacketHandlerType.JSON, Side.SERVER, new Receiver());
+		FvmUpdateHandler.load();
+		FvmUpdateHandler.register();
 	}
 	
 	@Mod.EventHandler
