@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvm;
 
+import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,7 +28,9 @@ public class FVM {
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
-		//
+		FvmResources.setup(event);
+		FvmResources.scanForContent(event);
+		
 	}
 	
 	@Mod.EventHandler
