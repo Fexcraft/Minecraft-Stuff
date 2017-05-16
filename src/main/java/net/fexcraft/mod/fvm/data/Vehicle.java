@@ -65,6 +65,12 @@ public class Vehicle {
 			
 		}
 		
+		public VData fromNBT(NBTTagCompound compound){
+			//TODO find vehicle
+			//TODO read compound
+			return null;
+		}
+		
 	}
 	
 }
