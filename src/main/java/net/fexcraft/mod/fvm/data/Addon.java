@@ -1,17 +1,15 @@
 package net.fexcraft.mod.fvm.data;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 
 public class Addon {
@@ -20,10 +18,17 @@ public class Addon {
 	public String id, name, url, license;
 	public ArrayList<String> dependencies;
 	public ArrayList<UUID> authors;
+	public ArrayList<String> altauthors;
 	
 	public Addon(File file){
-		JsonObject obj = new JsonObject();//TODO
 		this.file = file;
+		JsonObject obj = null;
+		if(file.isDirectory()){
+			obj = JsonUtil.get(new File(file, FvmResources.DEFPACKCFGFILENAME));
+		}
+		else{
+			obj = ZipUtil.getJsonObject(file, FvmResources.DEFPACKCFGFILENAME);
+		}
 		try{
 			this.id = obj.get("id").getAsString();
 		}
@@ -39,7 +44,14 @@ public class Addon {
 			JsonArray array = obj.get("authors").getAsJsonArray();
 			for(JsonElement elm : array){
 				try{
-					authors.add(UUID.fromString(elm.getAsString()));
+					String str = elm.getAsString();
+					Static.exception(4, str);
+					if(str.startsWith("fnet:")){
+						altauthors.add(str);
+					}
+					else{
+						authors.add(UUID.fromString(elm.getAsString()));
+					}
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -52,7 +64,7 @@ public class Addon {
 
 	public static boolean isAddonContainer(File file){
 		if(file.isDirectory()){
-			File fl = new File(file, "addonpack.fvm");
+			File fl = new File(file, FvmResources.DEFPACKCFGFILENAME);
 			try{
 				return fl.exists();
 			}
@@ -62,24 +74,7 @@ public class Addon {
 			}
 		}
 		if(file.getName().endsWith(".zip") || file.getName().endsWith(".jar")){
-			try{
-				ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
-				while(true){
-					ZipEntry entry = stream.getNextEntry();
-					if(entry == null){
-						stream.close();
-						break;
-					}
-					if(entry.getName().equals("addonpack.fvm")){
-						stream.close();
-						return true;
-					}
-				}
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			return false;
+			return ZipUtil.contains(file, FvmResources.DEFPACKCFGFILENAME);
 		}
 		return false;
 	}
