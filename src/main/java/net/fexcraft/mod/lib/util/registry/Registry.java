@@ -60,7 +60,7 @@ public class Registry {
 	public static void registerAllBlocks(String modid){
 		Set<ASMData> data = table.getAll(block);
 		ArrayList<String> arr = new ArrayList<String>();
-		Map<String, Class<? extends Block>> map = new TreeMap<String, Class<? extends Block>>();
+		TreeMap<String, Class<? extends Block>> map = new TreeMap<String, Class<? extends Block>>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Block> clazz = (Class<? extends Block>)Class.forName(entry.getClassName());
@@ -104,7 +104,7 @@ public class Registry {
 	public static void registerAllItems(String modid){
 		Set<ASMData> data = table.getAll(item);
 		ArrayList<String> arr = new ArrayList<String>();
-		Map<String, Class<? extends Item>> map = new TreeMap<String, Class<? extends Item>>();
+		TreeMap<String, Class<? extends Item>> map = new TreeMap<String, Class<? extends Item>>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Item> clazz = (Class<? extends Item>)Class.forName(entry.getClassName());
@@ -137,7 +137,7 @@ public class Registry {
 	
 	public static void registerAllEntities(String modid){
 		Set<ASMData> data = table.getAll(entity);
-		Map<String, Class<? extends Entity>> map = new TreeMap<String, Class<? extends Entity>>();
+		TreeMap<String, Class<? extends Entity>> map = new TreeMap<String, Class<? extends Entity>>();
 		for(ASMData entry : data){
 			try{
 				Class<? extends Entity> clazz = (Class<? extends Entity>)Class.forName(entry.getClassName());
