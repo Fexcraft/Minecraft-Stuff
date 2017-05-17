@@ -2,9 +2,14 @@ package net.fexcraft.mod.fvm.data;
 
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.render.ModelType;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,14 +26,14 @@ public class Vehicle {
 	public String registryname;
 	/** Fancy Name to be displayed in GUIs, etc. */
 	public String fullname;
-	/** ID of the AddonPack the Vehicle is from. */
-	public String addonpack;
+	public Addon addon;
 	/** Description, simply put. */
 	public String[] description;
 	/** Default Vehicle colours. */
 	public RGB def_primary, def_secondary;
 	/** Model Adress */
 	public String modelname;
+	public ModelType modeltype = ModelType.NONE;
 	/** Base model of the Vehicle. */
 	@SideOnly(Side.CLIENT) //public VehicleModel model;
 	/** The Custom Item of this Vehicle. */
@@ -37,6 +42,51 @@ public class Vehicle {
 	public boolean allowsLocking;
 	
 	public Vehicle(JsonObject obj){
+		if(obj.has("RegistryName")){
+			this.registryname = obj.get("RegistryName").getAsString();
+		}
+		else{
+			Print.log("VEHICLE DOES NOT HAVE A REGISTRY NAME, THAT IS AN ISSUE;");
+			Print.log(obj);
+			Static.halt();
+		}
+		if(obj.has("Addon")){
+			addon = FvmResources.addons.get(obj.get("Addon").getAsString());
+			if(addon == null){
+				Print.log("ADDON PACK NOT FOUND FOR VEHICLE (" + registryname + "), OR INCORRECT NAME, THAT IS AN ISSUE;");
+				Static.halt();
+			}
+		}
+		else{
+			Print.log("VEHICLE (" + registryname + ") DOES NOT HAVE A SET ADDON PACK, THAT IS AN ISSUE;");
+			Static.halt();
+		}
+		this.fullname = JsonUtil.getIfExists(obj, "FullName", this.registryname);
+		if(obj.has("Description")){
+			JsonArray desc = obj.get("Description").getAsJsonArray();
+			this.description = new String[desc.size()];
+			for(int i = 0; i < desc.size(); i++){
+				this.description[i] = desc.get(i).getAsString();
+			}
+		}
+		if(obj.has("PrimaryColor")){
+			this.def_primary = RGB.fromJSON(obj.get("PrimaryColor").getAsJsonObject(), false);
+		}
+		else{
+			this.def_primary = new RGB();
+		}
+		if(obj.has("SecondaryColor")){
+			this.def_secondary = RGB.fromJSON(obj.get("SecondaryColor").getAsJsonObject(), false);
+		}
+		else{
+			this.def_secondary = new RGB();
+		}
+		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
+		//this.item = VehicleItem.register(this); //TODO
+		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
+	}
+	
+	public void loadModel(){
 		//TODO
 	}
 	
@@ -66,9 +116,11 @@ public class Vehicle {
 		}
 		
 		public VData fromNBT(NBTTagCompound compound){
-			//TODO find vehicle
-			//TODO read compound
-			return null;
+			Vehicle veh = FvmResources.vehicles.get(compound.getString("VehicleType"));
+			if(veh == null){ return null; }
+			VData vdata = new VData(veh);
+			vdata.read(compound);
+			return vdata;
 		}
 		
 	}

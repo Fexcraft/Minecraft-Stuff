@@ -1,6 +1,8 @@
 package net.fexcraft.mod.fvm;
 
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.fvm.util.FvmUpdateHandler;
+import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -35,7 +37,12 @@ public class FVM {
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
+		
 		//
+		SimpleUpdateHandler.register("fvm", 1, VERSION);
+		SimpleUpdateHandler.setUpdateMessage("fvm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvm") + ")&7");
+		FvmUpdateHandler.load();
+		FvmUpdateHandler.register();
 	}
 	
 	@Mod.EventHandler

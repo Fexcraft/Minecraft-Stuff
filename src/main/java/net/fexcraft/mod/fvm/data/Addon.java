@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -45,16 +46,15 @@ public class Addon {
 			for(JsonElement elm : array){
 				try{
 					String str = elm.getAsString();
-					Static.exception(4, str);
-					if(str.startsWith("fnet:")){
+					if(str.split(":")[0].equals("fnet")){
 						altauthors.add(str);
 					}
 					else{
-						authors.add(UUID.fromString(elm.getAsString()));
+						authors.add(UUID.fromString(elm.getAsString().replace("-", "")));
 					}
 				}
 				catch(Exception e){
-					e.printStackTrace();
+					Print.log("ADN: (" + id + ") " + e.getMessage());
 				}
 			}
 		}

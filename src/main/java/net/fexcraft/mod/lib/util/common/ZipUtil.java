@@ -8,6 +8,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.util.FvmResources;
@@ -61,6 +62,32 @@ public class ZipUtil {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static JsonArray getJsonObjectsAt(File file, String path, String extension){
+		JsonArray array = new JsonArray();
+		try{
+			ZipFile zip = new ZipFile(file);
+			ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			while(true){
+				ZipEntry entry = stream.getNextEntry();
+				if(entry == null){
+					break;
+				}
+				if(entry.getName().startsWith(path) && entry.getName().endsWith(extension)){
+					array.add(JsonUtil.getObjectFromInputStream(zip.getInputStream(entry)));
+					break;
+				}
+			}
+			reader.close();
+			zip.close();
+			stream.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return array;
 	}
 	
 }
