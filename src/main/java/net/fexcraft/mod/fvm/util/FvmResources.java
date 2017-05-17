@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Addon;
+import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.Vehicle;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -33,7 +34,7 @@ public class FvmResources {
 	public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
 	//
 	public static final TreeMap<String, Object> models = new TreeMap<String, Object>();
-	//TODO Materials
+	public static final TreeMap<String, Material> materials = new TreeMap<String, Material>();
 	//TODO Parts
 	//TODO Air
 	public static final TreeMap<String, Vehicle> vehicles = new TreeMap<String, Vehicle>();
@@ -130,7 +131,26 @@ public class FvmResources {
 					FMLClientHandler.instance().addModAsResource(container);
 				}
 				Print.log("Searching for Materials...");
-				//TODO
+				if(addon.file.isDirectory()){
+					File matfol = new File(addon.file, "assets/fvm/config/materials/");
+					if(!matfol.exists()){ matfol.mkdirs(); }
+					for(File file : matfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".material")){
+							Material mat = new Material(JsonUtil.get(file));
+							materials.put(mat.registryname, mat);
+							Print.log("Registered Material '" + mat.registryname + "';");
+						}
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/vehicles/", ".material");
+					for(JsonElement elm : array){
+						Material mat = new Material(elm.getAsJsonObject());
+						materials.put(mat.registryname, mat);
+						Print.log("Registered Material '" + mat.registryname + "'.");
+					}
+				}
 				Print.log("Searching for Parts...");
 				//TODO
 				Print.log("Searching for Air Vehicles...");
@@ -143,6 +163,7 @@ public class FvmResources {
 						if(!file.isDirectory() && file.getName().endsWith(".vehicle")){
 							Vehicle veh = new Vehicle(JsonUtil.get(file));
 							vehicles.put(veh.registryname, veh);
+							Print.log("Registered Vehicle '" + veh.registryname + "';");
 						}
 						//else skip;
 					}
@@ -152,6 +173,7 @@ public class FvmResources {
 					for(JsonElement elm : array){
 						Vehicle veh = new Vehicle(elm.getAsJsonObject());
 						vehicles.put(veh.registryname, veh);
+						Print.log("Registered Vehicle '" + veh.registryname + "'.");
 					}
 				}
 				Print.log("Searching for Water Vehicles...");

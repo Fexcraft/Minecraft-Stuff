@@ -2,11 +2,9 @@ package net.fexcraft.mod.fvm.data;
 
 import java.util.UUID;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.util.FvmResources;
-import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.render.ModelType;
@@ -42,45 +40,12 @@ public class Vehicle {
 	public boolean allowsLocking;
 	
 	public Vehicle(JsonObject obj){
-		if(obj.has("RegistryName")){
-			this.registryname = obj.get("RegistryName").getAsString();
-		}
-		else{
-			Print.log("VEHICLE DOES NOT HAVE A REGISTRY NAME, THAT IS AN ISSUE;");
-			Print.log(obj);
-			Static.halt();
-		}
-		if(obj.has("Addon")){
-			addon = FvmResources.addons.get(obj.get("Addon").getAsString());
-			if(addon == null){
-				Print.log("ADDON PACK NOT FOUND FOR VEHICLE (" + registryname + "), OR INCORRECT NAME, THAT IS AN ISSUE;");
-				Static.halt();
-			}
-		}
-		else{
-			Print.log("VEHICLE (" + registryname + ") DOES NOT HAVE A SET ADDON PACK, THAT IS AN ISSUE;");
-			Static.halt();
-		}
+		this.registryname = DataUtil.getRegistryName(obj, "VEHICLE");
+		this.addon = DataUtil.getAddon(registryname, obj, "VEHICLE");
 		this.fullname = JsonUtil.getIfExists(obj, "FullName", this.registryname);
-		if(obj.has("Description")){
-			JsonArray desc = obj.get("Description").getAsJsonArray();
-			this.description = new String[desc.size()];
-			for(int i = 0; i < desc.size(); i++){
-				this.description[i] = desc.get(i).getAsString();
-			}
-		}
-		if(obj.has("PrimaryColor")){
-			this.def_primary = RGB.fromJSON(obj.get("PrimaryColor").getAsJsonObject(), false);
-		}
-		else{
-			this.def_primary = new RGB();
-		}
-		if(obj.has("SecondaryColor")){
-			this.def_secondary = RGB.fromJSON(obj.get("SecondaryColor").getAsJsonObject(), false);
-		}
-		else{
-			this.def_secondary = new RGB();
-		}
+		this.description = DataUtil.getDescription(obj);
+		this.def_primary = DataUtil.getRGB(obj, "PrimaryColor");
+		this.def_secondary = DataUtil.getRGB(obj, "SecondaryColor");
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
 		//this.item = VehicleItem.register(this); //TODO
 		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
