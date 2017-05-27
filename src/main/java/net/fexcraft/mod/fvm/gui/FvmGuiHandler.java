@@ -69,6 +69,7 @@ public class FvmGuiHandler implements IGuiHandler {
 						if(addon != null && !addon.missing_dependencies){
 							addon.enabled = !addon.enabled;
 						}
+						FvmResources.updateAddonConfig();
 					}
 					catch(Exception e){
 						break;

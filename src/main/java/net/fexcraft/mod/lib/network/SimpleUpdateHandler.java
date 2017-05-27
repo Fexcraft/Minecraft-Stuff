@@ -113,8 +113,9 @@ public class SimpleUpdateHandler{
 			catch(Exception ex){
 				Print.log("-----------------------");
 				Print.log("Malformed Moddata JSON for modid '" + modid + "'!");
-				Print.log(obj.get(modid).getAsJsonObject().toString());
+				Print.log(obj.get(modid).toString());
 				Print.log("-----------------------");
+				return "error";
 			}
 		}
 		return "null";
