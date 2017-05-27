@@ -58,6 +58,7 @@ public class FvmResources {
 				Addon addon = new Addon(file);
 				if(!addons.containsKey(addon.id)){
 					addons.put(addon.id, addon);
+					Addon.registerAsDummyMod();
 				}
 				else{
 					Print.log("[ERROR]: ADDON PACK WITH ID `" + addon.id + "` REGISTERED TWICE!");

@@ -78,5 +78,9 @@ public class Addon {
 		}
 		return false;
 	}
+
+	public static void registerAsDummyMod(){
+		//TODO		
+	}
 	
 }

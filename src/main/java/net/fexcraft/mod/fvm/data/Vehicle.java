@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -47,7 +48,7 @@ public class Vehicle {
 		this.def_primary = DataUtil.getRGB(obj, "PrimaryColor");
 		this.def_secondary = DataUtil.getRGB(obj, "SecondaryColor");
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
-		//this.item = VehicleItem.register(this); //TODO
+		this.item = VehicleItem.register(this); //TODO
 		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
 	}
 	
