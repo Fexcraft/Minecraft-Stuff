@@ -31,7 +31,7 @@ public class FvmResources {
 	//
 	public static final ResourceLocation NULL_TEXTURE = new ResourceLocation("fvm:textures/entities/null_texture");
 	public static final TreeMap<String, Addon> addons = new TreeMap<String, Addon>();
-	public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
+	//public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
 	//
 	public static final TreeMap<String, Object> models = new TreeMap<String, Object>();
 	public static final TreeMap<String, Material> materials = new TreeMap<String, Material>();
@@ -79,7 +79,10 @@ public class FvmResources {
 		if(array != null){
 			for(JsonElement elm : array){
 				try{
-					packstate.put(elm.getAsJsonObject().get("id").getAsString(), elm.getAsJsonObject().get("state").getAsBoolean());
+					Addon addon = addons.get(elm.getAsJsonObject().get("id").getAsString());
+					if(addon != null){
+						addon.enabled = elm.getAsJsonObject().get("state").getAsBoolean();
+					}
 				}
 				catch(Exception e){
 					//
@@ -87,39 +90,46 @@ public class FvmResources {
 			}
 		}
 		//check if a pack is missing in config;
-		for(String id : addons.keySet()){
+		/*for(String id : addons.keySet()){
 			if(!packstate.containsKey(id)){
 				packstate.put(id, true);
 			}
-		}
+		}*/
 		//update config file
 		array = new JsonArray();
-		for(Entry<String, Boolean> entry : packstate.entrySet()){
+		for(Addon addon : addons.values()){
 			JsonObject obj = new JsonObject();
-			obj.addProperty("id", entry.getKey());
-			obj.addProperty("state", entry.getValue());
+			obj.addProperty("id", addon.id);
+			obj.addProperty("state", addon.enabled);
 			array.add(obj);
 		}
 		JsonUtil.write(addonconfig, array);
-		//check if dependencies are installed; if not, disable;
+		//check if all dependencies are installed; if not, mark as not working;
 		for(Addon pack : addons.values()){
 			for(String id : pack.dependencies){
-				if(packstate.containsKey(id)){
-					if(!packstate.get(id)){
-						packstate.put(pack.id, false);
-					}
-				}
-				else{
-					packstate.put(pack.id, false);
+				if(addons.get(id) == null){
+					pack.missing_dependencies = true;
+					continue;
 				}
 			}
 		}
+	}
+	
+	public static void updateAddonConfig(){
+		JsonArray array = new JsonArray();
+		for(Addon addon : addons.values()){
+			JsonObject obj = new JsonObject();
+			obj.addProperty("id", addon.id);
+			obj.addProperty("state", addon.enabled);
+			array.add(obj);
+		}
+		JsonUtil.write(addonconfig, array);
 	}
 
 	public static void scanForContent(FMLPreInitializationEvent event){
 		for(Entry<String, Addon> entry : addons.entrySet()){
 			Addon addon = entry.getValue();
-			if(packstate.get(entry.getKey())){
+			if(addon.enabled && !addon.missing_dependencies){
 				Print.log("Scanning Addonpack '" + addon.name + " (" + addon.id + ")' for content...");
 				if(event.getSide().isClient()){
 					Print.log("Registering Addonpack into Forge/Minecraft resources...");

@@ -117,6 +117,11 @@ public class Static{
 		}
 		return dev;
 	}
+	
+	public static void toggleDebug(){
+		cdev = true;
+		dev = !dev;
+	}
 
 	public static MinecraftServer getServer(){
 		return FMLCommonHandler.instance().getMinecraftServerInstance();

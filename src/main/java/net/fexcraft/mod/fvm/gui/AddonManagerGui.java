@@ -1,9 +1,14 @@
 package net.fexcraft.mod.fvm.gui;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import net.fexcraft.mod.fvm.FVM;
+import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
+import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -20,7 +25,10 @@ public class AddonManagerGui extends GuiContainer {
 	//MAIN
 	private Button[][] menubuttons;
 	//ALL
-	
+	private ListEntryButton[][] listbuttons;
+	private ScrollButton up, down;
+	private int scroll = 0;
+	public static ArrayList<Addon> addons = new ArrayList<Addon>();
 	//ONE
 	
 	//COMMON
@@ -35,7 +43,9 @@ public class AddonManagerGui extends GuiContainer {
 				this.ySize = 123;
 				break;
 			case VIEW_ALL:
-				
+				this.xSize = 256;
+				this.ySize = 189;
+				PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(getPacket("get_addon_list")));
 				break;
 			case VIEW_ONE:
 				
@@ -72,13 +82,73 @@ public class AddonManagerGui extends GuiContainer {
 		int i = this.guiLeft, j = this.guiTop;
 		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
 		
-		this.fontRendererObj.drawString(trs("main_description_0"), i + 7, j + 26, MapColor.GRAY.colorValue);
-		this.fontRendererObj.drawString(trs("main_description_1"), i + 7, j + 38, MapColor.GRAY.colorValue);
-		this.fontRendererObj.drawString(trs("main_description_2"), i + 7, j + 50, MapColor.GRAY.colorValue);
+		if(mode == Modes.MAIN){
+			this.fontRendererObj.drawString(trs("main_description_0"), i + 7, j + 26, MapColor.GRAY.colorValue);
+			this.fontRendererObj.drawString(trs("main_description_1"), i + 7, j + 38, MapColor.GRAY.colorValue);
+			this.fontRendererObj.drawString(trs("main_description_2"), i + 7, j + 50, MapColor.GRAY.colorValue);
+		}
+		else if(mode == Modes.VIEW_ALL){
+			this.fontRendererObj.drawString(trs("view_all_loadedaddons") + " " + addons.size(), i + 7, j + 7, MapColor.CYAN.colorValue);
+			this.fontRendererObj.drawString(scroll + "s", i + 242, j + 176, MapColor.YELLOW.colorValue);
+			this.fontRendererObj.drawString(trs("view_all_note"), i + 86, j + 176, MapColor.RED.colorValue);
+			//updateListButtons();
+			Addon addon = null;
+			int id = scroll, k = 7, l = 216, m = MapColor.GRAY.colorValue;
+			//0
+			addon = id >= addons.size() ? null : addons.get(id);
+			if(addon != null){
+				this.draw(addon, 0, i, j, k, l, m, 26, 38, 50);
+			}
+			else{
+				listbuttons[0][0].enabled = false; listbuttons[0][1].enabled = false;
+			}
+			//1
+			id++;
+			addon = id >= addons.size() ? null : addons.get(id);
+			if(addon != null){
+				this.draw(addon, 1, i, j, k, l, m, 64, 76, 88);
+			}
+			else{
+				listbuttons[1][0].enabled = false; listbuttons[1][1].enabled = false;
+			}
+			//2
+			id++;
+			addon = id >= addons.size() ? null : addons.get(id);
+			if(addon != null){
+				this.draw(addon, 2, i, j, k, l, m, 102, 114, 126);
+			}
+			else{
+				listbuttons[2][0].enabled = false;listbuttons[2][1].enabled = false;
+			}
+			//3
+			id++;
+			addon = id >= addons.size() ? null : addons.get(id);
+			if(addon != null){
+				this.draw(addon, 3, i, j, k, l, m, 140, 152, 164);
+			}
+			else{
+				listbuttons[3][0].enabled = false;listbuttons[3][1].enabled = false;
+			}
+		}
+		else if(mode == Modes.VIEW_ONE){
+			
+		}
+		else{
+			Static.stop();
+		}
 	}
 	
+	private void draw(Addon addon, int arr, int i, int j, int k, int l, int m, int p0, int p1, int p2){
+		listbuttons[arr][0].enabled = addon.enabled && !addon.missing_dependencies;
+		listbuttons[arr][1].enabled = !listbuttons[arr][0].enabled;
+		//
+		this.fontRendererObj.drawSplitString(addon.name, i + k, j + p0, l, m);
+		this.fontRendererObj.drawSplitString("ID: " + addon.id + " || " + trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + k, j + p1, l, m);
+		this.fontRendererObj.drawSplitString(addon.url, i + k, j + p2, l, m);
+	}
+
 	@Override
-	protected void actionPerformed(GuiButton button){
+	protected void actionPerformed(GuiButton button) {
 		switch(mode){
 			case MAIN:
 				if(button.id == 0){
@@ -91,14 +161,99 @@ public class AddonManagerGui extends GuiContainer {
 				else if(button.id == 1){
 					OpenGlHelper.openFile(new File(this.mc.getResourcePackRepository().getDirResourcepacks().getParentFile(), "addons/"));
 				}
+				else if(button.id == 2){
+					Static.toggleDebug();
+					Print.chat(mc.player, "Client Side (FCL) Debug Toggled.");
+					PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(getPacket("toggle_debug")));
+				}
+				else if(button.id == 6){
+					Print.chat(mc.player, trs("main_button_2_0_e"));
+					Static.halt();
+				}
 				break;
 			case VIEW_ALL:
+				switch(button.id){
+					case 0:
+						sendAddonToggle(0, true);
+						break;
+					case 1:
+						sendAddonToggle(0, false);		
+						break;
+					case 2:
+						sendViewAddon(0);	
+						break;
+					case 3:
+						sendAddonToggle(1, true);			
+						break;
+					case 4:
+						sendAddonToggle(1, false);			
+						break;
+					case 5:
+						sendViewAddon(1);		
+						break;
+					case 6:
+						sendAddonToggle(2, true);			
+						break;
+					case 7:
+						sendAddonToggle(2, false);	
+						break;
+					case 8:
+						sendViewAddon(2);		
+						break;
+					case 9:
+						sendAddonToggle(3, true);		
+						break;
+					case 10:
+						sendAddonToggle(3, false);		
+						break;
+					case 11:
+						sendViewAddon(3);	
+						break;
+					case 12:
+						if(scroll - 1 >= 0){
+							scroll--;
+						}
+						break;
+					case 13:
+						scroll++;
+						break;
+				}
 				break;
 			case VIEW_ONE:
 				break;
 			default:
 				break;
 		}
+	}
+	
+	private void sendViewAddon(int i){
+		/*NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("target_listener", "fvm");
+		nbt.setIntArray("args", new int[]{2,0,0});
+		nbt.setString("id", addons.get(scroll + i).id);
+		nbt.setString("task", "open_addon_manager");
+		PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));*/
+		mc.player.openGui(FVM.INSTANCE, FvmGuiHandler.ADDON_MANAGER, mc.world, 2, 0, 0);
+	}
+
+	private void sendAddonToggle(int i, boolean b){
+		try{
+			NBTTagCompound nbt = this.getPacket("toggle_addon_state");
+			nbt.setString("id", addons.get(scroll + i).id);
+			PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
+		}
+		catch(Exception e){
+			Print.chat(mc.player, e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+
+	public NBTTagCompound getPacket(String task){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("target_listener", "fvm");
+		nbt.setString("task", task);
+		return nbt;
 	}
 	
 	public String trs(String string){
@@ -117,7 +272,7 @@ public class AddonManagerGui extends GuiContainer {
 				menubuttons[0][1] = new Button(1,  88 + this.guiLeft, 62 + this.guiTop, trs("main_button_0_1"));
 				menubuttons[0][1].enabled = true;
 				menubuttons[0][2] = new Button(2, 171 + this.guiLeft, 62 + this.guiTop, trs("main_button_0_2"));
-				menubuttons[0][2].enabled = false;
+				menubuttons[0][2].enabled = true;
 				menubuttons[1][0] = new Button(3,   5 + this.guiLeft, 78 + this.guiTop, trs("main_button_1_0"));
 				menubuttons[1][0].enabled = false;
 				menubuttons[1][1] = new Button(4,  88 + this.guiLeft, 78 + this.guiTop, trs("main_button_1_1"));
@@ -125,7 +280,7 @@ public class AddonManagerGui extends GuiContainer {
 				menubuttons[1][2] = new Button(5, 171 + this.guiLeft, 78 + this.guiTop, trs("main_button_1_2"));
 				menubuttons[1][2].enabled = false;
 				menubuttons[2][0] = new Button(6,   5 + this.guiLeft, 94 + this.guiTop, trs("main_button_2_0"));
-				menubuttons[2][0].enabled = false;
+				menubuttons[2][0].enabled = true;
 				menubuttons[2][1] = new Button(7,  88 + this.guiLeft, 94 + this.guiTop, trs("main_button_2_1"));
 				menubuttons[2][1].enabled = false;
 				menubuttons[2][2] = new Button(8, 171 + this.guiLeft, 94 + this.guiTop, trs("main_button_2_2"));
@@ -137,6 +292,29 @@ public class AddonManagerGui extends GuiContainer {
 				}
 				break;
 			case VIEW_ALL:
+				int i = this.guiLeft;
+				int j = this.guiTop;
+				int k = i + 227;
+				listbuttons = new ListEntryButton[4][3];
+				//
+				this.buttonList.add(listbuttons[0][0] = new ListEntryButton(0, k, j + 24, 0));
+				this.buttonList.add(listbuttons[0][1] = new ListEntryButton(1, k, j + 36, 1));
+				this.buttonList.add(listbuttons[0][2] = new ListEntryButton(2, k, j + 48, 2));
+				//
+				this.buttonList.add(listbuttons[1][0] = new ListEntryButton(3, k, j + 62, 0));
+				this.buttonList.add(listbuttons[1][1] = new ListEntryButton(4, k, j + 74, 1));
+				this.buttonList.add(listbuttons[1][2] = new ListEntryButton(5, k, j + 86, 2));
+				//
+				this.buttonList.add(listbuttons[2][0] = new ListEntryButton(6, k, j + 100, 0));
+				this.buttonList.add(listbuttons[2][1] = new ListEntryButton(7, k, j + 112, 1));
+				this.buttonList.add(listbuttons[2][2] = new ListEntryButton(8, k, j + 124, 2));
+				//
+				this.buttonList.add(listbuttons[3][0] = new ListEntryButton( 9, k, j + 138, 0));
+				this.buttonList.add(listbuttons[3][1] = new ListEntryButton(10, k, j + 150, 1));
+				this.buttonList.add(listbuttons[3][2] = new ListEntryButton(11, k, j + 162, 2));
+				//
+				this.buttonList.add(up   = new ScrollButton(true, i, j));
+				this.buttonList.add(down = new ScrollButton(false, i, j));
 				break;
 			case VIEW_ONE:
 				break;
@@ -184,6 +362,79 @@ public class AddonManagerGui extends GuiContainer {
 			mc.fontRendererObj.drawString(this.displayString, ((this.xPosition + this.width / 2) - mc.fontRendererObj.getStringWidth(this.displayString) / 2), this.yPosition + (this.height - 8) / 2, color);
 		}
 		
+	}
+	
+	public class ListEntryButton extends GuiButton {
+		
+		private int type;
+
+		public ListEntryButton(int buttonId, int x, int y, int type){
+			super(buttonId, x, y, 11, 12, "");
+			this.type = type;
+		}
+		
+		private int fromType(){
+			switch(type){
+				case 0: return 234;
+				case 1: return 245;
+				case 2: return 223;
+				default: return 0;
+			}
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(mode.texture);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			if(this.enabled){
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 232, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 244, this.width, this.height);
+				}
+			}
+			else{
+				this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 220, this.width, this.height);
+			}
+		}
+	}
+	
+	public class ScrollButton extends GuiButton {
+		
+		private boolean up;
+
+		public ScrollButton(boolean b, int i, int j){
+			super(b ? 12 : 13, i + 240, j + (b ? 24 : 162), 11, 12, "");
+			up = b;
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(mode.texture);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			if(this.enabled){
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 232, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 244, this.width, this.height);
+				}
+			}
+			else{
+				this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 220, this.width, this.height);
+			}
+		}
 	}
 	
 }

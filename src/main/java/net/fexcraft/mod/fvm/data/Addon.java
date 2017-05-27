@@ -12,14 +12,16 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class Addon {
 	
 	public File file;
 	public String id, name, url, license;
 	public ArrayList<String> dependencies;
-	public ArrayList<UUID> authors;
-	public ArrayList<String> altauthors;
+	public ArrayList<UUID> authors = new ArrayList<UUID>();
+	public ArrayList<String> altauthors = new ArrayList<String>();
+	public boolean enabled = true, missing_dependencies = false;
 	
 	public Addon(File file){
 		this.file = file;
@@ -60,6 +62,37 @@ public class Addon {
 		}
 		this.url = JsonUtil.getIfExists(obj, "url", "no url provided by pack author");
 		this.license = JsonUtil.getIfExists(obj, "license", "no license url provided by pack author");
+	}
+	
+	/** To load temporary addon copies for GUI's **/
+	public Addon(NBTTagCompound nbt){
+		this.id = nbt.getString("id");
+		this.name = nbt.getString("name");
+		this.dependencies = JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(nbt.getString("dependencies")).getAsJsonArray());
+		this.authors = new ArrayList<UUID>();
+		JsonArray authors  = JsonUtil.getFromString(nbt.getString("authors")).getAsJsonArray();
+		for(JsonElement elm : authors){
+			this.authors.add(UUID.fromString(elm.getAsString()));
+		}
+		this.altauthors = JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(nbt.getString("altauthors")).getAsJsonArray());
+		this.url = nbt.getString("url");
+		this.license = nbt.getString("license");
+		this.enabled = nbt.getBoolean("enabled");
+		this.missing_dependencies = nbt.getBoolean("missing_dependencies");
+	}
+	
+	public NBTTagCompound toNBT(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("id", id);
+		nbt.setString("name", name);
+		nbt.setString("dependencies", JsonUtil.getArrayFromStringList(dependencies).toString());
+		nbt.setString("authors", JsonUtil.getArrayFromUUIDList(authors).toString());
+		nbt.setString("altauthors", JsonUtil.getArrayFromStringList(altauthors).toString());
+		nbt.setString("url", url);
+		nbt.setString("license", license);
+		nbt.setBoolean("enabled", enabled);
+		nbt.setBoolean("missing_depencencies", missing_dependencies);
+		return nbt;
 	}
 
 	public static boolean isAddonContainer(File file){

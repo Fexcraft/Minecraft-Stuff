@@ -45,7 +45,8 @@ public class FVM {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new FvmGuiHandler());
-		PacketHandler.registerListener(PacketHandlerType.NBT, Side.SERVER, new FvmGuiHandler.Receiver());
+		PacketHandler.registerListener(PacketHandlerType.NBT, Side.SERVER, new FvmGuiHandler.SReceiver());
+		PacketHandler.registerListener(PacketHandlerType.NBT, Side.CLIENT, new FvmGuiHandler.CReceiver());
 		//
 		SimpleUpdateHandler.register("fvm", 1, VERSION);
 		SimpleUpdateHandler.setUpdateMessage("fvm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvm") + ")&7");

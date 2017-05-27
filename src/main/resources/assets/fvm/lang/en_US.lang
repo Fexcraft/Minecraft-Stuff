@@ -19,13 +19,19 @@ gui.fvm.addon_manager.main_description_1=Here you can view, enable and disable
 gui.fvm.addon_manager.main_description_2=all currently installed Addons.
 gui.fvm.addon_manager.main_button_0_0=View All
 gui.fvm.addon_manager.main_button_0_1=Open Folder
-gui.fvm.addon_manager.main_button_0_2=Get More >>
-gui.fvm.addon_manager.main_button_1_0=null
-gui.fvm.addon_manager.main_button_1_1=null
-gui.fvm.addon_manager.main_button_1_2=null
-gui.fvm.addon_manager.main_button_2_0=null
-gui.fvm.addon_manager.main_button_2_1=null
-gui.fvm.addon_manager.main_button_2_2=null
+gui.fvm.addon_manager.main_button_0_2=Toggle Debug
+gui.fvm.addon_manager.main_button_1_0=< - - - >
+gui.fvm.addon_manager.main_button_1_1=< - - - >
+gui.fvm.addon_manager.main_button_1_2=< - - - >
+gui.fvm.addon_manager.main_button_2_0=Use a Hammer
+gui.fvm.addon_manager.main_button_2_0_e=&o&7AddonManager Crashed&8...
+gui.fvm.addon_manager.main_button_2_1=Tutorials
+gui.fvm.addon_manager.main_button_2_2=Get More >>
+#
+gui.fvm.addon_manager.view_all_loadedaddons=Addons Loaded:
+gui.fvm.addon_manager.view_all_note=Changes need a game restart!
+gui.fvm.addon_manager.view_all_state_enabled=State: enabled;
+gui.fvm.addon_manager.view_all_state_disabled=State: disabled;
 
 #Creative Tabs
 itemGroup.fvm_vehicles=FVM - Vehicles
