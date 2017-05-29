@@ -32,6 +32,10 @@ gui.fvm.addon_manager.view_all_loadedaddons=Addons Loaded:
 gui.fvm.addon_manager.view_all_note=Changes need a game restart!
 gui.fvm.addon_manager.view_all_state_enabled=State: enabled;
 gui.fvm.addon_manager.view_all_state_disabled=State: disabled;
+#
+gui.fvm.addon_manager.view_one_state_enabled=Enable
+gui.fvm.addon_manager.view_one_state_disabled=Disable
+gui.fvm.addon_manager.view_one_update=Find Update
 
 #Creative Tabs
 itemGroup.fvm_vehicles=FVM - Vehicles

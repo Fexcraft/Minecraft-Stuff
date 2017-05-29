@@ -16,8 +16,10 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Addon {
 	
+	public static final String deflink = "no url provided by pack author", deflicense = "no license url provided by pack author";
+	//
 	public File file;
-	public String id, name, url, license;
+	public String id, name, url, license, fileaddr;
 	public ArrayList<String> dependencies;
 	public ArrayList<UUID> authors = new ArrayList<UUID>();
 	public ArrayList<String> altauthors = new ArrayList<String>();
@@ -52,7 +54,7 @@ public class Addon {
 						altauthors.add(str);
 					}
 					else{
-						authors.add(UUID.fromString(elm.getAsString().replace("-", "")));
+						authors.add(UUID.fromString(elm.getAsString()));
 					}
 				}
 				catch(Exception e){
@@ -79,6 +81,7 @@ public class Addon {
 		this.license = nbt.getString("license");
 		this.enabled = nbt.getBoolean("enabled");
 		this.missing_dependencies = nbt.getBoolean("missing_dependencies");
+		this.fileaddr = nbt.getString("file");
 	}
 	
 	public NBTTagCompound toNBT(){
@@ -92,6 +95,7 @@ public class Addon {
 		nbt.setString("license", license);
 		nbt.setBoolean("enabled", enabled);
 		nbt.setBoolean("missing_depencencies", missing_dependencies);
+		nbt.setString("file", fileaddr == null ? file.toString() : fileaddr);
 		return nbt;
 	}
 

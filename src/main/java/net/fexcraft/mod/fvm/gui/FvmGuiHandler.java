@@ -86,6 +86,30 @@ public class FvmGuiHandler implements IGuiHandler {
 					}
 					PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), (net.minecraft.entity.player.EntityPlayerMP)objs[0]);
 					break;
+				case "set_addon_state":
+					boolean success;
+					try{
+						Addon addon = FvmResources.addons.get(packet.nbt.getString("id"));
+						if(addon != null && !addon.missing_dependencies){
+							addon.enabled = packet.nbt.getBoolean("state");
+						}
+						FvmResources.updateAddonConfig();
+						success = true;
+					}
+					catch(Exception e){
+						e.printStackTrace();
+						Print.log("Failed to update Addon State;");
+						success = false;
+					}
+
+					NBTTagCompound tagc = new NBTTagCompound();
+					tagc.setString("target_listener", "fvm");
+					tagc.setString("cargo", "addon_state_change_confirmation");
+					tagc.setBoolean("success", success);
+					tagc.setBoolean("enabled", packet.nbt.getBoolean("state"));
+					PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(tagc), (net.minecraft.entity.player.EntityPlayerMP)objs[0]);
+					Print.debug("S: " + tagc);
+					break;
 				
 			}
 		}
@@ -119,6 +143,12 @@ public class FvmGuiHandler implements IGuiHandler {
 						NBTTagCompound nbt = packet.nbt.getCompoundTag("entry_" + i);
 						AddonManagerGui.addons.add(new Addon(nbt));
 					}
+					break;
+				case "addon_state_change_confirmation":
+					if(packet.nbt.hasKey("success") && packet.nbt.getBoolean("success")){
+						AddonManagerGui.addon.enabled = packet.nbt.getBoolean("enabled");
+					}
+					Print.debug("C: " + packet.nbt);
 					break;
 			}
 		}

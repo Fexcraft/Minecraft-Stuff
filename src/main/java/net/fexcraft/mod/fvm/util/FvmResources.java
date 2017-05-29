@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -13,6 +14,7 @@ import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.Vehicle;
+import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
@@ -202,6 +204,23 @@ public class FvmResources {
 		if(event.getSide().isClient()){
 			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
 		}
+	}
+	
+	//FSU-NRR Copy
+	
+	private static final HashMap<UUID, String> cache = new HashMap<UUID, String>();
+	
+	public static final String getPlayerNameByUUID(UUID uuid){
+		if(cache.containsKey(uuid)){
+			return cache.get(uuid);
+		}
+		JsonElement obj = Network.request(" https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replace("-", ""));
+		if(obj != null){
+			JsonObject elm = obj.getAsJsonObject();
+			cache.put(uuid, elm.get("name").getAsString());
+			return elm.get("name").getAsString();
+		}
+		return "<null/errored>";
 	}
 	
 }

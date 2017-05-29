@@ -2,9 +2,12 @@ package net.fexcraft.mod.fvm.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Addon;
+import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.network.Browser;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -21,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class AddonManagerGui extends GuiContainer {
 	
-	private Modes mode;
 	//MAIN
 	private Button[][] menubuttons;
 	//ALL
@@ -30,9 +32,9 @@ public class AddonManagerGui extends GuiContainer {
 	private int scroll = 0;
 	public static ArrayList<Addon> addons = new ArrayList<Addon>();
 	//ONE
-	
+	public static Addon addon;
 	//COMMON
-	
+	private Modes mode;
 
 	public AddonManagerGui(int mode, int y, int z){
 		super(new GenericPlaceholderContainer());
@@ -48,7 +50,12 @@ public class AddonManagerGui extends GuiContainer {
 				PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(getPacket("get_addon_list")));
 				break;
 			case VIEW_ONE:
-				
+				this.xSize = 256;
+				this.ySize = 187;
+				addon = addons.get(y);
+				if(addon == null){
+					Static.stop();
+				}
 				break;
 		}
 	}
@@ -131,11 +138,50 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		else if(mode == Modes.VIEW_ONE){
+			this.fontRendererObj.drawString(trim228(addon.name), i + 7, j + 7, MapColor.YELLOW.colorValue);
+			this.fontRendererObj.drawString("ID: " + addon.id, i + 7, j + 26, MapColor.GRAY.colorValue);
+			this.fontRendererObj.drawString(trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + 7, j + 40, MapColor.GRAY.colorValue);
+			this.fontRendererObj.drawString(trim228(addon.url), i + 7, j + 68, MapColor.SNOW.colorValue);
+			this.fontRendererObj.drawString(trim228(addon.license), i + 7, j + 83, MapColor.SNOW.colorValue);
+			this.fontRendererObj.drawString(trim228(addon.fileaddr), i + 7, j + 98, MapColor.SNOW.colorValue);
+			//
+			String deps = "Dependencies: ";
+			if(addon.dependencies.size() == 0){
+				deps += "none";
+			}
+			else{
+				for(String string : addon.dependencies){
+					deps += string + ", ";
+				}
+			}
+			this.fontRendererObj.drawSplitString(trim(deps, 3 * 242), i + 7, j + 112, 242, MapColor.GRAY.colorValue);
+			String authors = "Authors: ";
+			if(addon.authors.size() > 0){
+				for(UUID uuid : addon.authors){
+					authors += FvmResources.getPlayerNameByUUID(uuid) + ", ";
+				}
+			}
+			if(addon.altauthors.size() > 0){
+				for(String string : addon.altauthors){
+					authors += string.toString() + ", ";
+				}
+			}
+			this.fontRendererObj.drawSplitString(trim(authors, 3 * 242), i + 7, j + 144, 242, MapColor.GRAY.colorValue);
 			
+			this.buttonList.get(4).enabled = !addon.enabled && !addon.missing_dependencies;
+			this.buttonList.get(5).enabled =  addon.enabled && !addon.missing_dependencies;
 		}
 		else{
 			Static.stop();
 		}
+	}
+	
+	private String trim(String string, int i){
+		return this.fontRendererObj.trimStringToWidth(string, i);
+	}
+	
+	private String trim228(String string){
+		return this.fontRendererObj.trimStringToWidth(string, 228);
 	}
 	
 	private void draw(Addon addon, int arr, int i, int j, int k, int l, int m, int p0, int p1, int p2){
@@ -220,6 +266,45 @@ public class AddonManagerGui extends GuiContainer {
 				}
 				break;
 			case VIEW_ONE:
+				switch(button.id){
+					case 0:
+	    				Browser.browse(mc.player, addon.url);
+						break;
+					case 1:
+	    				Browser.browse(mc.player, addon.license);
+						break;
+					case 2:
+						File file = new File(addon.fileaddr);
+						OpenGlHelper.openFile(file.isDirectory() ? file : file.getParentFile());
+						break;
+					case 3:
+						Print.chat(mc.player, "Function not available yet.");
+						break;
+					case 4:
+						try{
+							NBTTagCompound nbt = this.getPacket("set_addon_state");
+							nbt.setString("id", addon.id);
+							nbt.setBoolean("state", true);
+							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
+						}
+						catch(Exception e){
+							Print.chat(mc.player, e.getMessage());
+							e.printStackTrace();
+						}
+						break;
+					case 5:
+						try{
+							NBTTagCompound nbt = this.getPacket("set_addon_state");
+							nbt.setString("id", addon.id);
+							nbt.setBoolean("state", false);
+							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
+						}
+						catch(Exception e){
+							Print.chat(mc.player, e.getMessage());
+							e.printStackTrace();
+						}
+						break;
+				}
 				break;
 			default:
 				break;
@@ -233,7 +318,7 @@ public class AddonManagerGui extends GuiContainer {
 		nbt.setString("id", addons.get(scroll + i).id);
 		nbt.setString("task", "open_addon_manager");
 		PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));*/
-		mc.player.openGui(FVM.INSTANCE, FvmGuiHandler.ADDON_MANAGER, mc.world, 2, 0, 0);
+		mc.player.openGui(FVM.INSTANCE, FvmGuiHandler.ADDON_MANAGER, mc.world, 2, i, 0);
 	}
 
 	private void sendAddonToggle(int i, boolean b){
@@ -246,7 +331,6 @@ public class AddonManagerGui extends GuiContainer {
 			Print.chat(mc.player, e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
 
 	public NBTTagCompound getPacket(String task){
@@ -264,6 +348,8 @@ public class AddonManagerGui extends GuiContainer {
 	public void initGui(){
 		super.initGui();
 		this.buttonList.clear();
+		int i = this.guiLeft;
+		int j = this.guiTop;
 		switch(mode){
 			case MAIN:
 				menubuttons = new Button[3][3];
@@ -285,15 +371,13 @@ public class AddonManagerGui extends GuiContainer {
 				menubuttons[2][1].enabled = false;
 				menubuttons[2][2] = new Button(8, 171 + this.guiLeft, 94 + this.guiTop, trs("main_button_2_2"));
 				menubuttons[2][2].enabled = false;
-				for(int i = 0; i < 3; i++){
-					for(int j = 0; j < 3; j++){
-						this.buttonList.add(menubuttons[i][j]);
+				for(int l = 0; l < 3; l++){
+					for(int m = 0; m < 3; m++){
+						this.buttonList.add(menubuttons[l][m]);
 					}
 				}
 				break;
 			case VIEW_ALL:
-				int i = this.guiLeft;
-				int j = this.guiTop;
 				int k = i + 227;
 				listbuttons = new ListEntryButton[4][3];
 				//
@@ -317,6 +401,12 @@ public class AddonManagerGui extends GuiContainer {
 				this.buttonList.add(down = new ScrollButton(false, i, j));
 				break;
 			case VIEW_ONE:
+				this.buttonList.add(new LinkButton(0, i + 239, j + 66, !addon.url.equals(Addon.deflink)));
+				this.buttonList.add(new LinkButton(1, i + 239, j + 81, !addon.url.equals(Addon.deflicense)));
+				this.buttonList.add(new LinkButton(2, i + 239, j + 96, true));
+				this.buttonList.add(new SelectionButton(3, i + 170, j + 24, 0, trs("view_one_update")));
+				this.buttonList.add(new SelectionButton(4, i + 170, j + 38, 1, trs("view_one_state_enabled")));
+				this.buttonList.add(new SelectionButton(5, i + 170, j + 52, 2, trs("view_one_state_disabled")));
 				break;
 			default:
 				break;
@@ -435,6 +525,89 @@ public class AddonManagerGui extends GuiContainer {
 				this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 220, this.width, this.height);
 			}
 		}
+	}
+	
+	public class LinkButton extends GuiButton{
+		
+		public LinkButton(int id, int x, int y, boolean b){
+			super(id, x, y, 12, 12, "");
+			this.enabled = b;
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(mode.texture);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			if(this.enabled){
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 12, 224, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 224, this.width, this.height);
+				}
+			}
+			else{
+				if(this.hovered){
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 12, 236, this.width, this.height);
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 236, this.width, this.height);
+				}
+			}
+		}
+		
+	}
+	
+	public class SelectionButton extends GuiButton {
+		
+		private int type;
+
+		public SelectionButton(int buttonId, int x, int y, int type, String text){
+			super(buttonId, x, y, 81, 12, text);
+			this.type = type;
+		}
+		
+		private int fromType(){
+			switch(type){
+				case 0: return 196;
+				case 1: return 220;
+				case 2: return 244;
+				default: return 0;
+			}
+		}
+		
+		public void drawButton(Minecraft mc, int mouseX, int mouseY){
+			super.drawButton(mc, mouseX, mouseY);
+			mc.getTextureManager().bindTexture(mode.texture);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			
+			int color;
+			if(this.enabled){
+				if(this.hovered){
+					color = MapColor.BLUE.colorValue;
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, 232, this.width, this.height);
+				}
+				else{
+					color = MapColor.SNOW.colorValue;
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, fromType(), this.width, this.height);
+				}
+			}
+			else{
+				color = MapColor.GRAY.colorValue;
+				this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, 208, this.width, this.height);
+			}
+			mc.fontRendererObj.drawString(this.displayString, ((this.xPosition + this.width / 2) - mc.fontRendererObj.getStringWidth(this.displayString) / 2), this.yPosition + (this.height - 8) / 2, color);
+		}
+		
 	}
 	
 }
