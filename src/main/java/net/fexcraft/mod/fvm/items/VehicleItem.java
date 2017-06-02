@@ -11,7 +11,7 @@ public class VehicleItem extends Item {
 	private Vehicle type;
 	
 	public VehicleItem(Vehicle type){
-		this.setCreativeTab(FvmTabs.MATERIALS);
+		this.setCreativeTab(FvmTabs.VEHICLES);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 		this.type = type;

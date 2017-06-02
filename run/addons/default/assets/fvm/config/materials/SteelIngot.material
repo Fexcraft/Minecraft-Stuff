@@ -1,6 +1,6 @@
 {
     "RegistryName": "steel_ingot",
-    "AddOn": "Default FVM Addon Pack",
+    "Addon": "generic",
     "FullName": "Steel Ingot",
     "MaxStackSize": 32,
     "Recipes":[

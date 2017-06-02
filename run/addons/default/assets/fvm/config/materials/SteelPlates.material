@@ -1,7 +1,7 @@
 {
     "RegistryName": "steel_plate",
-    "AddOn": "Default FVM Addon Pack",
-    "FullName": "Steel Plate",
+    "Addon": "Default FVM Addon Pack",
+    "FullName": "generic",
     "MaxStackSize": 32,
     "Recipes":[
         {

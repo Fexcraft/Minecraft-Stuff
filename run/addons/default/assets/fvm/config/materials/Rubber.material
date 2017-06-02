@@ -1,6 +1,6 @@
 {
     "RegistryName": "rubber",
-    "AddOn": "Default FVM Addon Pack",
+    "Addon": "generic",
     "FullName": "Rubber",
     "MaxStackSize": 32,
     "Recipes":[
