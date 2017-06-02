@@ -20,6 +20,7 @@ out/
 old/
 run/*
 run_temp/*
+!run/addons
 
 #IDE
 .classpath

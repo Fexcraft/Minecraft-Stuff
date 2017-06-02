@@ -2,6 +2,7 @@ package net.fexcraft.mod.fvm.util;
 
 import java.io.File;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -13,12 +14,14 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.fvm.data.Material;
+import net.fexcraft.mod.fvm.data.Part;
 import net.fexcraft.mod.fvm.data.Vehicle;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
@@ -37,13 +40,14 @@ public class FvmResources {
 	//
 	public static final TreeMap<String, Object> models = new TreeMap<String, Object>();
 	public static final TreeMap<String, Material> materials = new TreeMap<String, Material>();
-	//TODO Parts
+	public static final TreeMap<String, Part> parts = new TreeMap<String, Part>();
 	//TODO Air
 	public static final TreeMap<String, Vehicle> vehicles = new TreeMap<String, Vehicle>();
 	//TODO Water
 	//TODO Railed
 	//
 	private static File configpath, addonconfig;
+	private static final Random random = new Random();
 	
 	public static void setup(FMLPreInitializationEvent event){
 		configpath = new File(event.getSuggestedConfigurationFile().getParentFile(), "/fvm/");
@@ -157,7 +161,7 @@ public class FvmResources {
 					}
 				}
 				else{
-					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/vehicles/", ".material");
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/materials/", ".material");
 					for(JsonElement elm : array){
 						Material mat = new Material(elm.getAsJsonObject());
 						materials.put(mat.registryname, mat);
@@ -165,7 +169,26 @@ public class FvmResources {
 					}
 				}
 				Print.log("Searching for Parts...");
-				//TODO
+				if(addon.file.isDirectory()){
+					File matfol = new File(addon.file, "assets/fvm/config/parts/");
+					if(!matfol.exists()){ matfol.mkdirs(); }
+					for(File file : matfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".part")){
+							Part part = new Part(JsonUtil.get(file));
+							parts.put(part.registryname, part);
+							Print.log("Registered Part '" + part.registryname + "';");
+						}
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/parts/", ".part");
+					for(JsonElement elm : array){
+						Part part = new Part(elm.getAsJsonObject());
+						parts.put(part.registryname, part);
+						Print.log("Registered Part '" + part.registryname + "'.");
+					}
+				}
 				Print.log("Searching for Air Vehicles...");
 				//TODO
 				Print.log("Searching for Land Vehicles...");
@@ -207,7 +230,6 @@ public class FvmResources {
 	}
 	
 	//FSU-NRR Copy
-	
 	private static final HashMap<UUID, String> cache = new HashMap<UUID, String>();
 	
 	public static final String getPlayerNameByUUID(UUID uuid){
@@ -221,6 +243,13 @@ public class FvmResources {
 			return elm.get("name").getAsString();
 		}
 		return "<null/errored>";
+	}
+
+	public static Item getRandomPart(){
+		if(parts.size() < 1){
+			return null;
+		}
+		return ((Part)parts.values().toArray()[random.nextInt(parts.size())]).item;
 	}
 	
 }
