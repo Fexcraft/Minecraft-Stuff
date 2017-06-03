@@ -244,12 +244,5 @@ public class FvmResources {
 		}
 		return "<null/errored>";
 	}
-
-	public static Item getRandomPart(){
-		if(parts.size() < 1){
-			return null;
-		}
-		return ((Part)parts.values().toArray()[random.nextInt(parts.size())]).item;
-	}
 	
 }
