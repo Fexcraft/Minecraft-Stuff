@@ -1,6 +1,6 @@
 {
     "RegistryName": "common_engine",
-    "AddOn": "Default FVM Addon Pack",
+    "AddOn": "generic",
     "ModelFile": "null",
     "Category": [
         "engine"
