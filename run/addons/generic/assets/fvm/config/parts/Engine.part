@@ -1,6 +1,6 @@
 {
-    "RegistryName": "common_engine",
-    "AddOn": "generic",
+    "RegistryName": "generic_engine",
+    "Addon": "generic",
     "ModelFile": "null",
     "Category": [
         "engine"

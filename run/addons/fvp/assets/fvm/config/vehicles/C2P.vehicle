@@ -1,6 +1,6 @@
 {
     "RegistryName": "C2",
-    "AddOn": "Default FVM Addon Pack",
+    "Addon": "fvp",
     "FullName": "C2 Type P",
     "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelC2.class",
     "PrimaryColor": {

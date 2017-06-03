@@ -1,12 +1,12 @@
 {
-    "RegistryName": "OT1",
-    "AddOn": "Default FVM Addon Pack",
-    "FullName": "OT1 Type P",
-    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1.class",
+    "RegistryName": "T1",
+    "Addon": "fvp",
+    "FullName": "T1 Type P-",
+    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelT1P.class",
     "PrimaryColor": {
-        "Red": 0.027,
-        "Blue": 0.639,
-        "Green": 0.396
+        "Red": 0.0,
+        "Blue": 1.0,
+        "Green": 0.0
     },
     "SecondaryColor": {
         "Red": 1.0,
@@ -15,30 +15,30 @@
     },
     "WheelPos":[
         {
-            "x": -53,
+            "x": -71,
             "y": -10,
-            "z": -14
+            "z": -17
         },
         {
-            "x": -53,
+            "x": -71,
             "y": -10,
-            "z": 14
+            "z": 17
         },
         {
-            "x": 65,
+            "x": 35,
             "y": -10,
-            "z": 14
+            "z": 17
         },
         {
-            "x": 65,
+            "x": 35,
             "y": -10,
-            "z": -14
+            "z": -17
         }
     ],
     "ConstructionSettings": {
         "Length": 6,
         "HeightOffset": 12.5,
-        "WheelOffset": 19,
+        "WheelOffset": 19.5,
         "Requires": [
             "right_front_wheel",
             "left_front_wheel",
@@ -49,30 +49,31 @@
     },
     "TextureSettings": {
         "Textures": [
-            "fvm:textures/entities/skin_vehicle_ot1.png"
+            "fvm:textures/entities/skin_vehicle_t1p.png"
         ],
         "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [
-            "steering_wheel:ot1_steering_wheel",
-            "front_seats:ot1_front_seats"
+            "steering_wheel:t1_steering_wheel",
+            "driver_seat:t1_driver_seat",
+            "passenger_seats:t1_front_seats"
         ]
     },
     "RenderSettings": {
         "RotateWheels": true
     },
     "InventorySettings": {
-        "TankSize": 18000,
-        "Size": 35
+        "TankSize": 25000,
+        "Size": 64
     },
     "VehicleDefaults": {
         "DriveType": "4wd",
         "Lockable": true,
-        "MaxThrottle": 0.75,
-        "MaxNegativeThrottle": 0.25,
-        "TurnLeftModifier": 1.45,
-        "TurnRightModifier": 1.45
+        "MaxThrottle": 1.2,
+        "MaxNegativeThrottle": 0.2,
+        "TurnLeftModifier": 1.5,
+        "TurnRightModifier": 1.5
     }
     
 }

@@ -11,7 +11,7 @@ public class PartItem extends Item {
 	private Part type;
 	
 	public PartItem(Part type){
-		this.setCreativeTab(FvmTabs.MATERIALS);
+		this.setCreativeTab(FvmTabs.PARTS);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(type.maxStackSize);
 		this.type = type;

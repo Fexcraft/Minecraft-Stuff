@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fvm:items/common_engine"
+        "layer0": "fvm:items/generic_engine"
     }
 }
