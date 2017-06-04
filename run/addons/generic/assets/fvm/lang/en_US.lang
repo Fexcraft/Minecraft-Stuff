@@ -1,0 +1,18 @@
+## Addon(generic) Lang File
+
+##Contributors:
+#> FEX___96
+#>
+#>
+#>
+
+item.fvm:part_generic_engine.name=Engine (C)
+
+#Materials
+item.fvm:material_rubber.name=Rubber
+item.fvm:material_steel_ingot.name=Steel Ingot
+item.fvm:material_steel_plate.name=Steel Plate
+
+
+
+
