@@ -8,6 +8,7 @@ import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -37,6 +38,8 @@ public class FVM {
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
+		Registry.registerAllBlocks(MODID);
+		
 		FvmResources.setup(event);
 		FvmResources.scanForContent(event);
 		

@@ -21,5 +21,9 @@ public class VehicleItem extends Item {
 	public static Item register(Vehicle material){
 		return new VehicleItem(material);
 	}
+
+	public Vehicle getVehicle(){
+		return type;
+	}
 	
 }

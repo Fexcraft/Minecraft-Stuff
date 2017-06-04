@@ -2,6 +2,7 @@ package net.fexcraft.mod.fvm.data;
 
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.items.VehicleItem;
@@ -21,24 +22,46 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class Vehicle {
 	
-	/** Registry Name which is used for internal FVM stuff. */
 	public String registryname;
-	/** Fancy Name to be displayed in GUIs, etc. */
 	public String fullname;
 	public Addon addon;
-	/** Description, simply put. */
 	public String[] description;
-	/** Default Vehicle colours. */
 	public RGB def_primary, def_secondary;
-	/** Model Adress */
+	public Item item;
+	public boolean allowsLocking;
+	
+	//Visual
 	public String modelname;
 	public ModelType modeltype = ModelType.NONE;
-	/** Base model of the Vehicle. */
-	@SideOnly(Side.CLIENT) //public VehicleModel model;
-	/** The Custom Item of this Vehicle. */
-	public Item item;
-	/** Locking */
-	public boolean allowsLocking;
+	@SideOnly(Side.CLIENT) //public VehicleModel model;//TODO
+	private int scale;//TODO
+	
+	//Constructor
+	public int construction_length;
+	public float construction_wheel_offset;
+	public float construction_height_offset;
+	public String[] requires;
+	
+	//Parts
+	
+	
+	//Textures
+	
+	
+	//Inventory
+	
+	
+	//FM
+	public boolean usesFMM;//TODO
+	
+	
+	//FVM
+	public boolean usesFVM;//TODO
+	
+	
+	//MTS
+	public boolean usesMTS;//TODO
+	
 	
 	public Vehicle(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "VEHICLE");
@@ -48,8 +71,22 @@ public class Vehicle {
 		this.def_primary = DataUtil.getRGB(obj, "PrimaryColor");
 		this.def_secondary = DataUtil.getRGB(obj, "SecondaryColor");
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
-		this.item = VehicleItem.register(this); //TODO
+		this.item = VehicleItem.register(this);
 		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
+		//
+		if(obj.has("ConstructionSettings")){
+			JsonObject cs = obj.get("ConstructionSettings").getAsJsonObject();
+			this.construction_length = JsonUtil.getIfExists(cs, "Length", 3).intValue();
+			this.construction_height_offset = JsonUtil.getIfExists(cs, "HeightOffset", 12.5).floatValue();
+			this.construction_wheel_offset = JsonUtil.getIfExists(cs, "WheelOffset", 20).floatValue();
+			if(cs.has("Requires")){
+				JsonArray array = cs.get("Requires").getAsJsonArray();
+				requires = new String[array.size()];
+				for(int i = 0; i < requires.length; i++){
+					requires[i] = array.get(i).getAsString();
+				}
+			}
+		}
 	}
 	
 	public void loadModel(){
@@ -60,13 +97,13 @@ public class Vehicle {
 	 * Main class for custom vehicle data.
 	 * @author Ferdinand (FEX___96)
 	 */
-	public static class VData {
+	public static class VehicleData {
 		
 		public Vehicle vehicle;
 		public UUID creator;
 		public RGB primary, secondary;
 		
-		public VData(Vehicle vehicle){
+		public VehicleData(Vehicle vehicle){
 			this.vehicle = vehicle;
 			this.creator = UUID.fromString(Static.NULL_UUID_STRING);
 			this.primary = new RGB(vehicle.def_primary);
@@ -74,6 +111,9 @@ public class Vehicle {
 		}
 		
 		public NBTTagCompound write(NBTTagCompound compound){
+			if(compound == null){
+				compound = new NBTTagCompound();
+			}
 			return compound;
 		}
 		
@@ -81,12 +121,12 @@ public class Vehicle {
 			
 		}
 		
-		public VData fromNBT(NBTTagCompound compound){
-			Vehicle veh = FvmResources.vehicles.get(compound.getString("VehicleType"));
-			if(veh == null){ return null; }
-			VData vdata = new VData(veh);
-			vdata.read(compound);
-			return vdata;
+		public static VehicleData fromNBT(NBTTagCompound compound){
+			if(compound.hasKey("VehicleType")){
+				VehicleData vdata = new VehicleData( FvmResources.vehicles.get(compound.getString("VehicleType")));
+				vdata.read(compound);
+			}
+			return null;
 		}
 		
 	}
