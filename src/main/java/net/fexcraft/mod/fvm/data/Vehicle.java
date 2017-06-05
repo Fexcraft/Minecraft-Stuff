@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvm.data;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.google.gson.JsonArray;
@@ -15,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 
 /**
  * Main class for unchangeable vehicle data.
@@ -29,6 +31,7 @@ public class Vehicle {
 	public RGB def_primary, def_secondary;
 	public Item item;
 	public boolean allowsLocking;
+	public VehicleEntityType etype;
 	
 	//Visual
 	public String modelname;
@@ -87,6 +90,8 @@ public class Vehicle {
 				}
 			}
 		}
+		//
+		etype = VehicleEntityType.find(obj);
 	}
 	
 	public void loadModel(){
@@ -127,6 +132,34 @@ public class Vehicle {
 				vdata.read(compound);
 			}
 			return null;
+		}
+		
+	}
+	
+	public static enum VehicleEntityType {
+		
+		FLANS(new String[]{"flans", "fm", "fm-", "fmm"}),
+		FVM(new String[]{"fvm"}),
+		MTS(new String[]{"mts"}),
+		NULL(new String[]{"null", "none", "nah"});
+		
+		private ArrayList<String> arr;
+		
+		VehicleEntityType(String[] arr){
+			this.arr = (ArrayList<String>)Arrays.asList(arr);
+		}
+
+		public static VehicleEntityType find(JsonObject obj){
+			if(!obj.has("EntityType")){
+				return NULL;
+			}
+			String str = obj.get("EntityType").getAsString();
+			for(VehicleEntityType type : values()){
+				if(type.arr.contains(str)){
+					return type;
+				}
+			}
+			return NULL;
 		}
 		
 	}
