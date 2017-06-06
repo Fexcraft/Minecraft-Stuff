@@ -1,12 +1,16 @@
 package net.fexcraft.mod.fvm.data;
 
+import java.util.ArrayList;
+
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.util.ResourceLocation;
 
 public class DataUtil {
 	
@@ -52,6 +56,26 @@ public class DataUtil {
 	
 	public static RGB getRGB(JsonObject obj, String string){
 		return obj.has(string) ? RGB.fromJSON(obj.get(string).getAsJsonObject(), false) : new RGB();
+	}
+
+	public static ArrayList<ResourceLocation> getTextures(JsonObject obj, String rgn, String type){
+		ArrayList<ResourceLocation> textures = new ArrayList<ResourceLocation>();
+		if(!obj.has("Textures")){
+			Print.log("NO TEXTURE FOUND FOR " + type + " (" + rgn + ")! APPLYING DEFAULT TEXTURE;");
+			textures.add(FvmResources.NULL_TEXTURE);
+		}
+		else{
+			try{
+				JsonArray array = obj.get("Textures").getAsJsonArray();
+				for(JsonElement elm : array){
+					textures.add(new ResourceLocation(elm.getAsString()));
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return textures;
 	}
 	
 }

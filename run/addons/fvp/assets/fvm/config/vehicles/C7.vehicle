@@ -2,7 +2,7 @@
     "RegistryName": "C7",
     "Addon": "fvp",
     "FullName": "C7 Raw",
-    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelC7.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC7.class",
     "PrimaryColor": {
         "Red": 1,
         "Blue": 1,
@@ -13,6 +13,9 @@
         "Blue": 0.31,
         "Green": 0.239
     },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_c7.png"
+    ],
     "WheelPos":[
         {
             "x": -31.5,
@@ -48,12 +51,6 @@
             "interior",
             "engine"
         ]
-    },
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_c7.png"
-        ],
-        "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [

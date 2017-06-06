@@ -3,8 +3,11 @@ package net.fexcraft.mod.fvm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.fvm.blocks.ConstructorCenterEntity;
+import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
 import net.fexcraft.mod.fvm.model.ModelConstructionBlock;
+import net.fexcraft.mod.fvm.model.VehicleModel;
 import net.fexcraft.mod.lib.api.render.fTESR;
+import net.fexcraft.mod.lib.util.render.RemoteTextureRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -41,13 +44,13 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 		ConstructorCenterEntity te = (ConstructorCenterEntity)tileentity;
 		//
 		if(te.hasType()){
-			/*VehicleModel modvec = te.link.type.getModel();
+			VehicleModel modvec = te.link.data.vehicle.model;
 			if(modvec != null){
-				VehicleType type = te.link.type;
-				Minecraft.getMinecraft().renderEngine.bindTexture(type.textures.get(type.current_texture));
-				GL11.glTranslatef(0, type.construction_height_offset * 0.0625f, 0);
-				modvec.render(te.link.type, null, te.getBlockMetadata());
-				if(type.parts.size() > 0){
+				VehicleData data = te.link.data;
+				Minecraft.getMinecraft().renderEngine.bindTexture(data.texture >= 0 ? data.vehicle.textures.get(data.texture) : RemoteTextureRenderHelper.get(data.texture_url));
+				GL11.glTranslatef(0, data.vehicle.construction_height_offset * 0.0625f, 0);
+				modvec.render(te.link.data, null, te.getBlockMetadata());
+				/*if(type.parts.size() > 0){
 					for(String key : type.parts.keySet()){
 						PartType part = type.parts.get(key);
 						part.bindTexture();
@@ -55,13 +58,13 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer {
 						part.render(type, key);
 						part.translateR(type.registryname);
 					}
-				}
-				GL11.glTranslatef(0, type.construction_height_offset * -0.0625f, 0);
+				}*/
+				GL11.glTranslatef(0, data.vehicle.construction_height_offset * -0.0625f, 0);
 				Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 			}
 			else{
 				//Static.exception(4, "Model is null.");
-			}*/
+			}
 		}
 		else{
 			if(te.remote != null){

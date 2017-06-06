@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,6 +23,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
@@ -242,6 +245,31 @@ public class FvmResources {
 			return elm.get("name").getAsString();
 		}
 		return "<null/errored>";
+	}
+
+	public static void loadModels(FMLPreInitializationEvent event){
+		for(Part part : parts.values()){
+			part.loadModel();
+		}
+		for(Vehicle veh : vehicles.values()){
+			try{
+				veh.loadModel();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static ModelType findOutModelType(String modelname){
+		String str = FilenameUtils.getExtension(modelname);
+		switch(str){
+			case "class": return ModelType.TMT;
+			case "json": return ModelType.JSON;
+			case "jtmt": return ModelType.JTMT;
+			case "obj": return ModelType.OBJ;
+		}
+		return ModelType.NONE;
 	}
 	
 }

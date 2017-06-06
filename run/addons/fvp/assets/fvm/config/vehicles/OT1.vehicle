@@ -2,7 +2,7 @@
     "RegistryName": "OT1",
     "Addon": "fvp",
     "FullName": "OT1 Type P",
-    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelOT1.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelOT1.class",
     "PrimaryColor": {
         "Red": 0.027,
         "Blue": 0.639,
@@ -13,6 +13,9 @@
         "Blue": 0.0,
         "Green": 0.0
     },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_ot1.png"
+    ],
     "WheelPos":[
         {
             "x": -53,
@@ -46,12 +49,6 @@
             "left_back_wheel",
             "engine"
         ]
-    },
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_ot1.png"
-        ],
-        "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [

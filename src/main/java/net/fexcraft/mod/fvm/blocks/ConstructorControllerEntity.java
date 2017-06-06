@@ -2,7 +2,6 @@ package net.fexcraft.mod.fvm.blocks;
 
 import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
 import net.fexcraft.mod.fvm.items.PartItem;
-import net.fexcraft.mod.lib.api.network.IPacket;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
@@ -19,7 +18,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 
-public class ConstructorControllerEntity extends TileEntity implements IInventory, IPacketReceiver {
+public class ConstructorControllerEntity extends TileEntity implements IInventory, IPacketReceiver<PacketTileEntityUpdate> {
 	
 	private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	private boolean linked;
@@ -124,8 +123,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 	}
 
 	@Override
-	public void processServerPacket(IPacket pkt) {
-		PacketTileEntityUpdate packet = (PacketTileEntityUpdate)pkt;
+	public void processServerPacket(PacketTileEntityUpdate packet){
 		switch(packet.nbt.getString("Task")){
 			default:
 				break;
@@ -134,8 +132,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 	}
 
 	@Override
-	public void processClientPacket(IPacket pkt) {
-		PacketTileEntityUpdate packet = (PacketTileEntityUpdate)pkt;
+	public void processClientPacket(PacketTileEntityUpdate packet){
 		if(packet.nbt.hasKey("Linked")){
 			setLinked(packet.nbt.getBoolean("Linked"));
 		}

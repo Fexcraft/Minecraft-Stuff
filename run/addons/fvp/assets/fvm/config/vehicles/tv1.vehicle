@@ -2,7 +2,7 @@
     "RegistryName": "TV1",
     "Addon": "fvp",
     "FullName": "Test Vehicle 1",
-    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelTV1.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelTV1.class",
     "PrimaryColor": {
         "Red": 0.5,
         "Blue": 0.3,
@@ -13,6 +13,9 @@
         "Blue": 0.5,
         "Green": 0.5
     },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_tv1.png"
+    ],
     "WheelPos":[
         {
             "x": -26,
@@ -42,12 +45,6 @@
         "Requires": [
             "engine"
         ]
-    },
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_tv1.png"
-        ],
-        "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [

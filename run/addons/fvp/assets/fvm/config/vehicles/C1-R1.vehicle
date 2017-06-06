@@ -2,7 +2,7 @@
     "RegistryName": "C1R1",
     "Addon": "fvp",
     "FullName": "C1-R1",
-    "ModelFile": "net.fexcraft.mod.fvm.models.vehicle.ModelC1_R1.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC1_R1.class",
     "PrimaryColor": {
         "Red": 0.5,
         "Blue": 0.3,
@@ -13,6 +13,9 @@
         "Blue": 0.5,
         "Green": 0.5
     },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_c1_r1.png"
+    ],
     "WheelPos":[
         {
             "x": -43.5,
@@ -46,12 +49,6 @@
             "left_back_wheel",
             "engine"
         ]
-    },
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_c1_r1.png"
-        ],
-        "Default": 0
     },
     "PartSettings": {
         "PreInstalled": [

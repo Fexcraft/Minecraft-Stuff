@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvm.data;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -7,6 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.items.VehicleItem;
+import net.fexcraft.mod.fvm.model.VehicleModel;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -14,6 +16,7 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
@@ -36,8 +39,9 @@ public class Vehicle {
 	//Visual
 	public String modelname;
 	public ModelType modeltype = ModelType.NONE;
-	@SideOnly(Side.CLIENT) //public VehicleModel model;//TODO
-	private int scale;//TODO
+	@SideOnly(Side.CLIENT) public VehicleModel model;
+	@SideOnly(Side.CLIENT) private float scale = 1;
+	@SideOnly(Side.CLIENT) public ArrayList<ResourceLocation> textures;
 	
 	//Constructor
 	public int construction_length;
@@ -48,22 +52,16 @@ public class Vehicle {
 	//Parts
 	
 	
-	//Textures
-	
-	
 	//Inventory
 	
 	
 	//FM
-	public boolean usesFMM;//TODO
 	
 	
 	//FVM
-	public boolean usesFVM;//TODO
 	
 	
 	//MTS
-	public boolean usesMTS;//TODO
 	
 	
 	public Vehicle(JsonObject obj){
@@ -76,6 +74,7 @@ public class Vehicle {
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
 		this.item = VehicleItem.register(this);
 		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
+		this.textures = DataUtil.getTextures(obj, this.registryname, "VEHICLE");
 		//
 		if(obj.has("ConstructionSettings")){
 			JsonObject cs = obj.get("ConstructionSettings").getAsJsonObject();
@@ -92,10 +91,43 @@ public class Vehicle {
 		}
 		//
 		etype = VehicleEntityType.find(obj);
+		/*switch(etype){
+			case FLANS:
+				JsonObject ms = JsonUtil.getIfExists(obj, "MinusSettings", new JsonObject()).getAsJsonObject();
+				break;
+			case FVM:
+				break;
+			case MTS:
+				break;
+			case NULL:
+				break;
+			default:
+				break;
+		}*/
 	}
 	
-	public void loadModel(){
-		//TODO
+	public void loadModel() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+		this.modeltype = FvmResources.findOutModelType(this.modelname);
+		switch(modeltype){
+			case JAVA:
+			case TMT:
+				Class clazz = Class.forName(modelname.replace(".class", ""));
+				this.model = (VehicleModel)clazz.newInstance();
+				break;
+			case JSON:
+				//TODO;
+				break;
+			case JTMT:
+				JsonObject obj = JsonUtil.getObjectFromInputStream(net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(modelname)).getInputStream());
+				this.model = new VehicleModel(obj);
+				break;
+			case OBJ:
+				//TODO
+				break;
+			case NONE:
+			default:
+				break;
+		}
 	}
 	
 	/**
@@ -107,29 +139,48 @@ public class Vehicle {
 		public Vehicle vehicle;
 		public UUID creator;
 		public RGB primary, secondary;
+		public boolean doors;
+		public int texture;
+		public String texture_url;
 		
 		public VehicleData(Vehicle vehicle){
 			this.vehicle = vehicle;
 			this.creator = UUID.fromString(Static.NULL_UUID_STRING);
 			this.primary = new RGB(vehicle.def_primary);
 			this.secondary = new RGB(vehicle.def_secondary);
+			this.doors = false;
+			this.texture = 0;
+			this.texture_url = null;
 		}
 		
 		public NBTTagCompound write(NBTTagCompound compound){
 			if(compound == null){
 				compound = new NBTTagCompound();
 			}
+			compound.setString("VehicleType", vehicle.registryname);
+			compound.setString("Creator", this.creator == null ? Static.NULL_UUID_STRING : this.creator.toString());
+			this.primary.writeToNBT(compound, "Primary");
+			this.secondary.writeToNBT(compound, "Secondary");
+			compound.setBoolean("Doors", doors);
+			compound.setInteger("Texture", texture);
+			compound.setString("TextureUrl", texture_url == null ? "" : texture_url);
 			return compound;
 		}
 		
 		public void read(NBTTagCompound compound){
-			
+			this.creator = UUID.fromString(compound.getString("Creator"));
+			this.primary.readFromNBT(compound, "Primary");
+			this.secondary.readFromNBT(compound, "Secondary");
+			this.doors = compound.getBoolean("Doors");
+			this.texture = compound.getInteger("Texture");
+			this.texture_url = compound.getString("TextureUrl");
 		}
 		
 		public static VehicleData fromNBT(NBTTagCompound compound){
 			if(compound.hasKey("VehicleType")){
 				VehicleData vdata = new VehicleData( FvmResources.vehicles.get(compound.getString("VehicleType")));
 				vdata.read(compound);
+				return vdata;
 			}
 			return null;
 		}
@@ -146,7 +197,7 @@ public class Vehicle {
 		private ArrayList<String> arr;
 		
 		VehicleEntityType(String[] arr){
-			this.arr = (ArrayList<String>)Arrays.asList(arr);
+			this.arr = new ArrayList<String>(Arrays.asList(arr));
 		}
 
 		public static VehicleEntityType find(JsonObject obj){

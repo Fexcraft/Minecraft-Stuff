@@ -42,6 +42,9 @@ public class FVM {
 		
 		FvmResources.setup(event);
 		FvmResources.scanForContent(event);
+		if(event.getSide().isClient()){
+			FvmResources.loadModels(event);
+		}
 		
 	}
 	

@@ -19,6 +19,10 @@ public class Part {
 		//this.maxHealth = JsonUtil.getIfExists(obj, "MaxHealth", 100).intValue();//500
 		this.maxStackSize = JsonUtil.getIfExists(obj, "MaxStackSize", 64).intValue();
 		this.item = new PartItem(this);
+	}
+
+	public void loadModel(){
+		
 	}	
 	
 }
