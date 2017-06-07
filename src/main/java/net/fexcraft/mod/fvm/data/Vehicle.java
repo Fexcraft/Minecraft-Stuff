@@ -1,12 +1,14 @@
 package net.fexcraft.mod.fvm.data;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.data.Part.PartData;
 import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.model.VehicleModel;
 import net.fexcraft.mod.fvm.util.FvmResources;
@@ -16,6 +18,7 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -106,27 +109,13 @@ public class Vehicle {
 		}*/
 	}
 	
-	public void loadModel() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	public void loadModel(){
 		this.modeltype = FvmResources.findOutModelType(this.modelname);
-		switch(modeltype){
-			case JAVA:
-			case TMT:
-				Class clazz = Class.forName(modelname.replace(".class", ""));
-				this.model = (VehicleModel)clazz.newInstance();
-				break;
-			case JSON:
-				//TODO;
-				break;
-			case JTMT:
-				JsonObject obj = JsonUtil.getObjectFromInputStream(net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(modelname)).getInputStream());
-				this.model = new VehicleModel(obj);
-				break;
-			case OBJ:
-				//TODO
-				break;
-			case NONE:
-			default:
-				break;
+		try{
+			this.model = (VehicleModel)DataUtil.loadModel(this.modeltype, this.modelname, VehicleModel.class);
+		}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	
@@ -142,6 +131,7 @@ public class Vehicle {
 		public boolean doors;
 		public int texture;
 		public String texture_url;
+		public TreeMap<String, PartData> parts;
 		
 		public VehicleData(Vehicle vehicle){
 			this.vehicle = vehicle;
@@ -151,6 +141,7 @@ public class Vehicle {
 			this.doors = false;
 			this.texture = 0;
 			this.texture_url = null;
+			this.parts = new TreeMap<String, PartData>();
 		}
 		
 		public NBTTagCompound write(NBTTagCompound compound){
@@ -164,6 +155,14 @@ public class Vehicle {
 			compound.setBoolean("Doors", doors);
 			compound.setInteger("Texture", texture);
 			compound.setString("TextureUrl", texture_url == null ? "" : texture_url);
+			NBTTagList list = new NBTTagList();
+			for(Entry<String, PartData> entry : parts.entrySet()){
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("As", entry.getKey());
+				entry.getValue().write(nbt);
+				list.appendTag(nbt);
+			}
+			compound.setTag("Parts", list);
 			return compound;
 		}
 		
@@ -174,6 +173,14 @@ public class Vehicle {
 			this.doors = compound.getBoolean("Doors");
 			this.texture = compound.getInteger("Texture");
 			this.texture_url = compound.getString("TextureUrl");
+			NBTTagList list = compound.getTagList("Parts", 0);
+			for(int i = 0; i < list.tagCount(); i++){
+				NBTTagCompound nbt = list.getCompoundTagAt(i);
+				PartData part = PartData.fromNBT(nbt);
+				if(part != null){
+					parts.put(nbt.getString("As"), part);
+				}
+			}
 		}
 		
 		public static VehicleData fromNBT(NBTTagCompound compound){

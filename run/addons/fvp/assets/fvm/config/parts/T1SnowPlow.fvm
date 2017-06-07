@@ -1,7 +1,7 @@
 {
     "RegistryName": "t1_snowplow",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1_FT1.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1_FT1.class",
     "FullName": "T1 FT1 Snow Plow",
     "Description": [
         "&7Use the &c`F`&7 key to enable/disable."

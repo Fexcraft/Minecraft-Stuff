@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.fvm.blocks.ConstructorControllerEntity;
 import net.fexcraft.mod.fvm.model.ModelConstructorController;
+import net.fexcraft.mod.fvm.model.ModelHitbox;
+import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -17,7 +19,7 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double posX, double posY, double posZ, float partialticks, int destroystage){
     	GL11.glPushMatrix();
-		GL11.glTranslated(posX + 0.5F, posY + 1.5F, posZ + 0.5F);
+		GL11.glTranslated(posX, posY, posZ);
 		Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
@@ -36,8 +38,18 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer {
 				d = -90d;
 				break;
 		}
+		GL11.glRotated(-d, 0, 1, 0);
+		model.render(model.bodyModel);
+		model.render(model.turretModel);
+		
+		//DEBUG
+		ConstructorControllerEntity te = (ConstructorControllerEntity)tileentity;
 		GL11.glRotated(d, 0, 1, 0);
-		model.render(model.bodyModel);			
+		GL11.glRotatef(-180F, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslated(te.hitX, te.hitY, te.hitZ);
+		Minecraft.getMinecraft().renderEngine.bindTexture(FvmResources.NULL_TEXTURE);
+		ModelHitbox.instance().render();
+		//
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
     }

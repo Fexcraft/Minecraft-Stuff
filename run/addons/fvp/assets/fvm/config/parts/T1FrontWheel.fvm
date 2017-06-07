@@ -1,7 +1,7 @@
 {
     "RegistryName": "t1_front_wheel",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1FW.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1FW.class",
     "Category": [
         "wheels",
         "right_front_wheel",

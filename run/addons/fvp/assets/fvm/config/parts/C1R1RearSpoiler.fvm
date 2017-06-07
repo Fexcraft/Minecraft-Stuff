@@ -2,7 +2,7 @@
     "RegistryName": "c1r1_rear_spoiler",
     "FullName": "C1R1 Rear Spoiler",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelC1R1_Spoiler.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC1R1_Spoiler.class",
     "Category": [
         "rear_spoiler"
     ],

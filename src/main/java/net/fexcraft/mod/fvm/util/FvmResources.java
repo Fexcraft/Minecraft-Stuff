@@ -218,8 +218,6 @@ public class FvmResources {
 				//TODO
 				Print.log("Searching for Railed Vehicles...");
 				//TODO
-				Print.log("Initializing Models...");
-				//TODO
 				Print.log("Finished loading Addonpack with id: '" + addon.id + "'!");
 			}
 			else{
@@ -248,16 +246,12 @@ public class FvmResources {
 	}
 
 	public static void loadModels(FMLPreInitializationEvent event){
+		Print.log("Initializing Models...");
 		for(Part part : parts.values()){
 			part.loadModel();
 		}
 		for(Vehicle veh : vehicles.values()){
-			try{
-				veh.loadModel();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+			veh.loadModel();
 		}
 	}
 

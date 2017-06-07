@@ -1,14 +1,21 @@
 package net.fexcraft.mod.fvm.data;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvm.model.NullModel;
+import net.fexcraft.mod.fvm.model.PartModel;
 import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.lib.tmt.Model;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.render.ModelType;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.util.ResourceLocation;
 
@@ -76,6 +83,30 @@ public class DataUtil {
 			}
 		}
 		return textures;
+	}
+
+	public static Model loadModel(ModelType modeltype, String modelname, Class<? extends Model> clazz) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		switch(modeltype){
+			case JAVA:
+			case TMT:
+				Class clasz = Class.forName(modelname.replace(".class", ""));
+				return (Model)clasz.newInstance();
+			case JSON:
+				//TODO;
+				return null;
+			case JTMT:
+				JsonObject obj = JsonUtil.getObjectFromInputStream(net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(modelname)).getInputStream());
+				return clazz.getConstructor(JsonObject.class).newInstance(obj);
+			case OBJ:
+				//TODO
+				return null;
+			case NONE:
+				if(clazz == PartModel.class){
+					return NullModel.get();
+				}
+			default:
+				return null;
+		}
 	}
 	
 }

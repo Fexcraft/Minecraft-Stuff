@@ -1,7 +1,7 @@
 {
     "RegistryName": "c1r1_wheel",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelC1R1Wheel.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC1R1Wheel.class",
     "Category": [
         "exchange_wheel",
         "right_front_wheel",

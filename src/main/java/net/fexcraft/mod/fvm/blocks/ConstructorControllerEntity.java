@@ -23,6 +23,7 @@ public class ConstructorControllerEntity extends TileEntity implements IInventor
 	private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	private boolean linked;
 	public VehicleData data = null;
+	public float hitX, hitY, hitZ;
 	
 	public VehicleData getVehicleData(){
 		return data;

@@ -1,7 +1,7 @@
 {
     "RegistryName": "c2_steering_wheel",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelC2ST.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC2ST.class",
     "Category": [
         "steering_wheel"
     ],

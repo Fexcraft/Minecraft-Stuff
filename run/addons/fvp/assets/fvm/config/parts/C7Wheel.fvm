@@ -1,7 +1,7 @@
 {
     "RegistryName": "c7_wheel",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelC7W1.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC7W1.class",
     "FullName": "C7 Default Wheel",
     "Category": [
         "exchange_wheel",

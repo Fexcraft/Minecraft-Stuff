@@ -1,7 +1,7 @@
 {
     "RegistryName": "t1_type2_cargoupgrade",
     "AddOn": "Default FVM Addon Pack",
-    "ModelFile": "net.fexcraft.mod.fvm.models.part.ModelT1_2.class",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1_2.class",
     "FullName": "T1 Type 2 Tow Truck Update",
     "Category": [
         "cargo"

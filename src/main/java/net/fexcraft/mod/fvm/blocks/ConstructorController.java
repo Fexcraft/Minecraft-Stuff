@@ -101,6 +101,10 @@ public class ConstructorController extends BlockContainer {
 	@Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(w.isRemote || hand == EnumHand.OFF_HAND){
+			ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
+			te.hitX = hitX;
+			te.hitY = hitY;
+			te.hitZ = hitZ;
 			return false;
 		}
 		ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
