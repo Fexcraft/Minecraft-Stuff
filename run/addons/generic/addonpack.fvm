@@ -1,0 +1,11 @@
+{
+  "id": "generic",
+  "name": "Generic Materials and Parts Pack",
+  "url": "http://fexcraft.net/",
+  "license": "https://fexcraft.net/license?id=mods",
+  "dependencies": [],
+  "authors": [
+    "01e4af9b-2a30-471e-addf-f6338ffce04b",
+    "fnet:1"
+  ]
+}

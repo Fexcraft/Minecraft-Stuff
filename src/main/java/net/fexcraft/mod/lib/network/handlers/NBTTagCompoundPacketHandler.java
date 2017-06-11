@@ -26,6 +26,7 @@ public class NBTTagCompoundPacketHandler {
 				public void run(){
 					if(!packet.nbt.hasKey("target_listener")){
 						Print.log("[FCL] Received NBT Packet, but had no target listener, ignoring!");
+						Print.log("[NBT] " + packet.nbt.toString());
 						return;
 					}
 					IPacketListener listener = sls.get(packet.nbt.getString("target_listener"));
@@ -47,6 +48,7 @@ public class NBTTagCompoundPacketHandler {
 				public void run(){
 					if(!packet.nbt.hasKey("target_listener")){
 						Print.log("[FCL] Received NBT Packet, but had no target listener, ignoring!");
+						Print.log("[NBT] " + packet.nbt.toString());
 						return;
 					}
 					IPacketListener listener = cls.get(packet.nbt.getString("target_listener"));

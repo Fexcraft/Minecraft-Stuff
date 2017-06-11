@@ -2,12 +2,13 @@ package net.fexcraft.mod.lib.util.render;
 
 public enum ModelType {
 	
-	JSON("json"), JAVA("java"), JTMT("jtmt"), TMT("tmt"), OBJ("obj"), NONE("null");
+	JSON("json", "json"), JAVA("java", "class"), JTMT("jtmt", "jtmt"), TMT("tmt", "class"), OBJ("obj", "obj"), NONE("null", "");
 	
-	private String name;
+	private String name, extension;
 	
-	ModelType(String s){
+	ModelType(String s, String e){
 		name = s;
+		extension = e;
 	}
 	
 	@Override

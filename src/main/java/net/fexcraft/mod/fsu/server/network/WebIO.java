@@ -11,6 +11,9 @@ import net.fexcraft.mod.fsu.server.FSU;
 import net.fexcraft.mod.fsu.server.modules.nrr.util.MappingUtil;
 import net.fexcraft.mod.fsu.server.network.nano_httpd.NanoHTTPD;
 import net.fexcraft.mod.fsu.server.network.nano_httpd.NanoHTTPD.Response.Status;
+import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.common.Static;
+import net.minecraft.util.text.TextComponentString;
 
 public class WebIO extends NanoHTTPD {
 	
@@ -61,6 +64,9 @@ public class WebIO extends NanoHTTPD {
 				switch(rr){
 					case "nrr_provincemap":
 						return newChunkedResponse(Status.OK, "image/png", new FileInputStream(MappingUtil.ProvinceMap.file));
+					case "send_msg":
+						Static.getServer().getPlayerList().sendMessage(new TextComponentString(Formatter.format("//TODO\\")));
+						return newFixedLengthResponse(Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
 					default:
 						result.addProperty("exists", false);
 						result.addProperty("error", "invalid_adress");

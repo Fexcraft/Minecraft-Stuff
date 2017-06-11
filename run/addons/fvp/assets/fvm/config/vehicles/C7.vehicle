@@ -1,0 +1,76 @@
+{
+    "RegistryName": "C7",
+    "Addon": "fvp",
+    "FullName": "C7 Raw",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC7.class",
+    "PrimaryColor": {
+        "Red": 1,
+        "Blue": 1,
+        "Green": 1
+    },
+    "SecondaryColor": {
+        "Red": 0.522,
+        "Blue": 0.31,
+        "Green": 0.239
+    },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_c7.png"
+    ],
+    "WheelPos":[
+        {
+            "x": -31.5,
+            "y": -3,
+            "z": -16
+        },
+        {
+            "x": -31.5,
+            "y": -3,
+            "z": 16
+        },
+        {
+            "x": 31.5,
+            "y": -3,
+            "z": 16
+        },
+        {
+            "x": 31.5,
+            "y": -3,
+            "z": -16
+        }
+    ],
+    "ConstructionSettings": {
+        "Length": 3,
+        "HeightOffset": 20.5,
+        "WheelOffset": 12.5,
+        "Requires": [
+            "right_front_wheel",
+            "left_front_wheel",
+            "right_back_wheel",
+            "left_back_wheel",
+            "steering_wheel",
+            "interior",
+            "engine"
+        ]
+    },
+    "PartSettings": {
+        "PreInstalled": [
+            "seats:c7_seats"
+        ]
+    },
+    "RenderSettings": {
+        "RotateWheels": true
+    },
+    "InventorySettings": {
+        "TankSize": 25700,
+        "Size": 28
+    },
+    "VehicleDefaults": {
+        "DriveType": "4wd",
+        "Lockable": true,
+        "MaxThrottle": 1.567,
+        "MaxNegativeThrottle": 0.8,
+        "TurnLeftModifier": 1.45,
+        "TurnRightModifier": 1.45
+    }
+    
+}
