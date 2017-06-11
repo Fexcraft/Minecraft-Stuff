@@ -16,6 +16,11 @@ import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -24,7 +29,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
@@ -41,8 +45,8 @@ guiFactory = "net.fexcraft.mod.lib.util.common.GuiFactory")
 public class FCL {
 	
 	public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_AQUA + "FCL" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";
-	public static final String version = "XI.25";
-	public static final String mcv = "1.11.2";
+	public static final String version = "XI.26";
+	public static final String mcv = "1.12";
 	public static final UUID[] authors = new UUID[]{UUID.fromString("01e4af9b-2a30-471e-addf-f6338ffce04b")};
 	private static PacketHandler packet_handler;
 	@Mod.Instance("fcl")
@@ -67,9 +71,18 @@ public class FCL {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
 		
 		if(!FclConfig.serverSideOnly){
-	    	GameRegistry.addShapelessRecipe(new ItemStack(Registry.getBlock("fcl:workbench"), 4), new Object[]{
-	    		Items.IRON_INGOT, Blocks.CRAFTING_TABLE, Blocks.LOG
-	    	});
+			NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
+			list.add(Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)));
+			list.add(Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)));
+			list.add(Ingredient.func_193369_a(
+					new ItemStack(Blocks.LOG, 1, 0),
+					new ItemStack(Blocks.LOG, 1, 1),
+					new ItemStack(Blocks.LOG, 1, 2),
+					new ItemStack(Blocks.LOG, 1, 3),
+					new ItemStack(Blocks.LOG2, 1, 0),
+					new ItemStack(Blocks.LOG2, 1, 1)
+				));
+			CraftingManager.func_193372_a(new ResourceLocation("fcl:workbench"), new ShapelessRecipes("", new ItemStack(Registry.getBlock("fcl:workbench"), 4), list));
 		}
 	}
 	
@@ -89,7 +102,7 @@ public class FCL {
 		PermManager.initialize();
 		packet_handler.init();
 		CreativeTab.getIcons();
-		RecipeRegistry.importVanillaRecipes();
+		//RecipeRegistry.importVanillaRecipes();
 		Print.log("Loading complete.");
 	}
 	

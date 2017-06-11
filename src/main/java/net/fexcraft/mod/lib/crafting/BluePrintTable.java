@@ -32,11 +32,11 @@ public class BluePrintTable extends Block {
     	
     	Registry.registerBlockManually("fcl", "blueprinttable", 0, null, this, null, null);
 	}
-
-    @Override
-	public boolean isFullyOpaque(IBlockState state){
-		return false;
-	}
+	
+	@Override
+	public boolean isFullBlock(IBlockState state){
+        return false;
+    }
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

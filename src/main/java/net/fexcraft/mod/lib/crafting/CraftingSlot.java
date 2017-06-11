@@ -11,7 +11,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.stats.AchievementList;
 import net.minecraft.util.NonNullList;
 
 public class CraftingSlot extends Slot {

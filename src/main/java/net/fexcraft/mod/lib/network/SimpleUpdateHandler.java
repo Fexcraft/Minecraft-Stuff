@@ -12,6 +12,7 @@ import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -131,7 +132,7 @@ public class SimpleUpdateHandler{
 				}
 			}
 			if(Static.side().isServer() && Network.isBanned(event.player.getGameProfile().getId())){
-				((EntityPlayerMP)event.player).connection.disconnect("[FCL] Blacklisted.");
+				((EntityPlayerMP)event.player).connection.onDisconnect(new TextComponentString("[FCL] Blacklisted."));
 			}
 			if(FclConfig.remind){
 				Print.chat(event.player, FCL.prefix + "Please check the FCL config, there are some important settings regarding statistical data sent to the FCL Database.");
