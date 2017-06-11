@@ -36,7 +36,7 @@ public class FvmResources {
 	
 	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
 	//
-	public static final ResourceLocation NULL_TEXTURE = new ResourceLocation("fvm:textures/entities/null_texture");
+	public static final ResourceLocation NULL_TEXTURE = new ResourceLocation("fvm:textures/entities/null_texture.png");
 	public static final TreeMap<String, Addon> addons = new TreeMap<String, Addon>();
 	//public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
 	//

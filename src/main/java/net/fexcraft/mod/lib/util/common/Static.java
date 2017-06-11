@@ -1,7 +1,13 @@
 package net.fexcraft.mod.lib.util.common;
 
+import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import net.fexcraft.mod.lib.network.Network;
 import net.minecraft.entity.MoverType;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
@@ -142,6 +148,20 @@ public class Static{
 	
 	public static final boolean isOp(String name){
 		return getServer().getPlayerList().getOppedPlayers().getGameProfileFromName(name) != null;
+	}
+	
+	private static final HashMap<UUID, String> cache = new HashMap<UUID, String>();
+	public static final String getPlayerNameByUUID(UUID uuid){
+		if(cache.containsKey(uuid)){
+			return cache.get(uuid);
+		}
+		JsonElement obj = Network.request(" https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replace("-", ""));
+		if(obj != null){
+			JsonObject elm = obj.getAsJsonObject();
+			cache.put(uuid, elm.get("name").getAsString());
+			return elm.get("name").getAsString();
+		}
+		return "<null/errored>";
 	}
 	
 }

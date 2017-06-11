@@ -30,8 +30,8 @@ public class Part {
 	public String modelname;
 	public ModelType modeltype = ModelType.NONE;
 	@SideOnly(Side.CLIENT) public PartModel model;
-	@SideOnly(Side.CLIENT) private float scale = 1;
-	@SideOnly(Side.CLIENT) public ArrayList<ResourceLocation> textures;
+	/*(Side.CLIENT) private float scale = 1;*/
+	public ArrayList<ResourceLocation> textures;
 	public TreeMap<String, JsonObject> modelsettings;
 	
 	//Construction

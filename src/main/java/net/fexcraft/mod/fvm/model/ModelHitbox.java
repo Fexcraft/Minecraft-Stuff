@@ -10,7 +10,8 @@ public class ModelHitbox extends ModelBase {
 	
 	public ModelHitbox(){
 		hitbox = new ModelRendererTurbo(this, 1, 1, 16, 16);
-		hitbox.addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Box 23
+		//hitbox.addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Box 23
+		hitbox.addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F, -0.3F);
 		hitbox.setRotationPoint(-0.5f, -0.5f, -0.5f);
 	}
 	

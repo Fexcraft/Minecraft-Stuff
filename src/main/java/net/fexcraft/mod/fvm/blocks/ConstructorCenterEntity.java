@@ -77,7 +77,7 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 			int y = packet.nbt.getInteger("YY");
 			int z = packet.nbt.getInteger("ZZ");
 			remote = new BlockPos(x, y, z);
-			link = (ConstructorControllerEntity)world.getTileEntity(remote);
+			//link = (ConstructorControllerEntity)world.getTileEntity(remote);
 		}
 		else{
 			remote = null;

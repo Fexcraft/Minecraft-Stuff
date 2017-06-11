@@ -42,9 +42,11 @@ public class Vehicle {
 	//Visual
 	public String modelname;
 	public ModelType modeltype = ModelType.NONE;
-	@SideOnly(Side.CLIENT) public VehicleModel model;
-	@SideOnly(Side.CLIENT) private float scale = 1;
-	@SideOnly(Side.CLIENT) public ArrayList<ResourceLocation> textures;
+	@SideOnly(Side.CLIENT)
+	public VehicleModel model;
+	/*@SideOnly(Side.CLIENT)
+	private float scale;*/
+	public ArrayList<ResourceLocation> textures;
 	
 	//Constructor
 	public int construction_length;
@@ -132,6 +134,7 @@ public class Vehicle {
 		public int texture;
 		public String texture_url;
 		public TreeMap<String, PartData> parts;
+		public boolean readyToSpawn;
 		
 		public VehicleData(Vehicle vehicle){
 			this.vehicle = vehicle;
@@ -142,6 +145,7 @@ public class Vehicle {
 			this.texture = 0;
 			this.texture_url = null;
 			this.parts = new TreeMap<String, PartData>();
+			this.readyToSpawn = false;
 		}
 		
 		public NBTTagCompound write(NBTTagCompound compound){
@@ -163,6 +167,7 @@ public class Vehicle {
 				list.appendTag(nbt);
 			}
 			compound.setTag("Parts", list);
+			compound.setBoolean("ReadyToSpawn", readyToSpawn);
 			return compound;
 		}
 		
@@ -181,6 +186,7 @@ public class Vehicle {
 					parts.put(nbt.getString("As"), part);
 				}
 			}
+			this.readyToSpawn = compound.getBoolean("ReadyToSpawn");
 		}
 		
 		public static VehicleData fromNBT(NBTTagCompound compound){
