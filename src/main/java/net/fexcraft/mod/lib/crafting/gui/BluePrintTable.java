@@ -92,23 +92,23 @@ public class BluePrintTable extends GuiContainer {
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		this.fontRenderer.drawString("[" + catscroll + "] " + category, 24, 7, 4210752);
-		this.fontRenderer.drawString(scroll + "s", 239, 63, 4210752);
+		this.fontRendererObj.drawString("[" + catscroll + "] " + category, 24, 7, 4210752);
+		this.fontRendererObj.drawString(scroll + "s", 239, 63, 4210752);
 		if(cup.enabled){
-			this.fontRenderer.drawString(comscroll + "s", 118, 86, 4210752);
+			this.fontRendererObj.drawString(comscroll + "s", 118, 86, 4210752);
 		}
-		this.fontRenderer.drawString(times + "a", 118, 50, 4210752);
+		this.fontRendererObj.drawString(times + "a", 118, 50, 4210752);
 		//
 		for(int i = 4; i > -1; i--){
 			if(selrecipes[i] != null){
 				String s = selrecipes[i].output.getDisplayName();
-				if(fontRenderer.getStringWidth(s) > 70){
-					s = fontRenderer.trimStringToWidth(s, 70);
+				if(fontRendererObj.getStringWidth(s) > 70){
+					s = fontRendererObj.trimStringToWidth(s, 70);
 				}
-				this.fontRenderer.drawString(s, 161, 25 + (i * 20), 4210752);
+				this.fontRendererObj.drawString(s, 161, 25 + (i * 20), 4210752);
 			}
 			else{
-				this.fontRenderer.drawString(" >>> ", 161, 25 + (i * 20), 4210752);
+				this.fontRendererObj.drawString(" >>> ", 161, 25 + (i * 20), 4210752);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class BluePrintTable extends GuiContainer {
 			GlStateManager.enableLighting();
 			this.itemRender.zLevel = 100.0F;
 			this.itemRender.renderItemAndEffectIntoGUI(obj.output, this.guiLeft + 139, this.guiTop + (20 + (k * 20)));
-			this.itemRender.renderItemOverlays(this.fontRenderer, obj.output, this.guiLeft + 139, this.guiTop + (20 + (k * 20)));
+			this.itemRender.renderItemOverlays(this.fontRendererObj, obj.output, this.guiLeft + 139, this.guiTop + (20 + (k * 20)));
 			this.itemRender.zLevel = 0.0F;
 			GlStateManager.disableLighting();
 			GlStateManager.popMatrix();
@@ -150,7 +150,7 @@ public class BluePrintTable extends GuiContainer {
 				GlStateManager.enableLighting();
 				this.itemRender.zLevel = 100.0F;
 				this.itemRender.renderItemAndEffectIntoGUI(selrecipes[selectedrec].components[sel], this.guiLeft + (6 + (i * 18)), this.guiTop + (28 + (j * 18)));
-				this.itemRender.renderItemOverlays(this.fontRenderer, selrecipes[selectedrec].components[sel], this.guiLeft + (6 + (i * 18)), this.guiTop + (28 + (j * 18)));
+				this.itemRender.renderItemOverlays(this.fontRendererObj, selrecipes[selectedrec].components[sel], this.guiLeft + (6 + (i * 18)), this.guiTop + (28 + (j * 18)));
 				this.itemRender.zLevel = 0.0F;
 				GlStateManager.disableLighting();
 				GlStateManager.popMatrix();
@@ -348,175 +348,176 @@ public class BluePrintTable extends GuiContainer {
 	}
 	
 	public static class HorizontalArrow extends GuiButton {
-		
-		private boolean left;
-		
-		public HorizontalArrow(boolean b, int i, int j){
-			super(b ? 0 : 1, i + (b ? 5 : 236), j + 5, 15, 12, "");
-			left = b;
-		}
-		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
-			mc.getTextureManager().bindTexture(TEXTURE);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.x && mouseY >= this.x && mouseX < this.x + this.width && mouseY < this.x + this.height;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			
+			private boolean left;
 			
-			if(this.enabled){
-				if(this.hovered){
-					this.drawTexturedModalRect(this.x, this.x, 122, left ? 232 : 244, this.width, this.height);
-				}
-				else{
-					this.drawTexturedModalRect(this.x, this.x, 152, left ? 232 : 244, this.width, this.height);
-				}
+			public HorizontalArrow(boolean b, int i, int j){
+				super(b ? 0 : 1, i + (b ? 5 : 236), j + 5, 15, 12, "");
+				left = b;
 			}
-			else{
-				this.drawTexturedModalRect(this.x, this.x, 137, left ? 232 : 244, this.width, this.height);
-			}
-		}
-		
-	}
-	
-	public static class VerticalArrow extends GuiButton {
-		
-		private boolean up;
-		
-		public VerticalArrow(boolean b, int i, int j){
-			super(b ? 2 : 3, i + 238, j + (b ? 20 : 101), 12, 15, "");
-			up = b;
-		}
-		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
-			mc.getTextureManager().bindTexture(TEXTURE);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.x && mouseY >= this.x && mouseX < this.x + this.width && mouseY < this.x + this.height;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			
-			
-			if(this.enabled){
-				if(this.hovered){
-					this.drawTexturedModalRect(this.x, this.x, up ? 101 : 89, 211, this.width, this.height);
-				}
-				else{
-					this.drawTexturedModalRect(this.x, this.x, up ? 101 : 89, 226, this.width, this.height);
-				}
-			}
-			else{
-				this.drawTexturedModalRect(this.x, this.x, up ? 101 : 89, 241, this.width, this.height);
-			}
-		}
-		
-	}
-	
-	public static class ComponentsScroll extends GuiButton {
-		private boolean up;
-		public ComponentsScroll(int id, int i, int j){
-			super(id, i, j, 18, 9, "");
-			up = id % 2 == 0;
-		}
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
-			mc.getTextureManager().bindTexture(TEXTURE);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.x && mouseY >= this.x && mouseX < this.x + this.width && mouseY < this.x + this.height;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			if(this.enabled){
-				if(this.hovered){
-					this.drawTexturedModalRect(this.x, this.x, 113, up ? 207 : 216, this.width, this.height);
-				}
-				else{
-					this.drawTexturedModalRect(this.x, this.x, 149, up ? 207 : 216, this.width, this.height);
-				}
-			}
-			else{
-				this.drawTexturedModalRect(this.x, this.x, 131, up ? 207 : 216, this.width, this.height);
-			}
-		}
-	}
-	
-	public static class RecipeItem extends GuiButton {
-		
-		public boolean selected;
-		
-		public RecipeItem(int id, int i, int j){
-			super(id, i, j, 78, 18, "");
-		}
-		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
-			mc.getTextureManager().bindTexture(TEXTURE);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.x && mouseY >= this.x && mouseX < this.x + this.width && mouseY < this.x + this.height;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			
-			if(this.enabled){
-				if(this.hovered){
-					this.drawTexturedModalRect(this.x, this.x, 178, 207, this.width, this.height);
-				}
-				else if(this.selected){
-					this.drawTexturedModalRect(this.x, this.x, 178, 225, this.width, this.height);
-				}
-				else{
-					this.drawTexturedModalRect(this.x, this.x, 157, 19, this.width, this.height);
-				}
-			}
-		}
-		
-	}
-	
-	public static class CraftButton extends GuiButton {
-		
-		private boolean selected;
-		private BluePrintTable table;
-		
-		public CraftButton(BluePrintTable table, int id, int i, int j){
-			super(id, i, j, 18, 18, "");
-			this.table = table;
-		}
-		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
-			mc.getTextureManager().bindTexture(TEXTURE);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.x && mouseY >= this.x && mouseX < this.x + this.width && mouseY < this.x + this.height;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			
-			if(this.enabled){
-				if(table.craftable){
+			@Override
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+				super.func_191745_a(mc, mouseX, mouseY, f);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				
+				
+				if(this.enabled){
 					if(this.hovered){
-						this.drawTexturedModalRect(this.x, this.x, 41, 225, this.width, this.height);
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 122, left ? 232 : 244, this.width, this.height);
 					}
 					else{
-						this.drawTexturedModalRect(this.x, this.x, 23, 225, this.width, this.height);
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 152, left ? 232 : 244, this.width, this.height);
 					}
 				}
 				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 137, left ? 232 : 244, this.width, this.height);
+				}
+			}
+			
+		}
+		
+		public static class VerticalArrow extends GuiButton {
+			
+			private boolean up;
+			
+			public VerticalArrow(boolean b, int i, int j){
+				super(b ? 2 : 3, i + 238, j + (b ? 20 : 101), 12, 15, "");
+				up = b;
+			}
+			
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+				super.func_191745_a(mc, mouseX, mouseY, f);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				
+				
+				if(this.enabled){
 					if(this.hovered){
-						this.drawTexturedModalRect(this.x, this.x, 59, 225, this.width, this.height);
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 101 : 89, 211, this.width, this.height);
 					}
 					else{
-						this.drawTexturedModalRect(this.x, this.x, 5, 225, this.width, this.height);
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 101 : 89, 226, this.width, this.height);
+					}
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 101 : 89, 241, this.width, this.height);
+				}
+			}
+			
+		}
+		
+		public static class ComponentsScroll extends GuiButton {
+			private boolean up;
+			public ComponentsScroll(int id, int i, int j){
+				super(id, i, j, 18, 9, "");
+				up = id % 2 == 0;
+			}
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+				super.func_191745_a(mc, mouseX, mouseY, f);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				if(this.enabled){
+					if(this.hovered){
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 113, up ? 207 : 216, this.width, this.height);
+					}
+					else{
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 149, up ? 207 : 216, this.width, this.height);
+					}
+				}
+				else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 131, up ? 207 : 216, this.width, this.height);
+				}
+			}
+		}
+		
+		public static class RecipeItem extends GuiButton {
+			
+			public boolean selected;
+			
+			public RecipeItem(int id, int i, int j){
+				super(id, i, j, 78, 18, "");
+			}
+			
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+				super.func_191745_a(mc, mouseX, mouseY, f);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				
+				if(this.enabled){
+					if(this.hovered){
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 178, 207, this.width, this.height);
+					}
+					else if(this.selected){
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 178, 225, this.width, this.height);
+					}
+					else{
+						this.drawTexturedModalRect(this.xPosition, this.yPosition, 157, 19, this.width, this.height);
 					}
 				}
 			}
-			/*else{
-				this.drawTexturedModalRect(this.xPosition, this.yPosition, 41, 225, this.width, this.height);
-			}*/
+			
 		}
 		
-	}
+		public static class CraftButton extends GuiButton {
+			
+			private boolean selected;
+			private BluePrintTable table;
+			
+			public CraftButton(BluePrintTable table, int id, int i, int j){
+				super(id, i, j, 18, 18, "");
+				this.table = table;
+			}
+			
+			public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+				super.func_191745_a(mc, mouseX, mouseY, f);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				
+				if(this.enabled){
+					if(table.craftable){
+						if(this.hovered){
+							this.drawTexturedModalRect(this.xPosition, this.yPosition, 41, 225, this.width, this.height);
+						}
+						else{
+							this.drawTexturedModalRect(this.xPosition, this.yPosition, 23, 225, this.width, this.height);
+						}
+					}
+					else{
+						if(this.hovered){
+							this.drawTexturedModalRect(this.xPosition, this.yPosition, 59, 225, this.width, this.height);
+						}
+						else{
+							this.drawTexturedModalRect(this.xPosition, this.yPosition, 5, 225, this.width, this.height);
+						}
+					}
+				}
+				/*else{
+					this.drawTexturedModalRect(this.xPosition, this.yPosition, 41, 225, this.width, this.height);
+				}*/
+			}
+			
+		}
 	
 }

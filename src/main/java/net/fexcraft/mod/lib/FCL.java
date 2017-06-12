@@ -16,11 +16,7 @@ import net.fexcraft.mod.lib.util.registry.Registry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -45,7 +41,7 @@ guiFactory = "net.fexcraft.mod.lib.util.common.GuiFactory")
 public class FCL {
 	
 	public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_AQUA + "FCL" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";
-	public static final String version = "XI.26";
+	public static final String version = "XII.26";
 	public static final String mcv = "1.12";
 	public static final UUID[] authors = new UUID[]{UUID.fromString("01e4af9b-2a30-471e-addf-f6338ffce04b")};
 	private static PacketHandler packet_handler;
@@ -71,18 +67,21 @@ public class FCL {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
 		
 		if(!FclConfig.serverSideOnly){
-			NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
-			list.add(Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)));
-			list.add(Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)));
-			list.add(Ingredient.func_193369_a(
-					new ItemStack(Blocks.LOG, 1, 0),
-					new ItemStack(Blocks.LOG, 1, 1),
-					new ItemStack(Blocks.LOG, 1, 2),
-					new ItemStack(Blocks.LOG, 1, 3),
-					new ItemStack(Blocks.LOG2, 1, 0),
-					new ItemStack(Blocks.LOG2, 1, 1)
-				));
-			CraftingManager.func_193372_a(new ResourceLocation("fcl:workbench"), new ShapelessRecipes("", new ItemStack(Registry.getBlock("fcl:workbench"), 4), list));
+			RecipeRegistry.addShapelessRecipe("fcl:blueprinttable", null, new ItemStack(Registry.getBlock("fcl:blueprinttable"), 1), new Ingredient[]{
+				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
+				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
+				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
+				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
+				Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)),
+				Ingredient.func_193369_a(
+						new ItemStack(Blocks.LOG, 1, 0),
+						new ItemStack(Blocks.LOG, 1, 1),
+						new ItemStack(Blocks.LOG, 1, 2),
+						new ItemStack(Blocks.LOG, 1, 3),
+						new ItemStack(Blocks.LOG2, 1, 0),
+						new ItemStack(Blocks.LOG2, 1, 1)
+					)
+			});
 		}
 	}
 	
