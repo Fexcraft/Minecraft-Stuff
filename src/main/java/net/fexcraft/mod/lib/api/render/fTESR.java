@@ -10,7 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface fTESR {
-	
-	Class<? extends TileEntity> tileentity();
+
+	@Deprecated
+	Class<? extends TileEntity> tileentity() default TileEntity.class;
 	
 }

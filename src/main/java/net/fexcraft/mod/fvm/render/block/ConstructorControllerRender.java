@@ -11,22 +11,21 @@ import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 
-@fTESR(tileentity = ConstructorControllerEntity.class)
-public class ConstructorControllerRender extends TileEntitySpecialRenderer {
+@fTESR
+public class ConstructorControllerRender extends TileEntitySpecialRenderer<ConstructorControllerEntity> {
 	
 	private static final ModelConstructorController model = new ModelConstructorController();
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double posX, double posY, double posZ, float partialticks, int destroystage){
+	public void func_192841_a(ConstructorControllerEntity te, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
     	GL11.glPushMatrix();
 		GL11.glTranslated(posX, posY, posZ);
 		Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		double d = 60;
-		switch(tileentity.getBlockMetadata()){
+		switch(te.getBlockMetadata()){
 			case 2:
 				GL11.glTranslated(-1, 0, 0);
 				d = 0;
@@ -47,7 +46,6 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer {
 				break;
 		}
 		model.render(model.bodyModel);
-		ConstructorControllerEntity te = (ConstructorControllerEntity)tileentity;
 		//Buttons
 		for(int i = 0; i < te.buttons.length; i++){
 			Button button = te.buttons[i];

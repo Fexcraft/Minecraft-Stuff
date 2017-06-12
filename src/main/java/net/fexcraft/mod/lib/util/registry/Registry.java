@@ -3,6 +3,7 @@ package net.fexcraft.mod.lib.util.registry;
 import java.io.File;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -182,12 +183,12 @@ public class Registry {
 		Set<ASMData> data = table.getAll(tesr);
 		for(ASMData entry : data){
 			try{
-				Class<? extends TileEntitySpecialRenderer> cTESR = (Class<? extends TileEntitySpecialRenderer>)Class.forName(entry.getClassName());
-				fTESR tesr = cTESR.getAnnotation(fTESR.class);
-				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tesr.tileentity(), cTESR.newInstance());
+				TileEntitySpecialRenderer cTESR = (TileEntitySpecialRenderer)Class.forName(entry.getClassName()).newInstance();
+				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer((Class<? extends TileEntity>)((ParameterizedType)cTESR.getClass().getGenericSuperclass()).getActualTypeArguments()[0], cTESR);
 			}
 			catch(Exception e){
-				error(e, entry.getClassName());
+				//error(e, entry.getClassName());
+				continue;//TODO this temporary
 			}
 		}
 	}
