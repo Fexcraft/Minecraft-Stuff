@@ -8,7 +8,7 @@ public final class HalfBlockRecipes{
 	public static void init(){
 		
 		////
-    	RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("a_hb"), 2), new Object[]{FAMMBlocks.get("a")});
+    	/*RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("a_hb"), 2), new Object[]{FAMMBlocks.get("a")});
     	////
     	RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("b_hb"), 2), new Object[]{FAMMBlocks.get("b")});
     	//C//
@@ -78,7 +78,7 @@ public final class HalfBlockRecipes{
     	//9//
     	RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("n9_hb"), 2), new Object[]{FAMMBlocks.get("n9")});
     	//0//
-    	RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("n0_hb"), 2), new Object[]{FAMMBlocks.get("n0")});
+    	RecipeRegistry.addShapelessRecipe(new ItemStack(FAMMBlocks.get("n0_hb"), 2), new Object[]{FAMMBlocks.get("n0")});*/
     	
 	}
 }

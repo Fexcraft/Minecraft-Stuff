@@ -41,15 +41,15 @@ public class GuiATM extends GuiScreen {
 	}
 	
 	@Override
-    public void drawScreen(int mx, int my, float renderPartialTicks){		
+    public void drawScreen(int mx, int my, float f){		
 		this.drawDefaultBackground();
         this.mc.getTextureManager().bindTexture(bg);
         this.drawTexturedModalRect((this.width - sx) / 2, (this.height - sy) / 2, 0, 0, sx, sy);
         
-        this.l0.drawButton(mc, mx, my);
-        this.l1.drawButton(mc, mx, my);
-        this.r0.drawButton(mc, mx, my);
-        this.r1.drawButton(mc, mx, my);
+        this.l0.func_191745_a(mc, mx, my, f);
+        this.l1.func_191745_a(mc, mx, my, f);
+        this.r0.func_191745_a(mc, mx, my, f);
+        this.r1.func_191745_a(mc, mx, my, f);
         
         this.fontRendererObj.drawString(balance + "F$", ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 66, 0x000000);
         this.fontRendererObj.drawString(log, ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 88, 0x000000);
