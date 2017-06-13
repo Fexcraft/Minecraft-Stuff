@@ -13,7 +13,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
@@ -97,9 +96,9 @@ public class Chimney extends Block implements StovePipeEntity.Connectable {
     }
     
     @SideOnly(Side.CLIENT) @Override
-    public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list){
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list){
     	for (int i = 0; i < 5; ++i){
-    		list.add(new ItemStack(item, 1, i));
+    		list.add(new ItemStack(this, 1, i));
     	}
     }
 	

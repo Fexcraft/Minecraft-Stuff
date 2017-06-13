@@ -17,9 +17,9 @@ public class PaintBucket extends Item {
 	}
 	
 	@Override
-    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list){
         for(int i = 0; i < 16; i++){
-            list.add(new ItemStack(item, 1, i));
+            list.add(new ItemStack(this, 1, i));
         }
     }
 	

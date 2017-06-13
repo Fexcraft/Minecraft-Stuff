@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class FTESR_4R extends TileEntitySpecialRenderer{
+public abstract class FTESR_4R extends TileEntitySpecialRenderer {
 	
 	public int angle = 0;
         
@@ -20,7 +20,7 @@ public abstract class FTESR_4R extends TileEntitySpecialRenderer{
 	}
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double posX, double posY, double posZ, float partialticks, int destroystage){
+	public void func_192841_a(TileEntity tileentity, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
     	GL11.glPushMatrix();
 		GL11.glTranslated(posX + 0.5F, posY + 1.5F, posZ + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(this.getResourceLocation());

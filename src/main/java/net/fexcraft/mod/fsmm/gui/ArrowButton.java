@@ -16,7 +16,7 @@ public class ArrowButton extends GuiButton {
 	}
 	
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY){
+	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
 		if(this.visible){
 			int ytp = type.getPosition();
 			mc.getTextureManager().bindTexture(texture);

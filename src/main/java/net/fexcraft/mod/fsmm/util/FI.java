@@ -5,7 +5,6 @@ public class FI {
     public static final String MODID = "fsmm";
     public static final String MODNAME = "Fex's Small Money Mod";
     public static final String VERSION = "1.5.0";
-    public static final String MCV = "1.11.2";
     public static final String FSMM = CCS.BLACK + "[" + CCS.AQUA + "FSMM" + CCS.BLACK + "]" + CCS.GRAY + " ";
     
 }

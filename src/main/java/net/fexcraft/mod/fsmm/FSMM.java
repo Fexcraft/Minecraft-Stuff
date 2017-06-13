@@ -27,8 +27,8 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
  
-//@Mod(modid = FI.MODID, name = FI.MODNAME, version = FI.VERSION, updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=fsmm", dependencies = "required-after:fcl",
-//guiFactory = "net.fexcraft.mod.fsmm.util.GuiFactory")
+@Mod(modid = FI.MODID, name = FI.MODNAME, version = FI.VERSION, updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=fsmm", dependencies = "required-after:fcl",
+guiFactory = "net.fexcraft.mod.fsmm.util.GuiFactory")
 public class FSMM {
 	
     @Mod.Instance(FI.MODID)

@@ -13,7 +13,6 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -135,8 +134,9 @@ public class SimpleUpdateHandler{
 				((EntityPlayerMP)event.player).connection.onDisconnect(new TextComponentString("[FCL] Blacklisted."));
 			}
 			if(FclConfig.remind){
-				Print.chat(event.player, FCL.prefix + "Please check the FCL config, there are some important settings regarding statistical data sent to the FCL Database.");
-				Print.chat(event.player, FCL.prefix + TextFormatting.DARK_AQUA + "You can get rid of this reminder\n" + FCL.prefix + TextFormatting.DARK_AQUA + "message in the config also.");
+				//TODO check why the boolean is sometimes true on end-user client even if set to false in config
+				//Print.chat(event.player, FCL.prefix + "Please check the FCL config, there are some important settings regarding statistical data sent to the FCL Database.");
+				//Print.chat(event.player, FCL.prefix + TextFormatting.DARK_AQUA + "You can get rid of this reminder\n" + FCL.prefix + TextFormatting.DARK_AQUA + "message in the config also.");
 			}
 			if(Network.isDonator(event.player)){
 				//

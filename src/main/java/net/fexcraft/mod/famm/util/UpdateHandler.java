@@ -3,6 +3,7 @@ package net.fexcraft.mod.famm.util;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.network.Network;
 import net.minecraft.util.text.TextFormatting;
 
@@ -24,7 +25,7 @@ public class UpdateHandler {
 				+ "\n" + FAMM + TextFormatting.GRAY + " Your Client version: (" + TextFormatting.RED    + CV + grayBracket;
 			}
 		}
-		if(LMCV != null && !LMCV.equals(FI.MCV)){
+		if(LMCV != null && !LMCV.equals(FCL.mcv)){
 			if(Status == null){
 				Status = FAMM + TextFormatting.GRAY + " Now avaible for MC " + LMCV + "!";
 			}
@@ -49,7 +50,7 @@ public class UpdateHandler {
 		else{
 			boolean found = false;
 			for(JsonElement elm : json.get("versions").getAsJsonArray()){
-				if(elm.getAsJsonObject().get("version").getAsString().equals(FI.MCV)){
+				if(elm.getAsJsonObject().get("version").getAsString().equals(FCL.mcv)){
 					obj = elm.getAsJsonObject();
 					found = true; break;
 				}
@@ -63,7 +64,7 @@ public class UpdateHandler {
 	private static void setDefault(){
 		obj = new JsonObject();
 		obj.addProperty("latest_version", FI.VERSION);
-		obj.addProperty("latest_mc_version", FI.MCV);
+		obj.addProperty("latest_mc_version", FCL.mcv);
 	}
 	
 }

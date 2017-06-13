@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class Recipes{
 	public static void init(){
-    	RecipeRegistry.addRecipe(new ItemStack(FAMMBlocks.get("empty"), 25, 0), new Object[]{
+    	/*RecipeRegistry.addRecipe(new ItemStack(FAMMBlocks.get("empty"), 25, 0), new Object[]{
     		"AAAAA",
     		"AAAAA",
     		"AAAAA",
@@ -357,6 +357,6 @@ public final class Recipes{
     		"#X#X#",
     		"#XXX#",
     		'#', FAMMItems.plate_empty, 'X', FAMMItems.plate_painted,
-    	});
+    	});*/
 	}
 }

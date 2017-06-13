@@ -419,8 +419,8 @@ public class AddonManagerGui extends GuiContainer {
 			super(id, x, y, 80, 14, text);
 		}
 		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
+		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+			super.func_191745_a(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
@@ -472,8 +472,8 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
+		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+			super.func_191745_a(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
@@ -504,8 +504,8 @@ public class AddonManagerGui extends GuiContainer {
 			up = b;
 		}
 		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
+		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+			super.func_191745_a(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
@@ -534,8 +534,8 @@ public class AddonManagerGui extends GuiContainer {
 			this.enabled = b;
 		}
 		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
+		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+			super.func_191745_a(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
@@ -581,8 +581,8 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		
-		public void drawButton(Minecraft mc, int mouseX, int mouseY){
-			super.drawButton(mc, mouseX, mouseY);
+		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+			super.func_191745_a(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;

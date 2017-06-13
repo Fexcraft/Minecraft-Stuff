@@ -2,6 +2,8 @@ package net.fexcraft.mod.frsm.blocks.clock;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
@@ -12,8 +14,8 @@ import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -50,8 +52,8 @@ public class Clock1 extends FBC_4R {
 			super(block);
 		}
 		@Override
-		public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean shift){
-	    	list.add(CCS.GRAY + "SYSTEM TIME");
+		public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced){
+	    	tooltip.add(CCS.GRAY + "SYSTEM TIME");
 	    }
 	}
 	

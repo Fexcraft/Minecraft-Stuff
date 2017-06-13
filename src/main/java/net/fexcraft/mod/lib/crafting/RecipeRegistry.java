@@ -9,6 +9,7 @@ import net.fexcraft.mod.lib.crafting.gui.BluePrintTableContainer;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.Ingredient;
@@ -48,20 +49,20 @@ public class RecipeRegistry {
 		CraftingManager.func_193372_a(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
 	}
 
-	public static void addShapedRecipe(String rs, String string, ItemStack output, byte width, byte height, Ingredient... ingredients){
+	public static void addShapedRecipe(String rs, String string, ItemStack output, int width, int height, Ingredient... ingredients){
 		if(rs == null){
 			return;
 		}
 		addShapedRecipe(new ResourceLocation(rs), string, output, width, height, ingredients);
 	}
 	
-	public static void addShapedRecipe(ResourceLocation rs, String string, ItemStack output, byte width, byte height, Ingredient... ingredients){
+	public static void addShapedRecipe(ResourceLocation rs, String string, ItemStack output, int width, int height, Ingredient... ingredients){
 		if(ingredients.length < 1 || rs == null){
 			return;
 		}
 		NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
 		list.addAll(Arrays.asList(ingredients));
-		CraftingManager.func_193372_a(rs, new ShapedRecipes(string, width, height, list, output));
+		CraftingManager.func_193372_a(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
 	}
 	
 	public static class GuiHandler implements IGuiHandler {
@@ -111,5 +112,59 @@ public class RecipeRegistry {
 	public static Set<String> getCategories(){
 		return recipes.keySet();
 	}
+	
+	//
+	
+	public static final Ingredient INGREDIENT_WOOL = Ingredient.func_193369_a(
+			new ItemStack(Blocks.WOOL, 1, 0),
+			new ItemStack(Blocks.WOOL, 1, 1),
+			new ItemStack(Blocks.WOOL, 1, 2),
+			new ItemStack(Blocks.WOOL, 1, 3),
+			new ItemStack(Blocks.WOOL, 1, 4),
+			new ItemStack(Blocks.WOOL, 1, 5),
+			new ItemStack(Blocks.WOOL, 1, 6),
+			new ItemStack(Blocks.WOOL, 1, 7),
+			new ItemStack(Blocks.WOOL, 1, 8),
+			new ItemStack(Blocks.WOOL, 1, 9),
+			new ItemStack(Blocks.WOOL, 1, 10),
+			new ItemStack(Blocks.WOOL, 1, 11),
+			new ItemStack(Blocks.WOOL, 1, 12),
+			new ItemStack(Blocks.WOOL, 1, 13),
+			new ItemStack(Blocks.WOOL, 1, 14),
+			new ItemStack(Blocks.WOOL, 1, 15)
+		);
+	public static final Ingredient INGREDIENT_WOOL_0 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 0));
+	public static final Ingredient INGREDIENT_WOOL_1 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 1));
+	public static final Ingredient INGREDIENT_WOOL_2 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 2));
+	public static final Ingredient INGREDIENT_WOOL_3 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 3));
+	public static final Ingredient INGREDIENT_WOOL_4 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 4));
+	public static final Ingredient INGREDIENT_WOOL_5 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 5));
+	public static final Ingredient INGREDIENT_WOOL_6 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 6));
+	public static final Ingredient INGREDIENT_WOOL_7 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 7));
+	public static final Ingredient INGREDIENT_WOOL_8 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 8));
+	public static final Ingredient INGREDIENT_WOOL_9 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 9));
+	public static final Ingredient INGREDIENT_WOOL_10 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 10));
+	public static final Ingredient INGREDIENT_WOOL_11 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 11));
+	public static final Ingredient INGREDIENT_WOOL_12 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 12));
+	public static final Ingredient INGREDIENT_WOOL_13 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 13));
+	public static final Ingredient INGREDIENT_WOOL_14 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 14));
+	public static final Ingredient INGREDIENT_WOOL_15 = Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, 15));
+	public static final Ingredient INGREDIENT_NULL = Ingredient.func_193369_a(ItemStack.EMPTY);
+	public static final Ingredient INGREDIENT_PLANKS = Ingredient.func_193369_a(
+			new ItemStack(Blocks.PLANKS, 1, 0),
+			new ItemStack(Blocks.PLANKS, 1, 1),
+			new ItemStack(Blocks.PLANKS, 1, 2),
+			new ItemStack(Blocks.PLANKS, 1, 3),
+			new ItemStack(Blocks.PLANKS, 1, 4),
+			new ItemStack(Blocks.PLANKS, 1, 5)
+		);
+	public static final Ingredient INGREDIENT_LOG = Ingredient.func_193369_a(
+			new ItemStack(Blocks.LOG, 1, 0),
+			new ItemStack(Blocks.LOG, 1, 1),
+			new ItemStack(Blocks.LOG, 1, 2),
+			new ItemStack(Blocks.LOG, 1, 3),
+			new ItemStack(Blocks.LOG2, 1, 0),
+			new ItemStack(Blocks.LOG2, 1, 1)
+		);
 	
 }

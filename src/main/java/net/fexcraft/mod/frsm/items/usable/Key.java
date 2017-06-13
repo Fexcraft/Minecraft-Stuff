@@ -3,6 +3,8 @@ package net.fexcraft.mod.frsm.items.usable;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
@@ -11,6 +13,7 @@ import net.fexcraft.mod.lib.api.item.KeyItem;
 import net.fexcraft.mod.lib.api.item.fItem;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +25,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -68,28 +70,28 @@ public class Key extends KeyItem {
 	}
 	    
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean shift){
-		if(itemstack.getTagCompound() != null){
-			NBTTagCompound nbt = itemstack.getTagCompound();
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced){
+		if(stack.getTagCompound() != null){
+			NBTTagCompound nbt = stack.getTagCompound();
 			String creator = nbt.getString("KeyCreator");
 			String name = Network.getMinecraftServer().getPlayerProfileCache().getProfileByUUID(UUID.fromString(creator)).getName();
 			KeyType type = KeyType.fromString(nbt.getString("KeyType"));
-			list.add("Type: " + type.toText());
-			list.add("Code: " + getCode(type, nbt.getString("KeyCode"), creator, player.getGameProfile().getId()));
-			list.add("Creator: " + name);
-			list.add("Origin: " + nbt.getString("KeyOrigin"));
+			tooltip.add("Type: " + type.toText());
+			tooltip.add("Code: " + getCode(type, nbt.getString("KeyCode"), creator, null));
+			tooltip.add("Creator: " + name);
+			tooltip.add("Origin: " + nbt.getString("KeyOrigin"));
 		}
 		else{
-			list.add("No Tag Compound.");
+			tooltip.add("No Tag Compound.");
 		}
 	}
 
 	private String getCode(KeyType type, String code, String string, UUID id) {
 		if(type == KeyType.PRIVATE){
-			if(id.toString().equals(string)){
+			//if(id.toString().equals(string)){
 				return CCS.GREEN + code;
-			}
-			else return TextFormatting.OBFUSCATED + code;
+			//}
+			//else return TextFormatting.OBFUSCATED + code;
 		}
 		else return CCS.AQUA + code;
 	}

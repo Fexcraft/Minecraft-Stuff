@@ -2,6 +2,8 @@ package net.fexcraft.mod.frsm.items.tools;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.fexcraft.mod.frsm.FRSM;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.CCS;
@@ -17,6 +19,7 @@ import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -123,13 +126,13 @@ public class PaintSet extends Item {
     }
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean advanced){
-		list.add(CCS.GOLD + color.toString());
+	public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced){
+		tooltip.add(CCS.GOLD + color.toString());
 		if(custom){
-			list.add(CCS.DAQUA + "Customisable");
+			tooltip.add(CCS.DAQUA + "Customisable");
 		}
 		else{
-			list.add(CCS.fromInt(dye.toDyeColor().getMetadata()) + dye.toString());
+			tooltip.add(CCS.fromInt(dye.toDyeColor().getMetadata()) + dye.toString());
 		}
     }
 	
