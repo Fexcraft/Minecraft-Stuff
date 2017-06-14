@@ -4,10 +4,9 @@ import java.io.File;
 
 import net.fexcraft.mod.famm.blocks.FAMMBlocks;
 import net.fexcraft.mod.famm.items.FAMMItems;
-import net.fexcraft.mod.famm.register.HalfBlockRecipes;
-import net.fexcraft.mod.famm.register.Recipes;
 import net.fexcraft.mod.famm.util.FAMMEventHandler;
 import net.fexcraft.mod.famm.util.FI;
+import net.fexcraft.mod.famm.util.Recipes;
 import net.fexcraft.mod.famm.util.UpdateHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -60,7 +59,6 @@ public class FAMM {
 		
 		FAMMItems.init();
 		Recipes.init();
-		HalfBlockRecipes.init();
 	}
 	
 	public static CreativeTabs tabFAMM = new CreativeTabs("tabFAMM"){

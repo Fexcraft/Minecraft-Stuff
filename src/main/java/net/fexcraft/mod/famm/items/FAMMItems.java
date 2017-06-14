@@ -11,7 +11,7 @@ public final class FAMMItems {
 	public static void init(){
 		ink = new Ink();
 		plate_empty = new PlateEmpty();
-		plate_painted = new PlatePainted();
+		//plate_painted = new PlatePainted();
 	}
 	
 }
