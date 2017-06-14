@@ -17,6 +17,10 @@ public final class Recipes{
 	public static void init(){
 		if(FAMM.conf2){
 			for(String str : FAMMBlocks.blocknames){
+				if(str.equals("stop")){
+					RecipeRegistry.addBluePrintRecipe(category, new ItemStack(FAMMBlocks.get(str)), new ItemStack(FAMMItems.plate_empty, 6), new ItemStack(FAMMItems.ink, 2), new ItemStack(Items.DYE, 2, 1));
+					continue;
+				}
 				if(!str.equals("empty")){
 					RecipeRegistry.addBluePrintRecipe(category, new ItemStack(FAMMBlocks.get(str)), new ItemStack(FAMMItems.plate_empty, 6), new ItemStack(FAMMItems.ink, 2));
 				}
@@ -27,6 +31,10 @@ public final class Recipes{
 		}
 		if(FAMM.conf3){
 			for(String str : FAMMBlocks.blocknames){
+				if(str.equals("stop")){
+					RecipeRegistry.addBluePrintRecipe(category_hb, new ItemStack(FAMMBlocks.get(str + "_hb")), new ItemStack(FAMMItems.plate_empty, 6), new ItemStack(FAMMItems.ink, 2), new ItemStack(Items.DYE, 2, 1));
+					continue;
+				}
 				if(!str.equals("empty")){
 					RecipeRegistry.addBluePrintRecipe(category_hb, new ItemStack(FAMMBlocks.get(str + "_hb")), new ItemStack(FAMMItems.plate_empty, 6), new ItemStack(FAMMItems.ink, 2));
 				}
