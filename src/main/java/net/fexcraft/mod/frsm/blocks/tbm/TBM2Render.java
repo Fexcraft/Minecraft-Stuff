@@ -4,11 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = TBM2.TE.class)
-public class TBM2Render extends FTESR_4R {
+@fTESR
+public class TBM2Render extends FTESR_4R<TBM2.TE> {
        
 	private static final ModelTBM2 model = new ModelTBM2();
 	private static float t;
@@ -19,7 +18,7 @@ public class TBM2Render extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(TBM2.TE tileentity, float partialticks, int destroystage){
 		//int i = Calendar.getInstance().get(Calendar.MILLISECOND);
 		if(t == 360){t = 0;}
 		t = t + 0.1F;		

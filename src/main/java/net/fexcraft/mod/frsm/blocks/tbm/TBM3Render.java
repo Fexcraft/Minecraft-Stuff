@@ -5,11 +5,10 @@ import org.lwjgl.opengl.GL11;
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.math.Time;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = TBM3.TE.class)
-public class TBM3Render extends FTESR_4R {
+@fTESR
+public class TBM3Render extends FTESR_4R<TBM3.TE> {
        
 	private static final ModelTBM3 model = new ModelTBM3();
 
@@ -19,7 +18,7 @@ public class TBM3Render extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(TBM3.TE tileentity, float partialticks, int destroystage){
 		int i = Time.getSecond();
 		GL11.glRotatef(i * 6, 0.0F, 1.0F, 0.0F);
 		//GL11.glRotated(180, 0F, 1F, 0F);

@@ -4,11 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = StovePipeEntity.class)
-public class StovePipeRender extends FTESR_4R {
+@fTESR
+public class StovePipeRender extends FTESR_4R<StovePipeEntity> {
 	
 	private static final ModelStovePipe model = new ModelStovePipe();
 	
@@ -18,9 +17,9 @@ public class StovePipeRender extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(StovePipeEntity tileentity, float partialticks, int destroystage){
 		this.model.render(model.base);
-		boolean[] arr = ((StovePipeEntity)tileentity).getArray();
+		boolean[] arr = tileentity.getArray();
 		if(arr[0]){
 			GL11.glRotatef(-90, 1, 0, 0);
 			GL11.glTranslatef(0, -1.0f,  1f);

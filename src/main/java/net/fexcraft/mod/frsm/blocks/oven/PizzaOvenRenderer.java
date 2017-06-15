@@ -3,11 +3,10 @@ package net.fexcraft.mod.frsm.blocks.oven;
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.render.RGB;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = PizzaOvenEntity.class)
-public class PizzaOvenRenderer extends FTESR_4R {
+@fTESR
+public class PizzaOvenRenderer extends FTESR_4R<PizzaOvenEntity> {
 	
 	private static final ModelPizzaOven model = new ModelPizzaOven();
 	
@@ -17,7 +16,7 @@ public class PizzaOvenRenderer extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(PizzaOvenEntity tileentity, float partialticks, int destroystage){
 		model.render(model.base);
 		model.render(model.closed);
 		model.render(model.r0);

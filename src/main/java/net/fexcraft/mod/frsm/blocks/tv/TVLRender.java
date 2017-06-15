@@ -2,11 +2,10 @@ package net.fexcraft.mod.frsm.blocks.tv;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = TVL.TEB.class)
-public class TVLRender extends FTESR_4R {
+@fTESR
+public class TVLRender extends FTESR_4R<TVL.TEB> {
 	
 	private static final TVLModel model = new TVLModel();
 			
@@ -26,7 +25,8 @@ public class TVLRender extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage) {
+	public void renderModel(TVL.TEB tileentity, float partialticks, int destroystage) {
 		model.render();
 	}
+	
 }

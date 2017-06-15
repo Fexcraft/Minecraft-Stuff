@@ -1,14 +1,12 @@
 package net.fexcraft.mod.frsm.blocks.pchardware;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
-import net.fexcraft.mod.frsm.util.block.PaintableTileEntity;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.render.RGB;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = PCHardware2Entity.class)
-public class PCHardware2Render extends FTESR_4R {
+@fTESR
+public class PCHardware2Render extends FTESR_4R<PCHardware2Entity> {
 	
 	private static final ModelPCHardware2 model = new ModelPCHardware2();
 	
@@ -18,9 +16,9 @@ public class PCHardware2Render extends FTESR_4R {
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(PCHardware2Entity tileentity, float partialticks, int destroystage){
 		model.render(model.base);
-		((PaintableTileEntity)tileentity).getColor().glColorApply();
+		tileentity.getColor().glColorApply();
 		model.render(model.r0);
 		RGB.glColorReset();
 	}

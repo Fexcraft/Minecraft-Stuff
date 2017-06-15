@@ -3,11 +3,10 @@ package net.fexcraft.mod.frsm.blocks.fridge;
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.render.RGB;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = FridgeTileEntity.class)
-public class FridgeRenderer extends FTESR_4R{
+@fTESR
+public class FridgeRenderer extends FTESR_4R<FridgeTileEntity> {
 	
 	private static final FridgeModel model = new FridgeModel();
 	
@@ -19,9 +18,9 @@ public class FridgeRenderer extends FTESR_4R{
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage) {
-		boolean open = ((FridgeTileEntity)tileentity).getState();
-		RGB color = ((FridgeTileEntity)tileentity).getColor();
+	public void renderModel(FridgeTileEntity tileentity, float partialticks, int destroystage) {
+		boolean open = tileentity.getState();
+		RGB color = tileentity.getColor();
 		
 		this.model.render(this.model.base);
 		if(open == true){

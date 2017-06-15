@@ -2,11 +2,10 @@ package net.fexcraft.mod.frsm.blocks.furnace;
 
 import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = Furnace1Entity.class)
-public class Furnace1Render extends FTESR_4R{
+@fTESR
+public class Furnace1Render extends FTESR_4R<Furnace1Entity> {
 	
 	private static final ModelFurnace1 model = new ModelFurnace1();
 	
@@ -21,7 +20,7 @@ public class Furnace1Render extends FTESR_4R{
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
+	public void renderModel(Furnace1Entity tileentity, float partialticks, int destroystage){
 		this.model.render();
 	}
 	

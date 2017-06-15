@@ -4,11 +4,10 @@ import net.fexcraft.mod.frsm.util.block.FTESR_4R;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-@fTESR(tileentity = Shelf1Entity.class)
-public class Shelf1Renderer extends FTESR_4R{
+@fTESR
+public class Shelf1Renderer extends FTESR_4R<Shelf1Entity> {
 	
 	private static final Shelf1Model model = new Shelf1Model();
 	
@@ -22,9 +21,9 @@ public class Shelf1Renderer extends FTESR_4R{
 	}
 
 	@Override
-	public void renderModel(TileEntity tileentity, float partialticks, int destroystage){
-		boolean open = ((Shelf1Entity)tileentity).getState();
-		EnumColor color = ((Shelf1Entity)tileentity).getColor();
+	public void renderModel(Shelf1Entity tileentity, float partialticks, int destroystage){
+		boolean open = tileentity.getState();
+		EnumColor color = tileentity.getColor();
 		Minecraft.getMinecraft().renderEngine.bindTexture(getFromColor(color));
 		this.model.render(this.model.base);
 		if(open == true){
