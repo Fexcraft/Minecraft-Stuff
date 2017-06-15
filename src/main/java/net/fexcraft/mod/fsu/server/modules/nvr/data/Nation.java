@@ -1,21 +1,14 @@
 package net.fexcraft.mod.fsu.server.modules.nvr.data;
 
 import java.sql.ResultSet;
-import java.util.UUID;
 
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 
-public class Province {
-	
+public class Nation {
+
 	public final int id;
-	public Nation nation;
-	public String name;
-	public UUID ruler;
-	public UUID creator;
-	public long created;
-	public float lastincome;
 	
-	public Province(int id){
+	public Nation(int id){
 		this.id = id;
 		try{
 			ResultSet set = NVR.SQL.query("");

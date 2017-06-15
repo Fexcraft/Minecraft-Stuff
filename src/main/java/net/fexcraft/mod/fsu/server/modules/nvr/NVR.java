@@ -35,6 +35,7 @@ public class NVR implements IModule<NVR> {
 	public static TreeMap<Integer, District> districts = new TreeMap<Integer, District>();
 	public static TreeMap<Integer, Municipality> municipalities = new TreeMap<Integer, Municipality>();
 	public static TreeMap<Integer, Province> provinces = new TreeMap<Integer, Province>();
+	public static TreeMap<Integer, Nation> nations = new TreeMap<Integer, Nation>();
 	
 	public NVR(){
 		instance = this;
@@ -74,9 +75,13 @@ public class NVR implements IModule<NVR> {
 		ResultSet set;
 		try{
 			//Nations
-			//
+			this.nations.put(-1, new Nation(-1));
+			this.nations.put(0, new Nation(0));//TODO temporary
+			
 			//Provinces
 			this.provinces.put(-1, new Province(-1));
+			this.provinces.put(0, new Province(0));//TODO temporary
+			
 			//Municipalities
 			set = SQL.query("SELECT id FROM municipalities;");
 			list = new ArrayList<Integer>();
@@ -88,6 +93,7 @@ public class NVR implements IModule<NVR> {
 				this.municipalities.put(i, muni);
 			}
 			set.close();
+			
 			//Districts
 			set = SQL.query("SELECT id FROM districts;");
 			list = new ArrayList<Integer>();
@@ -99,9 +105,6 @@ public class NVR implements IModule<NVR> {
 				this.districts.put(i, disc);
 			}
 			set.close();
-			
-			
-			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -146,6 +149,12 @@ public class NVR implements IModule<NVR> {
 		municipalities.forEach((key, value) ->{
 			value.save();
 		});
+		provinces.forEach((key, value) ->{
+			value.save();
+		});
+		nations.forEach((key, value) ->{
+			value.save();
+		});
 		//MappingUtil.save();
 		
 		
@@ -177,6 +186,8 @@ public class NVR implements IModule<NVR> {
 			else return -1;
 			//return obj instanceof DK ? (((DK)o).x == x && ((DK)o).z == z) ? 1 : -1 : -1;
 		}
+		public int x(){return x;}
+		public int z(){return z;}
 	}
 	
 }

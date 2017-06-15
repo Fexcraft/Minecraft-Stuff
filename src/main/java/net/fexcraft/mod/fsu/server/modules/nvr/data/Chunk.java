@@ -4,7 +4,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
+import net.fexcraft.mod.fsu.server.modules.nvr.NVR.DK;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
@@ -18,6 +23,7 @@ public class Chunk {
 	public Type type;
 	public ArrayList<UUID> whitelist;
 	public float tax;
+	public ArrayList<DK> linked;
 	
 	public Chunk(int x, int z){
 		this.x = x;
@@ -37,6 +43,15 @@ public class Chunk {
 				}
 				this.whitelist = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("whitelist")).getAsJsonArray());
 				this.tax = set.getFloat("tax");
+				this.linked = new ArrayList<DK>();
+				String str = set.getString("linked");
+				if(str != null){
+					JsonArray array = JsonUtil.getFromString(str).getAsJsonArray();
+					for(JsonElement elm : array){
+						JsonObject obj = elm.getAsJsonObject();
+						this.linked.add(new DK(obj.get("x").getAsInt(), obj.get("z").getAsInt()));
+					}
+				}
 			}
 			else{
 				create(x, z, false);
@@ -58,8 +73,8 @@ public class Chunk {
 		tax = 0f;
 		if(!errored){
 			try{
-				NVR.SQL.update("INSERT INTO `fsu_nvr`.`chunks` (`x`, `z`, `district`, `type`, `claimer`, `claimed`, `owner`, `whitelist`, `tax`)"
-						+ "VALUES ('" + x + "', '" + z + "', '" + district.id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '[]', '" + tax + "');");
+				NVR.SQL.update("INSERT INTO `fsu_nvr`.`chunks` (`x`, `z`, `district`, `type`, `claimer`, `claimed`, `owner`, `whitelist`, `tax`, `linked`)"
+						+ "VALUES ('" + x + "', '" + z + "', '" + district.id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '[]', '" + tax + "', '[]');");
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -70,7 +85,14 @@ public class Chunk {
 
 	public void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + (owner == null ? "" : owner.toString()) + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "' WHERE x='" + x + "' AND z='" + z + "';");
+			JsonArray array = new JsonArray();
+			for(DK dk : linked){
+				JsonObject obj = new JsonObject();
+				obj.addProperty("x", dk.x());
+				obj.addProperty("z", dk.z());
+				array.add(obj);
+			}
+			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + (owner == null ? "" : owner.toString()) + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "', linked='" + array.toString() + "' WHERE x='" + x + "' AND z='" + z + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();

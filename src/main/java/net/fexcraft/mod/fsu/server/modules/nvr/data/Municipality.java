@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -23,6 +24,7 @@ public class Municipality {
 	/*public boolean allowMixing;//allow companies with whichever type to buy land in any district
 	public boolean allowInvenstors;//allow companies to buy land themself
 	public boolean allowReselling;//allow players & companies to sell land themself*/
+	public Account account;
 	
 	public Municipality(int id){
 		this.id = id;
@@ -48,6 +50,7 @@ public class Municipality {
 			populate(false);
 		}
 		populate(true);
+		account = account.getAccountManager().getAccountOf("municipality", "m_" + id);
 	}
 	
 	public void save(){
@@ -58,6 +61,7 @@ public class Municipality {
 			e.printStackTrace();
 			Static.halt();
 		}
+		account.getAccountManager().saveAccount(account);
 	}
 	
 	private void populate(boolean bool){
