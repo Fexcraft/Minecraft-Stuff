@@ -67,20 +67,9 @@ public class FCL {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
 		
 		if(!FclConfig.serverSideOnly){
-			RecipeRegistry.addShapelessRecipe("fcl:blueprinttable", null, new ItemStack(Registry.getBlock("fcl:blueprinttable"), 1), new Ingredient[]{
-				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
-				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
-				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
-				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
-				Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)),
-				Ingredient.func_193369_a(
-						new ItemStack(Blocks.LOG, 1, 0),
-						new ItemStack(Blocks.LOG, 1, 1),
-						new ItemStack(Blocks.LOG, 1, 2),
-						new ItemStack(Blocks.LOG, 1, 3),
-						new ItemStack(Blocks.LOG2, 1, 0),
-						new ItemStack(Blocks.LOG2, 1, 1)
-					)
+			RecipeRegistry.addShapedRecipe("fcl:blueprinttable", null, new ItemStack(Registry.getBlock("fcl:blueprinttable"), 1), 3, 2, new Ingredient[]{
+				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)), Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)), Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
+				RecipeRegistry.INGREDIENT_LOG, Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)), RecipeRegistry.INGREDIENT_LOG
 			});
 		}
 	}

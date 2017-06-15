@@ -46,7 +46,8 @@ public class RecipeRegistry {
 		}
 		NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
 		list.addAll(Arrays.asList(ingredients));
-		CraftingManager.func_193372_a(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
+		//CraftingManager.func_193372_a(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
+		CraftingManager.field_193380_a.putObject(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
 	}
 
 	public static void addShapedRecipe(String rs, String string, ItemStack output, int width, int height, Ingredient... ingredients){
@@ -62,7 +63,8 @@ public class RecipeRegistry {
 		}
 		NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
 		list.addAll(Arrays.asList(ingredients));
-		CraftingManager.func_193372_a(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
+		//CraftingManager.func_193372_a(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
+		CraftingManager.field_193380_a.putObject(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
 	}
 	
 	public static class GuiHandler implements IGuiHandler {
