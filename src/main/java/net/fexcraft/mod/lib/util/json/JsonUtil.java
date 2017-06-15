@@ -472,6 +472,20 @@ public class JsonUtil{
 		return list;
 	}
 	
+	public static ArrayList<UUID> jsonArrayToUUIDArray(JsonArray array){
+		ArrayList<UUID> list = new ArrayList<UUID>();
+		ArrayList<String> json = jsonArrayToStringArray(array);
+		for(String string : json){
+			try{
+				list.add(UUID.fromString(string));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 	public static ArrayList<Integer> jsonArrayToIntegerArray(JsonArray array){
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for(JsonElement e : array){

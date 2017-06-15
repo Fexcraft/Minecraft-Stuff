@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
 
 public class Chunk {
 	
-	public int x, z, district_id;
-	//private District district;
+	public final int x, z;
+	private District district;
 	public long claimed;
 	public UUID claimer, owner;
 	public Type type;
@@ -25,7 +25,13 @@ public class Chunk {
 		try{
 			ResultSet set = NVR.SQL.query("SELECT * FROM chunks WHERE x='" + x + "' AND z='" + z + "';");
 			if(set.first()){
-				
+				this.district = NVR.districts.get(set.getInt("district"));;
+				this.type = Type.fromString(set.getString("type"));
+				this.claimer = UUID.fromString(set.getString("claimer"));
+				this.claimed = set.getLong("claimed");
+				this.owner = UUID.fromString("owner");
+				this.whitelist = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("whitelist")).getAsJsonArray());
+				this.tax = set.getFloat("tax");
 			}
 			else{
 				create(x, z, false);
@@ -38,8 +44,7 @@ public class Chunk {
 	}
 	
 	private void create(int x, int z, boolean errored){
-		district_id = -1;
-		//district = NVR.districts.get(district_id);
+		district = NVR.districts.get(-1);
 		claimed = Time.getDate();
 		claimer = UUID.fromString(NVR.DEF_UUID);
 		owner = null;
@@ -49,18 +54,22 @@ public class Chunk {
 		if(!errored){
 			try{
 				NVR.SQL.update("INSERT INTO `fsu_nvr`.`chunks` (`x`, `z`, `district`, `type`, `claimer`, `claimed`, `owner`, `whitelist`, `tax`)"
-						+ "VALUES ('" + x + "', '" + z + "', '" + district_id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '{}', '" + tax + "');");
+						+ "VALUES ('" + x + "', '" + z + "', '" + district.id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '{}', '" + tax + "');");
 			}
 			catch(Exception e){
 				e.printStackTrace();
 			}
 		}
 		Print.debug("X:" + x + " | Z:" + z);
-		Static.stop();
 	}
 
 	public void save(){
-		//TODO
+		try{
+			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + owner.toString() + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "' WHERE x='" + x + "' AND z='" + z + "';");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static enum Type {
@@ -70,7 +79,7 @@ public class Chunk {
 		COMPANY,
 		PROTECTED;
 		
-		public Type fromString(String string){
+		public static Type fromString(String string){
 			for(Type type : values()){
 				if(type.name().equals(string)){
 					return type;

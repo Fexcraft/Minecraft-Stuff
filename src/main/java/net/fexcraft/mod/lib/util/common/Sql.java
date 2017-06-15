@@ -42,9 +42,9 @@ public class Sql {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 		}
-		catch(ClassNotFoundException e){
+		catch(Exception e){
 			e.printStackTrace();
-		};
+		}
 		c = DriverManager.getConnection(url, user, password);
 		return c;
 	}
@@ -70,7 +70,7 @@ public class Sql {
 	}
 	
 	public Statement getStatement() throws Exception{
-		if (!isConnected()) {
+		if(!isConnected()){
 			connect();
 		}
 		if(s == null || s.isClosed()){

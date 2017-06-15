@@ -1,13 +1,19 @@
 package net.fexcraft.mod.fsu.server.modules.nvr;
 
+import java.io.File;
 import java.util.TreeMap;
+
+import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fsu.server.modules.IModule;
 import net.fexcraft.mod.fsu.server.modules.fModule;
 import net.fexcraft.mod.fsu.server.modules.nvr.data.Chunk;
+import net.fexcraft.mod.fsu.server.modules.nvr.data.District;
 import net.fexcraft.mod.fsu.server.modules.nvr.events.ChunkEvents;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -22,9 +28,10 @@ public class NVR implements IModule<NVR> {
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
 	private static NVR instance;
 	private boolean enabled;
-	public static final Sql SQL = new Sql(new String[]{"root", "genericpass3356-example", "3306", Static.dev() ? "fexcraft.net" : "localhost", "fsu_nvr"});/*ignore*/
+	public static Sql SQL;
 	//
 	public static TreeMap<DK, Chunk> chunks = new TreeMap<DK, Chunk>();
+	public static TreeMap<Integer, District> districts = new TreeMap<Integer, District>();
 	
 	public NVR(){
 		instance = this;
@@ -37,6 +44,17 @@ public class NVR implements IModule<NVR> {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event){
+		File file = new File(event.getModConfigurationDirectory(), "/fsu-nvr.sql");
+		JsonObject obj = JsonUtil.get(file);
+		String user = JsonUtil.getIfExists(obj, "user", "nvrusr");
+		String pass = JsonUtil.getIfExists(obj, "password", "null");
+		JsonUtil.write(file, obj);
+		SQL = new Sql(new String[]{user, pass, "3306", Static.dev() ? "fexcraft.net" : "localhost", "fsu_nvr"});
+		Launch.classLoader.addClassLoaderExclusion("com.mysql.");
+		//
+		District dist = new District();
+		dist.id = -1;
+		districts.put(-1, dist);
 		
 	}
 	@Override
