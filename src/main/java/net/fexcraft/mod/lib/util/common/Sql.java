@@ -62,7 +62,7 @@ public class Sql {
 	}
 
 	public boolean disconnect() throws Exception{
-		if (c == null) {
+		if(c == null){
 			return false;
 		}
 		c.close();

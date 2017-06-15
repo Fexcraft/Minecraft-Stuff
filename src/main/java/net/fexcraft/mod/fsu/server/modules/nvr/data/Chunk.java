@@ -29,7 +29,12 @@ public class Chunk {
 				this.type = Type.fromString(set.getString("type"));
 				this.claimer = UUID.fromString(set.getString("claimer"));
 				this.claimed = set.getLong("claimed");
-				this.owner = UUID.fromString("owner");
+				try{
+					this.owner = UUID.fromString("owner");
+				}
+				catch(Exception e){
+					this.owner = null;
+				}
 				this.whitelist = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("whitelist")).getAsJsonArray());
 				this.tax = set.getFloat("tax");
 			}
@@ -54,7 +59,7 @@ public class Chunk {
 		if(!errored){
 			try{
 				NVR.SQL.update("INSERT INTO `fsu_nvr`.`chunks` (`x`, `z`, `district`, `type`, `claimer`, `claimed`, `owner`, `whitelist`, `tax`)"
-						+ "VALUES ('" + x + "', '" + z + "', '" + district.id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '{}', '" + tax + "');");
+						+ "VALUES ('" + x + "', '" + z + "', '" + district.id + "', '" + type.name() + "', '" + claimer.toString() + "', '" + claimed + "', '', '[]', '" + tax + "');");
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -65,7 +70,7 @@ public class Chunk {
 
 	public void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + owner.toString() + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "' WHERE x='" + x + "' AND z='" + z + "';");
+			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + (owner == null ? "" : owner.toString()) + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "' WHERE x='" + x + "' AND z='" + z + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();

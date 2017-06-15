@@ -27,7 +27,7 @@ public class ChunkEvents {
 		
 		if(chunk != null){
 			chunk.save();
-			NVR.chunks.remove(chunk);
+			NVR.chunks.remove(new DK(chunk.x, chunk.z));
 		}
 	}
 	

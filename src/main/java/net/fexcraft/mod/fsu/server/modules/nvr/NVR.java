@@ -1,14 +1,15 @@
 package net.fexcraft.mod.fsu.server.modules.nvr;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fsu.server.modules.IModule;
 import net.fexcraft.mod.fsu.server.modules.fModule;
-import net.fexcraft.mod.fsu.server.modules.nvr.data.Chunk;
-import net.fexcraft.mod.fsu.server.modules.nvr.data.District;
+import net.fexcraft.mod.fsu.server.modules.nvr.data.*;
 import net.fexcraft.mod.fsu.server.modules.nvr.events.ChunkEvents;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -32,6 +33,8 @@ public class NVR implements IModule<NVR> {
 	//
 	public static TreeMap<DK, Chunk> chunks = new TreeMap<DK, Chunk>();
 	public static TreeMap<Integer, District> districts = new TreeMap<Integer, District>();
+	public static TreeMap<Integer, Municipality> municipalities = new TreeMap<Integer, Municipality>();
+	public static TreeMap<Integer, Province> provinces = new TreeMap<Integer, Province>();
 	
 	public NVR(){
 		instance = this;
@@ -52,9 +55,6 @@ public class NVR implements IModule<NVR> {
 		SQL = new Sql(new String[]{user, pass, "3306", Static.dev() ? "fexcraft.net" : "localhost", "fsu_nvr"});
 		Launch.classLoader.addClassLoaderExclusion("com.mysql.");
 		//
-		District dist = new District();
-		dist.id = -1;
-		districts.put(-1, dist);
 		
 	}
 	@Override
@@ -70,7 +70,43 @@ public class NVR implements IModule<NVR> {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event){
-		
+		ArrayList<Integer> list;
+		ResultSet set;
+		try{
+			//Nations
+			//
+			//Provinces
+			this.provinces.put(-1, new Province(-1));
+			//Municipalities
+			set = SQL.query("SELECT id FROM municipalities;");
+			list = new ArrayList<Integer>();
+			while(set.next()){
+				list.add(set.getInt("id"));
+			}
+			for(int i : list){
+				Municipality muni = new Municipality(i);
+				this.municipalities.put(i, muni);
+			}
+			set.close();
+			//Districts
+			set = SQL.query("SELECT id FROM districts;");
+			list = new ArrayList<Integer>();
+			while(set.next()){
+				list.add(set.getInt("id"));
+			}
+			for(int i : list){
+				District disc = new District(i);
+				this.districts.put(i, disc);
+			}
+			set.close();
+			
+			
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			Static.stop();
+		}
 	}
 
 	@Override
@@ -101,8 +137,24 @@ public class NVR implements IModule<NVR> {
 	}
 
 	public static void save(){
-		
+		chunks.forEach((key, value) -> {
+			value.save();
+		});
+		districts.forEach((key, value) -> {
+			value.save();
+		});
+		municipalities.forEach((key, value) ->{
+			value.save();
+		});
 		//MappingUtil.save();
+		
+		
+		try{
+			SQL.disconnect();
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/** Double Key */

@@ -259,7 +259,7 @@ public class Network{
 					blist.add(UUID.fromString(elm.getAsString()));
 				}
 				catch(Exception e){
-					Print.debug("[BL] Couldn't parse " + elm.toString() + ".");
+					//Print.debug("[BL] Couldn't parse " + elm.toString() + ".");
 				}
 			}
 			//
