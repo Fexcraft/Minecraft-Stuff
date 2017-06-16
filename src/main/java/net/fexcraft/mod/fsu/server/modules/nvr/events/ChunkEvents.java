@@ -26,7 +26,7 @@ public class ChunkEvents {
 		//MappingUtil.ProvinceMap.processChunk(event.getWorld(), chunk.x, chunk.z);
 		
 		if(chunk != null){
-			chunk.save();
+			chunk.save(NVR.SQL);
 			NVR.chunks.remove(new DK(chunk.x, chunk.z));
 		}
 	}

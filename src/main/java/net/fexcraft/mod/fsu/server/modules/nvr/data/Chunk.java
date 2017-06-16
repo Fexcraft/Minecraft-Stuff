@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR.DK;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
 
@@ -83,7 +84,7 @@ public class Chunk {
 		Print.debug("X:" + x + " | Z:" + z);
 	}
 
-	public void save(){
+	public void save(Sql sql){
 		try{
 			JsonArray array = new JsonArray();
 			for(DK dk : linked){
@@ -92,7 +93,7 @@ public class Chunk {
 				obj.addProperty("z", dk.z());
 				array.add(obj);
 			}
-			NVR.SQL.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + (owner == null ? "" : owner.toString()) + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "', linked='" + array.toString() + "' WHERE x='" + x + "' AND z='" + z + "';");
+			sql.update("UPDATE chunks SET district='" + district.id + "', type='" + type.name() + "', owner='" + (owner == null ? "" : owner.toString()) + "', whitelist='" + JsonUtil.getArrayFromUUIDList(whitelist).toString() + "', tax='" + tax + "', linked='" + array.toString() + "' WHERE x='" + x + "' AND z='" + z + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();

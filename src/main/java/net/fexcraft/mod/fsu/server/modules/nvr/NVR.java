@@ -32,10 +32,10 @@ public class NVR implements IModule<NVR> {
 	public static Sql SQL;
 	//
 	public static TreeMap<DK, Chunk> chunks = new TreeMap<DK, Chunk>();
-	public static TreeMap<Integer, District> districts = new TreeMap<Integer, District>();
-	public static TreeMap<Integer, Municipality> municipalities = new TreeMap<Integer, Municipality>();
-	public static TreeMap<Integer, Province> provinces = new TreeMap<Integer, Province>();
-	public static TreeMap<Integer, Nation> nations = new TreeMap<Integer, Nation>();
+	public static DataMap<Integer, District> districts = new DataMap<Integer, District>(-1);
+	public static DataMap<Integer, Municipality> municipalities = new DataMap<Integer, Municipality>(-1);
+	public static DataMap<Integer, Province> provinces = new DataMap<Integer, Province>(-1);
+	public static DataMap<Integer, Nation> nations = new DataMap<Integer, Nation>(-1);
 	
 	public NVR(){
 		instance = this;
@@ -75,12 +75,28 @@ public class NVR implements IModule<NVR> {
 		ResultSet set;
 		try{
 			//Nations
-			this.nations.put(-1, new Nation(-1));
-			this.nations.put(0, new Nation(0));//TODO temporary
+			set = SQL.query("SELECT id FROM nations ORDER BY id ASC;");
+			list = new ArrayList<Integer>();
+			while(set.next()){
+				list.add(set.getInt("id"));
+			}
+			for(int i : list){
+				Nation nat = new Nation(i);
+				this.nations.put(i, nat);
+			}
+			set.close();
 			
 			//Provinces
-			this.provinces.put(-1, new Province(-1));
-			this.provinces.put(0, new Province(0));//TODO temporary
+			set = SQL.query("SELECT id FROM provinces;");
+			list = new ArrayList<Integer>();
+			while(set.next()){
+				list.add(set.getInt("id"));
+			}
+			for(int i : list){
+				Province prov = new Province(i);
+				this.provinces.put(i, prov);
+			}
+			set.close();
 			
 			//Municipalities
 			set = SQL.query("SELECT id FROM municipalities;");
@@ -141,19 +157,19 @@ public class NVR implements IModule<NVR> {
 
 	public static void save(){
 		chunks.forEach((key, value) -> {
-			value.save();
+			value.save(SQL);
 		});
 		districts.forEach((key, value) -> {
-			value.save();
+			value.save(SQL);
 		});
 		municipalities.forEach((key, value) ->{
-			value.save();
+			value.save(SQL);
 		});
 		provinces.forEach((key, value) ->{
-			value.save();
+			value.save(SQL);
 		});
 		nations.forEach((key, value) ->{
-			value.save();
+			value.save(SQL);
 		});
 		//MappingUtil.save();
 		
@@ -188,6 +204,17 @@ public class NVR implements IModule<NVR> {
 		}
 		public int x(){return x;}
 		public int z(){return z;}
+	}
+	
+	public static class DataMap<K, V> extends TreeMap<K, V>{
+		private final int def;
+		public DataMap(int i){
+			this.def = i;
+		}
+		@Override
+		public V get(Object k){
+			return containsKey(k) ? super.get(k) : super.get(def);
+		}
 	}
 	
 }

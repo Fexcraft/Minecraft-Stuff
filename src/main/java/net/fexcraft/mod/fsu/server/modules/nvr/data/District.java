@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
+import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 
 public class District {
@@ -34,46 +35,27 @@ public class District {
 				this.lastincome = set.getFloat("lastincome");
 			}
 			else{
-				populate(false);
+				throw new Exception();
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			populate(false);
 		}
-		populate(true);
 	}
 	
-	public void save(){
+	public void save(Sql sql){
 		try{
-			NVR.SQL.update("UPDATE districts SET name='" + name + "', municipality='" + municipality.id + "', manager='" + manager + "', lastchange='" + lastchange + "', type='" + type.name() + "', neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "', lastincome='" + lastincome + "' WHERE id='" + id + "';");
+			sql.update("districts", "name='" + name + "'", "id", id);
+			sql.update("districts", "municipality='" + municipality.id + "'", "id", id);
+			sql.update("districts", "manager='" + manager.toString() + "'", "id", id);
+			sql.update("districts", "lastchange='" + lastchange + "'", "id", id);
+			sql.update("districts", "type='" + type.name() + "'", "id", id);
+			sql.update("districts", "neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "'", "id", id);
+			sql.update("districts", "lastincome='" + lastincome + "'", "id", id);
+			//NVR.SQL.update("UPDATE districts SET name='" + name + "', municipality='" + municipality.id + "', manager='" + manager + "', lastchange='" + lastchange + "', type='" + type.name() + "', neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "', lastincome='" + lastincome + "' WHERE id='" + id + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
-	}
-	
-	private void populate(boolean bool){
-		if(name == null){
-			name = "Nameless";
-		}
-		if(municipality == null){
-			municipality = NVR.municipalities.get(-1);
-		}
-		if(bool){
-			return;
-		}
-		if(manager == null){
-			manager = UUID.fromString(NVR.DEF_UUID);
-		}
-		if(creator == null){
-			creator = UUID.fromString(NVR.DEF_UUID);
-		}
-		if(type == null){
-			type = Type.UNSPECIFIED;
-		}
-		if(neighbors == null){
-			neighbors = new ArrayList<Integer>();
 		}
 	}
 	
