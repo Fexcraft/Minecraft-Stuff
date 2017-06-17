@@ -85,6 +85,10 @@ public class PlayerPerms implements IPlayerPerms {
 	
 	@Override
 	public void save(UUID uuid){
+		JsonUtil.write(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), toJson(uuid));
+	}
+	
+	public JsonObject toJson(UUID uuid){
 		JsonObject obj = new JsonObject();
 		obj.addProperty("Rank", rank == null ? "default" : rank.getId());
 		JsonObject data = new JsonObject();
@@ -97,8 +101,8 @@ public class PlayerPerms implements IPlayerPerms {
 			array.add(node.getId(), node.toJsonElement());
 		}
 		obj.add("Permissions", array);
-		JsonUtil.write(new File(PermManager.userDir, "/" + uuid.toString() + ".perm"), obj);
 		Print.debug(obj);
+		return obj;
 	}
 
 	@Override

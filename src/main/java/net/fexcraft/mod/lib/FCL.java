@@ -8,6 +8,7 @@ import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.perms.PermManager;
+import net.fexcraft.mod.lib.perms.PermissionsCmd;
 import net.fexcraft.mod.lib.util.cmds.Command;
 import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -77,6 +78,7 @@ public class FCL {
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event){
 		event.registerServerCommand(new Command());
+		event.registerServerCommand(new PermissionsCmd());
 		Registry.registerAllCommands(event);
 	}
 	

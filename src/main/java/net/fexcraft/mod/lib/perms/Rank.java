@@ -112,7 +112,7 @@ public class Rank {
 	 * @param s
 	 * @return
 	 */
-	public Object getPermissionNode(String s){
+	public PermissionNode getPermissionNode(String s){
 		return permissions.get(s);
 	}
 	

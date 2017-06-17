@@ -27,6 +27,7 @@ public class PermManager {
 	public static final void initialize(){
 		add(Permissions.GENERAL_BLOCK_BREAK, Type.BOOLEAN, true, true);
 		add(Permissions.GENERAL_BLOCK_PLACE, Type.BOOLEAN, true, true);
+		add(Permissions.FCL_PERMISSION_EDIT, Type.BOOLEAN, false, true);
 		
 		File parent = new File(FCL.getInstance().getConfigDirectory().getParentFile(), "/fcl-perms");
 		rankDir = new File(parent, "/ranks/");
@@ -50,6 +51,11 @@ public class PermManager {
 			Print.debug(rank.toJson());
 		}
 		Static.stop();*/
+	}
+	
+	public static void saveRank(Rank rank){
+		JsonUtil.write(new File(rankDir, "/" + rank.getId() + ".rank"), rank.toJson());
+		Print.debug("Saved Rank '" + rank.getName() + "'.");
 	}
 	
 	private static void loadRanks(){

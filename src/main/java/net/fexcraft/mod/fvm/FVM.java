@@ -6,6 +6,7 @@ import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.FvmUpdateHandler;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
+import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.Registry;
@@ -46,6 +47,8 @@ public class FVM {
 			FvmResources.loadModels(event);
 		}
 		
+		
+		PermManager.setEnabled(MODID);
 	}
 	
 	@Mod.EventHandler

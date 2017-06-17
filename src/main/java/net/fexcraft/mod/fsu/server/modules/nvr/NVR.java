@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fsu.server.modules.IModule;
 import net.fexcraft.mod.fsu.server.modules.fModule;
 import net.fexcraft.mod.fsu.server.modules.nvr.data.*;
+import net.fexcraft.mod.fsu.server.modules.nvr.events.ChatEvents;
 import net.fexcraft.mod.fsu.server.modules.nvr.events.ChunkEvents;
 import net.fexcraft.mod.fsu.server.modules.nvr.events.PlayerEvents;
 import net.fexcraft.mod.lib.perms.PermManager;
@@ -70,8 +71,8 @@ public class NVR implements IModule<NVR> {
 	public void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChunkEvents());
 		MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-		/*MinecraftForge.EVENT_BUS.register(new ChatEvents());
-		MinecraftForge.EVENT_BUS.register(new TimeEvents());*/
+		MinecraftForge.EVENT_BUS.register(new ChatEvents());
+		/*MinecraftForge.EVENT_BUS.register(new TimeEvents());*/
 		PlayerPerms.addAdditionalData(Player.class);
 		
 		//MappingUtil.init();
