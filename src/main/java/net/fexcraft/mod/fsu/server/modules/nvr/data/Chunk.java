@@ -18,7 +18,7 @@ import net.fexcraft.mod.lib.util.math.Time;
 public class Chunk {
 	
 	public final int x, z;
-	private District district;
+	public District district;
 	public long claimed;
 	public UUID claimer, owner;
 	public Type type;
@@ -81,6 +81,7 @@ public class Chunk {
 				e.printStackTrace();
 			}
 		}
+		linked = new ArrayList<DK>();
 		Print.debug("X:" + x + " | Z:" + z);
 	}
 
@@ -101,11 +102,12 @@ public class Chunk {
 	}
 	
 	public static enum Type {
-		NEUTRAL,
-		CLAIMED,
-		PRIVATE,
-		COMPANY,
-		PROTECTED;
+		PUBLIC,//anyone
+		NEUTRAL,//unclaimed
+		CLAIMED,//citizen only
+		PRIVATE,//owner/s only
+		COMPANY,//company only
+		PROTECTED;//manager and up only
 		
 		public static Type fromString(String string){
 			for(Type type : values()){

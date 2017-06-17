@@ -73,7 +73,7 @@ public class Sql {
 		if(!isConnected()){
 			connect();
 		}
-		if(s == null || s.isClosed()){
+		if(s == null /*|| s.isClosed()*/){
 			s = c.createStatement();
 		}
 		//s = c.createStatement();

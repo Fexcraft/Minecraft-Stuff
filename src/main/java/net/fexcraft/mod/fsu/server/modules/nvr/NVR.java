@@ -11,10 +11,18 @@ import net.fexcraft.mod.fsu.server.modules.IModule;
 import net.fexcraft.mod.fsu.server.modules.fModule;
 import net.fexcraft.mod.fsu.server.modules.nvr.data.*;
 import net.fexcraft.mod.fsu.server.modules.nvr.events.ChunkEvents;
+import net.fexcraft.mod.fsu.server.modules.nvr.events.PlayerEvents;
+import net.fexcraft.mod.lib.perms.PermManager;
+import net.fexcraft.mod.lib.perms.PermissionNode.Type;
+import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -56,15 +64,15 @@ public class NVR implements IModule<NVR> {
 		SQL = new Sql(new String[]{user, pass, "3306", Static.dev() ? "fexcraft.net" : "localhost", "fsu_nvr"});
 		Launch.classLoader.addClassLoaderExclusion("com.mysql.");
 		//
-		
+		PermManager.add(ADMINPERM, Type.BOOLEAN, false, true);
 	}
 	@Override
 	public void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChunkEvents());
-		/*MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-		MinecraftForge.EVENT_BUS.register(new ChatEvents());
+		MinecraftForge.EVENT_BUS.register(new PlayerEvents());
+		/*MinecraftForge.EVENT_BUS.register(new ChatEvents());
 		MinecraftForge.EVENT_BUS.register(new TimeEvents());*/
-		//PlayerPerms.addAdditionalData(PlayerData.class);
+		PlayerPerms.addAdditionalData(Player.class);
 		
 		//MappingUtil.init();
 	}
@@ -84,7 +92,6 @@ public class NVR implements IModule<NVR> {
 				Nation nat = new Nation(i);
 				this.nations.put(i, nat);
 			}
-			set.close();
 			
 			//Provinces
 			set = SQL.query("SELECT id FROM provinces;");
@@ -96,7 +103,6 @@ public class NVR implements IModule<NVR> {
 				Province prov = new Province(i);
 				this.provinces.put(i, prov);
 			}
-			set.close();
 			
 			//Municipalities
 			set = SQL.query("SELECT id FROM municipalities;");
@@ -108,7 +114,6 @@ public class NVR implements IModule<NVR> {
 				Municipality muni = new Municipality(i);
 				this.municipalities.put(i, muni);
 			}
-			set.close();
 			
 			//Districts
 			set = SQL.query("SELECT id FROM districts;");
@@ -120,7 +125,6 @@ public class NVR implements IModule<NVR> {
 				District disc = new District(i);
 				this.districts.put(i, disc);
 			}
-			set.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -182,8 +186,20 @@ public class NVR implements IModule<NVR> {
 		}
 	}
 	
+	public static final Player getPlayerData(EntityPlayer player){
+		return (Player)PermManager.getPlayerPerms(player).getAdditionalData(PLAYERDATA);
+	}
+
+	public static Player getPlayerData(String string){
+		EntityPlayerMP player = Static.getServer().getPlayerList().getPlayerByUsername(string);
+		if(player != null){
+			return getPlayerData(player);
+		}
+		return null;
+	}
+	
 	/** Double Key */
-	public static class DK implements Comparable{
+	public static class DK implements Comparable {
 		private final int x, z;
 		public DK(int i, int j){
 			x = i;
@@ -215,6 +231,11 @@ public class NVR implements IModule<NVR> {
 		public V get(Object k){
 			return containsKey(k) ? super.get(k) : super.get(def);
 		}
+	}
+
+	public static Chunk getChunk(World world, BlockPos pos) {
+		net.minecraft.world.chunk.Chunk chunk = world.getChunkFromBlockCoords(pos);
+		return chunks.get(new DK(chunk.xPosition, chunk.zPosition));
 	}
 	
 }

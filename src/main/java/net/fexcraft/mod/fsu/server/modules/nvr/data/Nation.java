@@ -24,12 +24,12 @@ public class Nation {
 	public int lastincome;
 	public ArrayList<Integer> neighbors;
 	public Account account;
-	public Nation parent;
+	public int parent;
 	
 	public Nation(int id){
 		this.id = id;
 		try{
-			ResultSet set = NVR.SQL.query("");
+			ResultSet set = NVR.SQL.query("SELECT * FROM nations WHERE id='" + id + "';");
 			if(set.first()){
 				this.name = set.getString("name");
 				this.goverment_name = set.getString("govname");
@@ -43,7 +43,7 @@ public class Nation {
 				this.govtype = GovType.fromString(set.getString("govtype"));
 				this.lastincome = set.getInt("lastincome");
 				this.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
-				this.parent = NVR.nations.get(set.getInt("parent"));
+				this.parent = set.getInt("parent");
 			}
 			else{
 				throw new Exception();
@@ -52,7 +52,7 @@ public class Nation {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		account = account.getAccountManager().getAccountOf("nation", "n:" + id);
+		account = Account.getAccountManager().getAccountOf("nation", "n:" + id);
 	}
 	
 	public void save(Sql sql){
@@ -67,13 +67,13 @@ public class Nation {
 			sql.update("nations", "govtype='" + govtype.name() + "'", "id", id);
 			sql.update("nations", "lastincome='" + lastincome + "'", "id", id);
 			sql.update("nations", "neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "'", "id", id);
-			sql.update("nations", "parent='" + parent.id + "'", "id", id);
+			sql.update("nations", "parent='" + parent + "'", "id", id);
 			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		account.getAccountManager().saveAccount(account);
+		Account.getAccountManager().saveAccount(account);
 	}
 	
 	public static enum GovType {
@@ -90,6 +90,17 @@ public class Nation {
 			}
 			return ANARCHY;
 		}
+	}
+
+	public boolean canInteractWithBlocks(UUID uuid){
+		if(govtype != GovType.ANARCHY){
+			return this.incharge.equals(uuid) || this.goverment.contains(uuid);
+		}
+		return false;
+	}
+
+	public boolean isInAnarchy(){
+		return govtype == GovType.ANARCHY;
 	}
 	
 }

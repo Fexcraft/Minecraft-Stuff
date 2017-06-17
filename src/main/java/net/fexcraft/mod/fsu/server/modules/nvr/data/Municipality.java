@@ -51,7 +51,7 @@ public class Municipality {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		account = account.getAccountManager().getAccountOf("municipality", "m:" + id);
+		account = Account.getAccountManager().getAccountOf("municipality", "m:" + id);
 	}
 	
 	public void save(Sql sql){
@@ -70,7 +70,7 @@ public class Municipality {
 			e.printStackTrace();
 			Static.halt();
 		}
-		account.getAccountManager().saveAccount(account);
+		Account.getAccountManager().saveAccount(account);
 	}
 	
 }
