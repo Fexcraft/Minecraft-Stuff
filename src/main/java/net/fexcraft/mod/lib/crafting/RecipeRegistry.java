@@ -1,5 +1,7 @@
 package net.fexcraft.mod.lib.crafting;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -8,10 +10,12 @@ import java.util.TreeMap;
 import net.fexcraft.mod.lib.crafting.gui.BluePrintTableContainer;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
@@ -47,7 +51,31 @@ public class RecipeRegistry {
 		NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
 		list.addAll(Arrays.asList(ingredients));
 		//CraftingManager.func_193372_a(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
-		CraftingManager.field_193380_a.putObject(rs, new ShapelessRecipes(string == null ? "" : string, output, list));
+		try{
+			getMethod().invoke(null, rs, new ShapelessRecipes(string == null ? "" : string, output, list));
+		}
+		catch(SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
+			e.printStackTrace();
+			Static.halt();
+		}
+	}
+	
+	//TODO REMOVE WHEN FORGE ADDS NEW RECIPE REGISTRY
+	private static Method method;
+	
+	private static final Method getMethod(){
+		if(method == null){
+			try{
+				Method met = CraftingManager.class.getDeclaredMethod("func_193372_a", ResourceLocation.class, IRecipe.class);
+				met.setAccessible(true);
+				method = met;
+			}
+			catch(NoSuchMethodException | SecurityException | IllegalArgumentException e){
+				e.printStackTrace();
+				Static.halt();
+			}
+		}
+		return method;
 	}
 
 	public static void addShapedRecipe(String rs, String string, ItemStack output, int width, int height, Ingredient... ingredients){
@@ -64,7 +92,13 @@ public class RecipeRegistry {
 		NonNullList<Ingredient> list = NonNullList.<Ingredient>create();
 		list.addAll(Arrays.asList(ingredients));
 		//CraftingManager.func_193372_a(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
-		CraftingManager.field_193380_a.putObject(rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
+		try{
+			getMethod().invoke(null, rs, new ShapedRecipes(string == null ? "" : string, width, height, list, output));
+		}
+		catch(SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
+			e.printStackTrace();
+			Static.halt();
+		}
 	}
 	
 	public static class GuiHandler implements IGuiHandler {
