@@ -1,7 +1,7 @@
 package net.fexcraft.mod.lib.crafting;
 
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -31,7 +31,7 @@ public class WorkBench extends Block {
     	this.setResistance(32.0F);
     	this.setCreativeTab(CreativeTabs.TOOLS);
     	
-    	Registry.registerBlockManually("fcl", "workbench", 0, null, this, null, null);
+    	RegistryUtil.get("fcl").addBlock("workbench", this, null, 0, null);
 	}
 
     @Override

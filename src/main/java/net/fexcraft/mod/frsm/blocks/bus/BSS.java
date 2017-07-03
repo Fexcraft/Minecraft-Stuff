@@ -36,7 +36,7 @@ public class BSS extends FBC_4R {
     }
        
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 

@@ -16,22 +16,22 @@ public class ArrowButton extends GuiButton {
 	}
 	
 	@Override
-	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
 		if(this.visible){
 			int ytp = type.getPosition();
 			mc.getTextureManager().bindTexture(texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			if(this.enabled){
 				if(!this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 178, ytp, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 178, ytp, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 190, ytp, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 190, ytp, this.width, this.height);
 				}
 			}
 			else{
-				this.drawTexturedModalRect(this.xPosition, this.yPosition, 202, ytp, this.width, this.height);
+				this.drawTexturedModalRect(this.x, this.y, 202, ytp, this.width, this.height);
 			}
 		}
 	}

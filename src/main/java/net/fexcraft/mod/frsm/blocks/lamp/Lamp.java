@@ -7,7 +7,7 @@ import net.fexcraft.mod.lib.api.block.fBlock;
 import net.fexcraft.mod.lib.api.common.PaintableObject;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.ItemBlock16;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -101,7 +101,7 @@ public class Lamp extends Block  implements PaintableObject {
 	}
     
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	
@@ -118,7 +118,7 @@ public class Lamp extends Block  implements PaintableObject {
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote && p.getHeldItemMainhand().isEmpty()){
-    		w.setBlockState(pos, Registry.getBlock("frsm:lamp_off").getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
+    		w.setBlockState(pos, RegistryUtil.getBlock("frsm:lamp_off").getDefaultState().withProperty(COLOR, state.getValue(COLOR)));
     	}
 		return true;
 	}

@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 @fBlock(modid = FI.MODID, name = "asphalt")
 public class Asphalt extends Block {
 	
+	public static final Block asphalt = null;
+	
 	public Asphalt(){
         super(Material.IRON);
         this.setHarvestLevel("pickaxe", 0);
@@ -23,7 +25,7 @@ public class Asphalt extends Block {
     }
     
     @Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	

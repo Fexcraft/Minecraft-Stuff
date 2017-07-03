@@ -1,9 +1,8 @@
 package net.fexcraft.mod.fvm.items;
 
-import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Part;
 import net.fexcraft.mod.fvm.util.FvmTabs;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.item.Item;
 
 public class PartItem extends Item {
@@ -15,7 +14,7 @@ public class PartItem extends Item {
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(type.maxStackSize);
 		this.type = type;
-		Registry.registerItemManually(FVM.MODID, "part_" + type.registryname, 0, null, this);
+		RegistryUtil.get("fvm").addItem("part_" + type.registryname, this, 0, null);
 	}
 
 	public static Item register(Part part){

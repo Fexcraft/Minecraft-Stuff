@@ -8,6 +8,7 @@ import net.fexcraft.mod.famm.util.FAMMEventHandler;
 import net.fexcraft.mod.famm.util.FI;
 import net.fexcraft.mod.famm.util.Recipes;
 import net.fexcraft.mod.famm.util.UpdateHandler;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,7 @@ public class FAMM {
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
+		RegistryUtil.newAutoRegistry("famm");
 		temp_path = new File(event.getModConfigurationDirectory().getParent(), "/FRSM/FRSM_Data/");
 		if(!temp_path.exists()){
 			temp_path.mkdirs();

@@ -4,7 +4,7 @@ import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBN_4R;
 import net.fexcraft.mod.lib.api.block.fBlock;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +27,8 @@ public class Laptop extends FBN_4R{
     @Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	if(!w.isRemote){
-    		if(!p.getHeldItemMainhand().isEmpty() && p.getHeldItemMainhand().getItem() == Registry.getItem("frsm:upgradekit")){
-    			w.setBlockState(pos, Registry.getBlock("frsm:laptop_black").getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
+    		if(!p.getHeldItemMainhand().isEmpty() && p.getHeldItemMainhand().getItem() == RegistryUtil.getItem("frsm:upgradekit")){
+    			w.setBlockState(pos, RegistryUtil.getBlock("frsm:laptop_black").getDefaultState().withProperty(FACING, p.getHorizontalFacing().getOpposite()));
     			p.getHeldItemMainhand().shrink(1);
     			return true;
     		}

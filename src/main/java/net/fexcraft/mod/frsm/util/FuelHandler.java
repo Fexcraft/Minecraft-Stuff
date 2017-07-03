@@ -2,7 +2,7 @@ package net.fexcraft.mod.frsm.util;
 
 import java.util.ArrayList;
 
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,25 +24,25 @@ public class FuelHandler implements IFuelHandler {
 	}
 	
 	public static void initialize(){
-		add(newIS(Registry.getItem("frsm:planks_oak"),        0),   75);
-		add(newIS(Registry.getBlock("frsm:crate"),            0), 1500);
+		add(newIS(RegistryUtil.getItem("frsm:planks_oak"),        0),   75);
+		add(newIS(RegistryUtil.getBlock("frsm:crate"),            0), 1500);
 		for(int i = 0; i < 16; i++){
-			add(newIS(Registry.getBlock("frsm:decoblock1"),   i),  300);
+			add(newIS(RegistryUtil.getBlock("frsm:decoblock1"),   i),  300);
 		}
-		add(newIS(Registry.getBlock("frsm:decoblock2"),       0),  300);
-		add(newIS(Registry.getBlock("frsm:framedglowstone"),  0),  900);
-		add(newIS(Registry.getBlock("frsm:woodenlightbox"),   0),  400);
+		add(newIS(RegistryUtil.getBlock("frsm:decoblock2"),       0),  300);
+		add(newIS(RegistryUtil.getBlock("frsm:framedglowstone"),  0),  900);
+		add(newIS(RegistryUtil.getBlock("frsm:woodenlightbox"),   0),  400);
 		for(int i = 0; i < 16; i++){
-			add(newIS(Registry.getBlock("frsm:lamp"),         i),  100);
+			add(newIS(RegistryUtil.getBlock("frsm:lamp"),         i),  100);
 		}
 		for(int i = 0; i < 16; i++){
-			add(newIS(Registry.getBlock("frsm:lampoff"),      i),  100);
+			add(newIS(RegistryUtil.getBlock("frsm:lampoff"),      i),  100);
 		}
-		add(newIS(Registry.getBlock("frsm:palet1x1"),         0), 1200);
-		add(newIS(Registry.getBlock("frsm:palet1x1_1"),       0), 1200);
-		add(newIS(Registry.getBlock("frsm:palet1x1_2"),       0), 1200);
-		add(newIS(Registry.getBlock("frsm:tbm"),              0), 6000);
-		add(newIS(Registry.getBlock("frsm:window1"),          0),  600);
+		add(newIS(RegistryUtil.getBlock("frsm:palet1x1"),         0), 1200);
+		add(newIS(RegistryUtil.getBlock("frsm:palet1x1_1"),       0), 1200);
+		add(newIS(RegistryUtil.getBlock("frsm:palet1x1_2"),       0), 1200);
+		add(newIS(RegistryUtil.getBlock("frsm:tbm"),              0), 6000);
+		add(newIS(RegistryUtil.getBlock("frsm:window1"),          0),  600);
 	}
 	
 	private static ItemStack newIS(Item i, int meta){

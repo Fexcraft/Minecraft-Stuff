@@ -4,7 +4,7 @@ import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
 import net.fexcraft.mod.lib.api.block.fBlock;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +42,7 @@ public class Furnace1 extends FBC_4R {
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
     	EnumFacing ef = (EnumFacing)state.getValue(FACING);
 		if(!p.getHeldItemMainhand().isEmpty() && p.getHeldItemMainhand().getItem() == Items.FLINT_AND_STEEL){
-			w.setBlockState(pos, Registry.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, ef));
+			w.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, ef));
 			p.getHeldItemMainhand().damageItem(1, p);
 			return true;
 		}

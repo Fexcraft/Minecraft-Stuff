@@ -47,7 +47,7 @@ public class Clock1 extends FBC_4R {
 		}
 	}
 	
-	public static class I extends ItemBlock{
+	public static class I extends ItemBlock {
 		public I(Block block) {
 			super(block);
 		}

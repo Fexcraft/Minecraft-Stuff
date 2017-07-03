@@ -18,7 +18,7 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer<Const
 	private static final ModelConstructorController model = new ModelConstructorController();
 	
 	@Override
-	public void func_192841_a(ConstructorControllerEntity te, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
+	public void render(ConstructorControllerEntity te, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
     	GL11.glPushMatrix();
 		GL11.glTranslated(posX, posY, posZ);
 		Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());

@@ -1,19 +1,18 @@
 package net.fexcraft.mod.fsu.server.network;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.fexcraft.mod.fsu.server.FSU;
-import net.fexcraft.mod.fsu.server.modules.nrr.util.MappingUtil;
+import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 import net.fexcraft.mod.fsu.server.network.nano_httpd.NanoHTTPD;
 import net.fexcraft.mod.fsu.server.network.nano_httpd.NanoHTTPD.Response.Status;
-import net.fexcraft.mod.lib.util.common.Formatter;
-import net.fexcraft.mod.lib.util.common.Static;
-import net.minecraft.util.text.TextComponentString;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 
 public class WebIO extends NanoHTTPD {
 	
@@ -29,10 +28,7 @@ public class WebIO extends NanoHTTPD {
 		catch (IOException e){
 			e.printStackTrace();
 		}
-		System.out.println("[FSU-WEBSYNC] Running on port 8134!");
-		//addListener("mc_name_validator", new MCNameValidator());
-		//addListener("get_online_players", new PlayerList());
-		//addListener("nrrmap_province_view", new MapWL());
+		System.out.println("[FSU-WEBSYNC] Running on port " + FSU.PORT + "!");
 	}
 	
 	public static void end(int arg){
@@ -56,66 +52,45 @@ public class WebIO extends NanoHTTPD {
 		} catch (IOException | ResponseException e) {
 			e.printStackTrace();
 		}
-		String rr = session.getQueryParameterString();
-		if(rr != null){
+		try{
 			JsonObject result = new JsonObject();
-			try{
-				rr = rr.replace("rq=", "");
-				switch(rr){
-					case "nrr_provincemap":
-						return newChunkedResponse(Status.OK, "image/png", new FileInputStream(MappingUtil.ProvinceMap.file));
-					case "send_msg":
-						Static.getServer().getPlayerList().sendMessage(new TextComponentString(Formatter.format("//TODO\\")));
-						return newFixedLengthResponse(Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
-					default:
-						result.addProperty("exists", false);
-						result.addProperty("error", "invalid_adress");
-						break;
-				}
-				/*rr = rr.replace("obj=", "");
-				JsonObject elm = JsonUtil.getObjectFromString(rr);
-				
-				if(!elm.has("target")){
-					result.addProperty("exists", false);
-					result.addProperty("error", "target_missing");
-				}
-				else{
-					IWebListener ls = listeners.get(elm.get("target").getAsString());
-					if(ls != null){
-						ls.process(elm);
-						result = ls.getObj();
-						if(result == null){
-							return newChunkedResponse(Status.OK, "image/png", ls.getStream());
-						}
-						if(result.has("response_type") && !result.get("response_type").getAsString().equals("json")){
-							switch(result.get("response_type").getAsString()){
-								case "image":
-									return newChunkedResponse(Status.OK, "image/png", ls.getStream());
+			String rq = session.getParameters().get("rq").get(0);
+			switch(rq){
+				case "sql":{
+						for(String string : session.getParameters().get(rq)){
+							if(string.toUpperCase().contains("DELETE") || string.toUpperCase().contains("INSERT") || string.toUpperCase().contains("UPDATE")){
+								result.addProperty("error", "invalid request");
+							}
+							else{
+								result.add("results", new JsonArray());
+								ResultSet set = NVR.SQL.query(string);
+								while(set.next()){
+									JsonObject obj = new JsonObject();
+									int j = set.getMetaData().getColumnCount();
+									//Print.log(j);
+									for(int i = 0; i < j; i++){
+										String name = set.getMetaData().getColumnName(i + 1);
+										String str = set.getString(name);
+										if(str.startsWith("{") || str.startsWith("[")){
+											obj.add(name, JsonUtil.getFromString(str));
+										}
+										else{
+											obj.addProperty(name, str);
+										}
+										//Print.log(obj.toString());
+									}
+									result.get("results").getAsJsonArray().add(obj);
+								}
 							}
 						}
-						else{
-							result.addProperty("exists", true);
-							result.addProperty("error", "none");
-						}
-						ls.reset();
 					}
-					else{
-						result.addProperty("exists", false);
-						result.addProperty("error", "not_found");
-					}
-				}*/
-			}
-			catch(Exception e){
-				result.addProperty("exists", false);
-				result.addProperty("error", e.getMessage());
-				e.printStackTrace();
+					break;
 			}
 			return newFixedLengthResponse(Status.OK, NanoHTTPD.MIME_PLAINTEXT, result.toString());
 		}
-		else{
+		catch(Exception e){
 			JsonObject obj = new JsonObject();
-			obj.addProperty("exists", false);
-			obj.addProperty("error", "request_null");
+			obj.addProperty("error", e.getMessage());
 			return newFixedLengthResponse(Status.OK, NanoHTTPD.MIME_PLAINTEXT, obj.toString());
 		}
 		//return newFixedLengthResponse(Status.BAD_REQUEST, NanoHTTPD.MIME_PLAINTEXT, "null");

@@ -3,7 +3,7 @@ package net.fexcraft.mod.famm.blocks;
 import net.fexcraft.mod.famm.FAMM;
 import net.fexcraft.mod.famm.util.FI;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -33,11 +33,11 @@ public class FAMMBLKH extends Block {
         this.setHardness(1.0F);
         this.setResistance(10.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DEPTH, 3));
-        Registry.registerBlockManually(FI.MODID, name, 0, null, this, null, null);
+        RegistryUtil.get(FI.MODID).addBlock(name, this, null, 0, null);
 	}
 
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	

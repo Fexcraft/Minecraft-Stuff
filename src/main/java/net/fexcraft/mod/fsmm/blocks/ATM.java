@@ -44,8 +44,8 @@ public class ATM extends Block {
 	}
 	
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
+	public boolean isFullBlock(IBlockState state) {
+		return true;
 	}
 	
 	@Override

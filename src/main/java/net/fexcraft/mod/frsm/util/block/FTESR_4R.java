@@ -20,7 +20,7 @@ public abstract class FTESR_4R<T extends TileEntity> extends TileEntitySpecialRe
 	}
 	
 	@Override
-	public void func_192841_a(T tileentity, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
+	public void render(T tileentity, double posX, double posY, double posZ, float partialticks, int destroystage, float f){
     	GL11.glPushMatrix();
 		GL11.glTranslated(posX + 0.5F, posY + 1.5F, posZ + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(this.getResourceLocation());

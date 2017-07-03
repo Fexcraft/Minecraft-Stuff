@@ -13,7 +13,7 @@ import net.fexcraft.mod.fsmm.util.FsmmConfig;
 import net.fexcraft.mod.fsmm.util.UpdateHandler;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,10 +37,10 @@ public class FSMM {
 	private static AccountManager account_manager;
     
 	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) throws Exception{
+	public void preInit(FMLPreInitializationEvent event) throws Exception {
+		RegistryUtil.newAutoRegistry("fsmm");
 		FsmmItems.initialize();
 		FsmmConfig.initialize(event);
-		Registry.registerAllBlocks(FI.MODID);
 		
 		account_manager = new AccountManager();
 		account_manager.initialize(event.getModConfigurationDirectory());

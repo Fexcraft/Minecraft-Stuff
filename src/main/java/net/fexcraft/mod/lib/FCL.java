@@ -8,16 +8,10 @@ import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.perms.PermManager;
-import net.fexcraft.mod.lib.perms.PermissionsCmd;
-import net.fexcraft.mod.lib.util.cmds.Command;
 import net.fexcraft.mod.lib.util.common.FclConfig;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.registry.CreativeTab;
-import net.fexcraft.mod.lib.util.registry.Registry;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +19,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -42,7 +37,7 @@ guiFactory = "net.fexcraft.mod.lib.util.common.GuiFactory")
 public class FCL {
 	
 	public static final String prefix = TextFormatting.BLACK + "[" + TextFormatting.DARK_AQUA + "FCL" + TextFormatting.BLACK + "]" + TextFormatting.GRAY + " ";
-	public static final String version = "XII.26";
+	public static final String version = "XII.28";
 	public static final String mcv = "1.12";
 	public static final UUID[] authors = new UUID[]{UUID.fromString("01e4af9b-2a30-471e-addf-f6338ffce04b")};
 	private static PacketHandler packet_handler;
@@ -56,30 +51,21 @@ public class FCL {
 		side = event.getSide();
 		configdir = new File(event.getSuggestedConfigurationFile().getParentFile(), "/fcl/");
 		FclConfig.initalize(event, event.getSuggestedConfigurationFile());
-		Registry.linkTable(event.getAsmData());
-		Registry.registerAll();
+		RegistryUtil.prepare(event.getAsmData());
 		if(!FclConfig.serverSideOnly){
 			RecipeRegistry.initialize();
 		}
 	}
+	
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception{
 		MinecraftForge.EVENT_BUS.register(new SimpleUpdateHandler.EventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new RecipeRegistry.GuiHandler());
-		
-		if(!FclConfig.serverSideOnly){
-			RecipeRegistry.addShapedRecipe("fcl:blueprinttable", null, new ItemStack(Registry.getBlock("fcl:blueprinttable"), 1), 3, 2, new Ingredient[]{
-				Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)), Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)), Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)),
-				RecipeRegistry.INGREDIENT_LOG, Ingredient.func_193369_a(new ItemStack(Blocks.CRAFTING_TABLE)), RecipeRegistry.INGREDIENT_LOG
-			});
-		}
 	}
 	
-	@Mod.EventHandler
-	public void serverLoad(FMLServerStartingEvent event){
-		event.registerServerCommand(new Command());
-		event.registerServerCommand(new PermissionsCmd());
-		Registry.registerAllCommands(event);
+	@SubscribeEvent
+	public void init(FMLServerStartingEvent event){
+		RegistryUtil.registerCommands(event);
 	}
 	
 	@Mod.EventHandler
@@ -88,7 +74,7 @@ public class FCL {
 		SimpleUpdateHandler.setUpdateMessage("fcl", prefix + "Update avaible! (" + SimpleUpdateHandler.getLatestVersionOf("fcl") + ")");
 		SimpleUpdateHandler.postInit();
 		Network.initializeValidator(event.getSide());
-		//Print.log("[FCL] Loaded.");
+		RegistryUtil.clear(event);
 		PermManager.initialize();
 		packet_handler.init();
 		CreativeTab.getIcons();

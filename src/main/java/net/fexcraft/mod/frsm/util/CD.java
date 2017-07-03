@@ -1,43 +1,30 @@
 package net.fexcraft.mod.frsm.util;
 
-import net.fexcraft.mod.lib.api.common.fCreativeTab;
-import net.fexcraft.mod.lib.api.common.fLoad;
+import net.fexcraft.mod.lib.util.registry.CreativeTab;
 import net.minecraft.creativetab.CreativeTabs;
 
-@fLoad(true)
 public class CD {
 	
-	@fCreativeTab(name = "frsm_blocks", icon="frsm:woodenlightbox")
-	public static CreativeTabs BLOCKS;
+	public static CreativeTabs BLOCKS = new CreativeTab("frsm_blocks", "frsm:woodenlightbox");
 	
-	@fCreativeTab(name = "frsm_eatables", icon="frsm:cheese")
-	public static CreativeTabs EATABLES;
+	public static CreativeTabs EATABLES = new CreativeTab("frsm_eatables", "frsm:cheese");
 	
-	@fCreativeTab(name = "frsm_materials", icon="frsm:jar")
-	public static CreativeTabs MATERIALS;
+	public static CreativeTabs MATERIALS = new CreativeTab("frsm_materials", "frsm:jar");
 	
-	@fCreativeTab(name = "frsm_tools", icon="frsm:ironsaw")
-	public static CreativeTabs TOOLS;
+	public static CreativeTabs TOOLS = new CreativeTab("frsm_tools", "frsm:ironsaw");
 	
-	@fCreativeTab(name = "frsm_technic", icon="frsm:tvs")
-	public static CreativeTabs TECHNIC;
+	public static CreativeTabs TECHNIC = new CreativeTab("frsm_technic", "frsm:tvs");
 	
-	@fCreativeTab(name = "frsm_models", icon="frsm:model_rail")
-	public static CreativeTabs MODELS;
+	public static CreativeTabs MODELS = new CreativeTab("frsm_models", "frsm:model_rail");
 	
-	@fCreativeTab(name = "frsm_robots")
-	public static CreativeTabs ROBOTS;
+	public static CreativeTabs ROBOTS = new CreativeTab("frsm_robots");
 	
-	@fCreativeTab(name = "frsm_experimental", icon="frsm:tbm")
-	public static CreativeTabs EXPERIMENTAL;
+	public static CreativeTabs EXPERIMENTAL = new CreativeTab("frsm_experimental", "frsm:tbm");
 	
-	@fCreativeTab(name = "frsm_pipes", icon="frsm:stove_pipe")
-	public static CreativeTabs PIPES;
+	public static CreativeTabs PIPES = new CreativeTab("frsm_pipes", "frsm:stove_pipe");
 	
-	@fCreativeTab(name = "frsm_streets", icon="frsm:asphaltfull")
-	public static CreativeTabs STREETS;
+	public static CreativeTabs STREETS = new CreativeTab("frsm_streets", "frsm:asphaltfull");
 	
-	@fCreativeTab(name = "frsm_treepots", icon="frsm:tree_pot", meta = 3)
-	public static CreativeTabs TREEPOTS;
+	public static CreativeTabs TREEPOTS = new CreativeTab("frsm_treepots", "frsm:tree_pot", 3);
 	
 }

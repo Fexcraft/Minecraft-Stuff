@@ -5,14 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface fCreativeTab {
+public @interface fRecipeHolder {
+
+	public String value();
     
-	public String name();
-	
-	public String icon() default "minecraft:snowball";
-	
-	public short meta() default 0;
-	
 }

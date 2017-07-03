@@ -37,7 +37,7 @@ public class Nation {
 				this.goverment_title = set.getString("govtitle");
 				this.incharge = UUID.fromString(set.getString("incharge"));
 				this.incharge_title = set.getString("incharge_title");
-				this.creator = UUID.fromString("creator");
+				this.creator = UUID.fromString(set.getString("creator"));
 				this.created = set.getLong("created");
 				this.lastchange = set.getLong("lastchange");
 				this.govtype = GovType.fromString(set.getString("govtype"));

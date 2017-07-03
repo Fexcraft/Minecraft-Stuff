@@ -31,7 +31,7 @@ public class FBN_4R_H extends Block {
 	}
 
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	

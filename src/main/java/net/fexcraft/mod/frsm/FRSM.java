@@ -3,9 +3,10 @@ package net.fexcraft.mod.frsm;
 import java.io.File;
 
 import net.fexcraft.mod.frsm.guis.GuiHandler;
+import net.fexcraft.mod.frsm.items.tools.PaintSet;
 import net.fexcraft.mod.frsm.util.*;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,15 +60,13 @@ public class FRSM{
 	    conf5       = config.getBoolean("robo_entities", "###[> RoboStuff <]###", true, "Should FRSM robots be enabled?");
 	    config.save();
 	    
-	    Registry.registerAllBlocks(FI.MODID);
-	    Registry.loadLoadAnnotations(99);//Other Items
-	    Registry.registerAllItems(FI.MODID);
-	    Registry.registerAllEntities(FI.MODID);
-	    Registry.loadLoadAnnotations(101);//Recipes
+	    RegistryUtil.newAutoRegistry(FI.MODID);
+	    RegistryUtil.registerEntitiesOf(FI.MODID);
+	    PaintSet.register();
 	    
 		if(conf2 == true){
 			MinecraftForge.addGrassSeed(new ItemStack(Items.WHEAT), 1);
-			MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:chocolatecookie")), 2);
+			MinecraftForge.addGrassSeed(new ItemStack(RegistryUtil.getItem("frsm:chocolatecookie")), 2);
 		}
 		
 	}
@@ -76,7 +75,7 @@ public class FRSM{
     public void init(FMLInitializationEvent event){
 		FuelHandler.initialize();
 		GameRegistry.registerFuelHandler(new FuelHandler());
-		MinecraftForge.addGrassSeed(new ItemStack(Registry.getItem("frsm:tomatoseeds")), 1);
+		MinecraftForge.addGrassSeed(new ItemStack(RegistryUtil.getItem("frsm:tomatoseeds")), 1);
 		
 		Data.getDataFromServer();
 		MinecraftForge.EVENT_BUS.register(new UpdateHandler.EventHandler());

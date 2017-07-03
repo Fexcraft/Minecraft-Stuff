@@ -13,10 +13,18 @@ public class CreativeTab extends CreativeTabs {
 	private String item;
 	private short meta;
 
-	public CreativeTab(String label, String item, short i){
+	public CreativeTab(String label){
+		this(label, "minecraft:snowball", 0);
+	}
+	
+	public CreativeTab(String label, String item){
+		this(label, item, 0);
+	}
+
+	public CreativeTab(String label, String item, int i){
 		super(label);
 		this.item = item;
-		this.meta = i;
+		this.meta = (short)i;
 		tabs.add(this);
 	}
 

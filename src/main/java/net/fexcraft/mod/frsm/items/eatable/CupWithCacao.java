@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.lib.api.item.fItem;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -33,7 +33,7 @@ public class CupWithCacao extends ItemFood {
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player){
 		player.addPotionEffect(new PotionEffect(Potion.getPotionById(10), 360));
-		player.inventory.addItemStackToInventory(new ItemStack(Registry.getItem("frsm:cup"), 1, 0));
+		player.inventory.addItemStackToInventory(new ItemStack(RegistryUtil.getItem("frsm:cup"), 1, 0));
 	}
 	
 }

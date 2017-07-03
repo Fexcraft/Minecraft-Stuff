@@ -20,7 +20,7 @@ public class KeyInputPacketHandler implements IMessageHandler<PacketKeyInput, IM
 		ls.addScheduledTask(new Runnable(){
 			@Override
 			public void run(){
-				String name = ctx.getServerHandler().playerEntity.getName();
+				String name = ctx.getServerHandler().player.getName();
 				/*switch(packet.target){
 					case "entity_ridden":
 						if(e.getRidingEntity() != null && e.getRidingEntity() instanceof IPacketReceiver){

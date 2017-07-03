@@ -1,9 +1,8 @@
 package net.fexcraft.mod.fvm.items;
 
-import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.util.FvmTabs;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.item.Item;
 
 public class MaterialItem extends Item {
@@ -15,7 +14,7 @@ public class MaterialItem extends Item {
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(type.maxStackSize);
 		this.type = type;
-		Registry.registerItemManually(FVM.MODID, "material_" + type.registryname, 0, null, this);
+		RegistryUtil.get("fvm").addItem("material_" + type.registryname, this, 0, null);
 	}
 
 	public static Item register(Material material){

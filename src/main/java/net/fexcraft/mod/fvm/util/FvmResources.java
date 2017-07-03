@@ -18,12 +18,16 @@ import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.Part;
 import net.fexcraft.mod.fvm.data.Vehicle;
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.fexcraft.mod.lib.util.render.ModelType;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
@@ -121,6 +125,12 @@ public class FvmResources {
 				}
 			}
 		}
+		
+		//
+		
+		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_center")), new ItemStack(Blocks.IRON_BLOCK, 3));
+		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_controller")),
+			new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Blocks.STONE_BUTTON, 16), new ItemStack(Blocks.REDSTONE_BLOCK), new ItemStack(Blocks.GLASS_PANE, 2), new ItemStack(Blocks.PLANKS));
 	}
 	
 	public static void updateAddonConfig(){

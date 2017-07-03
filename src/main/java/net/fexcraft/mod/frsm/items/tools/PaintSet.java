@@ -8,11 +8,9 @@ import net.fexcraft.mod.frsm.FRSM;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
-import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.lib.api.common.PaintableObject;
-import net.fexcraft.mod.lib.api.common.fLoad;
 import net.fexcraft.mod.lib.util.common.EnumColor;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.block.BlockCarpet;
 import net.minecraft.block.BlockColored;
@@ -31,7 +29,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-@fLoad(turn = 99)
 public class PaintSet extends Item {
 	
 	private static PaintSet[] sets;
@@ -40,7 +37,7 @@ public class PaintSet extends Item {
 	private String name;
 	private boolean custom = false;
 	
-	public PaintSet(){
+	public static void register(){
 		sets = new PaintSet[]{
 			new PaintSet(0, EnumDyeColor.byMetadata(0)),
 			new PaintSet(1, EnumDyeColor.byMetadata(1)),
@@ -68,7 +65,7 @@ public class PaintSet extends Item {
 		dye = EnumColor.fromDyeColor(c);
 		this.setCreativeTab(CD.TOOLS);
 		this.setMaxStackSize(1);
-		Registry.registerItemManually(FI.MODID, id, 1, null, this);
+		RegistryUtil.get("frsm").addItem(id, this, 1, null);
 	}
 
 	public PaintSet(int i, EnumDyeColor meta, boolean b){

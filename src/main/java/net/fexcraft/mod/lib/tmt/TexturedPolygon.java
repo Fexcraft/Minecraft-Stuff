@@ -81,7 +81,7 @@ public class TexturedPolygon extends TexturedQuad {
             		tessellator.setNormal(iNormals.get(i).xCoord, iNormals.get(i).yCoord, iNormals.get(i).zCoord);
             	}
             }
-            tessellator.addVertexWithUV(positionTexturevertex.vector3D.xCoord * f, positionTexturevertex.vector3D.yCoord * f, positionTexturevertex.vector3D.zCoord * f, positionTexturevertex.texturePositionX, positionTexturevertex.texturePositionY);
+            tessellator.addVertexWithUV(positionTexturevertex.vector3D.x * f, positionTexturevertex.vector3D.y * f, positionTexturevertex.vector3D.z * f, positionTexturevertex.texturePositionX, positionTexturevertex.texturePositionY);
         }
         tessellator.draw();
     }

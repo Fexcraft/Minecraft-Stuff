@@ -8,7 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
 @fCommand
-public class Command extends CommandBase{
+public class Command extends CommandBase {
 
 	@Override
 	public String getName(){

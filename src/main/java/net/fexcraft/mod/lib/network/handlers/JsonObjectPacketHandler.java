@@ -31,7 +31,7 @@ public class JsonObjectPacketHandler{
 					}
 					IPacketListener listener = sls.get(packet.obj.get("target_listener").getAsString());
 					if(listener != null){
-						listener.process(packet, new Object[]{ctx.getServerHandler().playerEntity});
+						listener.process(packet, new Object[]{ctx.getServerHandler().player});
 					}
 				}
 			});

@@ -280,12 +280,12 @@ public class NRR implements IModule<NRR> {
 
 	public static Chunk getChunk(World world, BlockPos pos) {
 		net.minecraft.world.chunk.Chunk chunk = world.getChunkFromBlockCoords(pos);
-		return chunks.get(new DoubleKey(chunk.xPosition, chunk.zPosition));
+		return chunks.get(new DoubleKey(chunk.x, chunk.z));
 	}
 
 	public static Chunk getChunk(ICommandSender sender){
 		net.minecraft.world.chunk.Chunk chunk = sender.getEntityWorld().getChunkFromBlockCoords(sender.getPosition());
-		return chunks.get(new DoubleKey(chunk.xPosition, chunk.zPosition));
+		return chunks.get(new DoubleKey(chunk.x, chunk.z));
 	}
 	
 	public static ArrayList<Invite> getInvites(String target){

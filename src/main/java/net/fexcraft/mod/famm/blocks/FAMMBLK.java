@@ -2,7 +2,7 @@ package net.fexcraft.mod.famm.blocks;
 
 import net.fexcraft.mod.famm.FAMM;
 import net.fexcraft.mod.famm.util.FI;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -14,7 +14,7 @@ public class FAMMBLK extends Block {
         this.setHarvestLevel("axe", 1);
         this.setHardness(1.0F);
         this.setResistance(10.0F);
-        Registry.registerBlockManually(FI.MODID, name, 0, null, this, null, null);
+        RegistryUtil.get(FI.MODID).addBlock(name, this, null, 0, null);
     }
 	
 }

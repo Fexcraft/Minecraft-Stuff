@@ -27,8 +27,8 @@ public class FBC_4R_H extends BlockContainer {
 	}
 
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
+	public boolean isFullBlock(IBlockState state) {
+		return true;
 	}
 	
 	@Override

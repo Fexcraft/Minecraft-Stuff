@@ -1,8 +1,7 @@
 package net.fexcraft.mod.fsmm.items;
 
 import net.fexcraft.mod.fsmm.FSMM;
-import net.fexcraft.mod.fsmm.util.FI;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.item.Item;
 
 public class MoneyItem extends Item implements IMoneyItem {
@@ -16,7 +15,7 @@ public class MoneyItem extends Item implements IMoneyItem {
 		iname = name;
 		ivalue = value;
 		MoneyItems.addItemToMap(this);
-		Registry.registerItemManually(FI.MODID, name, 0, null, this);
+		RegistryUtil.get("fsmm").addItem(iname, this, 0, null);
 	}
 
 	@Override

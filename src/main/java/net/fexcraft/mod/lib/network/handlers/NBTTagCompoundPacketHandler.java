@@ -31,7 +31,7 @@ public class NBTTagCompoundPacketHandler {
 					}
 					IPacketListener listener = sls.get(packet.nbt.getString("target_listener"));
 					if(listener != null){
-						listener.process(packet, new Object[]{ctx.getServerHandler().playerEntity});
+						listener.process(packet, new Object[]{ctx.getServerHandler().player});
 					}
 				}
 			});

@@ -1,8 +1,8 @@
 package net.fexcraft.mod.frsm.util;
 
-import net.fexcraft.mod.lib.api.common.fLoad;
+import net.fexcraft.mod.lib.api.common.fRecipeHolder;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,21 +11,21 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static net.fexcraft.mod.lib.crafting.RecipeRegistry.*;
 
-@fLoad(turn = 101)
+@fRecipeHolder("frsm")
 public final class Recipes {
 	
 	public Recipes(){
 		register();
 	}
 	
-	private static Registry reg;
+	private static RegistryUtil reg;
 	private static final String category = "FRSM Common Recipes";
 	
 	public static void register(){
 		RecipeRegistry.addShapedRecipe("frsm:officechair", null, new ItemStack(reg.getBlock("frsm:officechair"), 1), 2, 3, new Ingredient[]{
 			INGREDIENT_WOOL, INGREDIENT_NULL,
 			INGREDIENT_WOOL, INGREDIENT_WOOL,
-			Ingredient.func_193369_a(new ItemStack(Items.IRON_INGOT)), INGREDIENT_NULL
+			Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), INGREDIENT_NULL
 		});
 		RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getBlock("frsm:chimney"), 1, 0), new ItemStack(Blocks.BRICK_BLOCK, 1));
 		RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getBlock("frsm:chimney"), 1, 1), new ItemStack(Blocks.STONEBRICK, 1));
@@ -34,19 +34,19 @@ public final class Recipes {
 		RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getBlock("frsm:chimney"), 1, 4), new ItemStack(Blocks.END_STONE, 1));
 		RecipeRegistry.addShapedRecipe("frsm:woodenlightbox", "frsm:lightbox", new ItemStack(reg.getBlock("frsm:woodenlightbox"), 1), 3, 3, new Ingredient[]{
 			INGREDIENT_PLANKS, INGREDIENT_PLANKS, INGREDIENT_PLANKS, INGREDIENT_PLANKS,
-			Ingredient.func_193369_a(new ItemStack(Items.GLOWSTONE_DUST)),
+			Ingredient.fromStacks(new ItemStack(Items.GLOWSTONE_DUST)),
 			INGREDIENT_PLANKS, INGREDIENT_PLANKS, INGREDIENT_PLANKS, INGREDIENT_PLANKS
 		});
 		RecipeRegistry.addShapedRecipe("frsm:stonelightbox", "frsm:lightbox", new ItemStack(reg.getBlock("frsm:stonelightbox"), 1), 3, 3, new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Items.GLOWSTONE_DUST)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.COBBLESTONE))
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Items.GLOWSTONE_DUST)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE)),
+			Ingredient.fromStacks(new ItemStack(Blocks.COBBLESTONE))
 		});
 		RecipeRegistry.addShapedRecipe("frsm:decoblock2", "", new ItemStack(reg.getBlock("frsm:decoblock2"), 9), 3, 3, new Ingredient[]{
 			INGREDIENT_WOOL, INGREDIENT_LOG, INGREDIENT_WOOL,
@@ -55,198 +55,177 @@ public final class Recipes {
 		});
 		for(int i = 0; i < 6; i++){
 			RecipeRegistry.addShapedRecipe("frsm:framedglowstone_" + i, "frsm:framedglowstone", new ItemStack(reg.getBlock("frsm:framedglowstone"), 1, i), 3, 3, new Ingredient[]{
-				INGREDIENT_NULL, Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, i)), INGREDIENT_NULL,
-				Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, i)), Ingredient.func_193369_a(new ItemStack(Blocks.GLOWSTONE)), Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, i)),
-				INGREDIENT_NULL, Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, i)), INGREDIENT_NULL
+				INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, i)), INGREDIENT_NULL,
+				Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, i)), Ingredient.fromStacks(new ItemStack(Blocks.GLOWSTONE)), Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, i)),
+				INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, i)), INGREDIENT_NULL
 			});
 		}
 		for(int i = 0; i < 16; i++){
 			RecipeRegistry.addShapedRecipe("frsm:decoblock1_" + i, "frsm:decoblock1", new ItemStack(reg.getBlock("frsm:decoblock1"), 9, i), 3, 3, new Ingredient[]{
-					INGREDIENT_LOG, Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG,
-					Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG, Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, i)),
-					INGREDIENT_LOG, Ingredient.func_193369_a(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG
+					INGREDIENT_LOG, Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG,
+					Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG, Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)),
+					INGREDIENT_LOG, Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), INGREDIENT_LOG
 			});
 		}
 		RecipeRegistry.addShapedRecipe("frsm:stoneslabpillar", null, new ItemStack(reg.getBlock("frsm:stoneslabpillar"), 3), 2, 3, new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB)), Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB)), Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB)),
-			Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB)), Ingredient.func_193369_a(new ItemStack(Blocks.STONE_SLAB))
+			Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB)), Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB)),
+			Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB)), Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB)),
+			Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB)), Ingredient.fromStacks(new ItemStack(Blocks.STONE_SLAB))
 		});
 		RecipeRegistry.addShapelessRecipe("frsm:cupwithcacao", null, new ItemStack(reg.getItem("frsm:cupwithcacao"), 1), new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(Items.DYE, 1, 3)), Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:cup")))
+			Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 3)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:cup")))
 		});
 		RecipeRegistry.addShapedRecipe("frsm:hamburger", null, new ItemStack(reg.getItem("frsm:hamburger"), 1), 1, 3, new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(Items.BREAD)), Ingredient.func_193369_a(new ItemStack(Items.COOKED_BEEF)), Ingredient.func_193369_a(new ItemStack(Items.BREAD))
+			Ingredient.fromStacks(new ItemStack(Items.BREAD)), Ingredient.fromStacks(new ItemStack(Items.COOKED_BEEF)), Ingredient.fromStacks(new ItemStack(Items.BREAD))
 		});
 		RecipeRegistry.addShapedRecipe("frsm:tomatojar", null, new ItemStack(reg.getItem("frsm:tomatojar"), 1), 1, 3, new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:jar"))),
-			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:jar"))),
-			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:tomato")))
+			Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:jar"))),
+			Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:jar"))),
+			Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tomato")))
 		});
 		RecipeRegistry.addShapelessRecipe("frsm:salami", null, new ItemStack(reg.getItem("frsm:salami"), 3), new Ingredient[]{
-			Ingredient.func_193369_a(new ItemStack(Items.COOKED_PORKCHOP))
+			Ingredient.fromStacks(new ItemStack(Items.COOKED_PORKCHOP))
 		});
     	GameRegistry.addSmelting(new ItemStack(Items.MILK_BUCKET), new ItemStack(reg.getItem("frsm:cheese"), 4), 0.05F);
-    	RecipeRegistry.addShapedRecipe("frsm:pizza", null, new ItemStack(reg.getItem("frsm:pizza"), 1), 3, 3, new Ingredient[]{
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:salami"))),
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:salami"))),
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:salami"))),
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:cheese"))),
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:tomatojar").setContainerItem(reg.getItem("frsm:jar")))),
-    			Ingredient.func_193369_a(new ItemStack(reg.getItem("frsm:cheese"))),
-    			Ingredient.func_193369_a(new ItemStack(Items.WHEAT)),
-    			Ingredient.func_193369_a(new ItemStack(Items.WHEAT)),
-    			Ingredient.func_193369_a(new ItemStack(Items.WHEAT))
+    	/*RecipeRegistry.addShapedRecipe("frsm:pizza", null, new ItemStack(reg.getItem("frsm:pizza"), 1), 3, 3, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:salami"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:salami"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:salami"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:cheese"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tomatojar").setContainerItem(reg.getItem("frsm:jar")))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:cheese"))),
+    		Ingredient.fromStacks(new ItemStack(Items.WHEAT)),
+    		Ingredient.fromStacks(new ItemStack(Items.WHEAT)),
+    		Ingredient.fromStacks(new ItemStack(Items.WHEAT))
     	});
-		/*
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:chocolatebar"), 4), new Object[]{
-    		new ItemStack(reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET)), Items.SUGAR
+    	RecipeRegistry.addShapelessRecipe("frsm:frsm:chocolatebar", null, new ItemStack(Registry.getItem("frsm:chocolatebar"), 4), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET))),
+    		Ingredient.fromStacks(new ItemStack(Items.SUGAR))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:chocolatemilk"), 1), new Object[]{
-    		new ItemStack(Items.DYE, 1, 3), Items.MILK_BUCKET.setContainerItem(Items.BUCKET)
+    	RecipeRegistry.addShapelessRecipe("frsm:chocolatemilk", null, new ItemStack(reg.getItem("frsm:chocolatemilk"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 3)), Ingredient.fromStacks(new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET)))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:chocolatecookie"), 4), new Object[]{
-    		new ItemStack(Items.WHEAT), reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET)
+    	RecipeRegistry.addShapelessRecipe("frsm:chocolatecookie", null, new ItemStack(reg.getItem("frsm:chocolatecookie"), 4), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.WHEAT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET)))
     	});
     	GameRegistry.addSmelting(new ItemStack(Items.EGG), new ItemStack(reg.getItem("frsm:cookedegg"), 1), 0.05F);
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:stonemugwithbeer"), 1), new Object[]{
-    		Items.WHEAT , reg.getItem("frsm:stonemug"), Items.WATER_BUCKET.setContainerItem(Items.BUCKET)
+    	RecipeRegistry.addShapelessRecipe("frsm:stonemugwithbeer", null, new ItemStack(reg.getItem("frsm:stonemugwithbeer"), 1), new Ingredient[]{
+			Ingredient.fromStacks(new ItemStack(Items.WHEAT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:stonemug"))),
+			Ingredient.fromStacks(new ItemStack(Items.WATER_BUCKET.setContainerItem(Items.BUCKET)))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:donut"), 4), new Object[]{
-    		Items.WHEAT , Items.SUGAR, reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET)
+    	RecipeRegistry.addShapelessRecipe("frsm:donut", null, new ItemStack(reg.getItem("frsm:donut"), 4), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.WHEAT)), Ingredient.fromStacks(new ItemStack(Items.SUGAR)),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET)))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:cheesewhite"), 1), new Object[]{
-    		Items.MILK_BUCKET.setContainerItem(Items.BUCKET),
+    	RecipeRegistry.addShapelessRecipe("frsm:cheesewhite", null, new ItemStack(reg.getItem("frsm:cheesewhite"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET)))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:cheesepie"), 1), new Object[]{
-    		reg.getItem("frsm:cheesewhite"), Items.EGG, Items.SUGAR,
+    	RecipeRegistry.addShapelessRecipe("frsm:cheesepie", null, new ItemStack(reg.getItem("frsm:cheesepie"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:cheesewhite"))), Ingredient.fromStacks(new ItemStack(Items.EGG)),
+    		Ingredient.fromStacks(new ItemStack(Items.SUGAR))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:baconraw"), 4), new Object[]{
-    		Items.PORKCHOP,
+    	RecipeRegistry.addShapelessRecipe("frsm:baconraw", null, new ItemStack(reg.getItem("frsm:baconraw"), 4), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.PORKCHOP))
     	});
     	GameRegistry.addSmelting(new ItemStack(reg.getItem("frsm:baconraw")), new ItemStack(reg.getItem("frsm:bacon"), 1), 0.05F);
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:chocolatebarwhite"), 1), new Object[]{
-    		new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET)), Items.SUGAR
+    	RecipeRegistry.addShapelessRecipe("frsm:chocolatebarwhite", null, new ItemStack(reg.getItem("frsm:chocolatebarwhite"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.MILK_BUCKET.setContainerItem(Items.BUCKET))), Ingredient.fromStacks(new ItemStack(Items.SUGAR))
     	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:tomatosoup"), 1), new Object[]{
-    		Items.BOWL, reg.getItem("frsm:tomatojar").setContainerItem(reg.getItem("frsm:jar"))
+    	RecipeRegistry.addShapelessRecipe("frsm:tomatosoup", null, new ItemStack(reg.getItem("frsm:tomatosoup"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.BOWL)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tomatojar").setContainerItem(reg.getItem("frsm:jar"))))
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:potatochipsbag"), 1), new Object[]{
-    		"ABA",
-    		"ABA",
-    		"ABA",
-    		'A', Items.PAPER, 'B', Items.BAKED_POTATO,
+    	RecipeRegistry.addShapedRecipe("frsm:potatochipsbag", "frsm:potatochips", new ItemStack(reg.getItem("frsm:potatochipsbag"), 1), 3, 3, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(Items.BAKED_POTATO)), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
+    		Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(Items.BAKED_POTATO)), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
+    		Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(Items.BAKED_POTATO)), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:potatochipscheese"), 1), new Object[]{
-    		"ABA",
-    		"ACA",
-    		"ABA",
-    		'A', Items.PAPER, 'B', Items.BAKED_POTATO, 'C', reg.getItem("frsm:cheese")
+    	RecipeRegistry.addShapedRecipe("frsm:potatochipscheese", "frsm:potatochips", new ItemStack(reg.getItem("frsm:potatochipscheese"), 1), 3, 3, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(Items.BAKED_POTATO)), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
+        	Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:cheese"))), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
+        	Ingredient.fromStacks(new ItemStack(Items.PAPER)), Ingredient.fromStacks(new ItemStack(Items.BAKED_POTATO)), Ingredient.fromStacks(new ItemStack(Items.PAPER)),
     	});
-    	RecipeRegistry.addRecipe(new ItemStack(reg.getItem("frsm:key"), 3, 0), new Object[]{
-		    "  A",
-		    " A ",
-		    "B  ",
-		    'A', Items.IRON_INGOT, 'B', Items.GOLD_INGOT
-		});
-		RecipeRegistry.addRecipe(new ItemStack(reg.getItem("frsm:key"), 3, 1), new Object[]{
-		    "  A",
-		    " A ",
-		    "A  ",
-		    'A', Items.IRON_INGOT,
-		});
-		for(int i = 0; i < 16; i++){
-	    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:lamp"), 16, i), new Object[]{
-	        	"ABA",
-	        	"AAA",
-	        	"   ",
-	        	'A', new ItemStack(Blocks.WOOL, 0, i), 'B', Blocks.GLOWSTONE,
-	        });
-		}
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop"), 1), new Object[]{
-    		"   ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'F', reg.getItem("frsm:redstoneinput"),
-    		
+    	RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getItem("frsm:key"), 3, 1), new ItemStack(Items.IRON_INGOT, 3));
+    	RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getItem("frsm:key"), 3, 0), new ItemStack(Items.IRON_INGOT, 2), new ItemStack(Items.GOLD_INGOT));
+    	for(int i = 0; i < 16; i++){
+    		RecipeRegistry.addShapedRecipe("frsm:lamp_" + i, "frsm:lamp", new ItemStack(reg.getBlock("frsm:lamp"), 16, i), 3, 2, new Ingredient[]{
+    			Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), Ingredient.fromStacks(new ItemStack(Blocks.GLOWSTONE)), Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)),
+    			Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)), Ingredient.fromStacks(new ItemStack(Blocks.WOOL, 1, i)),
+    		});
+    	}
+    	RecipeRegistry.addShapedRecipe("frsm:lamp_16", "frsm:lamp", new ItemStack(reg.getBlock("frsm:lamp"), 16, 15), 3, 2, new Ingredient[]{
+    		INGREDIENT_WOOL, Ingredient.fromStacks(new ItemStack(Blocks.GLOWSTONE)), INGREDIENT_WOOL,
+    		INGREDIENT_WOOL, INGREDIENT_WOOL, INGREDIENT_WOOL,
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop_white"), 1), new Object[]{
-    		" G ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'G', new ItemStack(Items.DYE, 1, 15)
+    	RecipeRegistry.addShapedRecipe("frsm:laptop", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop"), 1), 3, 2, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop_green"), 1), new Object[]{
-    		" G ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'F', reg.getItem("frsm:redstoneinput"), 'G', new ItemStack(Items.DYE, 1, 2)
+    	RecipeRegistry.addShapedRecipe("frsm:laptop_white", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_white"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 15)), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:laptop_green", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_green"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 2)), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:laptop_red", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_red"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 1)), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:laptop_blue", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_blue"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 4)), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:laptop_black", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_black"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 0)), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT)), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:laptopmainboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:nesr"))),
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:keyboard"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:redstoneinput")))
+        });
+    	RecipeRegistry.addShapelessRecipe("frsm:laptop_black_alt", "frsm:laptops", new ItemStack(reg.getBlock("frsm:laptop_black"), 1), new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(reg.getBlock("frsm:laptop"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:upgradekit")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:cup", null, new ItemStack(reg.getItem("frsm:cup"), 2), 1, 1, Ingredient.fromStacks(new ItemStack(Items.CLAY_BALL, 1)));
+    	RecipeRegistry.addShapedRecipe("frsm:jar", null, new ItemStack(reg.getItem("frsm:jar"), 9), 1, 1, Ingredient.fromStacks(new ItemStack(Blocks.GLASS, 1)));
+    	RecipeRegistry.addShapelessRecipe("frsm:stonemug", null, new ItemStack(reg.getItem("frsm:stonemug"), 1), Ingredient.fromStacks(new ItemStack(Blocks.GLASS, 1)), INGREDIENT_STONE);
+    	RecipeRegistry.addShapedRecipe("frsm:prozessor", "frsm:processor", new ItemStack(reg.getItem("frsm:prozessor"), 2), 3, 3, new Ingredient[]{
+    		INGREDIENT_REDSTONE, INGREDIENT_REDSTONE, INGREDIENT_REDSTONE,
+    		INGREDIENT_IRON_INGOT, INGREDIENT_GOLD_NUGGET, INGREDIENT_IRON_INGOT,
+    		INGREDIENT_REDSTONE, INGREDIENT_REDSTONE, INGREDIENT_REDSTONE
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop_red"), 1), new Object[]{
-    		" G ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'F', reg.getItem("frsm:redstoneinput"), 'G', new ItemStack(Items.DYE, 1, 1)
+    	RecipeRegistry.addShapedRecipe("frsm:prozessor2", "frsm:processor", new ItemStack(reg.getItem("frsm:prozessor2"), 1), 1, 3, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor"))), INGREDIENT_REDSTONE, Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor")))
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:prozessor4", "frsm:processor", new ItemStack(reg.getItem("frsm:prozessor4"), 1), 3, 3, new Ingredient[]{
+    		INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor"))), INGREDIENT_NULL,
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor"))), INGREDIENT_REDSTONE, Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor"))),
+        	INGREDIENT_NULL, Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:prozessor"))), INGREDIENT_NULL
+        });
+    	RecipeRegistry.addShapedRecipe("frsm:tvscreensmall", "frsm:tvscreens", new ItemStack(reg.getItem("frsm:tvscreensmall"), 1), 3, 3, new Ingredient[]{
+    		Ingredient.fromStacks(new ItemStack(Blocks.GLASS)), Ingredient.fromStacks(new ItemStack(Blocks.GLASS)), Ingredient.fromStacks(new ItemStack(Blocks.GLASS)),
+    		Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 1)), Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 2)), Ingredient.fromStacks(new ItemStack(Items.DYE, 1, 12)),
+    	    Ingredient.fromStacks(new ItemStack(Blocks.GLASS)), Ingredient.fromStacks(new ItemStack(Blocks.GLASS)), Ingredient.fromStacks(new ItemStack(Blocks.GLASS))
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop_blue"), 1), new Object[]{
-    		" G ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'F', reg.getItem("frsm:redstoneinput"), 'G', new ItemStack(Items.DYE, 1, 4)
-    	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getBlock("frsm:laptop_black"), 1), new Object[]{
-    		" G ",
-    		"ABC",
-    		"EDF",
-    		'A', Items.IRON_INGOT, 'B', reg.getItem("frsm:tvscreensmall"),
-    		'C', reg.getItem("frsm:laptopmainboard"), 'D', reg.getItem("frsm:keyboard"),
-    		'E', reg.getItem("frsm:nesr"), 'F', reg.getItem("frsm:redstoneinput"), 'G', new ItemStack(Items.DYE, 1, 0)
-    	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getBlock("frsm:laptop_black"), 1), new Object[]{
-    		reg.getBlock("frsm:laptop"), reg.getItem("frsm:upgradekit"),
-    	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:cup"), 2), new Object[]{
-    		new ItemStack(Items.CLAY_BALL, 1)
-    	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:jar"), 9), new Object[]{
-    		new ItemStack(Blocks.GLASS, 1)
-    	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:stonemug"), 1), new Object[]{
-    		Blocks.STONE, Blocks.GLASS
-    	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:prozessor"), 2), new Object[]{
-    		"BBB",
-    		"CAC",
-    		"BBB",
-    		'A', Items.GOLD_NUGGET, 'B', Items.REDSTONE, 'C', Items.IRON_INGOT
-    	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:tvscreensmall"), 1), new Object[]{
-    		"BBB",
-    		"CAD",
-    		"BBB",
-    		'A', new ItemStack(Items.DYE, 1, 2), 'B', Blocks.GLASS, 'C', new ItemStack(Items.DYE, 1, 1), 'D', new ItemStack(Items.DYE, 1, 12),
-    	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:redstoneinput"), 2), new Object[]{
+    	RecipeRegistry.addShapedRecipe("frsm:tvscreenmedium", "frsm:tvscreens", new ItemStack(reg.getItem("frsm:tvscreenmedium"), 1), 2, 1, new Ingredient[]{
+        	Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall"))), Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:tvscreensmall")))
+        });
+    	RecipeRegistry.addBluePrintRecipe(category, new ItemStack(reg.getItem("frsm:tvscreenlarge"), 1), new ItemStack(Items.IRON_INGOT, 4), new ItemStack(Blocks.GLASS, 10),
+    		new ItemStack(Items.DYE, 2, 1), new ItemStack(Items.DYE, 2, 2), new ItemStack(Items.DYE, 2, 12));
+		// // // // // // // // // //
+    	/*GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:redstoneinput"), 2), new Object[]{
     		"   ",
     		"ABC",
     		"   ",
     		'A', Items.IRON_INGOT, 'B', Items.SLIME_BALL, 'C', Items.REDSTONE
-    	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:prozessor2"), 1), new Object[]{
-    		"   ",
-    		"ABA",
-    		"   ",
-    		'A', reg.getItem("frsm:prozessor"), 'B', Items.REDSTONE,
     	});
     	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:laptopmainboard"), 1), new Object[]{
     		"   ",
@@ -263,12 +242,6 @@ public final class Recipes {
     		"AAA",
     		'A', Blocks.STONE_BUTTON, 'B', Items.IRON_INGOT,
     	});
-    	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:prozessor4"), 1), new Object[]{
-    		" A ",
-    		"ABA",
-    		" A ",
-    		'A', reg.getItem("frsm:prozessor"), 'B', Items.REDSTONE,
-    	});
     	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:pcmainboard"), 1), new Object[]{
     		"   ",
     		"ABC",
@@ -278,9 +251,6 @@ public final class Recipes {
     	});
     	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:upgradekit"), 1), new Object[]{
     		Items.IRON_INGOT, reg.getItem("frsm:prozessor")
-    	});
-    	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:tvscreenmedium"), 1), new Object[]{
-    		reg.getItem("frsm:tvscreensmall"), reg.getItem("frsm:tvscreensmall"),
     	});
     	GameRegistry.addRecipe(new ItemStack(reg.getItem("frsm:tvcontroller"), 1), new Object[]{
     		"AAA",
@@ -292,17 +262,6 @@ public final class Recipes {
     		"AAAA",
     		'A', Blocks.LOG,
     	});
-    	RecipeRegistry.addRecipe(new ItemStack(reg.getItem("frsm:tvscreenlarge"), 1), new Object[]{
-        	"EBBBE",
-    		"BCADB",
-        	"BCADB",
-        	"EBBBE",
-        	'A', new ItemStack(Items.DYE, 1, 2),
-        	'B', Blocks.GLASS,
-        	'C', new ItemStack(Items.DYE, 1, 1),
-        	'D', new ItemStack(Items.DYE, 1, 12),
-        	'E', Items.IRON_INGOT
-        });
     	GameRegistry.addShapelessRecipe(new ItemStack(reg.getItem("frsm:tomatoseeds"), 4), new Object[]{
     		reg.getItem("frsm:tomato"),
     	});
@@ -572,8 +531,8 @@ public final class Recipes {
         });
     	RecipeRegistry.addShapelessRecipe(new ItemStack(reg.getBlock("frsm:radio2")), new Object[]{
         	reg.getItem("frsm:nesr"), Blocks.LOG
-        });*/
-    	
+        });
+        */
 	}
 	
 }

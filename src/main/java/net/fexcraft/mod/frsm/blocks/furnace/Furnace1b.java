@@ -7,7 +7,7 @@ import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.frsm.util.block.FBC_4R;
 import net.fexcraft.mod.lib.api.block.fBlock;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -71,7 +71,7 @@ public class Furnace1b extends FBC_4R {
 	
 	@Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune){
-        return Item.getItemFromBlock(Registry.getBlock("frsm:furnace1"));
+        return Item.getItemFromBlock(RegistryUtil.getBlock("frsm:furnace1"));
     }
 	
 	@Override
@@ -82,7 +82,7 @@ public class Furnace1b extends FBC_4R {
 				return true;
 			}
 			if(p.isSneaking() && !p.getHeldItemMainhand().isEmpty()){
-				w.setBlockState(pos, Registry.getBlock("frsm:furnace1").getDefaultState().withProperty(FACING, state.getValue(FACING)));
+				w.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1").getDefaultState().withProperty(FACING, state.getValue(FACING)));
 				return true;
 			}
 		}
@@ -95,12 +95,12 @@ public class Furnace1b extends FBC_4R {
         keepInventory = true;
 
         if (active){
-            worldIn.setBlockState(pos, Registry.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
-            worldIn.setBlockState(pos, Registry.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
         }
         else{
-            worldIn.setBlockState(pos, Registry.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
-            worldIn.setBlockState(pos, Registry.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, RegistryUtil.getBlock("frsm:furnace1b").getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
         }
 
         keepInventory = false;
@@ -135,7 +135,7 @@ public class Furnace1b extends FBC_4R {
     
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state){
-        return new ItemStack(Registry.getBlock("frsm:furnace1"));
+        return new ItemStack(RegistryUtil.getBlock("frsm:furnace1"));
     }
     
 }

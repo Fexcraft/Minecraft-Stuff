@@ -46,13 +46,13 @@ public class GuiATM extends GuiScreen {
         this.mc.getTextureManager().bindTexture(bg);
         this.drawTexturedModalRect((this.width - sx) / 2, (this.height - sy) / 2, 0, 0, sx, sy);
         
-        this.l0.func_191745_a(mc, mx, my, f);
-        this.l1.func_191745_a(mc, mx, my, f);
-        this.r0.func_191745_a(mc, mx, my, f);
-        this.r1.func_191745_a(mc, mx, my, f);
+        this.l0.drawButton(mc, mx, my, f);
+        this.l1.drawButton(mc, mx, my, f);
+        this.r0.drawButton(mc, mx, my, f);
+        this.r1.drawButton(mc, mx, my, f);
         
-        this.fontRendererObj.drawString(balance + "F$", ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 66, 0x000000);
-        this.fontRendererObj.drawString(log, ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 88, 0x000000);
+        this.fontRenderer.drawString(balance + "F$", ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 66, 0x000000);
+        this.fontRenderer.drawString(log, ((this.width - sx) / 2) + 33, ((this.height - sy) / 2) + 88, 0x000000);
         
         this.amount_field.drawTextBox();
         this.receiver_field.drawTextBox();
@@ -122,12 +122,12 @@ public class GuiATM extends GuiScreen {
 		this.buttonList.add(l1 = new ArrowButton(1, ((this.width - sx) / 2) +  15, ((this.height - sy) / 2) + 35, EnumSide.RIGHT));
 		this.buttonList.add(r0 = new ArrowButton(2, ((this.width - sx) / 2) + 151, ((this.height - sy) / 2) + 12, EnumSide.LEFT));
 		this.buttonList.add(r1 = new ArrowButton(3, ((this.width - sx) / 2) + 151, ((this.height - sy) / 2) + 35, EnumSide.LEFT));
-		this.amount_field = new GuiTextField(0, this.fontRendererObj, ((this.width - sx) / 2) + 36, ((this.height - sy) / 2) + 116, 103, 12);
+		this.amount_field = new GuiTextField(0, this.fontRenderer, ((this.width - sx) / 2) + 36, ((this.height - sy) / 2) + 116, 103, 12);
         this.amount_field.setTextColor(-1);
         this.amount_field.setDisabledTextColour(-1);
         this.amount_field.setEnableBackgroundDrawing(false);
         this.amount_field.setMaxStringLength(32);
-        this.receiver_field = new GuiTextField(0, this.fontRendererObj, ((this.width - sx) / 2) + 36, ((this.height - sy) / 2) + 136, 103, 12);
+        this.receiver_field = new GuiTextField(0, this.fontRenderer, ((this.width - sx) / 2) + 36, ((this.height - sy) / 2) + 136, 103, 12);
         this.receiver_field.setTextColor(-1);
         this.receiver_field.setDisabledTextColour(-1);
         this.receiver_field.setEnableBackgroundDrawing(false);

@@ -43,7 +43,7 @@ public class ConstructorController extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     @Override
-	public boolean isFullyOpaque(IBlockState state){
+	public boolean isFullBlock(IBlockState state){
 		return false;
 	}
 	
@@ -199,10 +199,19 @@ public class ConstructorController extends BlockContainer {
 						}
 						break;
 					case EAST:
+						if((x == 14 || x == 15) && (z == 2 || z == 3)){
+							return true;
+						}
 						break;
 					case NORTH:
+						if((x == 2 || x == 3) && (z == 2 || z == 3)){
+							return true;
+						}
 						break;
 					case SOUTH:
+						if((x == 14 || x == 15) && (z == 14 || z == 15)){
+							return true;
+						}
 						break;
 					default:
 						break;

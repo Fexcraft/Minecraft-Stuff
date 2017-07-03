@@ -42,7 +42,7 @@ public class Asphalt2 extends Block {
     }
 	
     @Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	

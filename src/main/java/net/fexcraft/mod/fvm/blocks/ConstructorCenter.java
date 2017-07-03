@@ -34,9 +34,9 @@ public class ConstructorCenter extends BlockContainer {
 	}
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
+	
+	@Override
+	public boolean isFullBlock(IBlockState state){
 		return false;
 	}
 	

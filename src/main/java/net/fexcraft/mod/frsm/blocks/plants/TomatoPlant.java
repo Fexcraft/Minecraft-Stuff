@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.frsm.util.FI;
 import net.fexcraft.mod.lib.api.block.fBlock;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -151,11 +151,11 @@ public class TomatoPlant extends BlockBush implements IGrowable{
     }
 
     protected Item getSeed(){
-        return Registry.getItem("frsm:tomatoseeds");
+        return RegistryUtil.getItem("frsm:tomatoseeds");
     }
 
     protected Item getCrop(){
-        return Registry.getItem("frsm:tomato");
+        return RegistryUtil.getItem("frsm:tomato");
     }
 
     @Override

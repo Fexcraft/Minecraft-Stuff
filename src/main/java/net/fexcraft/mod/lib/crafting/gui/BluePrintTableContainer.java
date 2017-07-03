@@ -66,7 +66,7 @@ public class BluePrintTableContainer extends Container {
 					//
 					BlockPos pos = BlockPos.fromLong(packet.obj.get("BlockPos").getAsLong());
 					EntityItem item = new EntityItem(player.world);
-					item.setEntityItemStack(recipe.output.copy());
+					item.setItem(recipe.output.copy());
 					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.75, pos.getZ() + 0.5);
 					player.world.spawnEntity(item);
 					Print.chat(player, "&7Crafted &c" + recipe.output.getCount() + "&7pcs of &a" + recipe.output.getDisplayName() + "&7.");

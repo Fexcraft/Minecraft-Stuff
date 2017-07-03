@@ -90,14 +90,14 @@ public class AddonManagerGui extends GuiContainer {
 		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
 		
 		if(mode == Modes.MAIN){
-			this.fontRendererObj.drawString(trs("main_description_0"), i + 7, j + 26, MapColor.GRAY.colorValue);
-			this.fontRendererObj.drawString(trs("main_description_1"), i + 7, j + 38, MapColor.GRAY.colorValue);
-			this.fontRendererObj.drawString(trs("main_description_2"), i + 7, j + 50, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString(trs("main_description_0"), i + 7, j + 26, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString(trs("main_description_1"), i + 7, j + 38, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString(trs("main_description_2"), i + 7, j + 50, MapColor.GRAY.colorValue);
 		}
 		else if(mode == Modes.VIEW_ALL){
-			this.fontRendererObj.drawString(trs("view_all_loadedaddons") + " " + addons.size(), i + 7, j + 7, MapColor.CYAN.colorValue);
-			this.fontRendererObj.drawString(scroll + "s", i + 242, j + 176, MapColor.YELLOW.colorValue);
-			this.fontRendererObj.drawString(trs("view_all_note"), i + 86, j + 176, MapColor.RED.colorValue);
+			this.fontRenderer.drawString(trs("view_all_loadedaddons") + " " + addons.size(), i + 7, j + 7, MapColor.CYAN.colorValue);
+			this.fontRenderer.drawString(scroll + "s", i + 242, j + 176, MapColor.YELLOW.colorValue);
+			this.fontRenderer.drawString(trs("view_all_note"), i + 86, j + 176, MapColor.RED.colorValue);
 			//updateListButtons();
 			Addon addon = null;
 			int id = scroll, k = 7, l = 216, m = MapColor.GRAY.colorValue;
@@ -138,12 +138,12 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		else if(mode == Modes.VIEW_ONE){
-			this.fontRendererObj.drawString(trim228(addon.name), i + 7, j + 7, MapColor.YELLOW.colorValue);
-			this.fontRendererObj.drawString("ID: " + addon.id, i + 7, j + 26, MapColor.GRAY.colorValue);
-			this.fontRendererObj.drawString(trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + 7, j + 40, MapColor.GRAY.colorValue);
-			this.fontRendererObj.drawString(trim228(addon.url), i + 7, j + 68, MapColor.SNOW.colorValue);
-			this.fontRendererObj.drawString(trim228(addon.license), i + 7, j + 83, MapColor.SNOW.colorValue);
-			this.fontRendererObj.drawString(trim228(addon.fileaddr), i + 7, j + 98, MapColor.SNOW.colorValue);
+			this.fontRenderer.drawString(trim228(addon.name), i + 7, j + 7, MapColor.YELLOW.colorValue);
+			this.fontRenderer.drawString("ID: " + addon.id, i + 7, j + 26, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString(trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + 7, j + 40, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString(trim228(addon.url), i + 7, j + 68, MapColor.SNOW.colorValue);
+			this.fontRenderer.drawString(trim228(addon.license), i + 7, j + 83, MapColor.SNOW.colorValue);
+			this.fontRenderer.drawString(trim228(addon.fileaddr), i + 7, j + 98, MapColor.SNOW.colorValue);
 			//
 			String deps = "Dependencies: ";
 			if(addon.dependencies.size() == 0){
@@ -154,7 +154,7 @@ public class AddonManagerGui extends GuiContainer {
 					deps += string + ", ";
 				}
 			}
-			this.fontRendererObj.drawSplitString(trim(deps, 3 * 242), i + 7, j + 112, 242, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawSplitString(trim(deps, 3 * 242), i + 7, j + 112, 242, MapColor.GRAY.colorValue);
 			String authors = "Authors: ";
 			if(addon.authors.size() > 0){
 				for(UUID uuid : addon.authors){
@@ -166,7 +166,7 @@ public class AddonManagerGui extends GuiContainer {
 					authors += string.toString() + ", ";
 				}
 			}
-			this.fontRendererObj.drawSplitString(trim(authors, 3 * 242), i + 7, j + 144, 242, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawSplitString(trim(authors, 3 * 242), i + 7, j + 144, 242, MapColor.GRAY.colorValue);
 			
 			this.buttonList.get(4).enabled = !addon.enabled && !addon.missing_dependencies;
 			this.buttonList.get(5).enabled =  addon.enabled && !addon.missing_dependencies;
@@ -177,20 +177,20 @@ public class AddonManagerGui extends GuiContainer {
 	}
 	
 	private String trim(String string, int i){
-		return this.fontRendererObj.trimStringToWidth(string, i);
+		return this.fontRenderer.trimStringToWidth(string, i);
 	}
 	
 	private String trim228(String string){
-		return this.fontRendererObj.trimStringToWidth(string, 228);
+		return this.fontRenderer.trimStringToWidth(string, 228);
 	}
 	
 	private void draw(Addon addon, int arr, int i, int j, int k, int l, int m, int p0, int p1, int p2){
 		listbuttons[arr][0].enabled = addon.enabled && !addon.missing_dependencies;
 		listbuttons[arr][1].enabled = !listbuttons[arr][0].enabled;
 		//
-		this.fontRendererObj.drawSplitString(addon.name, i + k, j + p0, l, m);
-		this.fontRendererObj.drawSplitString("ID: " + addon.id + " || " + trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + k, j + p1, l, m);
-		this.fontRendererObj.drawSplitString(addon.url, i + k, j + p2, l, m);
+		this.fontRenderer.drawSplitString(addon.name, i + k, j + p0, l, m);
+		this.fontRenderer.drawSplitString("ID: " + addon.id + " || " + trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + k, j + p1, l, m);
+		this.fontRenderer.drawSplitString(addon.url, i + k, j + p2, l, m);
 	}
 
 	@Override
@@ -419,11 +419,11 @@ public class AddonManagerGui extends GuiContainer {
 			super(id, x, y, 80, 14, text);
 		}
 		
-		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
-			super.func_191745_a(mc, mouseX, mouseY, f);
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
+			super.drawButton(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -432,24 +432,24 @@ public class AddonManagerGui extends GuiContainer {
 			if(this.enabled){
 				color = MapColor.GRAY.colorValue;
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 176, 228, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 176, 228, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 176, 214, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 176, 214, this.width, this.height);
 				}
 				//this.drawCenteredString(mc.fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, MapColor.GRAY.colorValue);
 			}
 			else{
 				color = MapColor.SNOW.colorValue;
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 176, 200, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 176, 200, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 176, 242, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 176, 242, this.width, this.height);
 				}
 				//this.drawCenteredString(mc.fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, MapColor.SILVER.colorValue);
 			}
-			mc.fontRendererObj.drawString(this.displayString, ((this.xPosition + this.width / 2) - mc.fontRendererObj.getStringWidth(this.displayString) / 2), this.yPosition + (this.height - 8) / 2, color);
+			mc.fontRenderer.drawString(this.displayString, ((this.x + this.width / 2) - mc.fontRenderer.getStringWidth(this.displayString) / 2), this.y + (this.height - 8) / 2, color);
 		}
 		
 	}
@@ -472,25 +472,25 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		
-		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
-			super.func_191745_a(mc, mouseX, mouseY, f);
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
+			super.drawButton(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			
 			if(this.enabled){
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 232, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, fromType(), 232, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 244, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, fromType(), 244, this.width, this.height);
 				}
 			}
 			else{
-				this.drawTexturedModalRect(this.xPosition, this.yPosition, fromType(), 220, this.width, this.height);
+				this.drawTexturedModalRect(this.x, this.y, fromType(), 220, this.width, this.height);
 			}
 		}
 	}
@@ -504,25 +504,25 @@ public class AddonManagerGui extends GuiContainer {
 			up = b;
 		}
 		
-		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
-			super.func_191745_a(mc, mouseX, mouseY, f);
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
+			super.drawButton(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			
 			if(this.enabled){
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 232, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, up ? 212 : 201, 232, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 244, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, up ? 212 : 201, 244, this.width, this.height);
 				}
 			}
 			else{
-				this.drawTexturedModalRect(this.xPosition, this.yPosition, up ? 212 : 201, 220, this.width, this.height);
+				this.drawTexturedModalRect(this.x, this.y, up ? 212 : 201, 220, this.width, this.height);
 			}
 		}
 	}
@@ -534,29 +534,29 @@ public class AddonManagerGui extends GuiContainer {
 			this.enabled = b;
 		}
 		
-		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
-			super.func_191745_a(mc, mouseX, mouseY, f);
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
+			super.drawButton(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			
 			if(this.enabled){
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 12, 224, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 12, 224, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 224, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 0, 224, this.width, this.height);
 				}
 			}
 			else{
 				if(this.hovered){
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 12, 236, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 12, 236, this.width, this.height);
 				}
 				else{
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 236, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 0, 236, this.width, this.height);
 				}
 			}
 		}
@@ -581,11 +581,11 @@ public class AddonManagerGui extends GuiContainer {
 			}
 		}
 		
-		public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float f){
-			super.func_191745_a(mc, mouseX, mouseY, f);
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float f){
+			super.drawButton(mc, mouseX, mouseY, f);
 			mc.getTextureManager().bindTexture(mode.texture);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -594,18 +594,18 @@ public class AddonManagerGui extends GuiContainer {
 			if(this.enabled){
 				if(this.hovered){
 					color = MapColor.BLUE.colorValue;
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, 232, this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 175, 232, this.width, this.height);
 				}
 				else{
 					color = MapColor.SNOW.colorValue;
-					this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, fromType(), this.width, this.height);
+					this.drawTexturedModalRect(this.x, this.y, 175, fromType(), this.width, this.height);
 				}
 			}
 			else{
 				color = MapColor.GRAY.colorValue;
-				this.drawTexturedModalRect(this.xPosition, this.yPosition, 175, 208, this.width, this.height);
+				this.drawTexturedModalRect(this.x, this.y, 175, 208, this.width, this.height);
 			}
-			mc.fontRendererObj.drawString(this.displayString, ((this.xPosition + this.width / 2) - mc.fontRendererObj.getStringWidth(this.displayString) / 2), this.yPosition + (this.height - 8) / 2, color);
+			mc.fontRenderer.drawString(this.displayString, ((this.x + this.width / 2) - mc.fontRenderer.getStringWidth(this.displayString) / 2), this.y + (this.height - 8) / 2, color);
 		}
 		
 	}

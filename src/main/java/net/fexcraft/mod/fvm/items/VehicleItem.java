@@ -3,7 +3,7 @@ package net.fexcraft.mod.fvm.items;
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Vehicle;
 import net.fexcraft.mod.fvm.util.FvmTabs;
-import net.fexcraft.mod.lib.util.registry.Registry;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.item.Item;
 
 public class VehicleItem extends Item {
@@ -15,7 +15,7 @@ public class VehicleItem extends Item {
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 		this.type = type;
-		Registry.registerItemManually(FVM.MODID, "landvehicle_" + type.registryname, 0, null, this);
+		RegistryUtil.get(FVM.MODID).addItem("landvehicle_" + type.registryname, this, 0, null);
 	}
 
 	public static Item register(Vehicle material){

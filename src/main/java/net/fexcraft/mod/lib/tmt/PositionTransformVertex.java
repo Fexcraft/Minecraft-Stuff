@@ -21,7 +21,7 @@ public class PositionTransformVertex extends PositionTextureVertex {
 			neutralVector = ((PositionTransformVertex)vertex).neutralVector;
 		}
 		else{
-			neutralVector = new Vec3f(vertex.vector3D.xCoord, vertex.vector3D.yCoord, vertex.vector3D.zCoord);
+			neutralVector = new Vec3f(vertex.vector3D.x, vertex.vector3D.y, vertex.vector3D.z);
 		}
 	}
 	
