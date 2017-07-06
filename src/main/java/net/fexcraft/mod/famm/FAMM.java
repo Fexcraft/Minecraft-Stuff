@@ -6,7 +6,6 @@ import net.fexcraft.mod.famm.blocks.FAMMBlocks;
 import net.fexcraft.mod.famm.items.FAMMItems;
 import net.fexcraft.mod.famm.util.FAMMEventHandler;
 import net.fexcraft.mod.famm.util.FI;
-import net.fexcraft.mod.famm.util.Recipes;
 import net.fexcraft.mod.famm.util.UpdateHandler;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.creativetab.CreativeTabs;
@@ -60,7 +59,6 @@ public class FAMM {
 		}
 		
 		FAMMItems.init();
-		Recipes.init();
 	}
 	
 	public static CreativeTabs tabFAMM = new CreativeTabs("tabFAMM"){

@@ -61,8 +61,6 @@ public class RegistryUtil {
 
 	public static void prepare(ASMDataTable asmData){
 		table = asmData;
-		MinecraftForge.EVENT_BUS.register(new RegistryUtil());
-		//
 		new AutoRegisterer("fcl");
 		registerTESRs();
 		scanForModels();
@@ -188,6 +186,15 @@ public class RegistryUtil {
 					e.printStackTrace();
 				}
 			}
+			//
+			/*if(modid.equals("frsm")){
+				JsonArray array = new JsonArray();
+				for(ResourceLocation rs : recipes.keySet()){
+					array.add(rs.toString());
+				}
+				Print.log(array);
+				Static.stop();
+			}*///such hax
 			//
 			IForgeRegistry<IRecipe> reg = event.getRegistry();
 			for(Entry<ResourceLocation, IRecipe> entry : recipes.entrySet()){
@@ -315,11 +322,6 @@ public class RegistryUtil {
 	}
 	
 	//@EventBusSubscriber
-	
-	@SubscribeEvent
-	public void registerRecipes(RegistryEvent.Register<IRecipe> event){
-		//RecipeRegistry.registerRecipes(event);
-	}
 	
 	public static void registerCommands(FMLServerStartingEvent event){
 		Set<ASMData> data = table.getAll(fCommand.class.getCanonicalName());

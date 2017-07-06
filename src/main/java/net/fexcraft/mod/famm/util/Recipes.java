@@ -3,16 +3,22 @@ package net.fexcraft.mod.famm.util;
 import net.fexcraft.mod.famm.FAMM;
 import net.fexcraft.mod.famm.blocks.FAMMBlocks;
 import net.fexcraft.mod.famm.items.FAMMItems;
+import net.fexcraft.mod.lib.api.common.fRecipeHolder;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+@fRecipeHolder("famm")
 public final class Recipes{
 	
 	private static final String category = "FAMM Block Recipes";
 	private static final String category_hb = "FAMM HalfBlock Recipes";
 	private static final String category_items = "FAMM Item Recipes";
+	
+	public Recipes(){
+		init();
+	}
 	
 	public static void init(){
 		if(FAMM.conf2){
