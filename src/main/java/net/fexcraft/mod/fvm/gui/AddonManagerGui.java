@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import net.fexcraft.mod.fvm.FVM;
 import net.fexcraft.mod.fvm.data.Addon;
-import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.network.Browser;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
@@ -158,7 +157,7 @@ public class AddonManagerGui extends GuiContainer {
 			String authors = "Authors: ";
 			if(addon.authors.size() > 0){
 				for(UUID uuid : addon.authors){
-					authors += FvmResources.getPlayerNameByUUID(uuid) + ", ";
+					authors += Static.getPlayerNameByUUID(uuid) + ", ";
 				}
 			}
 			if(addon.altauthors.size() > 0){

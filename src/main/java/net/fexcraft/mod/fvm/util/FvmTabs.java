@@ -1,8 +1,5 @@
 package net.fexcraft.mod.fvm.util;
 
-import net.fexcraft.mod.fvm.data.Material;
-import net.fexcraft.mod.fvm.data.Part;
-import net.fexcraft.mod.fvm.data.Vehicle;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -24,7 +21,7 @@ public class FvmTabs {
 		}
 		@Override
 		public ItemStack getIconItemStack(){
-			return new ItemStack(FvmResources.vehicles.size() > 0 ? ((Vehicle)FvmResources.vehicles.values().toArray()[veh_id]).item : Items.ACACIA_BOAT);
+			return new ItemStack(/*FvmResources.VEHICLES.getEntries().size() > 0 ? ((Vehicle)FvmResources.VEHICLES.getValues().toArray()[veh_id]).item :*/ Items.ACACIA_BOAT);
 		}
 	};
 	
@@ -35,7 +32,7 @@ public class FvmTabs {
 		}
 		@Override
 		public ItemStack getIconItemStack(){
-			return new ItemStack(FvmResources.parts.size() > 0 ? ((Part)FvmResources.parts.values().toArray()[part_id]).item : Items.IRON_DOOR);
+			return new ItemStack(/*FvmResources.PARTS.getEntries().size() > 0 ? ((Part)FvmResources.PARTS.getValues().toArray()[part_id]).item :*/ Items.IRON_DOOR);
 		}
 	};
 	
@@ -47,7 +44,7 @@ public class FvmTabs {
 		@Override
 		public ItemStack getIconItemStack(){
 			update();
-			return new ItemStack(FvmResources.materials.size() > 0 ? ((Material)FvmResources.materials.values().toArray()[mat_id]).item : Items.STONE_AXE);
+			return new ItemStack(/*FvmResources.MATERIALS.getEntries().size() > 0 ? ((Material)FvmResources.MATERIALS.getValues().toArray()[mat_id]).item :*/ Items.STONE_AXE);
 		}
 	};
 	
@@ -62,15 +59,15 @@ public class FvmTabs {
 		if(sec != Time.getSecond()){
 			sec = Time.getSecond();
 			mat_id++;
-			if(mat_id >= FvmResources.materials.size()){
+			if(mat_id >= FvmResources.MATERIALS.getEntries().size()){
 				mat_id = 0;
 			}
 			part_id++;
-			if(part_id >= FvmResources.parts.size()){
+			if(part_id >= FvmResources.PARTS.getEntries().size()){
 				part_id = 0;
 			}
 			veh_id++;
-			if(veh_id >= FvmResources.vehicles.size()){
+			if(veh_id >= FvmResources.VEHICLES.getEntries().size()){
 				veh_id = 0;
 			}
 		}

@@ -4,12 +4,15 @@ import net.fexcraft.mod.fvm.cmds.FvmCommand;
 import net.fexcraft.mod.fvm.gui.FvmGuiHandler;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.fvm.util.FvmUpdateHandler;
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -48,7 +51,11 @@ public class FVM {
 		if(event.getSide().isClient()){
 			FvmResources.loadModels(event);
 		}*/
+
 		
+		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_center")), new ItemStack(Blocks.IRON_BLOCK, 3));
+		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_controller")),
+			new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Blocks.STONE_BUTTON, 16), new ItemStack(Blocks.REDSTONE_BLOCK), new ItemStack(Blocks.GLASS_PANE, 2), new ItemStack(Blocks.PLANKS));
 		
 		PermManager.setEnabled(MODID);
 	}

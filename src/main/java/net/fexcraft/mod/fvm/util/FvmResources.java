@@ -1,12 +1,10 @@
 package net.fexcraft.mod.fvm.util;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.UUID;
-
 import org.apache.commons.io.FilenameUtils;
 
 import com.google.gson.JsonArray;
@@ -18,16 +16,16 @@ import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.Part;
 import net.fexcraft.mod.fvm.data.Vehicle;
+import net.fexcraft.mod.fvm.items.MaterialItem;
+import net.fexcraft.mod.fvm.items.PartItem;
+import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.crafting.RecipeRegistry;
-import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
-import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.fexcraft.mod.lib.util.render.ModelType;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -43,6 +41,9 @@ import net.minecraftforge.registries.RegistryBuilder;
 public class FvmResources {
 	
 	public static IForgeRegistry<Addon> ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvm:addons")).setType(Addon.class).create();
+	public static IForgeRegistry<Material> MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvm:materials")).setType(Material.class).create();
+	public static IForgeRegistry<Part> PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvm:parts")).setType(Part.class).create();
+	public static IForgeRegistry<Vehicle> VEHICLES = (IForgeRegistry<Vehicle>)new RegistryBuilder<Vehicle>().setName(new ResourceLocation("fvm:vehicles")).setType(Vehicle.class).create();
 	
 	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
 	//
@@ -50,10 +51,6 @@ public class FvmResources {
 	//public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
 	//
 	public static final TreeMap<String, Object> models = new TreeMap<String, Object>();
-	public static final TreeMap<String, Material> materials = new TreeMap<String, Material>();
-	public static final TreeMap<String, Part> parts = new TreeMap<String, Part>();
-	//TODO Air
-	public static final TreeMap<String, Vehicle> vehicles = new TreeMap<String, Vehicle>();
 	//TODO Water
 	//TODO Railed
 	//
@@ -122,12 +119,18 @@ public class FvmResources {
 				}
 			}
 		}
-		
-		//
-		
-		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_center")), new ItemStack(Blocks.IRON_BLOCK, 3));
-		RecipeRegistry.addBluePrintRecipe("FVM Blocks", new ItemStack(RegistryUtil.getBlock("fvm:constructor_controller")),
-			new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Blocks.STONE_BUTTON, 16), new ItemStack(Blocks.REDSTONE_BLOCK), new ItemStack(Blocks.GLASS_PANE, 2), new ItemStack(Blocks.PLANKS));
+		for(Addon addon : ADDONS.getValues()){
+			if(Static.side().isClient()){
+				Print.log("Registering Addonpack into Forge/Minecraft resources...");
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("modid", FVM.MODID + "");
+				map.put("name", "[FVM]: " + addon.file.getName());
+				map.put("version", addon.version);
+				FMLModContainer container = new FMLModContainer("net.fexcraft.mod.fvm.FVM", new ModCandidate(addon.file, addon.file, addon.file.isDirectory() ? ContainerType.DIR : ContainerType.JAR), map);
+				container.bindMetadata(MetadataCollection.from(null, ""));
+				FMLClientHandler.instance().addModAsResource(container);
+			}
+		}
 	}
 	
 	public static void updateAddonConfig(){
@@ -141,7 +144,7 @@ public class FvmResources {
 		JsonUtil.write(addonconfig, array);
 	}
 
-	public static void scanForContent(FMLPreInitializationEvent event){
+	/*public static void scanForContent(FMLPreInitializationEvent event){
 		for(Entry<ResourceLocation, Addon> entry : ADDONS.getEntries()){
 			Addon addon = entry.getValue();
 			if(addon.enabled && !addon.missing_dependencies){
@@ -234,30 +237,14 @@ public class FvmResources {
 		if(event.getSide().isClient()){
 			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
 		}
-	}
-	
-	//FSU-NRR Copy
-	private static final HashMap<UUID, String> cache = new HashMap<UUID, String>();
-	
-	public static final String getPlayerNameByUUID(UUID uuid){
-		if(cache.containsKey(uuid)){
-			return cache.get(uuid);
-		}
-		JsonElement obj = Network.request(" https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replace("-", ""));
-		if(obj != null){
-			JsonObject elm = obj.getAsJsonObject();
-			cache.put(uuid, elm.get("name").getAsString());
-			return elm.get("name").getAsString();
-		}
-		return "<null/errored>";
-	}
+	}*/
 
 	public static void loadModels(FMLPreInitializationEvent event){
 		Print.log("Initializing Models...");
-		for(Part part : parts.values()){
+		for(Part part : PARTS.getValues()){
 			part.loadModel();
 		}
-		for(Vehicle veh : vehicles.values()){
+		for(Vehicle veh : VEHICLES.getValues()){
 			veh.loadModel();
 		}
 	}
@@ -279,5 +266,62 @@ public class FvmResources {
 		FvmResources.setup(reg);
 	}
 	
-	//TODO generic items for materials/parts/vehicles, ModelLoader.setCustomMeshDefinition()
+	@SubscribeEvent
+	public void registerItems(RegistryEvent.Register<Item> event){
+		event.getRegistry().register(MaterialItem.INSTANCE);
+		//net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(MaterialItem.INSTANCE, 0, new ModelResourceLocation(MaterialItem.INSTANCE.getRegistryName(), "inventory"));
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(MaterialItem.INSTANCE, new MaterialItem.MaterialItemMesh());
+		event.getRegistry().register(PartItem.INSTANCE);
+		//net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(PartItem.INSTANCE, 0, new ModelResourceLocation(PartItem.INSTANCE.getRegistryName(), "inventory"));
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(PartItem.INSTANCE, new PartItem.PartItemMesh());
+		event.getRegistry().register(VehicleItem.INSTANCE);
+		//net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(VehicleItem.INSTANCE, 0, new ModelResourceLocation(VehicleItem.INSTANCE.getRegistryName(), "inventory"));
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(VehicleItem.INSTANCE, new VehicleItem.VehicleItemMesh());
+	}
+	
+	@SubscribeEvent
+	public void registerMaterials(RegistryEvent.Register<Material> event){
+		IForgeRegistry<Material> reg = event.getRegistry();
+		for(Entry<ResourceLocation, Addon> entry : ADDONS.getEntries()){
+			Addon addon = entry.getValue();
+			if(addon.enabled && !addon.missing_dependencies){
+				if(addon.file.isDirectory()){
+					File matfol = new File(addon.file, "assets/fvm/config/materials/");
+					if(!matfol.exists()){ matfol.mkdirs(); }
+					for(File file : matfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".material")){
+							Material mat = new Material(JsonUtil.get(file));
+							reg.register(mat);
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(MaterialItem.INSTANCE, new ResourceLocation(MaterialItem.INSTANCE.getRegistryName() + "_" + mat.getRegistryName().getResourcePath()));
+							Print.debug(MaterialItem.INSTANCE.getRegistryName() + "_" + mat.getRegistryName().getResourcePath());
+						}
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/materials/", ".material");
+					for(JsonElement elm : array){
+						Material mat = new Material(elm.getAsJsonObject());
+						reg.register(mat);
+						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(MaterialItem.INSTANCE, new ResourceLocation(MaterialItem.INSTANCE.getRegistryName() + "_" + mat.getRegistryName().getResourcePath()));
+						Print.debug(MaterialItem.INSTANCE.getRegistryName() + "_" + mat.getRegistryName().getResourcePath());
+					}
+				}
+			}
+		}
+		if(Static.side().isClient()){
+			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
+		}
+	}
+	
+	@SubscribeEvent
+	public void registerParts(RegistryEvent.Register<Part> event){
+		//TODO
+	}
+	
+	@SubscribeEvent
+	public void registerVehicles(RegistryEvent.Register<Vehicle> event){
+		//TODO
+	}
+	
 }

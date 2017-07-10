@@ -8,7 +8,7 @@ public abstract class AdjustableWheelModel extends PartModel {
 	
 	@Override
 	public void render(VehicleData data, String usedAS){
-		Pos pos = Pos.fromJSON(data.parts.get(usedAS).part.modelsettings.get(data.vehicle.registryname).get(usedAS).getAsJsonObject());
+		Pos pos = Pos.fromJSON(data.parts.get(usedAS).part.modelsettings.get(data.vehicle.getRegistryName()).get(usedAS).getAsJsonObject());
 		pos.translate();
 		switch(usedAS){
 			case "left_front_wheel":
@@ -45,7 +45,7 @@ public abstract class AdjustableWheelModel extends PartModel {
 
 	@Override
 	public void render(VehicleData data, String usedAS, Entity vehicle){
-		Pos pos = Pos.fromJSON(data.parts.get(usedAS).part.modelsettings.get(data.vehicle.registryname).get(usedAS).getAsJsonObject());
+		Pos pos = Pos.fromJSON(data.parts.get(usedAS).part.modelsettings.get(data.vehicle.getRegistryName()).get(usedAS).getAsJsonObject());
 		pos.translate();
 		switch(usedAS){
 			case "left_front_wheel":

@@ -1,6 +1,6 @@
 {
-    "RegistryName": "steel_ingot",
-    "Addon": "generic",
+    "RegistryName": "generic:steel_ingot",
+    "Addon": "fvm:generic",
     "FullName": "Steel Ingot",
     "MaxStackSize": 32,
     "Recipes":[

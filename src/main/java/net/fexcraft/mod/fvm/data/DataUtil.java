@@ -21,9 +21,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class DataUtil {
 	
-	public static String getRegistryName(JsonObject obj, String type){
+	public static ResourceLocation getRegistryName(JsonObject obj, String type){
 		if(obj.has("RegistryName")){
-			return obj.get("RegistryName").getAsString();
+			return new ResourceLocation(obj.get("RegistryName").getAsString());
 		}
 		else{
 			Print.log(type + " DOES NOT HAVE A REGISTRY NAME, THAT IS AN ISSUE;");
@@ -33,17 +33,17 @@ public class DataUtil {
 		return null;
 	}
 	
-	public static Addon getAddon(String rgn, JsonObject obj, String type){
+	public static Addon getAddon(ResourceLocation registryname, JsonObject obj, String type){
 		if(obj.has("Addon")){
 			Addon addon = FvmResources.ADDONS.getValue(new ResourceLocation(obj.get("Addon").getAsString()));
 			if(addon == null){
-				Print.log("ADDON PACK NOT FOUND FOR " + type + " (" + rgn + "), OR INCORRECT NAME, THAT IS AN ISSUE;");
+				Print.log("ADDON PACK NOT FOUND FOR " + type + " (" + registryname.toString() + "), OR INCORRECT NAME, THAT IS AN ISSUE;");
 				Static.halt();
 			}
 			return addon;
 		}
 		else{
-			Print.log(type + " (" + rgn + ") DOES NOT HAVE A SET ADDON PACK, THAT IS AN ISSUE;");
+			Print.log(type + " (" + registryname + ") DOES NOT HAVE A SET ADDON PACK, THAT IS AN ISSUE;");
 			Static.halt();
 		}
 		return null;
@@ -65,10 +65,10 @@ public class DataUtil {
 		return obj.has(string) ? RGB.fromJSON(obj.get(string).getAsJsonObject(), false) : new RGB();
 	}
 
-	public static ArrayList<ResourceLocation> getTextures(JsonObject obj, String rgn, String type){
+	public static ArrayList<ResourceLocation> getTextures(JsonObject obj, ResourceLocation registryname, String type){
 		ArrayList<ResourceLocation> textures = new ArrayList<ResourceLocation>();
 		if(!obj.has("Textures")){
-			Print.log("NO TEXTURE FOUND FOR " + type + " (" + rgn + ")! APPLYING DEFAULT TEXTURE;");
+			Print.log("NO TEXTURE FOUND FOR " + type + " (" + registryname.toString() + ")! APPLYING DEFAULT TEXTURE;");
 			textures.add(FvmResources.NULL_TEXTURE);
 		}
 		else{

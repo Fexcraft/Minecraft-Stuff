@@ -7,24 +7,22 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvm.items.PartItem;
 import net.fexcraft.mod.fvm.model.PartModel;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ModelType;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Part {
+public class Part implements IForgeRegistryEntry<Part>{
 	
 	public final Addon addon;
-	public final String registryname;
+	private ResourceLocation registryname;
 	public final int /*maxHealth,*/ maxStackSize;
-	public final Item item;
 	
 	//Visual
 	public String modelname;
@@ -32,10 +30,10 @@ public class Part {
 	@SideOnly(Side.CLIENT) public PartModel model;
 	/*(Side.CLIENT) private float scale = 1;*/
 	public ArrayList<ResourceLocation> textures;
-	public TreeMap<String, JsonObject> modelsettings;
+	public TreeMap<ResourceLocation, JsonObject> modelsettings;
 	
 	//Construction
-	public TreeMap<String, Pos> compatible;
+	public TreeMap<ResourceLocation, Pos> compatible;
 
 	
 	public Part(JsonObject obj){
@@ -43,7 +41,6 @@ public class Part {
 		this.addon = DataUtil.getAddon(registryname, obj, "PART");
 		//this.maxHealth = JsonUtil.getIfExists(obj, "MaxHealth", 100).intValue();//500
 		this.maxStackSize = JsonUtil.getIfExists(obj, "MaxStackSize", 64).intValue();
-		this.item = new PartItem(this);
 		//
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
 		this.textures = DataUtil.getTextures(obj, this.registryname, "PART");
@@ -51,7 +48,7 @@ public class Part {
 			JsonArray array = obj.get("ModelSettings").getAsJsonArray();
 			for(JsonElement elm : array){
 				JsonObject jsn = elm.getAsJsonObject();
-				modelsettings.put(jsn.get("Vehicle").getAsString(), jsn);
+				modelsettings.put(new ResourceLocation(jsn.get("Vehicle").getAsString()), jsn);
 			}
 		}
 	}
@@ -78,7 +75,7 @@ public class Part {
 		}
 
 		public void write(NBTTagCompound compound){
-			compound.setString("PartType", part.registryname);
+			compound.setString("PartType", part.registryname.toString());
 			compound.setInteger("Texture", texture);
 			compound.setString("TextureUrl", texture_url == null ? "" : texture_url);
 		}
@@ -90,7 +87,7 @@ public class Part {
 
 		public static PartData fromNBT(NBTTagCompound compound) {
 			if(compound.hasKey("PartType")){
-				PartData pdata = new PartData( FvmResources.parts.get(compound.getString("PartType")));
+				PartData pdata = new PartData(FvmResources.PARTS.getValue(new ResourceLocation(compound.getString("PartType"))));
 				pdata.read(compound);
 				return pdata;
 			}
@@ -98,16 +95,32 @@ public class Part {
 		}
 	}
 
-	public void translate(String name){
-		if(this.compatible.containsKey(name)){
-			this.compatible.get(name).translate();
+	public void translate(ResourceLocation resourceLocation){
+		if(this.compatible.containsKey(resourceLocation)){
+			this.compatible.get(resourceLocation).translate();
 		}
 	}
 
-	public void translateR(String name){
-		if(this.compatible.containsKey(name)){
-			this.compatible.get(name).translateR();
+	public void translateR(ResourceLocation resourceLocation){
+		if(this.compatible.containsKey(resourceLocation)){
+			this.compatible.get(resourceLocation).translateR();
 		}
+	}
+
+	@Override
+	public Part setRegistryName(ResourceLocation name){
+		registryname = name;
+		return this;
+	}
+
+	@Override
+	public ResourceLocation getRegistryName(){
+		return registryname;
+	}
+
+	@Override
+	public Class<Part> getRegistryType(){
+		return Part.class;
 	}	
 	
 }

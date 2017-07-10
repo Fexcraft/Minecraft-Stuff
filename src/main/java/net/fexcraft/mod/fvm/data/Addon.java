@@ -27,6 +27,7 @@ public class Addon implements IForgeRegistryEntry<Addon> {
 	public ArrayList<UUID> authors = new ArrayList<UUID>();
 	public ArrayList<String> altauthors = new ArrayList<String>();
 	public boolean enabled = true, missing_dependencies = false;
+	public String version;
 	
 	public Addon(File file){
 		this.file = file;
@@ -67,6 +68,7 @@ public class Addon implements IForgeRegistryEntry<Addon> {
 		}
 		this.url = JsonUtil.getIfExists(obj, "url", "no url provided by pack author");
 		this.license = JsonUtil.getIfExists(obj, "license", "no license url provided by pack author");
+		this.version = JsonUtil.getIfExists(obj, "version", "1.0");
 	}
 	
 	/** To load temporary addon copies for GUI's **/
@@ -85,6 +87,7 @@ public class Addon implements IForgeRegistryEntry<Addon> {
 		this.enabled = nbt.getBoolean("enabled");
 		this.missing_dependencies = nbt.getBoolean("missing_dependencies");
 		this.fileaddr = nbt.getString("file");
+		this.version = nbt.getString("version");
 	}
 	
 	public NBTTagCompound toNBT(){
@@ -99,6 +102,7 @@ public class Addon implements IForgeRegistryEntry<Addon> {
 		nbt.setBoolean("enabled", enabled);
 		nbt.setBoolean("missing_depencencies", missing_dependencies);
 		nbt.setString("file", fileaddr == null ? file.toString() : fileaddr);
+		nbt.setString("version", version);
 		return nbt;
 	}
 

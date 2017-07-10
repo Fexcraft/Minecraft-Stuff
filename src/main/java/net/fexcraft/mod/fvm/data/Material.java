@@ -2,25 +2,38 @@ package net.fexcraft.mod.fvm.data;
 
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvm.items.MaterialItem;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
-import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Material {
+public class Material implements IForgeRegistryEntry<Material> {
 	
 	public Addon addonpack;
-	public String registryname, fullname;
+	private ResourceLocation registryname;
+	public String fullname;
 	public String[] description;
-	public Item item;
-	public int maxStackSize;
 	
 	public Material(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "MATERIAL");
 		this.addonpack = DataUtil.getAddon(registryname, obj, "MATERIAL");
-		this.fullname = JsonUtil.getIfExists(obj, "FullName", registryname);
+		this.fullname = JsonUtil.getIfExists(obj, "FullName", registryname.toString());
 		this.description = DataUtil.getDescription(obj);
-		this.item = MaterialItem.register(this);
-		this.maxStackSize = JsonUtil.getIfExists(obj, "MaxStackSize", 64).intValue();
+	}
+
+	@Override
+	public Material setRegistryName(ResourceLocation name){
+		registryname = name;
+		return this;
+	}
+
+	@Override
+	public ResourceLocation getRegistryName() {
+		return registryname;
+	}
+
+	@Override
+	public Class<Material> getRegistryType(){
+		return Material.class;
 	}
 	
 }

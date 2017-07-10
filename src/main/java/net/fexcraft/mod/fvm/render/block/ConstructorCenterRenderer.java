@@ -53,9 +53,9 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 					for(String key : data.parts.keySet()){
 						PartData part = data.parts.get(key);
 						Minecraft.getMinecraft().renderEngine.bindTexture(part.texture >= 0 ? part.part.textures.get(part.texture) : RemoteTextureRenderHelper.get(part.texture_url));
-						part.part.translate(data.vehicle.registryname);
+						part.part.translate(data.vehicle.getRegistryName());
 						part.part.model.render(data, key);
-						part.part.translateR(data.vehicle.registryname);
+						part.part.translateR(data.vehicle.getRegistryName());
 					}
 				}
 				GL11.glTranslatef(0, data.vehicle.construction_height_offset * -0.0625f, 0);

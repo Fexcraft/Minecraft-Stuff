@@ -1,6 +1,6 @@
 {
-    "RegistryName": "rubber",
-    "Addon": "generic",
+    "RegistryName": "generic:rubber",
+    "Addon": "fvm:generic",
     "FullName": "Rubber",
     "MaxStackSize": 32,
     "Recipes":[

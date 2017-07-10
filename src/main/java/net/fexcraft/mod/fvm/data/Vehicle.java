@@ -9,33 +9,31 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvm.data.Part.PartData;
-import net.fexcraft.mod.fvm.items.VehicleItem;
 import net.fexcraft.mod.fvm.model.VehicleModel;
 import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.render.ModelType;
 import net.fexcraft.mod.lib.util.render.RGB;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import scala.actors.threadpool.Arrays;
 
 /**
  * Main class for unchangeable vehicle data.
  * @author Ferdinand (FEX___96)
  */
-public class Vehicle {
+public class Vehicle implements IForgeRegistryEntry<Vehicle> {
 	
-	public String registryname;
+	private ResourceLocation registryname;
 	public String fullname;
 	public Addon addon;
 	public String[] description;
 	public RGB def_primary, def_secondary;
-	public Item item;
 	public boolean allowsLocking;
 	public VehicleEntityType etype;
 	
@@ -72,12 +70,11 @@ public class Vehicle {
 	public Vehicle(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "VEHICLE");
 		this.addon = DataUtil.getAddon(registryname, obj, "VEHICLE");
-		this.fullname = JsonUtil.getIfExists(obj, "FullName", this.registryname);
+		this.fullname = JsonUtil.getIfExists(obj, "FullName", this.registryname.toString());
 		this.description = DataUtil.getDescription(obj);
 		this.def_primary = DataUtil.getRGB(obj, "PrimaryColor");
 		this.def_secondary = DataUtil.getRGB(obj, "SecondaryColor");
 		this.modelname = JsonUtil.getIfExists(obj, "ModelFile", "null");
-		this.item = VehicleItem.register(this);
 		this.allowsLocking = JsonUtil.getIfExists(obj, "AllowLocking", true);
 		this.textures = DataUtil.getTextures(obj, this.registryname, "VEHICLE");
 		//
@@ -152,7 +149,7 @@ public class Vehicle {
 			if(compound == null){
 				compound = new NBTTagCompound();
 			}
-			compound.setString("VehicleType", vehicle.registryname);
+			compound.setString("VehicleType", vehicle.registryname.toString());
 			compound.setString("Creator", this.creator == null ? Static.NULL_UUID_STRING : this.creator.toString());
 			this.primary.writeToNBT(compound, "Primary");
 			this.secondary.writeToNBT(compound, "Secondary");
@@ -191,7 +188,7 @@ public class Vehicle {
 		
 		public static VehicleData fromNBT(NBTTagCompound compound){
 			if(compound.hasKey("VehicleType")){
-				VehicleData vdata = new VehicleData( FvmResources.vehicles.get(compound.getString("VehicleType")));
+				VehicleData vdata = new VehicleData(FvmResources.VEHICLES.getValue(new ResourceLocation(compound.getString("VehicleType"))));
 				vdata.read(compound);
 				return vdata;
 			}
@@ -226,6 +223,22 @@ public class Vehicle {
 			return NULL;
 		}
 		
+	}
+
+	@Override
+	public Vehicle setRegistryName(ResourceLocation name){
+		registryname = name;
+		return null;
+	}
+
+	@Override
+	public ResourceLocation getRegistryName(){
+		return registryname;
+	}
+
+	@Override
+	public Class<Vehicle> getRegistryType(){
+		return Vehicle.class;
 	}
 	
 }
