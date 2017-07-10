@@ -10,6 +10,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
@@ -65,7 +66,7 @@ public class FvmGuiHandler implements IGuiHandler {
 					break;
 				case "toggle_addon_state":
 					try{
-						Addon addon = FvmResources.addons.get(packet.nbt.getString("id"));
+						Addon addon = FvmResources.ADDONS.getValue(new ResourceLocation(packet.nbt.getString("id")));
 						if(addon != null && !addon.missing_dependencies){
 							addon.enabled = !addon.enabled;
 						}
@@ -79,9 +80,9 @@ public class FvmGuiHandler implements IGuiHandler {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("target_listener", "fvm");
 					nbt.setString("cargo", "addon_list");
-					nbt.setInteger("Size", FvmResources.addons.size());
+					nbt.setInteger("Size", FvmResources.ADDONS.getValues().size());
 					int entryid = 0;
-					for(Addon addon : FvmResources.addons.values()){
+					for(Addon addon : FvmResources.ADDONS.getValues()){
 						nbt.setTag("entry_" + entryid++, addon.toNBT());
 					}
 					PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), (net.minecraft.entity.player.EntityPlayerMP)objs[0]);
@@ -89,7 +90,7 @@ public class FvmGuiHandler implements IGuiHandler {
 				case "set_addon_state":
 					boolean success;
 					try{
-						Addon addon = FvmResources.addons.get(packet.nbt.getString("id"));
+						Addon addon = FvmResources.ADDONS.getValue(new ResourceLocation(packet.nbt.getString("id")));
 						if(addon != null && !addon.missing_dependencies){
 							addon.enabled = packet.nbt.getBoolean("state");
 						}

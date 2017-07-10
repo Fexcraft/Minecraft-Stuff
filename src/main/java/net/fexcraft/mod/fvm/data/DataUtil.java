@@ -35,7 +35,7 @@ public class DataUtil {
 	
 	public static Addon getAddon(String rgn, JsonObject obj, String type){
 		if(obj.has("Addon")){
-			Addon addon = FvmResources.addons.get(obj.get("Addon").getAsString());
+			Addon addon = FvmResources.ADDONS.getValue(new ResourceLocation(obj.get("Addon").getAsString()));
 			if(addon == null){
 				Print.log("ADDON PACK NOT FOUND FOR " + type + " (" + rgn + "), OR INCORRECT NAME, THAT IS AN ISSUE;");
 				Static.halt();

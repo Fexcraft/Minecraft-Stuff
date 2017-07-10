@@ -21,6 +21,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import net.fexcraft.mod.lib.util.common.Print;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * @author Ferdinand (FEX___96)
@@ -486,6 +487,22 @@ public class JsonUtil{
 		return list;
 	}
 	
+
+
+	public static ArrayList<ResourceLocation> jsonArrayToResourceLocationArray(JsonArray array) {
+		ArrayList<ResourceLocation> list = new ArrayList<ResourceLocation>();
+		ArrayList<String> json = jsonArrayToStringArray(array);
+		for(String string : json){
+			try{
+				list.add(new ResourceLocation(string));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 	public static ArrayList<Integer> jsonArrayToIntegerArray(JsonArray array){
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for(JsonElement e : array){
@@ -522,6 +539,14 @@ public class JsonUtil{
 	public static JsonElement getArrayFromUUIDList(ArrayList<UUID> array){
 		JsonArray ja = new JsonArray();
 		for(UUID s : array){
+			add(ja, s.toString());
+		}
+		return ja;
+	}
+
+	public static JsonElement getArrayFromResourceLocationList(ArrayList<ResourceLocation> array){
+		JsonArray ja = new JsonArray();
+		for(ResourceLocation s : array){
 			add(ja, s.toString());
 		}
 		return ja;

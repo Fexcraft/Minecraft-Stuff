@@ -13,14 +13,17 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Addon {
+public class Addon implements IForgeRegistryEntry<Addon> {
 	
 	public static final String deflink = "no url provided by pack author", deflicense = "no license url provided by pack author";
 	//
 	public File file;
-	public String id, name, url, license, fileaddr;
-	public ArrayList<String> dependencies;
+    private ResourceLocation registryname;
+	public String name, url, license, fileaddr;
+	public ArrayList<ResourceLocation> dependencies;
 	public ArrayList<UUID> authors = new ArrayList<UUID>();
 	public ArrayList<String> altauthors = new ArrayList<String>();
 	public boolean enabled = true, missing_dependencies = false;
@@ -35,7 +38,7 @@ public class Addon {
 			obj = ZipUtil.getJsonObject(file, FvmResources.DEFPACKCFGFILENAME);
 		}
 		try{
-			this.id = obj.get("id").getAsString();
+			this.registryname = new ResourceLocation(obj.get("id").getAsString());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -43,7 +46,7 @@ public class Addon {
 		}
 		this.name = JsonUtil.getIfExists(obj, "name", "Name Missing.");
 		if(obj.has("dependencies")){
-			this.dependencies = JsonUtil.jsonArrayToStringArray(obj.get("dependencies").getAsJsonArray());
+			this.dependencies = JsonUtil.jsonArrayToResourceLocationArray(obj.get("dependencies").getAsJsonArray());
 		}
 		if(obj.has("authors")){
 			JsonArray array = obj.get("authors").getAsJsonArray();
@@ -58,7 +61,7 @@ public class Addon {
 					}
 				}
 				catch(Exception e){
-					Print.log("ADN: (" + id + ") " + e.getMessage());
+					Print.log("ADN: (" + registryname.toString() + ") " + e.getMessage());
 				}
 			}
 		}
@@ -68,9 +71,9 @@ public class Addon {
 	
 	/** To load temporary addon copies for GUI's **/
 	public Addon(NBTTagCompound nbt){
-		this.id = nbt.getString("id");
+		this.registryname = new ResourceLocation(nbt.getString("id"));
 		this.name = nbt.getString("name");
-		this.dependencies = JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(nbt.getString("dependencies")).getAsJsonArray());
+		this.dependencies = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getFromString(nbt.getString("dependencies")).getAsJsonArray());
 		this.authors = new ArrayList<UUID>();
 		JsonArray authors  = JsonUtil.getFromString(nbt.getString("authors")).getAsJsonArray();
 		for(JsonElement elm : authors){
@@ -86,9 +89,9 @@ public class Addon {
 	
 	public NBTTagCompound toNBT(){
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString("id", id);
+		nbt.setString("id", registryname.toString());
 		nbt.setString("name", name);
-		nbt.setString("dependencies", JsonUtil.getArrayFromStringList(dependencies).toString());
+		nbt.setString("dependencies", JsonUtil.getArrayFromResourceLocationList(dependencies).toString());
 		nbt.setString("authors", JsonUtil.getArrayFromUUIDList(authors).toString());
 		nbt.setString("altauthors", JsonUtil.getArrayFromStringList(altauthors).toString());
 		nbt.setString("url", url);
@@ -118,6 +121,26 @@ public class Addon {
 
 	public static void registerAsDummyMod(){
 		//TODO		
+	}
+
+	@Override
+	public Addon setRegistryName(ResourceLocation name){
+		registryname = name;
+		return this;
+	}
+
+	@Override
+	public ResourceLocation getRegistryName(){
+		return registryname;
+	}
+
+	@Override
+	public Class<Addon> getRegistryType(){
+		return Addon.class;
+	}
+	
+	public String regname(){
+		return this.registryname.toString();
 	}
 	
 }

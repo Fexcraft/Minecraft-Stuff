@@ -10,6 +10,7 @@ import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -39,13 +40,14 @@ public class FVM {
 	
 	@Mod.EventHandler
 	public void init(FMLPreInitializationEvent event){
+		MinecraftForge.EVENT_BUS.register(new FvmResources());
+		
 		RegistryUtil.newAutoRegistry(MODID);
 		
-		FvmResources.setup(event);
-		FvmResources.scanForContent(event);
+		/*FvmResources.scanForContent(event);
 		if(event.getSide().isClient()){
 			FvmResources.loadModels(event);
-		}
+		}*/
 		
 		
 		PermManager.setEnabled(MODID);

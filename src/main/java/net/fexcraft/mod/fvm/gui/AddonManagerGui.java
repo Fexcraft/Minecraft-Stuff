@@ -139,7 +139,7 @@ public class AddonManagerGui extends GuiContainer {
 		}
 		else if(mode == Modes.VIEW_ONE){
 			this.fontRenderer.drawString(trim228(addon.name), i + 7, j + 7, MapColor.YELLOW.colorValue);
-			this.fontRenderer.drawString("ID: " + addon.id, i + 7, j + 26, MapColor.GRAY.colorValue);
+			this.fontRenderer.drawString("ID: " + addon.getRegistryName().toString(), i + 7, j + 26, MapColor.GRAY.colorValue);
 			this.fontRenderer.drawString(trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + 7, j + 40, MapColor.GRAY.colorValue);
 			this.fontRenderer.drawString(trim228(addon.url), i + 7, j + 68, MapColor.SNOW.colorValue);
 			this.fontRenderer.drawString(trim228(addon.license), i + 7, j + 83, MapColor.SNOW.colorValue);
@@ -150,7 +150,7 @@ public class AddonManagerGui extends GuiContainer {
 				deps += "none";
 			}
 			else{
-				for(String string : addon.dependencies){
+				for(ResourceLocation string : addon.dependencies){
 					deps += string + ", ";
 				}
 			}
@@ -189,7 +189,7 @@ public class AddonManagerGui extends GuiContainer {
 		listbuttons[arr][1].enabled = !listbuttons[arr][0].enabled;
 		//
 		this.fontRenderer.drawSplitString(addon.name, i + k, j + p0, l, m);
-		this.fontRenderer.drawSplitString("ID: " + addon.id + " || " + trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + k, j + p1, l, m);
+		this.fontRenderer.drawSplitString("ID: " + addon.getRegistryName().toString() + " || " + trs(addon.enabled ? "view_all_state_enabled" : "view_all_state_disabled") + " || MD: " + (addon.missing_dependencies ? 1 : 0), i + k, j + p1, l, m);
 		this.fontRenderer.drawSplitString(addon.url, i + k, j + p2, l, m);
 	}
 
@@ -283,7 +283,7 @@ public class AddonManagerGui extends GuiContainer {
 					case 4:
 						try{
 							NBTTagCompound nbt = this.getPacket("set_addon_state");
-							nbt.setString("id", addon.id);
+							nbt.setString("id", addon.getRegistryName().toString());
 							nbt.setBoolean("state", true);
 							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
 						}
@@ -295,7 +295,7 @@ public class AddonManagerGui extends GuiContainer {
 					case 5:
 						try{
 							NBTTagCompound nbt = this.getPacket("set_addon_state");
-							nbt.setString("id", addon.id);
+							nbt.setString("id", addon.getRegistryName().toString());
 							nbt.setBoolean("state", false);
 							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
 						}
@@ -324,7 +324,7 @@ public class AddonManagerGui extends GuiContainer {
 	private void sendAddonToggle(int i, boolean b){
 		try{
 			NBTTagCompound nbt = this.getPacket("toggle_addon_state");
-			nbt.setString("id", addons.get(scroll + i).id);
+			nbt.setString("id", addons.get(scroll + i).getRegistryName().toString());
 			PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
 		}
 		catch(Exception e){

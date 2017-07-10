@@ -18,10 +18,10 @@ import net.fexcraft.mod.fvm.data.Addon;
 import net.fexcraft.mod.fvm.data.Material;
 import net.fexcraft.mod.fvm.data.Part;
 import net.fexcraft.mod.fvm.data.Vehicle;
+import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
@@ -29,19 +29,24 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
 import net.minecraftforge.fml.common.discovery.ContainerType;
 import net.minecraftforge.fml.common.discovery.ModCandidate;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 public class FvmResources {
+	
+	public static IForgeRegistry<Addon> ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvm:addons")).setType(Addon.class).create();
 	
 	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
 	//
 	public static final ResourceLocation NULL_TEXTURE = new ResourceLocation("fvm:textures/entities/null_texture.png");
-	public static final TreeMap<String, Addon> addons = new TreeMap<String, Addon>();
 	//public static final TreeMap<String, Boolean> packstate = new TreeMap<String, Boolean>();
 	//
 	public static final TreeMap<String, Object> models = new TreeMap<String, Object>();
@@ -55,27 +60,19 @@ public class FvmResources {
 	private static File configpath, addonconfig;
 	private static final Random random = new Random();
 	
-	public static void setup(FMLPreInitializationEvent event){
-		configpath = new File(event.getSuggestedConfigurationFile().getParentFile(), "/fvm/");
+	public static void setup(IForgeRegistry<Addon> reg){
+		configpath = new File(FCL.getInstance().getConfigDirectory().getParentFile(), "/fvm/");
 		if(!configpath.exists()){
 			configpath.mkdirs();
 		}
 		//get addons
-		File addonfolder = new File(event.getSuggestedConfigurationFile().getParentFile().getParentFile(), "/addons/");
+		File addonfolder = new File(FCL.getInstance().getConfigDirectory().getParentFile().getParentFile(), "/addons/");
 		if(!addonfolder.exists()){
 			addonfolder.mkdirs();
 		}
 		for(File file : addonfolder.listFiles()){
 			if(Addon.isAddonContainer(file)){
-				Addon addon = new Addon(file);
-				if(!addons.containsKey(addon.id)){
-					addons.put(addon.id, addon);
-					Addon.registerAsDummyMod();
-				}
-				else{
-					Print.log("[ERROR]: ADDON PACK WITH ID `" + addon.id + "` REGISTERED TWICE!");
-					Static.halt();
-				}
+				reg.register(new Addon(file));
 			}
 		}
 		//get config
@@ -91,7 +88,7 @@ public class FvmResources {
 		if(array != null){
 			for(JsonElement elm : array){
 				try{
-					Addon addon = addons.get(elm.getAsJsonObject().get("id").getAsString());
+					Addon addon = ADDONS.getValue(new ResourceLocation(elm.getAsJsonObject().get("id").getAsString()));
 					if(addon != null){
 						addon.enabled = elm.getAsJsonObject().get("state").getAsBoolean();
 					}
@@ -109,17 +106,17 @@ public class FvmResources {
 		}*/
 		//update config file
 		array = new JsonArray();
-		for(Addon addon : addons.values()){
+		for(Addon addon : ADDONS.getValues()){
 			JsonObject obj = new JsonObject();
-			obj.addProperty("id", addon.id);
+			obj.addProperty("id", addon.regname());
 			obj.addProperty("state", addon.enabled);
 			array.add(obj);
 		}
 		JsonUtil.write(addonconfig, array);
 		//check if all dependencies are installed; if not, mark as not working;
-		for(Addon pack : addons.values()){
-			for(String id : pack.dependencies){
-				if(addons.get(id) == null){
+		for(Addon pack : ADDONS.getValues()){
+			for(ResourceLocation id : pack.dependencies){
+				if(ADDONS.getValue(id) == null){
 					pack.missing_dependencies = true;
 					continue;
 				}
@@ -135,9 +132,9 @@ public class FvmResources {
 	
 	public static void updateAddonConfig(){
 		JsonArray array = new JsonArray();
-		for(Addon addon : addons.values()){
+		for(Addon addon : ADDONS.getValues()){
 			JsonObject obj = new JsonObject();
-			obj.addProperty("id", addon.id);
+			obj.addProperty("id", addon.regname());
 			obj.addProperty("state", addon.enabled);
 			array.add(obj);
 		}
@@ -145,10 +142,10 @@ public class FvmResources {
 	}
 
 	public static void scanForContent(FMLPreInitializationEvent event){
-		for(Entry<String, Addon> entry : addons.entrySet()){
+		for(Entry<ResourceLocation, Addon> entry : ADDONS.getEntries()){
 			Addon addon = entry.getValue();
 			if(addon.enabled && !addon.missing_dependencies){
-				Print.log("Scanning Addonpack '" + addon.name + " (" + addon.id + ")' for content...");
+				Print.log("Scanning Addonpack '" + addon.name + " (" + addon.regname() + ")' for content...");
 				if(event.getSide().isClient()){
 					Print.log("Registering Addonpack into Forge/Minecraft resources...");
 					HashMap<String, Object> map = new HashMap<String, Object>();
@@ -228,10 +225,10 @@ public class FvmResources {
 				//TODO
 				Print.log("Searching for Railed Vehicles...");
 				//TODO
-				Print.log("Finished loading Addonpack with id: '" + addon.id + "'!");
+				Print.log("Finished loading Addonpack with id: '" + addon.regname()+ "'!");
 			}
 			else{
-				Print.log("Skipping Addonpack '" + addon.name + " (" + addon.id + ")' since it's disabled.");
+				Print.log("Skipping Addonpack '" + addon.name + " (" + addon.regname() + ")' since it's disabled.");
 			}
 		}
 		if(event.getSide().isClient()){
@@ -276,4 +273,11 @@ public class FvmResources {
 		return ModelType.NONE;
 	}
 	
+	@SubscribeEvent
+	public void registerAddons(RegistryEvent.Register<Addon> event){
+		IForgeRegistry<Addon> reg = event.getRegistry();
+		FvmResources.setup(reg);
+	}
+	
+	//TODO generic items for materials/parts/vehicles, ModelLoader.setCustomMeshDefinition()
 }
