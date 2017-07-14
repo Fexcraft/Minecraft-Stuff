@@ -145,7 +145,7 @@ public class ModelBase extends Model {
 	}
 
 	@Override
-	public void render(Object type, Object element){
+	public void render(Object type, net.minecraft.entity.Entity element){
 		return;
 	}
 	

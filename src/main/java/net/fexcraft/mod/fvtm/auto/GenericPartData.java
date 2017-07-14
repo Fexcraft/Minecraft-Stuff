@@ -13,6 +13,7 @@ public class GenericPartData implements PartData {
 	private Part part;
 	private int sel;
 	private Pos offset;
+	private String url;
 	
 	public GenericPartData(){}
 
@@ -35,6 +36,7 @@ public class GenericPartData implements PartData {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
 		compound.setString(PartItem.NBTKEY, part.getRegistryName().toString());
 		compound.setInteger("SelectedTexture", sel);
+		compound.setString("TextureUrl", url);
 		return offset.toNBT("Offset", compound);
 	}
 
@@ -49,7 +51,18 @@ public class GenericPartData implements PartData {
 		}
 		sel = compound.getInteger("SelectedTexture");
 		offset = Pos.fromNBT("Offset", compound);
+		url = compound.getString("TextureUrl");
 		return this;
+	}
+
+	@Override
+	public String getTextureURL(){
+		return url;
+	}
+
+	@Override
+	public void setTextureURL(String string){
+		url = string;
 	}
 	
 }

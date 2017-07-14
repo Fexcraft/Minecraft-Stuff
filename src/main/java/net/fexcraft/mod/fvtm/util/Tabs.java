@@ -1,9 +1,11 @@
 package net.fexcraft.mod.fvtm.util;
 
+import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -15,16 +17,16 @@ public class Tabs {
 	private static int veh_id = 0;
 	private static int block_id = 0;
 	
-	/*public static final CreativeTabs VEHICLES = new CreativeTabs("fvm_vehicles"){
+	public static final CreativeTabs LANDVEHICLES = new CreativeTabs("fvm_landvehicles"){
 		@Override
 		public ItemStack getTabIconItem(){
 			return new ItemStack(Items.ACACIA_BOAT);
 		}
 		@Override
 		public ItemStack getIconItemStack(){
-			return new ItemStack(FvmResources.VEHICLES.getEntries().size() > 0 ? ((Vehicle)FvmResources.VEHICLES.getValues().toArray()[veh_id]).item : Items.ACACIA_BOAT);
+			return Resources.LANDVEHICLES.getEntries().size() > 0 ? ((LandVehicle)Resources.LANDVEHICLES.getValues().toArray()[veh_id]).getItemStack(null) : new ItemStack(Items.ACACIA_BOAT);
 		}
-	};*/
+	};
 	
 	public static final CreativeTabs PARTS = new CreativeTabs("fvm_parts"){
 		@Override
@@ -49,12 +51,12 @@ public class Tabs {
 		}
 	};
 	
-	/*public static final CreativeTabs BLOCKS = new CreativeTabs("fvm_blocks"){
+	public static final CreativeTabs BLOCKS = new CreativeTabs("fvm_blocks"){
 		@Override
 		public ItemStack getTabIconItem(){
 			return new ItemStack(Blocks.IRON_BLOCK);
 		}
-	};*/
+	};
 	
 	private static final void update(){
 		if(sec != Time.getSecond()){
@@ -67,10 +69,10 @@ public class Tabs {
 			if(part_id >= Resources.PARTS.getEntries().size()){
 				part_id = 0;
 			}
-			/*veh_id++;
-			if(veh_id >= Resources.VEHICLES.getEntries().size()){
+			veh_id++;
+			if(veh_id >= Resources.LANDVEHICLES.getEntries().size()){
 				veh_id = 0;
-			}*/
+			}
 		}
 	}
 	

@@ -12,9 +12,12 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.auto.GenericAddon;
+import net.fexcraft.mod.fvtm.auto.GenericLandVehicle;
+import net.fexcraft.mod.fvtm.auto.GenericLandVehicleItem;
 import net.fexcraft.mod.fvtm.auto.GenericMaterial;
 import net.fexcraft.mod.fvtm.auto.GenericMaterialItem;
 import net.fexcraft.mod.fvtm.auto.GenericPart;
@@ -46,6 +49,7 @@ public class Resources {
 	public static final IForgeRegistry<Addon> ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
 	public static final IForgeRegistry<Material> MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
 	public static final IForgeRegistry<Part> PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
+	public static final IForgeRegistry<LandVehicle> LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
 	public static final TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
@@ -108,6 +112,10 @@ public class Resources {
 		event.getRegistry().register(GenericPartItem.INSTANCE);
 		if(Static.side().isClient()){
 			net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericPartItem.INSTANCE, new GenericPartItem.ItemMeshDef());
+		}
+		event.getRegistry().register(GenericLandVehicleItem.INSTANCE);
+		if(Static.side().isClient()){
+			net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericLandVehicleItem.INSTANCE, new GenericLandVehicleItem.ItemMeshDef());
 		}
 	}
 	
@@ -197,10 +205,44 @@ public class Resources {
 				else{
 					JsonArray array = ZipUtil.getJsonObjectsAt(addon.getFile(), "assets/" + addon.getRegistryName().getResourcePath() + "/config/parts/", ".part");
 					for(JsonElement elm : array){
-						GenericPart mat = new GenericPart(elm.getAsJsonObject());
-						event.getRegistry().register(mat);
-						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, mat.getRegistryName());
-						Print.debug(mat.getRegistryName());
+						GenericPart part = new GenericPart(elm.getAsJsonObject());
+						event.getRegistry().register(part);
+						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+						Print.debug(part.getRegistryName());
+					}
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void regLandVehicles(RegistryEvent.Register<LandVehicle> event){
+		this.queryAddons();
+		for(Addon addon : ADDONS.getValues()){
+			Print.debug(addon.getRegistryName());
+			if(addon.isEnabled()/* && !addon.hasMissingDependencies()*/){
+				if(addon.getFile().isDirectory()){
+					File vehfol = new File(addon.getFile(), "assets/" + addon.getRegistryName().getResourcePath() + "/config/vehicles/");
+					Print.debug(vehfol.getPath());
+					if(!vehfol.exists()){ vehfol.mkdirs();}
+					for(File file : vehfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".vehicle")){
+							GenericLandVehicle veh = new GenericLandVehicle(JsonUtil.get(file));
+							event.getRegistry().register(veh);
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+							Print.debug(veh.getRegistryName());
+						}
+						Print.debug(file.getPath());
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.getFile(), "assets/" + addon.getRegistryName().getResourcePath() + "/config/vehicles/", ".vehicle");
+					for(JsonElement elm : array){
+						GenericLandVehicle veh = new GenericLandVehicle(elm.getAsJsonObject());
+						event.getRegistry().register(veh);
+						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+						Print.debug(veh.getRegistryName());
 					}
 				}
 			}

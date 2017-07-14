@@ -1,6 +1,6 @@
 {
     "RegistryName": "fvp:t1",
-    "Addon": "fvm:fvp",
+    "Addon": "fvtm:fvp",
     "FullName": "T1 Type P-",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelT1P.class",
     "PrimaryColor": {

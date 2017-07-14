@@ -1,6 +1,6 @@
 {
     "RegistryName": "fvp:tv1",
-    "Addon": "fvm:fvp",
+    "Addon": "fvtm:fvp",
     "FullName": "Test Vehicle 1",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelTV1.class",
     "PrimaryColor": {

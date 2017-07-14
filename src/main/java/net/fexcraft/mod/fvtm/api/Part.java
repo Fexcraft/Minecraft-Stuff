@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.lib.tmt.Model;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.item.ItemStack;
@@ -44,6 +46,8 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public boolean isAvailable();
 	
+	public JsonObject getAttributeData();
+	
 	@SideOnly(Side.CLIENT)
 	public Model getModel();
 	
@@ -53,6 +57,10 @@ public interface Part extends IForgeRegistryEntry<Part> {
 		public Part getPart();
 		
 		public int getSelectedTexture();
+		
+		public String getTextureURL();
+		
+		public void setTextureURL(String string);
 		
 		public Pos getCurrentOffset();
 		

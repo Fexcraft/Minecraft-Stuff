@@ -32,6 +32,7 @@ public class GenericPart implements Part {
 	private ArrayList<ResourceLocation> textures;
 	private boolean removable, available;
 	private Model model;
+	private JsonObject attributedata;
 	
 	public GenericPart(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "PART");
@@ -56,6 +57,7 @@ public class GenericPart implements Part {
 		this.removable = JsonUtil.getIfExists(obj, "Removable", true);
 		this.available = JsonUtil.getIfExists(obj, "Avaiable", true);
 		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), null);//TODO
+		this.attributedata = JsonUtil.getIfExists(obj, "AttributeData", new JsonObject()).getAsJsonObject();
 	}
 
 	@Override
@@ -139,6 +141,11 @@ public class GenericPart implements Part {
 	@Override @SideOnly(Side.CLIENT)
 	public Model getModel(){
 		return model;
+	}
+
+	@Override
+	public JsonObject getAttributeData(){
+		return this.attributedata;
 	}
 	
 }
