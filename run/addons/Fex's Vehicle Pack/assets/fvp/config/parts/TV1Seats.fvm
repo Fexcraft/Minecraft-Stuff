@@ -1,0 +1,50 @@
+{
+    "RegistryName": "fvp:tv1_def",
+    "FullName": "TV1 Default Interior Asset",
+    "AddOn": "fvm:fvp",
+    "ModelFile": "null",
+    "Category": [
+        "front_seats"
+    ],
+    "Attributes":[
+        "seats"
+    ],
+    "Scripts":[
+        "net.fexcraft.mod.fvm.scripts.MultiDoorScript.class"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_tv1.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false
+    },
+    "AttributeSettings":{
+        "Passengers":[
+            {
+                "driver": true,
+                "x": 2,
+                "y": -9,
+                "z": -8
+            },
+            {
+                "x": 2,
+                "y": -9,
+                "z": 8
+            },
+            {
+                "x": -15,
+                "y": -9,
+                "z": -8
+            },
+            {
+                "x": -15,
+                "y": -9,
+                "z": 8
+            }
+        ]    
+    }
+    
+}

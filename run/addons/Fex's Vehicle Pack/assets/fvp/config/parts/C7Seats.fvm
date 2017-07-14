@@ -1,0 +1,51 @@
+{
+    "RegistryName": "fvp:c7_seats",
+    "AddOn": "fvm:fvp",
+    "FullName": "C7 Seats",
+    "ModelFile": "null",
+    "Category": [
+        "seats"
+    ],
+    "Attributes":[
+        "seat"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/null_texture.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false
+    },
+    "AttributeSettings":{
+        "Passengers":[
+            {
+                "driver": true,
+                "x": 2,
+                "y": 4,
+                "z": -8
+            },
+            {
+                "x": 2,
+                "y": 4,
+                "z": 8
+            },
+            {
+                "x": -18,
+                "y": 4,
+                "z": -8
+            },
+            {
+                "x": -18,
+                "y": 4,
+                "z": 8
+            },
+            {
+                "x": -18,
+                "y": 4,
+                "z": 0
+            }
+        ]
+    }
+}

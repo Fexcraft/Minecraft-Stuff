@@ -1,0 +1,37 @@
+{
+    "RegistryName": "fvp:c1r1_front_seats",
+    "FullName": "C1R1 Front Seats",
+    "AddOn": "fvm:fvp",
+    "ModelFile": "null",
+    "Category": [
+        "front_seats"
+    ],
+    "Attributes":[
+        "seats"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_t1p.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Available": false
+    },
+    "AttributeSettings":{
+        "Passengers":[
+            {
+                "driver": true,
+                "x": 2,
+                "y": 2,
+                "z": -10
+            },
+            {
+                "x": 2,
+                "y": 2,
+                "z": 10
+            }
+        ]    
+    }
+    
+}

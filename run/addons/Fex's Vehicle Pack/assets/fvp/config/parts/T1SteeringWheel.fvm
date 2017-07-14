@@ -1,0 +1,78 @@
+{
+    "RegistryName": "fvp:t1_steering_wheel",
+    "AddOn": "fvm:fvp",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1SW.class",
+    "Category": [
+        "steering_wheel"
+    ],
+    "Attributes":[
+        "particle_spawner"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_t1p.png"
+        ]
+    },
+    "Removable": false,
+    "ConstructionSettings":{
+        "Compatible": [
+            {
+                "Vehicle": "T1",
+                "Offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        ],
+        "Incompatible": [
+            {
+                "Vehicle": "T2S",
+                "Parts": [
+                    "Any"
+                ]
+            }
+            ],
+        "Requires": []
+    },
+    "RenderSettings": {
+        "LicensePlates":[
+            {
+                "x": 59.60,
+                "y": -1,
+                "z": 0,
+                "pitch_rot": 15
+            },
+            {
+                "x": -100.30,
+                "y": -4,
+                "z": 0,
+                "yaw_rot": 180
+            }
+        ]
+    },
+    "AttributeSettings":{
+        "ParticleSpawners":[
+            {
+                "x": 19.5,
+                "y": 3,
+                "z": -22.5,
+                "speed_x": -0.02,
+                "speed_y": 0.000005,
+                "speed_z": 0,
+                "type": "smoke",
+                "frequency": 10
+            },
+            {
+                "x": 19.5,
+                "y": 3,
+                "z": -22.5,
+                "speed_x": -0.02,
+                "speed_y": 0.000005,
+                "speed_z": 0,
+                "type": "smoke",
+                "frequency": 8
+            }
+        ] 
+    }
+}

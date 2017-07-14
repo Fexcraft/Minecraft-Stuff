@@ -131,6 +131,9 @@ public class FvmResources {
 				FMLClientHandler.instance().addModAsResource(container);
 			}
 		}
+		if(Static.side().isClient()){
+			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
+		}
 	}
 	
 	public static void updateAddonConfig(){
@@ -309,19 +312,68 @@ public class FvmResources {
 				}
 			}
 		}
-		if(Static.side().isClient()){
-			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
-		}
 	}
 	
 	@SubscribeEvent
 	public void registerParts(RegistryEvent.Register<Part> event){
-		//TODO
+		IForgeRegistry<Part> reg = event.getRegistry();
+		for(Entry<ResourceLocation, Addon> entry : ADDONS.getEntries()){
+			Addon addon = entry.getValue();
+			if(addon.enabled && !addon.missing_dependencies){
+				if(addon.file.isDirectory()){
+					File matfol = new File(addon.file, "assets/fvm/config/parts/");
+					if(!matfol.exists()){ matfol.mkdirs(); }
+					for(File file : matfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".part")){
+							Part part = new Part(JsonUtil.get(file));
+							reg.register(part);
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(PartItem.INSTANCE, new ResourceLocation(PartItem.INSTANCE.getRegistryName() + "_" + part.getRegistryName().getResourcePath()));
+						}
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/parts/", ".part");
+					for(JsonElement elm : array){
+						Part part = new Part(elm.getAsJsonObject());
+						reg.register(part);
+						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(PartItem.INSTANCE, new ResourceLocation(PartItem.INSTANCE.getRegistryName() + "_" + part.getRegistryName().getResourcePath()));
+					}
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent
 	public void registerVehicles(RegistryEvent.Register<Vehicle> event){
-		//TODO
+		IForgeRegistry<Vehicle> reg = event.getRegistry();
+		for(Entry<ResourceLocation, Addon> entry : ADDONS.getEntries()){
+			Addon addon = entry.getValue();
+			if(addon.enabled && !addon.missing_dependencies){
+				if(addon.file.isDirectory()){
+					File vehfol = new File(addon.file, "assets/fvm/config/vehicles/");
+					if(!vehfol.exists()){ vehfol.mkdirs(); }
+					for(File file : vehfol.listFiles()){
+						if(!file.isDirectory() && file.getName().endsWith(".vehicle")){
+							Vehicle veh = new Vehicle(JsonUtil.get(file));
+							reg.register(veh);
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(VehicleItem.INSTANCE, new ResourceLocation(VehicleItem.INSTANCE.getRegistryName() + "_" + veh.getRegistryName().getResourcePath()));
+							
+						}
+						//else skip;
+					}
+				}
+				else{
+					JsonArray array = ZipUtil.getJsonObjectsAt(addon.file, "assets/fvm/config/vehicles/", ".vehicle");
+					for(JsonElement elm : array){
+						Vehicle veh = new Vehicle(elm.getAsJsonObject());
+						reg.register(veh);
+						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(VehicleItem.INSTANCE, new ResourceLocation(VehicleItem.INSTANCE.getRegistryName() + "_" + veh.getRegistryName().getResourcePath()));
+						
+					}
+				}
+			}
+		}
 	}
 	
 }

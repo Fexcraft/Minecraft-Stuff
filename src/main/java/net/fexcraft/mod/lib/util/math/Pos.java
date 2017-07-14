@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class Pos{
 	
 	public float x, y, z;
@@ -24,7 +26,7 @@ public class Pos{
 			x = y = z = 0;
 		}
 	}
-	
+
 	public Pos copy(){
 		return new Pos(x, y, z);
 	}
@@ -63,6 +65,22 @@ public class Pos{
 		obj.addProperty("y", y);
 		obj.addProperty("z", z);
 		return obj;
+	}
+	
+	public static Pos fromNBT(String prefix, NBTTagCompound compound){
+		String str = prefix == null ? "" : prefix + "_";
+		return new Pos(compound.getFloat(str + "x"), compound.getFloat(str + "y"), compound.getFloat(str + "z"));
+	}
+	
+	public NBTTagCompound toNBT(String prefix, NBTTagCompound compound){
+		String str = prefix == null ? "" : prefix + "_";
+		if(compound == null){
+			compound = new NBTTagCompound();
+		}
+		compound.setFloat(str + "x", x);
+		compound.setFloat(str + "y", y);
+		compound.setFloat(str + "z", z);
+		return compound;
 	}
 
 	public void translate(){

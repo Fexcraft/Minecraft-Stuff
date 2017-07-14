@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.Side;
  * @author Ferdinand
  *
  */
-@Mod(modid = FVM.MODID, name = "Fex's Vehicle and Transportation Mod", version = FVM.VERSION, dependencies = "required-after:fcl")
+//@Mod(modid = FVM.MODID, name = "Fex's Vehicle and Transportation Mod", version = FVM.VERSION, dependencies = "required-after:fcl")
 public class FVM {
 	
 	@Mod.Instance(FVM.MODID)

@@ -1,0 +1,29 @@
+{
+    "RegistryName": "generic:engine",
+    "Addon": "fvtm:generic",
+    "FullName": "Default Test Engine",
+    "ModelFile": "null",
+    "Category": [
+        "engine"
+    ],
+    "Attributes":[
+        "engine"
+    ],
+    "Textures": [
+        "fvtm:textures/entities/null_texture.png"
+    ],
+    "Removable": true,
+    "Available": false,
+    "Compatible": [
+        {
+            "Vehicle": "Any",
+            "Offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    ],
+    "EngineSpeed": 1.00,
+    "FuelConsumption": 0.7 
+}

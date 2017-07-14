@@ -24,7 +24,7 @@ public class VehicleItem extends Item {
 	public static final VehicleItem INSTANCE = new VehicleItem();
 	
 	public VehicleItem(){
-		this.setCreativeTab(FvmTabs.MATERIALS);
+		this.setCreativeTab(FvmTabs.VEHICLES);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(64);
 		this.setRegistryName("fvm:vehicle");

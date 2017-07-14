@@ -9,6 +9,14 @@ import com.google.gson.JsonObject;
 */
 public class ModelBase extends Model {
 	
+	public static final ModelBase EMPTY;
+	static {
+		EMPTY = new ModelBase(){
+			@Override public void render(){ return; }
+			@Override public void render(ModelRendererTurbo[] model){ return; }
+		};
+	}
+	
 	public ModelRendererTurbo base[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo open[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo closed[] = new ModelRendererTurbo[0];
@@ -134,6 +142,11 @@ public class ModelBase extends Model {
 			return obj.get(s).getAsInt();
 		}
 		return def;
+	}
+
+	@Override
+	public void render(Object type, Object element){
+		return;
 	}
 	
 }

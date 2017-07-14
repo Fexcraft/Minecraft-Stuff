@@ -1,0 +1,29 @@
+{
+    "RegistryName": "generic:steel_ingot",
+    "Addon": "fvtm:generic",
+    "FullName": "Steel Ingot",
+    "MaxStackSize": 32,
+    "Recipes":[
+        {
+            "Type": "Smelting",
+            "Input": "minecraft:iron_ingot",
+            "InputMeta": 0,
+            "Output": 1
+        },
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Materials",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 2
+                },
+                {
+                    "Item": "minecraft:coal",
+                    "Amount": 1
+                }
+            ],
+            "Output": 3
+        }
+    ]
+}

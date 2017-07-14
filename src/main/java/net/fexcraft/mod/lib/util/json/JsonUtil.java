@@ -267,10 +267,10 @@ public class JsonUtil{
 	 * @param target
 	 * @param default_value
 	 */
-	public static String getIfExists(JsonObject obj, String target, String default_value){
+	public static String getIfExists(JsonObject obj, String target, Object default_value){
 		if(!obj.has(target)){
-			obj.addProperty(target, default_value);
-			return default_value;
+			obj.addProperty(target, default_value.toString());
+			return default_value.toString();
 		}
 		return obj.get(target).getAsString();
 	}

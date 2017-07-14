@@ -99,7 +99,7 @@ public final class Recipes {
     		Ingredient.fromStacks(new ItemStack(Items.WHEAT)),
     		Ingredient.fromStacks(new ItemStack(Items.WHEAT))
     	});
-    	RecipeRegistry.addShapelessRecipe("frsm:frsm:chocolatebar", null, new ItemStack(RegistryUtil.getItem("frsm:chocolatebar"), 4), new Ingredient[]{
+    	RecipeRegistry.addShapelessRecipe("frsm:chocolatebar", null, new ItemStack(RegistryUtil.getItem("frsm:chocolatebar"), 4), new Ingredient[]{
     		Ingredient.fromStacks(new ItemStack(reg.getItem("frsm:chocolatemilk").setContainerItem(Items.BUCKET))),
     		Ingredient.fromStacks(new ItemStack(Items.SUGAR))
     	});

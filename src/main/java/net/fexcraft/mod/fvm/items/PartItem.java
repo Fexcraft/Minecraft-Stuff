@@ -24,7 +24,7 @@ public class PartItem extends Item {
 	public static final PartItem INSTANCE = new PartItem();
 	
 	public PartItem(){
-		this.setCreativeTab(FvmTabs.MATERIALS);
+		this.setCreativeTab(FvmTabs.PARTS);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(64);
 		this.setRegistryName("fvm:part");

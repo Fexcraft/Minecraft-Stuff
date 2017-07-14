@@ -1,0 +1,70 @@
+{
+    "RegistryName": "fvp:tv1",
+    "Addon": "fvm:fvp",
+    "FullName": "Test Vehicle 1",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelTV1.class",
+    "PrimaryColor": {
+        "Red": 0.5,
+        "Blue": 0.3,
+        "Green": 0.2
+    },
+    "SecondaryColor": {
+        "Red": 0.0,
+        "Blue": 0.5,
+        "Green": 0.5
+    },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_tv1.png"
+    ],
+    "WheelPos":[
+        {
+            "x": -26,
+            "y": -10,
+            "z": -14
+        },
+        {
+            "x": -26,
+            "y": -10,
+            "z": 14
+        },
+        {
+            "x": 26,
+            "y": -10,
+            "z": 14
+        },
+        {
+            "x": 26,
+            "y": -10,
+            "z": -14
+        }
+    ],
+    "ConstructionSettings": {
+        "Length": 2,
+        "HeightOffset": 12.5,
+        "WheelOffset": 13,
+        "Requires": [
+            "engine"
+        ]
+    },
+    "PartSettings": {
+        "PreInstalled": [
+            "interior:tv1_def"
+        ]
+    },
+    "RenderSettings": {
+        "RotateWheels": false
+    },
+    "InventorySettings": {
+        "TankSize": 8000,
+        "Size": 6
+    },
+    "VehicleDefaults": {
+        "DriveType": "fwd",
+        "Lockable": false,
+        "MaxThrottle": 2.5,
+        "MaxNegativeThrottle": 1.2,
+        "TurnLeftModifier": 1.56,
+        "TurnRightModifier": 1.56
+    }
+    
+}
