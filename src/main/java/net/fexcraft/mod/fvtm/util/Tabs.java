@@ -3,9 +3,9 @@ package net.fexcraft.mod.fvtm.util;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
+import net.fexcraft.mod.fvtm.blocks.ConstructorController;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -17,7 +17,7 @@ public class Tabs {
 	private static int veh_id = 0;
 	private static int block_id = 0;
 	
-	public static final CreativeTabs LANDVEHICLES = new CreativeTabs("fvm_landvehicles"){
+	public static final CreativeTabs LANDVEHICLES = new CreativeTabs("fvtm_landvehicles"){
 		@Override
 		public ItemStack getTabIconItem(){
 			return new ItemStack(Items.ACACIA_BOAT);
@@ -28,7 +28,7 @@ public class Tabs {
 		}
 	};
 	
-	public static final CreativeTabs PARTS = new CreativeTabs("fvm_parts"){
+	public static final CreativeTabs PARTS = new CreativeTabs("fvtm_parts"){
 		@Override
 		public ItemStack getTabIconItem(){
 			return null;
@@ -51,10 +51,10 @@ public class Tabs {
 		}
 	};
 	
-	public static final CreativeTabs BLOCKS = new CreativeTabs("fvm_blocks"){
+	public static final CreativeTabs BLOCKS = new CreativeTabs("fvtm_blocks"){
 		@Override
 		public ItemStack getTabIconItem(){
-			return new ItemStack(Blocks.IRON_BLOCK);
+			return new ItemStack(ConstructorController.INSTANCE);
 		}
 	};
 	

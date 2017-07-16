@@ -53,7 +53,9 @@ public class Print{
 	
 	@SideOnly(Side.CLIENT)
 	public static void debugChat(String string){
-		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(string));
+		if(Static.dev()){
+			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(string));
+		}
 	}
 	
 }

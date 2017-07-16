@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
@@ -76,8 +77,9 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound){
-		compound.setString(LandVehicleItem.NBTKEY, vehicle.getRegistryName().toString());
+	public NBTTagCompound writeToNBT(NBTTagCompound tagcompound){
+		tagcompound.setString(LandVehicleItem.NBTKEY, vehicle.getRegistryName().toString());
+		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("TextureUrl", url == null ? "" : url);
 		compound.setInteger("FuelTank", tank);
@@ -103,7 +105,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 			compound.setFloat("SecondaryGreen", this.secondary.green);
 			compound.setFloat("SecondaryBlue", this.secondary.blue);
 		}
-		return null;
+		tagcompound.setTag(FVTM.MODID, compound);
+		return tagcompound;
 	}
 
 	@Override
@@ -115,6 +118,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		if(vehicle == null){
 			return null;
 		}
+		compound = compound.getCompoundTag(FVTM.MODID);
 		this.sel = compound.getInteger("SelectedTexture");
 		this.url = compound.getString("TextureUrl");
 		this.tank = compound.getInteger("FuelTank");
@@ -151,7 +155,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 			this.secondary = new RGB();
 			this.secondary.copyFrom(vehicle.getDefSecondaryolor());
 		}
-		return null;
+		return this;
 	}
 
 	@Override

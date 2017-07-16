@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fvm:items/part_item"
+        "layer0": "fvtm:items/part_item"
     }
 }

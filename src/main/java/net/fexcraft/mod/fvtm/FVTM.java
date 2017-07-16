@@ -6,6 +6,7 @@ import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -37,7 +38,7 @@ public class FVTM {
 	@Mod.EventHandler
 	public void initPre(FMLPreInitializationEvent event){
 		RESOURCES = new Resources();
-		
+		RegistryUtil.newAutoRegistry(MODID);
 	}
 	
 	@Mod.EventHandler

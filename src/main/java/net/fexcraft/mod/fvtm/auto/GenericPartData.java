@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvtm.auto;
 
+import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
@@ -33,11 +34,13 @@ public class GenericPartData implements PartData {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound){
-		compound.setString(PartItem.NBTKEY, part.getRegistryName().toString());
+	public NBTTagCompound writeToNBT(NBTTagCompound tagcompound){
+		tagcompound.setString(PartItem.NBTKEY, part.getRegistryName().toString());
+		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("TextureUrl", url);
-		return offset.toNBT("Offset", compound);
+		tagcompound.setTag(FVTM.MODID, offset.toNBT("Offset", compound));
+		return tagcompound;
 	}
 
 	@Override
@@ -49,6 +52,7 @@ public class GenericPartData implements PartData {
 		if(part == null){
 			return null;
 		}
+		compound = compound.getCompoundTag(FVTM.MODID);
 		sel = compound.getInteger("SelectedTexture");
 		offset = Pos.fromNBT("Offset", compound);
 		url = compound.getString("TextureUrl");

@@ -73,10 +73,10 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
         if(this.isInCreativeTab(tab)){
-        	for(LandVehicle part : Resources.LANDVEHICLES.getValues()){
+        	for(LandVehicle veh : Resources.LANDVEHICLES.getValues()){
         		ItemStack stack = new ItemStack(this);
         		NBTTagCompound nbt = new NBTTagCompound();
-        		nbt.setString(NBTKEY, part.getRegistryName().toString());
+        		nbt.setString(NBTKEY, veh.getRegistryName().toString());
         		stack.setTagCompound(nbt);
                 items.add(stack);
         	}

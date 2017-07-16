@@ -142,7 +142,7 @@ public class Resources {
 				FMLClientHandler.instance().addModAsResource(container);
 			}
 		}
-		if(Static.side().isClient()){
+		if(Static.side().isClient() && ADDONS.getEntries().size() > 0){
 			net.minecraft.client.Minecraft.getMinecraft().refreshResources();
 		}
 	}
