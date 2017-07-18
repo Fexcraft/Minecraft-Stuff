@@ -108,14 +108,14 @@ public class ConstructorController extends BlockContainer {
 	@Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(w.isRemote || hand == EnumHand.OFF_HAND){
-			ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
+			/*ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
 			te.hitX = hitX;
 			te.hitY = hitY;
 			te.hitZ = hitZ;
 			//Print.debugChat("HITX: " + hitX + " | HITY: " + hitY + " | HITZ: " + hitZ);
 			//te.setState("0101010101");
 			//te.lift += Static.rad10;
-			return false;
+			return false;*/
 		}
 		ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
 		if(te == null){

@@ -4,10 +4,13 @@ import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.fvtm.blocks.ConstructorControllerEntity;
 import net.fexcraft.mod.fvtm.model.block.ModelConstructorController;
+import net.fexcraft.mod.fvtm.render.Renderer;
 import net.fexcraft.mod.lib.api.render.fTESR;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.text.TextComponentString;
 
 @fTESR
 public class ConstructorControllerRender extends TileEntitySpecialRenderer<ConstructorControllerEntity> {
@@ -59,6 +62,13 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer<Const
 			model.steeringWheelModel[1].rotateAngleX = te.lift;
 			model.render(model.steeringWheelModel);
 		}
+		this.setLightmapDisabled(true);
+		for(int i = 0; i < 8; i++){
+			String str = new TextComponentString(Formatter.format("&" + i + "TEST TEXT")).getFormattedText();
+	        //this.drawNameplate(te, new TextComponentString(Formatter.format("&3TEST TEXT")).getFormattedText(), posX, posY + 1, posZ, 12);
+            Renderer.drawNameplate(this.getFontRenderer(), str, 0.1f, -1.672f + (i * 0.0655f), 0.81f, 0, 0, 0, false, false);
+		}
+        this.setLightmapDisabled(false);
 		//DEBUG
 		/*if(te.hitX != 0 && te.hitY != 0 && te.hitZ != 0){
 			GL11.glRotated(-d, 0, 1, 0);
