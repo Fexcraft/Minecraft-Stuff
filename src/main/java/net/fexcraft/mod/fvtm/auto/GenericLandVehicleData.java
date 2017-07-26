@@ -167,5 +167,17 @@ public class GenericLandVehicleData implements LandVehicleData {
 	public RGB getSecondaryColor(){
 		return secondary;
 	}
+
+	@Override
+	public boolean readyToSpawn(){
+		boolean result = true;
+		for(ResourceLocation rs : vehicle.getRequiredParts()){
+			if(!this.parts.containsKey(rs)){
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
 	
 }

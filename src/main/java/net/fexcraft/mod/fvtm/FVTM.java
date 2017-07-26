@@ -1,12 +1,13 @@
 package net.fexcraft.mod.fvtm;
 
+import net.fexcraft.mod.fvtm.blocks.ConstructorController;
 import net.fexcraft.mod.fvtm.gui.GuiHandler;
 import net.fexcraft.mod.fvtm.util.Command;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.util.common.Formatter;
-import net.fexcraft.mod.lib.util.registry.RegistryUtil;
+import net.fexcraft.mod.lib.util.registry.RegistryUtil.AutoRegisterer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -34,11 +35,13 @@ public class FVTM {
 	@Mod.Instance(FVTM.MODID)
 	private static FVTM INSTANCE;
 	private static Resources RESOURCES;
+	private static AutoRegisterer REGISTERER;
 	
 	@Mod.EventHandler
 	public void initPre(FMLPreInitializationEvent event){
 		RESOURCES = new Resources();
-		RegistryUtil.newAutoRegistry(MODID);
+		REGISTERER = new AutoRegisterer(MODID);
+		new ConstructorController();
 	}
 	
 	@Mod.EventHandler
@@ -65,6 +68,10 @@ public class FVTM {
 	
 	public static FVTM getInstance(){
 		return INSTANCE;
+	}
+	
+	public static AutoRegisterer getRegisterer(){
+		return REGISTERER;
 	}
 	
 }

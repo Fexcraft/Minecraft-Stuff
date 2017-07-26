@@ -34,6 +34,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	
 	public List<ResourceLocation> getPreinstalledParts();
 	
+	public List<ResourceLocation> getRequiredParts();
+	
 	public float getYAxisConstructorOffset();
 	
 	public float getWheelConstructorOffset();
@@ -77,6 +79,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
 		public LandVehicleData readFromNBT(NBTTagCompound compound);
+		
+		public boolean readyToSpawn();
 		
 	}
 	

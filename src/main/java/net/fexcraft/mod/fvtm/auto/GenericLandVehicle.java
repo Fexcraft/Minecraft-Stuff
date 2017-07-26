@@ -28,7 +28,7 @@ public class GenericLandVehicle implements LandVehicle {
 	private String name;
 	private String[] description;
 	private float yoffset, wheeloffset;
-	private List<ResourceLocation> preinstalled, textures;
+	private List<ResourceLocation> preinstalled, required, textures;
 	private Model model;
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
@@ -42,6 +42,7 @@ public class GenericLandVehicle implements LandVehicle {
 		this.yoffset = JsonUtil.getIfExists(obj, "ConstructorYOffSet", 0).floatValue();
 		this.wheeloffset = JsonUtil.getIfExists(obj, "ConstructorWheelOffset", 0).floatValue();
 		this.preinstalled = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "PreInstalledParts", new JsonArray()).getAsJsonArray());
+		this.required = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
 		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), null);//TODO
 		this.wheelpos = new ArrayList<Pos>();
 		if(obj.has("WheelPos")){
@@ -138,6 +139,11 @@ public class GenericLandVehicle implements LandVehicle {
 	@Override
 	public RGB getDefSecondaryolor(){
 		return secondary;
+	}
+
+	@Override
+	public List<ResourceLocation> getRequiredParts(){
+		return this.required;
 	}
 	
 }

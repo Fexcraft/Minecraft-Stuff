@@ -1,11 +1,9 @@
 package net.fexcraft.mod.fvtm.blocks;
 
-import java.util.ArrayList;
-
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.util.Tabs;
-import net.fexcraft.mod.lib.api.block.fBlock;
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.block.BlockContainer;
@@ -17,6 +15,8 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -25,8 +25,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@fBlock(modid = FVTM.MODID, name = "landvehicle_constructor_controller", tileentity = ConstructorControllerEntity.class)
+//@fBlock(modid = FVTM.MODID, name = "landvehicle_constructor_controller", tileentity = ConstructorControllerEntity.class)
 public class ConstructorController extends BlockContainer {
 	
 	public static ConstructorController INSTANCE;
@@ -40,11 +41,16 @@ public class ConstructorController extends BlockContainer {
     	this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setCreativeTab(Tabs.BLOCKS);
 		INSTANCE = this;
+		
+		FVTM.getRegisterer().addBlock("landvehicle_constructor_controller", this, null, 1, null);
+		GameRegistry.registerTileEntity(ConstructorControllerEntity.Server.class, this.getRegistryName().toString() + "_server");
+		GameRegistry.registerTileEntity(ConstructorControllerEntity.Client.class, this.getRegistryName().toString() + "_client");
+		RecipeRegistry.addBluePrintRecipe("FVM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 2), new ItemStack(Items.REDSTONE, 8), new ItemStack(Items.GOLD_INGOT, 3));
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta){
-		return new ConstructorControllerEntity();
+	public TileEntity createNewTileEntity(World world, int meta){
+		return world.isRemote ? new ConstructorControllerEntity.Client() : new ConstructorControllerEntity.Server();
 	}
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -114,52 +120,34 @@ public class ConstructorController extends BlockContainer {
 			te.hitZ = hitZ;
 			//Print.debugChat("HITX: " + hitX + " | HITY: " + hitY + " | HITZ: " + hitZ);
 			//te.setState("0101010101");
-			//te.lift += Static.rad10;
-			return false;*/
+			//te.lift += Static.rad10;*/
+			return false;
 		}
-		ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
+		ConstructorControllerEntity.Server te = (ConstructorControllerEntity.Server)w.getTileEntity(pos);
 		if(te == null){
 			return false;
 		}
 		if(!p.getHeldItemMainhand().isEmpty()){
 			ItemStack stack = p.getHeldItemMainhand();
 			if(stack.getItem() instanceof LandVehicleItem){
-				/*if(!te.isLinked()){
-					Print.chat(p, "No Center block connected!");
-					Print.chat(p, "Rightclick to scan.");
-					return true;
-				}*/
 				te.setData((LandVehicleItem)stack.getItem(), stack);
 				Print.chat(p, "Vehicle: " + te.getData().getVehicle().getName());
 				p.getHeldItemMainhand().shrink(64);
-				te.sendUpdate();
 				return true;
 			}
 		}
 		else{
-			if(w.getTileEntity(pos) != null){
-				if(!te.isLinked()){
-					/*ArrayList<ConstructorCenterEntity> list = this.findCenter(w, p, pos);
-					for(ConstructorCenterEntity en : list){
-						if(en.link == null && en.remote == null){
-							en.link(pos);
-							te.linked = true;
-							Print.chat(p, "Connected! " + en.getPos().toString());
-							break;
-						}
-					}
-					if(!te.linked){
-						Print.chat(p, "No center block found.");
-					}*///TODO
+			if(te.getCenter() == null || w.getTileEntity(te.getCenter()) == null){
+				//Print.chat(p, "&7No Center Block connected!");
+				//Print.chat(p, "&7You can connect one via the Constructor's &8Settings&7.");
+				return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);//TODO remove, only for debug right now
+			}
+			else{
+				if(te.getData() == null){
+					Print.chat(p, "No Vehicle.");
 				}
 				else{
-					if(te.getData() != null){
-						//p.openGui(FVM.INSTANCE, 1, w, pos.getX(), pos.getY(), pos.getZ());
-						return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);
-					}
-					else{
-						Print.chat(p, "No Vehicle.");
-					}
+					return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);
 				}
 			}
 			return true;
@@ -167,141 +155,118 @@ public class ConstructorController extends BlockContainer {
 		return false;
     }
 	
-	private boolean findAndPressButton(ConstructorControllerEntity te, World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumFacing side, float hitX, float hitY, float hitZ) {
+	private boolean findAndPressButton(ConstructorControllerEntity.Server te, World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumFacing side, float hitX, float hitY, float hitZ) {
 		boolean found = false;
 		if(side == EnumFacing.UP){
-			Print.debugChat(hitX + " ||| " + hitZ);
+			//Print.debugChat(hitX + " ||| " + hitZ);
 			int x = calculateCoord(hitX);
 			int z = calculateCoord(hitZ);
-			Print.debugChat(x + " ||| " + z);
-			Button button = findButton(state.getValue(FACING), x, z);
+			//Print.debugChat(x + " ||| " + z);
+			//Print.debugChat(state.getValue(FACING).toString());
+			Button button = Button.findButton(state.getValue(FACING), x, z);
 			if(button != null){
-				if(button.id < 10){
-					te.onButtonPress(button.id);
+				//Print.debugChat(button.name());
+				if(button.ID < 10){
+					te.onButtonPress(button);
 				}
 				else{
-					
+					te.addLift(button.ID == 10 ? 1 : -1);
 				}
+				found = true;
 			}
 		}
 		return found;
 	}
 	
-	private Button findButton(EnumFacing value, int x, int z){
-		Print.debugChat(value.toString());
-		for(Button button : buttons){
-			if(button.collides(value, x, z)){
-				return button;
+	public static enum Button {
+		
+		NULL(-1, new int[]{-1}, new int[]{-1}),
+		SPAWN_ITEM(0,   new int[]{14, 15}, new int[]{3, 2}),
+		SPAWN_ENTITY(1, new int[]{12, 13}, new int[]{3, 2}),
+		REMOVE(2,       new int[]{ 6}, new int[]{ 5}),
+		SELECT(3,       new int[]{ 6}, new int[]{ 6}),
+		ARROW_DOWN(4,   new int[]{ 6}, new int[]{ 7}),
+		ARROW_UP(5,     new int[]{ 6}, new int[]{ 8}),
+		ARROW_RIGHT(6,  new int[]{ 6}, new int[]{ 9}),
+		ARROW_LEFT(7,   new int[]{ 6}, new int[]{10}),
+		RETURN(8,       new int[]{ 6}, new int[]{11}),
+		HOME(9,         new int[]{ 6}, new int[]{12}),
+		LIFT_DOWN(10,   new int[]{ 9, 10}, new int[]{3, 2}),
+		LIFT_UP(11,     new int[]{ 6,  7}, new int[]{3, 2});
+		
+		public int ID;
+		public int[] xc, zc;
+		
+		Button(int id, int[] x, int[] z){
+			this.ID = id; this.xc = x; this.zc = z;
+		}
+		
+		public boolean collides(EnumFacing facing, int x, int z){
+			int xx = rotate(x, z, facing, true);
+			int zz = rotate(z, x, facing, false);
+			boolean xcb = false, zcb = false;
+			for(int i : xc){
+				if(i == xx){ xcb = true; break; }
+			}
+			for(int i : zc){
+				if(i == zz){ zcb = true; break; }
+			}
+			return xcb && zcb;
+		}
+		
+		private int rotate(int i, int o, EnumFacing facing, boolean x){
+			switch(facing){
+				case NORTH: return x ? (-o) + 17 : o;
+				case SOUTH: return x ? o : (-o) + 17;
+				case WEST:  return (-i) + 17;
+				default: return i;
 			}
 		}
-		return null;
-	}
-	
-	private static final ArrayList<Button> buttons = new ArrayList<Button>();
-	static{
-		buttons.add(new Button(0){
-			@Override
-			public boolean collides(EnumFacing value, int x, int z){
-				switch(value){
-					case WEST:
-						if((x == 2 || x == 3) && (z == 14 || z == 15)){
-							return true;
-						}
-						break;
-					case EAST:
-						if((x == 14 || x == 15) && (z == 2 || z == 3)){
-							return true;
-						}
-						break;
-					case NORTH:
-						if((x == 2 || x == 3) && (z == 2 || z == 3)){
-							return true;
-						}
-						break;
-					case SOUTH:
-						if((x == 14 || x == 15) && (z == 14 || z == 15)){
-							return true;
-						}
-						break;
-					default:
-						break;
-				}
-				return false;
-			}
-		});
-		buttons.add(new Button(1){
-			@Override
-			public boolean collides(EnumFacing value, int x, int z){
-				switch(value){
-					case WEST:
-						if((x == 4 || x == 5) && (z == 14 || z == 15)){
-							return true;
-						}
-						break;
-					case EAST:
-						break;
-					case NORTH:
-						break;
-					case SOUTH:
-						break;
-					default:
-						break;
-				}
-				return false;
-			}
-		});
 
-		buttons.add(new Button(2){
-			@Override
-			public boolean collides(EnumFacing value, int x, int z){
-				switch(value){
-					case WEST:
-						if(x == 4 && z == 2){
-							return true;
-						}
-						break;
-					case EAST:
-						break;
-					case NORTH:
-						break;
-					case SOUTH:
-						break;
-					default:
-						break;
+		public static Button fromId(int id){
+			for(Button button : values()){
+				if(button.ID == id){
+					return button;
 				}
-				return false;
 			}
-		});
-		//
-		buttons.add(new Button(9){
-			@Override
-			public boolean collides(EnumFacing value, int x, int z){
-				switch(value){
-					case WEST:
-						if(x == 11 && z == 2){
-							return true;
-						}
-						break;
-					case EAST:
-						break;
-					case NORTH:
-						break;
-					case SOUTH:
-						break;
-					default:
-						break;
-				}
-				return false;
-			}
-		});
-	}
-
-	public static abstract class Button {
-		private int id;
-		public Button(int id){
-			this.id = id;
+			return NULL;
 		}
-		public abstract boolean collides(EnumFacing value, int x, int z);
+		
+		public static Button findButton(EnumFacing value, int x, int z){
+			for(Button button : values()){
+				if(button.collides(value, x, z)){ return button; }
+			}
+			return null;
+		}
+
+		public boolean isVerticalArrow(){
+			return this == ARROW_DOWN || this == ARROW_UP;
+		}
+		
+		public boolean isHorizontalArrow(){
+			return this == ARROW_RIGHT || this == ARROW_LEFT;
+		}
+		
+		public boolean isLiftButton(){
+			return this == LIFT_DOWN || this == LIFT_UP;
+		}
+
+		public boolean isSelect(){
+			return this == SELECT;
+		}
+		
+		public boolean isReset(){
+			return this == REMOVE;
+		}
+		
+		public boolean isReturn(){
+			return this == RETURN;
+		}
+		
+		public boolean isHome(){
+			return this == HOME;
+		}
+		
 	}
 
 	private int calculateCoord(float coords){
@@ -315,30 +280,5 @@ public class ConstructorController extends BlockContainer {
 		}
 		return i;
 	}
-
-	/*public static ArrayList<ConstructorCenterEntity> findCenter(World w, EntityPlayer p, BlockPos pos){
-		Print.chat(p, "Scanning...");
-		ArrayList<ConstructorCenterEntity> list = new ArrayList<ConstructorCenterEntity>();
-		int x = pos.getX() - 8;
-		int y = pos.getY();
-		int z = pos.getZ() - 8;
-		for(int i = 0; i < 16; i++){
-			for(int j = 0; j < 16; j++){
-				TileEntity tile = w.getTileEntity(new BlockPos(x + i, y, z + j));
-				if(tile != null && tile instanceof ConstructorCenterEntity){
-					list.add((ConstructorCenterEntity)tile);
-				}
-				tile = w.getTileEntity(new BlockPos(x + i, y - 1, z + j));
-				if(tile != null && tile instanceof ConstructorCenterEntity){
-					list.add((ConstructorCenterEntity)tile);
-				}
-				tile = w.getTileEntity(new BlockPos(x + i, y + 1, z + j));
-				if(tile != null && tile instanceof ConstructorCenterEntity){
-					list.add((ConstructorCenterEntity)tile);
-				}
-			}
-		}
-		return list;
-	}*/
 	
 }

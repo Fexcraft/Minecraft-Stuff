@@ -74,11 +74,12 @@ public class ModelConstructorController extends ModelConverter {
 		bodyModel[7].addShapeBox(0F, 0F, 0F, 16, 1, 4, 0F, -1F, 0F, -1F, -1F, 0F, -1F, -1F, 0F, 0F, -1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 11
 		bodyModel[7].setRotationPoint(0F, -17F, 12F);
 
-		bodyModel[8].addBox(0F, 0F, 0F, 10, 1, 1, 0F); // Box 12
-		bodyModel[8].setRotationPoint(1F, -16.1F, 1F);
+		bodyModel[8].addBox(0F, 0F, 0F, 10, 1, 2, 0F); // Box 12
+		bodyModel[8].setRotationPoint(3F, -16.1F, 1F);
+		bodyModel[8].rotateAngleY = -1.57079633F;
 
 		bodyModel[9].addBox(0F, 0F, 0F, 8, 1, 8, 0F); // Box 21
-		bodyModel[9].setRotationPoint(3F, -16.2F, 3F);
+		bodyModel[9].setRotationPoint(4F, -16.2F, 1F);
 
 		bodyModel[10].addBox(0F, 0F, 0F, 14, 10, 1, 0F); // Box 22
 		bodyModel[10].setRotationPoint(1F, -28F, 13F);
@@ -150,35 +151,35 @@ public class ModelConstructorController extends ModelConverter {
 		turretModel[8] = new ModelRendererTurbo(this, 9, 17, textureX, textureY); // Back
 		turretModel[9] = new ModelRendererTurbo(this, 81, 17, textureX, textureY); // Home
 
-		turretModel[0].addBox(0F, 0F, 0F, 2, 1, 2, 0F); // SpawnItem
+		turretModel[0].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // SpawnItem
 		turretModel[0].setRotationPoint(13F, -16.2F, 1F);
 
-		turretModel[1].addBox(0F, 0F, 0F, 2, 1, 2, 0F); // SpawnEntity
+		turretModel[1].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // SpawnEntity
 		turretModel[1].setRotationPoint(13F, -16.2F, 3F);
 
-		turretModel[2].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Remove
-		turretModel[2].setRotationPoint(1F, -16.2F, 3F);
+		turretModel[2].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Remove
+		turretModel[2].setRotationPoint(11F, -16.2F, 10F);
 
-		turretModel[3].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Select
-		turretModel[3].setRotationPoint(1F, -16.2F, 4F);
+		turretModel[3].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Select
+		turretModel[3].setRotationPoint(10F, -16.2F, 10F);
 
-		turretModel[4].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Down
-		turretModel[4].setRotationPoint(1F, -16.2F, 5F);
+		turretModel[4].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Down
+		turretModel[4].setRotationPoint(9F, -16.2F, 10F);
 
-		turretModel[5].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Up
-		turretModel[5].setRotationPoint(1F, -16.2F, 6F);
+		turretModel[5].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Up
+		turretModel[5].setRotationPoint(8F, -16.2F, 10F);
 
-		turretModel[6].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Right
-		turretModel[6].setRotationPoint(1F, -16.2F, 7F);
+		turretModel[6].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Right
+		turretModel[6].setRotationPoint(7F, -16.2F, 10F);
 
-		turretModel[7].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Left
-		turretModel[7].setRotationPoint(1F, -16.2F, 8F);
+		turretModel[7].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Left
+		turretModel[7].setRotationPoint(6F, -16.2F, 10F);
 
-		turretModel[8].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Back
-		turretModel[8].setRotationPoint(1F, -16.2F, 9F);
+		turretModel[8].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Back
+		turretModel[8].setRotationPoint(5F, -16.2F, 10F);
 
-		turretModel[9].addBox(0F, 0F, 0F, 1, 1, 1, 0F); // Home
-		turretModel[9].setRotationPoint(1F, -16.2F, 10F);
+		turretModel[9].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Home
+		turretModel[9].setRotationPoint(4F, -16.2F, 10F);
 
 
 		steeringWheelModel = new ModelRendererTurbo[2];
@@ -191,7 +192,7 @@ public class ModelConstructorController extends ModelConverter {
 		steeringWheelModel[1].addShapeBox(0F, -2F, -0.5F, 2, 2, 1, 0F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F, -0.4F, 0F, -0.4F); // Lever
 		steeringWheelModel[1].setRotationPoint(13F, -16F, 8.5F);
 		
-		translateAll(0F, 0F, 0F);
+		//translateAll(0F, 0F, 0F);
 		
 	}
 	
