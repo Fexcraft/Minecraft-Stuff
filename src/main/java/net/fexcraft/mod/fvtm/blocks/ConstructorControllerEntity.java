@@ -202,7 +202,15 @@ public class ConstructorControllerEntity {
 					if(button.isSelect()){
 						switch(selection){
 							case 2: case 4:{
-								Static.halt();
+								if(Static.side().isServer()){
+									NBTTagCompound compound = new NBTTagCompound();
+									compound.setString("task", "crash_menu_request");
+									compound.setString("Message", "Sorry, this feature is disabled on Servers ;)");
+									ApiUtil.sendTileEntityUpdatePacket(this, compound, 256);
+								}
+								else{
+									Static.halt();
+								}
 							}
 							case 3:{
 								this.updateScreen("null");
@@ -361,6 +369,10 @@ public class ConstructorControllerEntity {
 				}
 				case "update_selection":{
 					this.selection = pkt.nbt.getByte("Selection");
+				}
+				case "crash_menu_request":{
+					Print.chat(net.minecraft.client.Minecraft.getMinecraft().player, pkt.nbt.getString("Message"));
+					Static.halt();
 				}
 			}
 			Print.debug(pkt.nbt);
