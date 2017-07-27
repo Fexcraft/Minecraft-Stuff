@@ -40,6 +40,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	
 	public float getWheelConstructorOffset();
 	
+	public int getConstructionLength();
+	
 	public List<ResourceLocation> getTextures();
 	
 	public List<Pos> getDefaultWheelPos();
@@ -66,9 +68,9 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public int getFuelTankSize();
 		
-		public Set<ResourceLocation> getInstalledParts();
+		public Set<String> getInstalledParts();
 		
-		public Map<ResourceLocation, PartData> getParts();
+		public Map<String, PartData> getParts();
 		
 		public List<Pos> getWheelPos();
 		
@@ -81,6 +83,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public LandVehicleData readFromNBT(NBTTagCompound compound);
 		
 		public boolean readyToSpawn();
+
+		public boolean doorsOpen();
 		
 	}
 	
@@ -92,4 +96,5 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public LandVehicleData getLandVehicle(ItemStack stack);
 		
 	}
+	
 }

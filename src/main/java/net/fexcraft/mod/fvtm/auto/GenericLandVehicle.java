@@ -32,6 +32,7 @@ public class GenericLandVehicle implements LandVehicle {
 	private Model model;
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
+	private int constructionlength;
 	
 	public GenericLandVehicle(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "LANDVEHICLE");
@@ -39,8 +40,9 @@ public class GenericLandVehicle implements LandVehicle {
 		this.name = JsonUtil.getIfExists(obj, "FullName", registryname);
 		this.description = DataUtil.getDescription(obj);
 		this.textures = DataUtil.getTextures(obj, registryname, "LANDVEHICLE");
-		this.yoffset = JsonUtil.getIfExists(obj, "ConstructorYOffSet", 0).floatValue();
-		this.wheeloffset = JsonUtil.getIfExists(obj, "ConstructorWheelOffset", 0).floatValue();
+		this.yoffset = JsonUtil.getIfExists(obj, "ConstructionYOffSet", 0).floatValue();
+		this.constructionlength = JsonUtil.getIfExists(obj, "ConstructionLength", 4).intValue();
+		this.wheeloffset = JsonUtil.getIfExists(obj, "ConstructionWheelOffset", 0).floatValue();
 		this.preinstalled = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "PreInstalledParts", new JsonArray()).getAsJsonArray());
 		this.required = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
 		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), null);//TODO
@@ -144,6 +146,11 @@ public class GenericLandVehicle implements LandVehicle {
 	@Override
 	public List<ResourceLocation> getRequiredParts(){
 		return this.required;
+	}
+
+	@Override
+	public int getConstructionLength(){
+		return constructionlength;
 	}
 	
 }

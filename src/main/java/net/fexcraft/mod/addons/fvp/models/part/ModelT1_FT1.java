@@ -1,7 +1,7 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
-import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
-import net.fexcraft.mod.fvm.model.PartModel;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.Entity;
@@ -81,14 +81,14 @@ public class ModelT1_FT1 extends PartModel {
 	}
 	
 	@Override
-	public void render(VehicleData data, String usedAS){
+	public void render(LandVehicleData data, String usedAS){
 		super.render(data, usedAS);
 		rotate(snowplow, 0, 0, -Static.rad20, true);
 		render(snowplow);
 	}
 	
 	@Override
-	public void render(VehicleData data, String us, Entity vehicle){
+	public void render(LandVehicleData data, String us, Entity vehicle){
 		render(body);
 		/*boolean yes = false;
 		if(data.scripts.contains("t1-snowplow")){

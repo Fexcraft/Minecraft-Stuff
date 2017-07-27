@@ -266,6 +266,22 @@ public class ConstructorController extends BlockContainer {
 		public boolean isHome(){
 			return this == HOME;
 		}
+
+		public boolean isLeftArrow(){
+			return this == ARROW_LEFT;
+		}
+		
+		public boolean isRightArrow(){
+			return this == ARROW_RIGHT;
+		}
+		
+		public boolean isUpArrow(){
+			return this == ARROW_UP;
+		}
+		
+		public boolean isDownArrow(){
+			return this == ARROW_DOWN;
+		}
 		
 	}
 

@@ -9,8 +9,8 @@
 
 package net.fexcraft.mod.addons.fvp.models.part;
 
-import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
-import net.fexcraft.mod.fvm.model.PartModel;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.entity.Entity;
 
@@ -47,10 +47,10 @@ public class ModelC1R1_Spoiler extends PartModel {
 	}
 	
 	@Override
-	public void render(VehicleData data, String us){
+	public void render(LandVehicleData data, String us){
 		if(us.equals("rear_spoiler")){
-			data.secondary.glColorApply();
-			if(data.doors){
+			data.getSecondaryColor().glColorApply();
+			if(data.doorsOpen()){
 				rotate(bodyColoredSecondary, 0, 0, 1.04719755F);
 				render(bodyColoredSecondary);
 			}
@@ -58,16 +58,16 @@ public class ModelC1R1_Spoiler extends PartModel {
 				rotate(bodyColoredSecondary, 0, 0, 0);
 				render(bodyColoredSecondary);
 			}
-			data.secondary.glColorReset();
+			data.getSecondaryColor().glColorReset();
 		}
 		
 	}
 	
 	@Override
-	public void render(VehicleData data, String us, Entity vehicle){
+	public void render(LandVehicleData data, String us, Entity vehicle){
 		if(us.equals("rear_spoiler")){
-			data.secondary.glColorApply();
-			if(data.doors){
+			data.getSecondaryColor().glColorApply();
+			if(data.doorsOpen()){
 				rotate(bodyColoredSecondary, 0, 0, 1.04719755F);
 				render(bodyColoredSecondary);
 			}
@@ -75,7 +75,7 @@ public class ModelC1R1_Spoiler extends PartModel {
 				rotate(bodyColoredSecondary, 0, 0, 0);
 				render(bodyColoredSecondary);
 			}
-			data.secondary.glColorReset();
+			data.getSecondaryColor().glColorReset();
 		}
 		
 	}

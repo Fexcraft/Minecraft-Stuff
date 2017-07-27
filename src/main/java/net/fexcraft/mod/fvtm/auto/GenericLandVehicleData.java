@@ -3,6 +3,7 @@ package net.fexcraft.mod.fvtm.auto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -24,9 +25,10 @@ public class GenericLandVehicleData implements LandVehicleData {
 	private LandVehicle vehicle;
 	private int sel, tank;
 	private String url;
-	private TreeMap<ResourceLocation, PartData> parts = new TreeMap<ResourceLocation, PartData>();
+	private TreeMap<String, PartData> parts = new TreeMap<String, PartData>();
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
+	private boolean doors;
 	
 	public GenericLandVehicleData(){}
 	
@@ -62,12 +64,12 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public Set<ResourceLocation> getInstalledParts(){
+	public Set<String> getInstalledParts(){
 		return parts.keySet();
 	}
 
 	@Override
-	public Map<ResourceLocation, PartData> getParts(){
+	public Map<String, PartData> getParts(){
 		return parts;
 	}
 
@@ -84,8 +86,10 @@ public class GenericLandVehicleData implements LandVehicleData {
 		compound.setString("TextureUrl", url == null ? "" : url);
 		compound.setInteger("FuelTank", tank);
 		NBTTagList list = new NBTTagList();
-		for(PartData part : parts.values()){
-			list.appendTag(part.writeToNBT(new NBTTagCompound()));
+		for(Entry<String, PartData> part : parts.entrySet()){
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("UsedAs", part.getKey());
+			list.appendTag(part.getValue().writeToNBT(nbt));
 		}
 		compound.setTag("Parts", list);
 		if(wheelpos != null){
@@ -105,6 +109,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 			compound.setFloat("SecondaryGreen", this.secondary.green);
 			compound.setFloat("SecondaryBlue", this.secondary.blue);
 		}
+		compound.setBoolean("DoorsOpen", doors);
 		tagcompound.setTag(FVTM.MODID, compound);
 		return tagcompound;
 	}
@@ -128,7 +133,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 				NBTTagCompound nbt = (NBTTagCompound)base;
 				PartData data = new GenericPartData().readFromNBT(nbt);
 				if(data != null){
-					this.parts.put(data.getPart().getRegistryName(), data);
+					this.parts.put(nbt.getString("UsedAs"), data);
 				}
 			}
 		}
@@ -155,6 +160,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 			this.secondary = new RGB();
 			this.secondary.copyFrom(vehicle.getDefSecondaryolor());
 		}
+		this.doors = compound.getBoolean("DoorsOpen");
 		return this;
 	}
 
@@ -178,6 +184,11 @@ public class GenericLandVehicleData implements LandVehicleData {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public boolean doorsOpen(){
+		return doors;
 	}
 	
 }

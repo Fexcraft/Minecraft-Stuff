@@ -9,7 +9,7 @@
 
 package net.fexcraft.mod.addons.fvp.models.vehicle;
 
-import net.fexcraft.mod.fvm.model.VehicleModel;
+import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
 public class ModelOT1 extends VehicleModel {

@@ -9,8 +9,8 @@
 
 package net.fexcraft.mod.addons.fvp.models.vehicle;
 
-import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
-import net.fexcraft.mod.fvm.model.VehicleModel;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
 public class ModelTV1 extends VehicleModel {
@@ -220,7 +220,7 @@ public class ModelTV1 extends VehicleModel {
 	}
 	
 	@Override
-	public void render(VehicleData data){
+	public void render(LandVehicleData data){
 		render(body);
 		/*if(data.scripts.contains("generic-multidoor")){
 			MultiDoorScript mds = (MultiDoorScript)data.scripts.get("generic-multidoor");

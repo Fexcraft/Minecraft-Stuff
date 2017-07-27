@@ -14,7 +14,7 @@
         "Green": 0.239
     },
     "Textures": [
-        "fvm:textures/entities/skin_vehicle_c7.png"
+        "fvp:textures/entities/skin_vehicle_c7.png"
     ],
     "WheelPos":[
         {
@@ -38,6 +38,9 @@
             "z": -16
         }
     ],
+    "ConstructionLength": 3,
+    "ConstructionYOffSet": 20.5,
+    "ConstructionWheelOffset": 12.5,
     "ConstructionSettings": {
         "Length": 3,
         "HeightOffset": 20.5,

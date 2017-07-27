@@ -322,7 +322,9 @@ public class RGB {
 		return new RGB(f);
 	}
 	
-	private static final DecimalFormat df = new DecimalFormat("##.#####");
+	private static final DecimalFormat df  = new DecimalFormat("##.#####");
+	private static final DecimalFormat dfm = new DecimalFormat("##.###");
+	private static final DecimalFormat dfs = new DecimalFormat("##.##");
 	
 	private static final float truncate(float f){
 		df.setRoundingMode(RoundingMode.DOWN);
@@ -330,8 +332,32 @@ public class RGB {
 		return Float.parseFloat(s.replace(",", "."));//replace to get sure locale doesn't mess up stuff
 	}
 	
+	public static final float truncateM(float f){
+		dfm.setRoundingMode(RoundingMode.DOWN);
+		String s = dfm.format(f);
+		return Float.parseFloat(s.replace(",", "."));
+	}
+	
+	public static final float truncateS(float f){
+		dfs.setRoundingMode(RoundingMode.DOWN);
+		String s = dfs.format(f);
+		return Float.parseFloat(s.replace(",", "."));
+	}
+	
 	private static final float fromInt(int i){
 		return truncate(i / 255f);
+	}
+
+	public void quickValidate(){
+		if(red > 1f){ red = 1f; }
+		if(red < 0f){ red = 0f; }
+		if(green > 1f){ green = 1f; }
+		if(green < 0f){ green = 0f; }
+		if(blue > 1f){ blue = 1f; }
+		if(blue < 0f){ blue = 0f; }
+		red = truncateS(red);
+		green = truncateS(green);
+		blue = truncateS(blue);
 	}
 	
 }

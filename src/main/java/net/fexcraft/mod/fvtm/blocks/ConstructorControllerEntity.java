@@ -19,21 +19,22 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class ConstructorControllerEntity {
 	
 	public static class Server extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>, ITickable {
 		
 		private LandVehicleData vehicledata;
-		private byte lift = 0, selection = 0, scroll;
-		private float liftstate = 0;
+		private byte lift = 0, selection = 0, scroll = 0;
+		private float liftstate = 0, brush = 0.01f;
 		private static final byte text = 8;
 		private BlockPos center;
 		private String window = "null";//Don't save/sync this! Should reset on every world load.
 		
 		public void setData(LandVehicleItem item, ItemStack stack){
 			this.updateLandVehicle(item.getLandVehicle(stack));
-			this.updateScreen();
+			this.updateScreen(null);
 		}
 
 		public LandVehicleData getData(){
@@ -164,11 +165,11 @@ public class ConstructorControllerEntity {
 					if(button.isSelect()){
 						switch(selection){
 							case 2:{
-								//TODO
+								this.updateScreen("colour_edit_primary");
 								break;
 							}
 							case 3:{
-								//TODO
+								this.updateScreen("colour_edit_secondary");
 								break;
 							}
 							case 4: case 5:{
@@ -219,6 +220,72 @@ public class ConstructorControllerEntity {
 					}
 					break;
 				}
+				case "colour_edit_primary":
+				case "colour_edit_secondary":{
+					String str = window.split("_")[2];
+					RGB rgb = str.equals("primary") ? this.vehicledata.getPrimaryColor() : this.vehicledata.getSecondaryColor();
+					if(button.isReturn()){
+						this.updateScreen("colour_menu");
+					}
+					if(button.isHome()){
+						this.updateScreen("main");
+					}
+					if(button.isReset()){
+						switch(selection){
+							case 1:{
+								brush = 0.01f;
+								break;
+							}
+							case 2: case 3: {
+								rgb.red   = 1f;
+								break;
+							}
+							case 4: case 5: {
+								rgb.green = 1f;
+								break;
+							}
+							case 6: case 7: {
+								rgb.blue  = 1f;
+								break;
+							}
+						}
+						rgb.quickValidate();
+						this.updateScreen(window, false);
+						this.updateColour(str, rgb);
+					}
+					if(button.isSelect()){
+						//guess, nothing to select here?
+					}
+					if(button.isHorizontalArrow()){
+						switch(selection){
+							case 1:{
+								brush += button.isLeftArrow() ? -0.011f : 0.011f;
+								brush = RGB.truncateS(brush);
+								if(brush <= 0){ brush = 0f;};
+								break;
+							}
+							case 3:{
+								rgb.red   += button.isLeftArrow() ? -brush : brush;
+								break;
+							}
+							case 5:{
+								rgb.green += button.isLeftArrow() ? -brush : brush;
+								break;
+							}
+							case 7:{
+								rgb.blue  += button.isLeftArrow() ? -brush : brush;
+								break;
+							}
+						}
+						rgb.quickValidate();
+						this.updateScreen(window, false);
+						this.updateColour(str, rgb);
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					break;
+				}
 				default:{
 					if(button.isHome() || button.isReturn()){
 						this.updateScreen("main");
@@ -227,7 +294,7 @@ public class ConstructorControllerEntity {
 				}
 			}
 		}
-		
+
 		private final NBTTagCompound getWindowUpdate(NBTTagCompound compound){
 			switch(window){
 				case "main": case "null":{
@@ -239,12 +306,12 @@ public class ConstructorControllerEntity {
 					}
 					else{
 						compound.setString("Text0", ">> Welcome!");
-						compound.setString("Text1", "View Vehicle Details");
-						compound.setString("Text2", "Edit Vehicle Colour");
-						compound.setString("Text3", "View Missing Parts");
-						compound.setString("Text4", "View Installed Parts");
-						compound.setString("Text5", "Recycle Vehicle");
-						compound.setString("Text6", "- - - - - - - - - -");
+						compound.setString("Text1", "Vehicle Settings");
+						compound.setString("Text2", "Colour Settings");
+						compound.setString("Text3", "Part Settings");
+						compound.setString("Text4", "- - - - - - - - - -");
+						compound.setString("Text5", "Constructor Settings");
+						compound.setString("Text6", "Recycle Vehicle");
 						compound.setString("Text7", "Crash Game");
 					}
 					break;
@@ -286,8 +353,26 @@ public class ConstructorControllerEntity {
 					fill(6, compound);
 					break;
 				}
+				case "colour_edit_primary":
+				case "colour_edit_secondary":{
+					String str = window.split("_")[2];
+					RGB rgb = str.equals("primary") ? this.vehicledata.getPrimaryColor() : this.vehicledata.getSecondaryColor();
+					compound.setString("Text0", "Color Editor (" + str + ")");
+					compound.setString("Text1", "&9Brush: &7" + brush);
+					compound.setString("Text2", "&cRed:");
+					compound.setString("Text3", "{ " + rgb.red   + " }f  [~" + floatTo256Int(rgb.red)   + "]i");
+					compound.setString("Text4", "&aGreen:");
+					compound.setString("Text5", "{ " + rgb.green + " }f  [~" + floatTo256Int(rgb.green) + "]i");
+					compound.setString("Text6", "&3Blue:");
+					compound.setString("Text7", "{ " + rgb.blue  + " }f  [~" + floatTo256Int(rgb.blue)  + "]i");
+					break;
+				}
 			}
 			return compound;
+		}
+		
+		private int floatTo256Int(float f){
+			return MathHelper.floor(f * 255);
 		}
 		
 		private static final void fill(int j, NBTTagCompound compound){
@@ -296,18 +381,20 @@ public class ConstructorControllerEntity {
 			}
 		}
 		
-		private void updateScreen(){
-			this.updateScreen(null);
+		private void updateScreen(String string){
+			this.updateScreen(string, true);
 		}
 		
-		private void updateScreen(String string){
+		private void updateScreen(String string, boolean selres){
 			if(string != null){
 				window = string;
 			}
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("task", "update_screen");
 			ApiUtil.sendTileEntityUpdatePacket(this, this.getWindowUpdate(compound), 256);
-			this.updateSelection(-10);
+			if(selres){
+				this.updateSelection(-10);
+			}
 		}
 		
 		private void updateLiftState(){
@@ -337,11 +424,19 @@ public class ConstructorControllerEntity {
 			ApiUtil.sendTileEntityUpdatePacket(this, vehicledata == null ? nbt : vehicledata.writeToNBT(nbt), 256);
 		}
 		
+		private void updateColour(String str, RGB rgb){
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("task", "update_colour");
+			nbt.setString("type", str);
+			nbt = rgb.writeToNBT(nbt, null);
+			ApiUtil.sendTileEntityUpdatePacket(this, nbt, 256);
+		}
+		
 	}
 	
 	public static class Client extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>{
 		
-		public LandVehicleData vehicledata;
+		public static LandVehicleData vehicledata;//TODO temporary static, fix later;
 		public float liftstate;
 		public String[] text = new String[8];
 		public byte selection = -1;
@@ -360,19 +455,29 @@ public class ConstructorControllerEntity {
 						Print.debug("NO VEHICLE NBT KEY FOUND, RESETTING!");
 						this.vehicledata = null;
 					}
+					break;
 				}
 				case "update_screen":{
 					this.parseScreen(pkt.nbt);
+					break;
 				}
 				case "update_liftstate":{
 					this.liftstate = pkt.nbt.getFloat("ListState");
+					break;
 				}
 				case "update_selection":{
 					this.selection = pkt.nbt.getByte("Selection");
+					break;
 				}
 				case "crash_menu_request":{
 					Print.chat(net.minecraft.client.Minecraft.getMinecraft().player, pkt.nbt.getString("Message"));
 					Static.halt();
+					break;
+				}
+				case "update_colour":{
+					RGB rgb = pkt.nbt.getString("type").equals("primary") ? this.vehicledata.getPrimaryColor() : this.vehicledata.getSecondaryColor();
+					rgb.readFromNBT(pkt.nbt, null);
+					break;
 				}
 			}
 			Print.debug(pkt.nbt);

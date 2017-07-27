@@ -14,7 +14,7 @@
         "Green": 0.5
     },
     "Textures": [
-        "fvm:textures/entities/skin_vehicle_c1_r1.png"
+        "fvp:textures/entities/skin_vehicle_c1_r1.png"
     ],
     "WheelPos":[
         {
@@ -38,18 +38,16 @@
             "z": -19
         }
     ],
-    "ConstructionSettings": {
-        "Length": 3,
-        "HeightOffset": 12.5,
-        "WheelOffset": 18,
-        "Requires": [
-            "right_front_wheel",
-            "left_front_wheel",
-            "right_back_wheel",
-            "left_back_wheel",
-            "engine"
-        ]
-    },
+    "ConstructionLength": 3,
+    "ConstructionYOffSet": 12.5,
+    "ConstructionWheelOffset": 18,
+    "RequiredParts": [
+        "right_front_wheel",
+        "left_front_wheel",
+        "right_back_wheel",
+        "left_back_wheel",
+        "engine"
+    ],
     "PartSettings": {
         "PreInstalled": [
             "steering_wheel:c1r1_steering_wheel",
