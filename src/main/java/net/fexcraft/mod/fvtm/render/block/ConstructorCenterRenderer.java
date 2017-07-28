@@ -50,7 +50,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			if(modvec != null){
 				LandVehicleData data = ConstructorControllerEntity.Client.vehicledata;
 				Minecraft.getMinecraft().renderEngine.bindTexture(data.getSelectedTexture() >= 0 ? data.getVehicle().getTextures().get(data.getSelectedTexture()) : RemoteTextureRenderHelper.get(data.getTextureURL()));
-				GL11.glTranslatef(0, data.getVehicle().getYAxisConstructorOffset() * 0.0625f, 0);
+				GL11.glTranslated(0, (data.getVehicle().getYAxisConstructorOffset() * 0.0625f) - ConstructorControllerEntity.Client.liftstate, 0);
 				modvec.render(data, null, te.getBlockMetadata());
 				if(data.getParts().size() > 0){
 					for(String key : data.getInstalledParts()){
@@ -61,7 +61,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 						part.getPart().getOffsetFor(data.getVehicle().getRegistryName()).translateR();
 					}
 				}
-				GL11.glTranslatef(0, data.getVehicle().getYAxisConstructorOffset() * -0.0625f, 0);
+				GL11.glTranslated(0, (data.getVehicle().getYAxisConstructorOffset() * -0.0625f) + ConstructorControllerEntity.Client.liftstate, 0);
 				Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 			}
 			else{
@@ -75,65 +75,44 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 		}
 		//
 		GL11.glTranslatef(0, 0, te.getRenderOffset());
-		renderLP(ConstructorControllerEntity.Client.vehicledata, model.bodyModel, model.trailerModel);
-		renderTR(te, model.turretModel);
+		renderLP(te, ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
 		GL11.glTranslatef(0, 0, -(te.getRenderOffset() * 2));
 		GL11.glRotated(180, 0, 1, 0);
-		renderLP(ConstructorControllerEntity.Client.vehicledata, model.bodyModel, model.trailerModel);
-		renderTR(te, model.turretModel);
-		
-		/*GL11.glTranslatef(te.getLength() + 1, 0, 0);
-		for(int i = 0; i < te.getRenderLength(); i++){
-			GL11.glTranslatef(-1, 0, 0);
-			model.render(model.turretModel);
-		}
-		GL11.glTranslatef(0, 0, -(te.getRenderOffset() * 2));
-		for(int i = 0; i < te.getRenderLength(); i++){
-			model.render(model.turretModel);
-			GL11.glTranslatef(1, 0, 0);
-		}
-		GL11.glTranslatef(-te.getLength(), 0, 0);*/
+		renderLP(te, ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
 		//
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
     }
 	
-	private static final void renderTR(ConstructorCenterEntity te, ModelRendererTurbo[] model){
-		//int l = 0;
+	private static final void renderLP(ConstructorCenterEntity te, LandVehicleData data, ModelRendererTurbo[] turbo){
+		if(data != null){
+			for(int i = 0; i < 5; i++){
+				turbo[0].render();
+				turbo[1].render();
+				turbo[2].render();
+				data.getSecondaryColor().glColorApply();
+				turbo[3].render();
+				turbo[4].render();
+				data.getSecondaryColor().glColorReset();
+				data.getPrimaryColor().glColorApply();
+				turbo[5].render();
+				data.getPrimaryColor().glColorReset();
+				if(i != 4){
+					GL11.glTranslated(0, -1, 0);
+				}
+			}
+			GL11.glTranslated(0, 4, 0);
+		}
+		GL11.glTranslated(0, -ConstructorControllerEntity.Client.liftstate, 0);
+		model.render(model.trailerModel);
 		GL11.glTranslatef(te.getLength() + 1, 0, 0);
 		for(int i = 0; i < te.getRenderLength(); i++){
 			GL11.glTranslatef(-1, 0, 0);
-			for(ModelRendererTurbo turbo : model) {
-				turbo.render();
-			}
-			//l++;
+			model.render(model.turretModel);
 		}
 		GL11.glTranslatef(te.getLength(), 0, 0);
-	}
-	
-	private static final void renderLP(LandVehicleData data, ModelRendererTurbo[] model, ModelRendererTurbo[] base){
-		if(data == null){
-			return;
-		}
-		for(ModelRendererTurbo turbo : base){
-			turbo.render();
-		}
-		for(int i = 0; i < 5; i++){
-			model[0].render();
-			model[1].render();
-			model[2].render();
-			data.getSecondaryColor().glColorApply();
-			model[3].render();
-			model[4].render();
-			data.getSecondaryColor().glColorReset();
-			data.getPrimaryColor().glColorApply();
-			model[5].render();
-			data.getPrimaryColor().glColorReset();
-			if(i != 4){
-				GL11.glTranslated(0, -1, 0);
-			}
-		}
-		GL11.glTranslated(0, 4, 0);
+		GL11.glTranslated(0, ConstructorControllerEntity.Client.liftstate, 0);
+		
 	}
 	
 }

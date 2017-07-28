@@ -72,13 +72,13 @@ public class ModelConstructorCenter extends ModelConverter {
 		trailerModel[2] = new ModelRendererTurbo(this, 81, 1, textureX, textureY); // Box 20
 
 		trailerModel[0].addShapeBox(0F, 0F, 0F, 3, 1, 12, 0F, 0F, 0F, 0F, -1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 18
-		trailerModel[0].setRotationPoint(2F, -1F, -6F);
+		trailerModel[0].setRotationPoint( 2F, -0.5F, -6F);
 
 		trailerModel[1].addShapeBox(0F, 0F, 0F, 3, 1, 12, 0F, -1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, -1F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 19
-		trailerModel[1].setRotationPoint(-5F, -1F, -6F);
+		trailerModel[1].setRotationPoint(-5F, -0.5F, -6F);
 
 		trailerModel[2].addBox(0F, 0F, 0F, 4, 1, 8, 0F); // Box 20
-		trailerModel[2].setRotationPoint(-2F, -1F, -6F);
+		trailerModel[2].setRotationPoint(-2F, -0.5F, -6F);
 
 		
 		translateAll(0F, 24F, 0F);

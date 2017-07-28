@@ -7,6 +7,7 @@ import net.fexcraft.mod.fvtm.model.block.ModelConstructorController;
 import net.fexcraft.mod.fvtm.render.Renderer;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -53,8 +54,8 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer<Const
 			}
 		}
 		{
-			model.steeringWheelModel[0].rotateAngleX = te.liftstate;
-			model.steeringWheelModel[1].rotateAngleX = te.liftstate;
+			model.steeringWheelModel[0].rotateAngleX = te.lift * Static.rad5;
+			model.steeringWheelModel[1].rotateAngleX = te.lift * Static.rad5;
 			model.render(model.steeringWheelModel);
 		}
 		this.setLightmapDisabled(true);

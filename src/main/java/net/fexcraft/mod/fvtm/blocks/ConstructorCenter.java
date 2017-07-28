@@ -64,9 +64,11 @@ public class ConstructorCenter extends BlockContainer {
         return false;
     }
 	
+	public static final AxisAlignedBB PILLAR_AABB = new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 5.0D, 0.75D);
+	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
-        return FULL_BLOCK_AABB;
+        return PILLAR_AABB;
     }
 
 	@Override

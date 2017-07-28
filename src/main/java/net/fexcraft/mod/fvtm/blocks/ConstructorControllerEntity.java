@@ -11,6 +11,7 @@ import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.fexcraft.mod.lib.util.common.ApiUtil;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +28,9 @@ public class ConstructorControllerEntity {
 		
 		private LandVehicleData vehicledata;
 		private byte lift = 0, selection = 0, scroll = 0;
-		private float liftstate = 0, brush = 0.01f;
+		private int lc = -1;
+		private double liftstate = 0;
+		private float brush = 0.01f;
 		private static final byte text = 8;
 		private BlockPos center;
 		private String window = "null";//Don't save/sync this! Should reset on every world load.
@@ -57,11 +60,32 @@ public class ConstructorControllerEntity {
 			if(this.lift < -10){
 				this.lift = -10;
 			}
+			this.updateLift();
 		}
 
 		@Override
 		public void update(){
-			//TODO
+			if(lift != 0){
+				if(lc == Time.getSecond()){
+					return;
+				}
+				lc = Time.getSecond();
+				this.liftstate += -(lift * 0.01);
+				if(liftstate <= 0){
+					liftstate = 0;
+					lift = 0;
+					this.updateLift();
+					return;
+				}
+				if(liftstate >= 4.5f){
+					liftstate = 4.5f;
+					lift = 0;
+					this.updateLift();
+					return;
+				}
+				this.updateLiftState();
+			}
+			return;
 		}
 		
 		@Override
@@ -80,7 +104,8 @@ public class ConstructorControllerEntity {
 			if(this.vehicledata != null){
 				compound = this.vehicledata.writeToNBT(compound);
 			}
-			compound.setFloat("LiftState", liftstate);
+			compound.setDouble("LiftState", liftstate);
+			compound.setByte("Lift", lift);
 			compound = getWindowUpdate(compound);
 			compound.setByte("Selection", selection);
 			return compound;
@@ -92,8 +117,7 @@ public class ConstructorControllerEntity {
 			if(this.vehicledata != null){
 				compound = vehicledata.writeToNBT(compound);
 			}
-			compound.setByte("Lift", lift);
-			compound.setFloat("LiftState", liftstate);
+			compound.setDouble("LiftState", liftstate);
 			//compound.setByte("Selection", selection);
 			//compound.setByte("Scroll", scroll);
 			if(center != null){
@@ -108,7 +132,6 @@ public class ConstructorControllerEntity {
 			if(compound.hasKey(LandVehicleItem.NBTKEY)){
 				this.vehicledata = new GenericLandVehicleData().readFromNBT(compound);
 			}
-			this.lift = compound.getByte("Lift");
 			this.liftstate = compound.getFloat("LiftState");
 			//this.selection = compound.getByte("Selection");
 			//this.scroll = compound.getByte("Scroll");
@@ -400,7 +423,14 @@ public class ConstructorControllerEntity {
 		private void updateLiftState(){
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("task", "update_liftstate");
-			compound.setFloat("LiftState", liftstate);
+			compound.setDouble("LiftState", liftstate);
+			ApiUtil.sendTileEntityUpdatePacket(this, compound, 256);
+		}
+		
+		private void updateLift(){
+			NBTTagCompound compound = new NBTTagCompound();
+			compound.setString("task", "update_lift");
+			compound.setByte("Lift", lift);
 			ApiUtil.sendTileEntityUpdatePacket(this, compound, 256);
 		}
 		
@@ -437,9 +467,9 @@ public class ConstructorControllerEntity {
 	public static class Client extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>{
 		
 		public static LandVehicleData vehicledata;//TODO temporary static, fix later;
-		public float liftstate;
+		public static double liftstate = 0;//TODO temporary static, fix later;
 		public String[] text = new String[8];
-		public byte selection = -1;
+		public byte selection = -1, lift = 0;
 		
 		@Override
 		public void processClientPacket(PacketTileEntityUpdate pkt){
@@ -462,7 +492,11 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "update_liftstate":{
-					this.liftstate = pkt.nbt.getFloat("ListState");
+					this.liftstate = pkt.nbt.getDouble("LiftState");
+					break;
+				}
+				case "update_lift":{
+					this.lift = pkt.nbt.getByte("Lift");
 					break;
 				}
 				case "update_selection":{
@@ -495,6 +529,7 @@ public class ConstructorControllerEntity {
 				this.vehicledata = new GenericLandVehicleData().readFromNBT(compound);
 			}
 			this.liftstate = compound.getFloat("LiftState");
+			this.lift = compound.getByte("Lift");
 			this.parseScreen(compound);
 			this.selection = compound.getByte("Selection");
 		}
