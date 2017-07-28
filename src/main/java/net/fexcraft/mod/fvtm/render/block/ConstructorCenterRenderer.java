@@ -75,21 +75,14 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 		}
 		//
 		GL11.glTranslatef(0, 0, te.getRenderOffset());
-		{
-			model.render(model.trailerModel);
-			render(ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
-			GL11.glTranslated(0, -1, 0);
-			render(ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
-			GL11.glTranslated(0, -1, 0);
-			render(ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
-			GL11.glTranslated(0, -1, 0);
-			render(ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
-			GL11.glTranslated(0, -1, 0);
-			render(ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
-
-			GL11.glTranslated(0, 4, 0);
-		}
-		GL11.glTranslatef(te.getLength() + 1, 0, 0);
+		renderLP(ConstructorControllerEntity.Client.vehicledata, model.bodyModel, model.trailerModel);
+		renderTR(te, model.turretModel);
+		GL11.glTranslatef(0, 0, -(te.getRenderOffset() * 2));
+		GL11.glRotated(180, 0, 1, 0);
+		renderLP(ConstructorControllerEntity.Client.vehicledata, model.bodyModel, model.trailerModel);
+		renderTR(te, model.turretModel);
+		
+		/*GL11.glTranslatef(te.getLength() + 1, 0, 0);
 		for(int i = 0; i < te.getRenderLength(); i++){
 			GL11.glTranslatef(-1, 0, 0);
 			model.render(model.turretModel);
@@ -99,26 +92,48 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			model.render(model.turretModel);
 			GL11.glTranslatef(1, 0, 0);
 		}
-		GL11.glTranslatef(-te.getLength(), 0, 0);
+		GL11.glTranslatef(-te.getLength(), 0, 0);*/
 		//
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
     }
 	
-	private static final void render(LandVehicleData data, ModelRendererTurbo[] model){
+	private static final void renderTR(ConstructorCenterEntity te, ModelRendererTurbo[] model){
+		//int l = 0;
+		GL11.glTranslatef(te.getLength() + 1, 0, 0);
+		for(int i = 0; i < te.getRenderLength(); i++){
+			GL11.glTranslatef(-1, 0, 0);
+			for(ModelRendererTurbo turbo : model) {
+				turbo.render();
+			}
+			//l++;
+		}
+		GL11.glTranslatef(te.getLength(), 0, 0);
+	}
+	
+	private static final void renderLP(LandVehicleData data, ModelRendererTurbo[] model, ModelRendererTurbo[] base){
 		if(data == null){
 			return;
 		}
-		model[0].render();
-		model[1].render();
-		model[2].render();
-		data.getSecondaryColor().glColorApply();
-		model[3].render();
-		model[4].render();
-		data.getSecondaryColor().glColorReset();
-		data.getPrimaryColor().glColorApply();
-		model[5].render();
-		data.getPrimaryColor().glColorReset();
+		for(ModelRendererTurbo turbo : base){
+			turbo.render();
+		}
+		for(int i = 0; i < 5; i++){
+			model[0].render();
+			model[1].render();
+			model[2].render();
+			data.getSecondaryColor().glColorApply();
+			model[3].render();
+			model[4].render();
+			data.getSecondaryColor().glColorReset();
+			data.getPrimaryColor().glColorApply();
+			model[5].render();
+			data.getPrimaryColor().glColorReset();
+			if(i != 4){
+				GL11.glTranslated(0, -1, 0);
+			}
+		}
+		GL11.glTranslated(0, 4, 0);
 	}
 	
 }
