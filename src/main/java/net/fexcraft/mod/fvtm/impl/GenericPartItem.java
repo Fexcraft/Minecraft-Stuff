@@ -30,6 +30,7 @@ public class GenericPartItem extends Item implements PartItem {
 	public GenericPartItem(){
 		this.setCreativeTab(Tabs.PARTS);
 		this.setHasSubtypes(true);
+		this.setMaxStackSize(1);
 		this.setRegistryName("fvtm:part");
 		this.setUnlocalizedName(this.getRegistryName().toString());
 	}
