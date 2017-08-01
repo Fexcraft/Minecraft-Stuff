@@ -2,6 +2,8 @@ package net.fexcraft.mod.fvtm.blocks;
 
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
+import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -113,7 +115,7 @@ public class ConstructorController extends BlockContainer {
 	
 	@Override
     public boolean onBlockActivated(World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
-		if(w.isRemote || hand == EnumHand.OFF_HAND){
+		if(w.isRemote/* || hand == EnumHand.OFF_HAND*/){
 			/*ConstructorControllerEntity te = (ConstructorControllerEntity)w.getTileEntity(pos);
 			te.hitX = hitX;
 			te.hitY = hitY;
@@ -127,12 +129,41 @@ public class ConstructorController extends BlockContainer {
 		if(te == null){
 			return false;
 		}
-		if(!p.getHeldItemMainhand().isEmpty()){
-			ItemStack stack = p.getHeldItemMainhand();
+		if(!p.getHeldItem(hand).isEmpty()){
+			ItemStack stack = p.getHeldItem(hand);
 			if(stack.getItem() instanceof LandVehicleItem){
 				te.setData((LandVehicleItem)stack.getItem(), stack);
 				Print.chat(p, "Vehicle: " + te.getData().getVehicle().getName());
-				p.getHeldItemMainhand().shrink(64);
+				p.getHeldItem(hand).shrink(64);
+				return true;
+			}
+			else if(stack.getItem() instanceof PartItem){
+				PartData data = ((PartItem)stack.getItem()).getPart(stack);
+				if(data == null){
+					return false;
+				}
+				if(!te.getScreenId().equals("part_add_new")){
+					if(!te.getData().getInstalledParts().contains(data.getPart().getCategory())){
+						if(data.getPart().canInstall(te.getData(), p)){
+							te.getData().installPart(data.getPart().getCategory(), data);
+							Print.chat(p, "Part installed.");
+							p.getHeldItem(hand).shrink(64);
+							te.updateLandVehicle(null);
+						}
+					}
+					else{
+						Print.chat(p, "Part of that category already installed, try the part menu for installing the part in another category.");
+					}
+				}
+				else{
+					if(data.getPart().isAvailable()){
+						te.setPartData(data);
+						Print.chat(p, "Part put into Contructor. You can access it via the part menu.");
+					}
+					else{
+						Print.chat(p, "This part can't be adjusted in the Constructor.");
+					}
+				}
 				return true;
 			}
 		}
@@ -214,7 +245,7 @@ public class ConstructorController extends BlockContainer {
 			return xcb && zcb;
 		}
 		
-		private int rotate(int i, int o, EnumFacing facing, boolean x){
+		private static final int rotate(int i, int o, EnumFacing facing, boolean x){
 			switch(facing){
 				case NORTH: return x ? (-o) + 17 : o;
 				case SOUTH: return x ? o : (-o) + 17;
@@ -223,7 +254,7 @@ public class ConstructorController extends BlockContainer {
 			}
 		}
 
-		public static Button fromId(int id){
+		public static final Button fromId(int id){
 			for(Button button : values()){
 				if(button.ID == id){
 					return button;
@@ -232,7 +263,7 @@ public class ConstructorController extends BlockContainer {
 			return NULL;
 		}
 		
-		public static Button findButton(EnumFacing value, int x, int z){
+		public static final Button findButton(EnumFacing value, int x, int z){
 			for(Button button : values()){
 				if(button.collides(value, x, z)){ return button; }
 			}
@@ -285,7 +316,7 @@ public class ConstructorController extends BlockContainer {
 		
 	}
 
-	private int calculateCoord(float coords){
+	private final int calculateCoord(float coords){
 		int i = 0;
 		while((coords - 0.0625) > 0){
 			coords -= 0.0625;

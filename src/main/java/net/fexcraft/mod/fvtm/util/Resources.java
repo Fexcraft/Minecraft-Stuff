@@ -12,19 +12,18 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
-import net.fexcraft.mod.fvtm.auto.GenericAddon;
-import net.fexcraft.mod.fvtm.auto.GenericLandVehicle;
-import net.fexcraft.mod.fvtm.auto.GenericLandVehicleItem;
-import net.fexcraft.mod.fvtm.auto.GenericMaterial;
-import net.fexcraft.mod.fvtm.auto.GenericMaterialItem;
-import net.fexcraft.mod.fvtm.auto.GenericPart;
-import net.fexcraft.mod.fvtm.auto.GenericPartItem;
+import net.fexcraft.mod.fvtm.impl.GenericAddon;
+import net.fexcraft.mod.fvtm.impl.GenericLandVehicle;
+import net.fexcraft.mod.fvtm.impl.GenericLandVehicleItem;
+import net.fexcraft.mod.fvtm.impl.GenericMaterial;
+import net.fexcraft.mod.fvtm.impl.GenericMaterialItem;
+import net.fexcraft.mod.fvtm.impl.GenericPart;
+import net.fexcraft.mod.fvtm.impl.GenericPartItem;
 import net.fexcraft.mod.lib.FCL;
-import net.fexcraft.mod.lib.tmt.Model;
-import net.fexcraft.mod.lib.tmt.ModelBase;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
@@ -51,6 +50,7 @@ public class Resources {
 	public static final IForgeRegistry<Part> PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
 	public static final IForgeRegistry<LandVehicle> LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
 	public static final TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
+	public static final IForgeRegistry<Attribute> PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
 	
@@ -248,29 +248,34 @@ public class Resources {
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void regPartAttributes(RegistryEvent.Register<Attribute> event){
+		//TODO
+	}
 
-	public static Model getModel(String name, Class clazz){
+	public static <T> T getModel(String name, Class<T> clazz, T def){
 		if(name == null || name.equals("") || name.equals("null")){
-			return ModelBase.EMPTY;
+			return def;
 		}
 		if(MODELS.containsKey(name)){
-			return (Model)MODELS.get(name);
+			return (T)MODELS.get(name);
 		}
 		ModelType type = getModelType(name);
-		Model model = null;
+		T model = null;
 		try{
 			switch(type){
 				case JAVA:
 				case TMT:
 					Class clasz = Class.forName(name.replace(".class", ""));
-					model = (Model)clasz.newInstance();
+					model = (T)clasz.newInstance();
 					break;
 				case JTMT:
 					//TODO
 					break;
 				case JSON:
 					JsonObject obj = JsonUtil.getObjectFromInputStream(net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(name)).getInputStream());
-					model = (Model)clazz.getConstructor(JsonObject.class).newInstance(obj);
+					model = (T)clazz.getConstructor(JsonObject.class).newInstance(obj);
 					break;
 				case NONE:
 				case OBJ:
@@ -281,6 +286,7 @@ public class Resources {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		MODELS.put(name, model);
 		return model;
 	}
 	

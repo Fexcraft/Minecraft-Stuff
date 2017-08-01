@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Part;

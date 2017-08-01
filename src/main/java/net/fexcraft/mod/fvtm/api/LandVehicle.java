@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.fexcraft.mod.fvtm.api.Part.PartData;
-import net.fexcraft.mod.lib.tmt.Model;
+import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.ItemStack;
@@ -34,7 +34,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	
 	public List<ResourceLocation> getPreinstalledParts();
 	
-	public List<ResourceLocation> getRequiredParts();
+	public List<String> getRequiredParts();
 	
 	public float getYAxisConstructorOffset();
 	
@@ -51,7 +51,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	public RGB getDefSecondaryolor();
 	
 	@SideOnly(Side.CLIENT)
-	public Model getModel();
+	public VehicleModel getModel();
 	
 	//<-- VEHICLE DATA -->//
 	public static interface LandVehicleData {
@@ -85,6 +85,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public boolean readyToSpawn();
 
 		public boolean doorsOpen();
+
+		public void installPart(String as, PartData data);
 		
 	}
 	

@@ -40,7 +40,7 @@ public class Renderer {
 
         if (!isSneaking)
         {
-            fontRendererIn.drawString(str, 0/*-fontRendererIn.getStringWidth(str) / 2*/, verticalShift, 553648127);
+            fontRendererIn.drawString(str, 0/*-fontRendererIn.getStringWidth(str) / 2*/, verticalShift, 553648127); /*553648127*/
             GlStateManager.enableDepth();
         }
 

@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.util.Resources;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.nbt.NBTBase;
@@ -128,17 +129,18 @@ public class GenericLandVehicleData implements LandVehicleData {
 		this.url = compound.getString("TextureUrl");
 		this.tank = compound.getInteger("FuelTank");
 		if(compound.hasKey("Parts")){
-			NBTTagList list = compound.getTagList("Parts", 9);
+			NBTTagList list = (NBTTagList)compound.getTag("Parts");
 			for(NBTBase base : list){
 				NBTTagCompound nbt = (NBTTagCompound)base;
 				PartData data = new GenericPartData().readFromNBT(nbt);
 				if(data != null){
 					this.parts.put(nbt.getString("UsedAs"), data);
 				}
+				Print.debug("PART:" + nbt.toString());
 			}
 		}
 		if(compound.hasKey("WheelPos")){
-			NBTTagList list = compound.getTagList("WheelPos", 9);
+			NBTTagList list = (NBTTagList)compound.getTag("WheelPos");
 			this.wheelpos = new ArrayList<Pos>();
 			for(int i = 0; i < list.tagCount(); i++){
 				if(this.wheelpos.size() < 4){
@@ -177,7 +179,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public boolean readyToSpawn(){
 		boolean result = true;
-		for(ResourceLocation rs : vehicle.getRequiredParts()){
+		for(String rs : vehicle.getRequiredParts()){
 			if(!this.parts.containsKey(rs)){
 				result = false;
 				break;
@@ -189,6 +191,11 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public boolean doorsOpen(){
 		return doors;
+	}
+
+	@Override
+	public void installPart(String as, PartData data){
+		this.parts.put(as, data);
 	}
 	
 }

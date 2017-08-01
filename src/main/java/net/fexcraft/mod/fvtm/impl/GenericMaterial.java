@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import com.google.gson.JsonObject;
 

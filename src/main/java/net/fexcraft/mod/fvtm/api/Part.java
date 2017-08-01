@@ -6,8 +6,10 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.lib.tmt.Model;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.util.math.Pos;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -48,8 +50,12 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public JsonObject getAttributeData();
 	
+	public <T extends Attribute> T getAttribute(Class<T> clazz);
+	
+	public boolean canInstall(LandVehicleData data, EntityPlayer player);
+	
 	@SideOnly(Side.CLIENT)
-	public Model getModel();
+	public PartModel getModel();
 	
 	//<-- PART DATA -->//
 	public static interface PartData {

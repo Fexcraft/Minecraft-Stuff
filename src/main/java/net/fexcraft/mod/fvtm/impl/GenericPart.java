@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.api.Attribute;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.Part;
+import net.fexcraft.mod.fvtm.model.part.NullModel;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
 import net.fexcraft.mod.fvtm.util.Resources;
-import net.fexcraft.mod.lib.tmt.Model;
+import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -27,12 +32,14 @@ public class GenericPart implements Part {
 	private ResourceLocation registryname;
 	private Addon addon;
 	private String name;
-	private String[] description, categories, attributes;
+	private String[] description, categories;
 	private TreeMap<ResourceLocation, Pos> compatible = new TreeMap<ResourceLocation, Pos>();
+	private TreeMap<ResourceLocation, ArrayList<ResourceLocation>> incompatible = new TreeMap<ResourceLocation, ArrayList<ResourceLocation>>();
 	private ArrayList<ResourceLocation> textures;
 	private boolean removable, available;
-	private Model model;
+	private PartModel model;
 	private JsonObject attributedata;
+	private TreeMap<Class, Attribute> attributes = new TreeMap<Class, Attribute>();
 	
 	public GenericPart(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "PART");
@@ -51,13 +58,41 @@ public class GenericPart implements Part {
 				}
 			}
 		}
+		if(obj.has("Incompatible")){
+			JsonArray array = obj.get("Incompatible").getAsJsonArray();
+			for(JsonElement elm : array){
+				try{
+					JsonObject jsn = elm.getAsJsonObject();
+					ArrayList<ResourceLocation> rslist = JsonUtil.jsonArrayToResourceLocationArray(jsn.get("Parts").getAsJsonArray());
+					this.incompatible.put(new ResourceLocation(jsn.get("Vehicle").getAsString()), rslist);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
 		this.textures = DataUtil.getTextures(obj, registryname, "PART");
 		this.categories = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Category", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
-		this.attributes = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
+		//this.attributes = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
 		this.removable = JsonUtil.getIfExists(obj, "Removable", true);
 		this.available = JsonUtil.getIfExists(obj, "Avaiable", true);
-		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), null);//TODO
+		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), PartModel.class, NullModel.get());
 		this.attributedata = JsonUtil.getIfExists(obj, "AttributeData", new JsonObject()).getAsJsonObject();
+		
+		JsonArray atr_array = JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray();
+		for(JsonElement elm : atr_array){
+			try{
+				Attribute attr = Resources.PARTATTRIBUTES.getValue(new ResourceLocation(elm.getAsString()));
+				if(attr == null){ continue; }
+				Attribute partattr = attr.getClass().newInstance();
+				partattr.load(this.attributedata);
+				this.attributes.put(attr.getClass(), partattr);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override
@@ -139,13 +174,37 @@ public class GenericPart implements Part {
 	}
 
 	@Override @SideOnly(Side.CLIENT)
-	public Model getModel(){
+	public PartModel getModel(){
 		return model;
 	}
 
 	@Override
 	public JsonObject getAttributeData(){
 		return this.attributedata;
+	}
+
+	@Override
+	public <T extends Attribute> T getAttribute(Class<T> clazz){
+		return (T)attributes.get(clazz);
+	}
+
+	@Override
+	public boolean canInstall(LandVehicleData data, EntityPlayer player){
+		if(this.compatible.containsKey(data.getVehicle().getRegistryName()) || this.compatible.containsKey(new ResourceLocation("all")) || this.compatible.isEmpty()){
+			ArrayList<ResourceLocation> arr = this.incompatible.get(data.getVehicle().getRegistryName());
+			if(arr == null){
+				return true;
+			}
+			for(PartData part : data.getParts().values()){
+				if(arr.contains(part.getPart().getRegistryName())){
+					Print.chat(player, "Incompatible parts installed in the vehicle.");
+					return false;
+				}
+			}
+			return true;
+		}
+		Print.chat(player, "Incompatible vehicle.");
+		return false;
 	}
 	
 }

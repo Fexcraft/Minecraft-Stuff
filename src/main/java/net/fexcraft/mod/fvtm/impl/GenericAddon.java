@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -42,9 +42,6 @@
     "ConstructionYOffSet": 22.5,
     "ConstructionWheelOffset": 20,
     "ConstructionSettings": {
-        "Length": 5,
-        "HeightOffset": 22.5,
-        "WheelOffset": 20,
         "Requires": [
             "right_front_wheel",
             "left_front_wheel",

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fvm:items/ot1_logtransport"
+        "layer0": "fvp:items/ot1_logtransport"
     }
 }

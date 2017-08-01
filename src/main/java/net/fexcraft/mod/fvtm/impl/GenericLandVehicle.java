@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,10 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
+import net.fexcraft.mod.fvtm.model.vehicle.EmptyVehicleModel;
+import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
 import net.fexcraft.mod.fvtm.util.Resources;
-import net.fexcraft.mod.lib.tmt.Model;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -28,8 +29,9 @@ public class GenericLandVehicle implements LandVehicle {
 	private String name;
 	private String[] description;
 	private float yoffset, wheeloffset;
-	private List<ResourceLocation> preinstalled, required, textures;
-	private Model model;
+	private List<ResourceLocation> preinstalled, textures;
+	private List<String> required;
+	private VehicleModel model;
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
 	private int constructionlength;
@@ -44,8 +46,8 @@ public class GenericLandVehicle implements LandVehicle {
 		this.constructionlength = JsonUtil.getIfExists(obj, "ConstructionLength", 4).intValue();
 		this.wheeloffset = JsonUtil.getIfExists(obj, "ConstructionWheelOffset", 0).floatValue();
 		this.preinstalled = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "PreInstalledParts", new JsonArray()).getAsJsonArray());
-		this.required = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
-		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), null);//TODO
+		this.required = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
+		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), VehicleModel.class, EmptyVehicleModel.INSTANCE);//TODO
 		this.wheelpos = new ArrayList<Pos>();
 		if(obj.has("WheelPos")){
 			JsonArray array = obj.get("WheelPos").getAsJsonArray();
@@ -124,7 +126,7 @@ public class GenericLandVehicle implements LandVehicle {
 	}
 
 	@Override @SideOnly(Side.CLIENT)
-	public Model getModel(){
+	public VehicleModel getModel(){
 		return model;
 	}
 
@@ -144,7 +146,7 @@ public class GenericLandVehicle implements LandVehicle {
 	}
 
 	@Override
-	public List<ResourceLocation> getRequiredParts(){
+	public List<String> getRequiredParts(){
 		return this.required;
 	}
 

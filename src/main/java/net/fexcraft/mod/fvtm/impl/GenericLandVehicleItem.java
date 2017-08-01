@@ -1,4 +1,4 @@
-package net.fexcraft.mod.fvtm.auto;
+package net.fexcraft.mod.fvtm.impl;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	public GenericLandVehicleItem(){
 		this.setCreativeTab(Tabs.LANDVEHICLES);
 		this.setHasSubtypes(true);
-		this.setMaxStackSize(64);
+		this.setMaxStackSize(1);
 		this.setRegistryName("fvtm:landvehicles");
 		this.setUnlocalizedName(this.getRegistryName().toString());
 	}

@@ -4,8 +4,11 @@ import static net.fexcraft.mod.fvtm.blocks.ConstructorController.Button.*;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
-import net.fexcraft.mod.fvtm.auto.GenericLandVehicleData;
+import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
+import net.fexcraft.mod.fvtm.impl.GenericLandVehicleData;
+import net.fexcraft.mod.fvtm.impl.GenericPartData;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.fexcraft.mod.lib.util.common.ApiUtil;
@@ -13,6 +16,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -27,6 +31,7 @@ public class ConstructorControllerEntity {
 	public static class Server extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>, ITickable {
 		
 		private LandVehicleData vehicledata;
+		private PartData partdata;
 		private byte lift = 0, selection = 0, scroll = 0;
 		private int lc = -1;
 		private double liftstate = 0;
@@ -42,6 +47,25 @@ public class ConstructorControllerEntity {
 
 		public LandVehicleData getData(){
 			return this.vehicledata;
+		}
+
+		public void setPartData(PartData data){
+			if(this.partdata != null){
+				ItemStack stack = this.partdata.getPart().getItemStack(partdata);
+				EntityItem entity = new EntityItem(world, this.pos.getX(), this.pos.getY() + 1.5f, this.pos.getZ(), stack);
+				world.spawnEntity(entity);
+				this.partdata = null;
+			}
+			this.partdata = data;
+			this.updateLandVehicle(null);
+		}
+		
+		public PartData getPartData(){
+			return this.partdata;
+		}
+		
+		public String getScreenId(){
+			return window;
 		}
 		
 		public BlockPos getCenter(){
@@ -123,6 +147,9 @@ public class ConstructorControllerEntity {
 			if(center != null){
 				compound.setLong("Center", center.toLong());
 			}
+			if(partdata !=null){
+				compound = this.partdata.writeToNBT(compound);
+			}
 			return compound;
 		}
 		
@@ -137,6 +164,9 @@ public class ConstructorControllerEntity {
 			//this.scroll = compound.getByte("Scroll");
 			if(compound.hasKey("Center")){
 				this.center = BlockPos.fromLong(compound.getLong("Center"));
+			}
+			if(compound.hasKey(PartItem.NBTKEY)){
+				this.partdata = new GenericPartData().readFromNBT(compound);
 			}
 		}
 
@@ -158,6 +188,10 @@ public class ConstructorControllerEntity {
 								}
 								case 2:{
 									this.updateScreen("colour_menu");
+									break;
+								}
+								case 3:{
+									this.updateScreen("part_menu");
 									break;
 								}
 								case 7:{
@@ -390,6 +424,10 @@ public class ConstructorControllerEntity {
 					compound.setString("Text7", "{ " + rgb.blue  + " }f  [~" + floatTo256Int(rgb.blue)  + "]i");
 					break;
 				}
+				case "part_menu":{
+					//TODO
+					break;
+				}
 			}
 			return compound;
 		}
@@ -447,8 +485,10 @@ public class ConstructorControllerEntity {
 			ApiUtil.sendTileEntityUpdatePacket(this, compound, 256);
 		}
 		
-		private void updateLandVehicle(LandVehicleData data){
-			this.vehicledata = data;
+		public void updateLandVehicle(LandVehicleData data){
+			if(data != null){
+				this.vehicledata = data;
+			}
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("task", "update_vehicledata");
 			ApiUtil.sendTileEntityUpdatePacket(this, vehicledata == null ? nbt : vehicledata.writeToNBT(nbt), 256);
