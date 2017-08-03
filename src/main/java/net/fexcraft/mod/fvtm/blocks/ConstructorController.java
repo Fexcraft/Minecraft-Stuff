@@ -171,14 +171,20 @@ public class ConstructorController extends BlockContainer {
 			if(te.getCenter() == null || w.getTileEntity(te.getCenter()) == null){
 				//Print.chat(p, "&7No Center Block connected!");
 				//Print.chat(p, "&7You can connect one via the Constructor's &8Settings&7.");
-				return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);//TODO remove, only for debug right now
+				if(hand != EnumHand.OFF_HAND){
+					return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);//TODO remove, only for debug right now
+				}
+				else return true;
 			}
 			else{
 				if(te.getData() == null){
 					Print.chat(p, "No Vehicle.");
 				}
 				else{
-					return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);
+					if(hand != EnumHand.OFF_HAND){
+						return findAndPressButton(te, w, pos, state, p, side, hitX, hitY, hitZ);
+					}
+					else return true;
 				}
 			}
 			return true;
@@ -198,7 +204,7 @@ public class ConstructorController extends BlockContainer {
 			if(button != null){
 				//Print.debugChat(button.name());
 				if(button.ID < 10){
-					te.onButtonPress(button);
+					te.onButtonPress(button, p);
 				}
 				else{
 					te.addLift(button.ID == 10 ? 1 : -1);

@@ -17,6 +17,7 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -58,6 +59,9 @@ public class ConstructorControllerEntity {
 			}
 			this.partdata = data;
 			this.updateLandVehicle(null);
+			if(this.window.equals("part_add_new")){
+				this.updateScreen("part_view_cache");
+			}
 		}
 		
 		public PartData getPartData(){
@@ -170,7 +174,7 @@ public class ConstructorControllerEntity {
 			}
 		}
 
-		public void onButtonPress(Button button){
+		public void onButtonPress(Button button, EntityPlayer player){
 			switch(window){
 				case "main": case "null":{
 					if(this.vehicledata == null){
@@ -343,6 +347,72 @@ public class ConstructorControllerEntity {
 					}
 					break;
 				}
+				case "part_menu":{
+					if(button.isReturn() || button.isHome()){
+						this.updateScreen("main");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						switch(selection){
+							case 2:{
+								this.updateScreen("part_view_all");
+								break;
+							}
+							case 3:{
+								this.updateScreen("part_view_missing");
+								break;
+							}
+							case 5:{
+								if(partdata != null){
+									Print.chat(player, "Please drop the current part first.");
+								}
+								else{
+									this.updateScreen("part_add_new");
+								}
+								break;
+							}
+							case 6:{
+								this.updateScreen("part_view_cache");
+								break;
+							}
+							case 7:{
+								if(partdata == null){
+									Print.chat(player, "No part in constructor to drop.");
+								}
+								else{
+									world.spawnEntity(new EntityItem(world, this.pos.getX(), this.pos.getY() + 1.5f, this.pos.getZ(), this.partdata.getPart().getItemStack(partdata)));
+									this.partdata = null;
+									Print.chat(player, "Cache cleared.");
+								}
+								break;
+							}
+						}
+					}
+					break;
+				}
+				case "part_add_new":{
+					if(button.isReturn()){
+						this.updateScreen("part_menu");
+					}
+					if(button.isHome()){
+						this.updateScreen("main");
+					}
+					break;
+				}
+				case "part_view_cache":{
+					if(button.isReturn()){
+						this.updateScreen("part_menu");
+					}
+					if(button.isHome()){
+						this.updateScreen("main");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					break;
+				}
 				default:{
 					if(button.isHome() || button.isReturn()){
 						this.updateScreen("main");
@@ -425,7 +495,39 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "part_menu":{
-					//TODO
+					compound.setString("Text0", "Part Editor");
+					compound.setString("Text1", "- - - - - - - - - -");
+					compound.setString("Text2", "View Installed Parts");
+					compound.setString("Text3", "View Missing Parts");
+					compound.setString("Text4", "- - - - - - - - - -");
+					compound.setString("Text5", "Select new Part");
+					compound.setString("Text6", "Edit Selected Part");
+					compound.setString("Text7", "Drop Selected Part");
+					break;
+				}
+				case "part_add_new":{
+					compound.setString("Text0", "- - - - - - - - - -");
+					compound.setString("Text1", "Rightclick constructor with");
+					compound.setString("Text2", "the part you want to adjust.");
+					compound.setString("Text3", "(\"select part\")");
+					compound.setString("Text4", "- - - - - - - - - -");
+					fill(5, compound);
+					break;
+				}
+				case "part_view_cache":{
+					if(partdata == null){
+						compound.setString("Text0", "ERROR: NO PART");
+						fill(1, compound);
+						break;
+					}
+					compound.setString("Text0", "ID: " + partdata.getPart().getName());
+					compound.setString("Text1", "RG: " + partdata.getPart().getRegistryName());
+					compound.setString("Text2", "MC: " + partdata.getPart().getCategory());
+					compound.setString("Text3", "- - - - - - - - - -");
+					compound.setString("Text4", "Edit Texture Settings");
+					compound.setString("Text5", "Edit Attribute Settings");
+					compound.setString("Text6", "Edit Offset");
+					compound.setString("Text7", "- - - - - - - - - -");
 					break;
 				}
 			}
