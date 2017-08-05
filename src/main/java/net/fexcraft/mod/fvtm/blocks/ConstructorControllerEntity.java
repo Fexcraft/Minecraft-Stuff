@@ -9,8 +9,7 @@ import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
-import net.fexcraft.mod.fvtm.impl.GenericLandVehicleData;
-import net.fexcraft.mod.fvtm.impl.GenericPartData;
+import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
 import net.fexcraft.mod.lib.util.common.ApiUtil;
@@ -164,7 +163,7 @@ public class ConstructorControllerEntity {
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
 			if(compound.hasKey(LandVehicleItem.NBTKEY)){
-				this.vehicledata = new GenericLandVehicleData().readFromNBT(compound);
+				this.vehicledata = Resources.getLandVehicleData(compound);
 			}
 			this.liftstate = compound.getFloat("LiftState");
 			//this.selection = compound.getByte("Selection");
@@ -173,7 +172,7 @@ public class ConstructorControllerEntity {
 				this.center = BlockPos.fromLong(compound.getLong("Center"));
 			}
 			if(compound.hasKey(PartItem.NBTKEY)){
-				this.partdata = new GenericPartData().readFromNBT(compound);
+				this.partdata = Resources.getPartData(compound);
 			}
 		}
 
@@ -206,6 +205,9 @@ public class ConstructorControllerEntity {
 								case 3:{
 									this.updateScreen("part_menu");
 									break;
+								}
+								case 5:{
+									this.updateScreen("constructor_menu");
 								}
 								case 7:{
 									this.updateScreen("crash");
@@ -508,8 +510,17 @@ public class ConstructorControllerEntity {
 					}
 					break;
 				}
+				case "constructor_menu":{
+					if(button.isReturn()){
+						this.updateScreen("main");
+					}
+					if(button.isSelect()){
+						return;//TODO
+					}
+					break;
+				}
 				default:{
-					if(button.isHome() || button.isReturn()){
+					if(button.isReturn()){
 						this.updateScreen("main");
 					}
 					break;
@@ -692,6 +703,10 @@ public class ConstructorControllerEntity {
 					compound.setString("Text7", "Remove");
 					break;
 				}
+				case "constructor_menu":{
+					
+					break;
+				}
 			}
 			return compound;
 		}
@@ -802,7 +817,7 @@ public class ConstructorControllerEntity {
 			switch(pkt.nbt.getString("task")){
 				case "update_vehicledata":{
 					if(pkt.nbt.hasKey(LandVehicleItem.NBTKEY)){
-						this.vehicledata = new GenericLandVehicleData().readFromNBT(pkt.nbt);
+						this.vehicledata = Resources.getLandVehicleData(pkt.nbt);
 					}
 					else{
 						Print.debug("NO VEHICLE NBT KEY FOUND, RESETTING!");
@@ -849,7 +864,7 @@ public class ConstructorControllerEntity {
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
 			if(compound.hasKey(LandVehicleItem.NBTKEY)){
-				this.vehicledata = new GenericLandVehicleData().readFromNBT(compound);
+				this.vehicledata = Resources.getLandVehicleData(compound);
 			}
 			this.liftstate = compound.getFloat("LiftState");
 			this.lift = compound.getByte("Lift");

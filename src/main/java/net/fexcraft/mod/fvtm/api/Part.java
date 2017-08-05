@@ -62,6 +62,8 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	@SideOnly(Side.CLIENT)
 	public PartModel getModel();
 	
+	public Class<? extends PartData> getDataClass();
+	
 	//<-- PART DATA -->//
 	public static interface PartData {
 		

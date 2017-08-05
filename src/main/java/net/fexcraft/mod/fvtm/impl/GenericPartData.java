@@ -19,7 +19,9 @@ public class GenericPartData implements PartData {
 	private ResourceLocation custom;
 	private boolean isexternal;
 	
-	public GenericPartData(){}
+	public GenericPartData(Part part){
+		this.part = part;
+	}
 
 	@Override
 	public Part getPart(){

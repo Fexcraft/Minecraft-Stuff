@@ -53,6 +53,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	@SideOnly(Side.CLIENT)
 	public VehicleModel getModel();
 	
+	public Class<? extends LandVehicleData> getDataClass();
+	
 	//<-- VEHICLE DATA -->//
 	public static interface LandVehicleData {
 		

@@ -15,8 +15,12 @@ import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.Fuel;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
+import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.impl.GenericAddon;
 import net.fexcraft.mod.fvtm.impl.GenericLandVehicle;
 import net.fexcraft.mod.fvtm.impl.GenericLandVehicleItem;
@@ -32,6 +36,7 @@ import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -370,6 +375,36 @@ public class Resources {
 			case "obj": return ModelType.OBJ;
 		}
 		return ModelType.NONE;
+	}
+	
+	public static final LandVehicleData getLandVehicleData(NBTTagCompound compound){
+		if(compound.hasKey(LandVehicleItem.NBTKEY)){
+			LandVehicle vehicle = LANDVEHICLES.getValue(new ResourceLocation(compound.getString(LandVehicleItem.NBTKEY)));
+			if(vehicle != null){
+				try{
+					return vehicle.getDataClass().getConstructor(LandVehicle.class).newInstance(vehicle).readFromNBT(compound);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static final PartData getPartData(NBTTagCompound compound){
+		if(compound.hasKey(PartItem.NBTKEY)){
+			Part part = PARTS.getValue(new ResourceLocation(compound.getString(PartItem.NBTKEY)));
+			if(part != null){
+				try{
+					return part.getDataClass().getConstructor(Part.class).newInstance(part).readFromNBT(compound);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
 	}
 	
 }

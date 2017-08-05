@@ -51,7 +51,7 @@ public class GenericPartItem extends Item implements PartItem {
 	@Override
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			PartData part = new GenericPartData().readFromNBT(stack.getTagCompound());
+			PartData part = Resources.getPartData(stack.getTagCompound());
 			if(part == null){
 				return;
 			}
@@ -92,7 +92,7 @@ public class GenericPartItem extends Item implements PartItem {
 	@Override
 	public PartData getPart(ItemStack stack){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			return new GenericPartData().readFromNBT(stack.getTagCompound());
+			return Resources.getPartData(stack.getTagCompound());
 		}
 		return null;
 	}

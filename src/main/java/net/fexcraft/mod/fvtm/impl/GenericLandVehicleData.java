@@ -33,7 +33,9 @@ public class GenericLandVehicleData implements LandVehicleData {
 	private RGB primary, secondary;
 	private boolean doors, isexternal;
 	
-	public GenericLandVehicleData(){}
+	public GenericLandVehicleData(LandVehicle veh){
+		this.vehicle = veh;
+	}
 	
 	@Override
 	public LandVehicle getVehicle(){
@@ -122,7 +124,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 			NBTTagList list = (NBTTagList)compound.getTag("Parts");
 			for(NBTBase base : list){
 				NBTTagCompound nbt = (NBTTagCompound)base;
-				PartData data = new GenericPartData().readFromNBT(nbt);
+				PartData data = Resources.getPartData(nbt);
 				if(data != null){
 					this.parts.put(nbt.getString("UsedAs"), data);
 				}

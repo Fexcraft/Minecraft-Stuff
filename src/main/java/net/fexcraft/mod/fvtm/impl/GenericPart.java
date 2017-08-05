@@ -219,5 +219,10 @@ public class GenericPart implements Part {
 	public Collection<Class> getAttributeClasses(){
 		return this.attributes.keySet();
 	}
+
+	@Override
+	public Class<? extends PartData> getDataClass(){
+		return GenericPartData.class;
+	}
 	
 }

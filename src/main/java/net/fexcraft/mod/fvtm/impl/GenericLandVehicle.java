@@ -154,5 +154,10 @@ public class GenericLandVehicle implements LandVehicle {
 	public int getConstructionLength(){
 		return constructionlength;
 	}
+
+	@Override
+	public Class<? extends LandVehicleData> getDataClass(){
+		return GenericLandVehicleData.class;
+	}
 	
 }
