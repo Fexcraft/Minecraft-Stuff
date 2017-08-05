@@ -38,7 +38,7 @@ gui.fvtm.addon_manager.view_one_state_disabled=Disable
 gui.fvtm.addon_manager.view_one_update=Find Update
 
 #Creative Tabs
-itemGroup.fvtm_vehicles=FVTM - Vehicles
+itemGroup.fvtm_landvehicles=FVTM - (Land) Vehicles
 itemGroup.fvtm_parts=FVTM - Parts
 itemGroup.fvtm_materials=FVTM - Materials
 itemGroup.fvtm_blocks=FVTM - Blocks

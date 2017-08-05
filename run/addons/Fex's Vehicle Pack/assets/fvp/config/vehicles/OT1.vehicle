@@ -4,14 +4,14 @@
     "FullName": "OT1 Type P",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelOT1.class",
     "PrimaryColor": {
-        "Red": 0.027,
-        "Blue": 0.639,
-        "Green": 0.396
+        "Red": 96,
+        "Blue": 96,
+        "Green": 96
     },
     "SecondaryColor": {
-        "Red": 1.0,
-        "Blue": 0.0,
-        "Green": 0.0
+        "Red": 99,
+        "Blue": 99,
+        "Green": 99
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_ot1.png"
@@ -45,7 +45,7 @@
         "Length": 6,
         "HeightOffset": 12.5,
         "WheelOffset": 19,
-        "Requires": [
+        "RequiredParts": [
             "right_front_wheel",
             "left_front_wheel",
             "right_back_wheel",

@@ -4,55 +4,34 @@
     "FullName": "T1 Type P-",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelT1P.class",
     "PrimaryColor": {
-        "Red": 0.0,
-        "Blue": 1.0,
-        "Green": 0.0
+        "Red": 96,
+        "Blue": 96,
+        "Green": 96
     },
     "SecondaryColor": {
-        "Red": 1.0,
-        "Blue": 0.0,
-        "Green": 0.0
+        "Red": 99,
+        "Blue": 99,
+        "Green": 99
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_t1p.png"
     ],
     "WheelPos":[
-        {
-            "x": -71,
-            "y": -10,
-            "z": -17
-        },
-        {
-            "x": -71,
-            "y": -10,
-            "z": 17
-        },
-        {
-            "x": 35,
-            "y": -10,
-            "z": 17
-        },
-        {
-            "x": 35,
-            "y": -10,
-            "z": -17
-        }
+        { "x": -71, "y": -10, "z": -17 },
+        { "x": -71, "y": -10, "z":  17 },
+        { "x":  35, "y": -10, "z":  17 },
+        { "x":  35, "y": -10, "z": -17 }
     ],
     "ConstructionLength": 6,
     "ConstructionYOffSet": 12.5,
     "ConstructionWheelOffset": 19.5,
-    "ConstructionSettings": {
-        "Length": 6,
-        "HeightOffset": 12.5,
-        "WheelOffset": 19.5,
-        "Requires": [
-            "right_front_wheel",
-            "left_front_wheel",
-            "right_back_wheel",
-            "left_back_wheel",
-            "engine"
-        ]
-    },
+    "RequiredParts": [
+        "right_front_wheel",
+        "left_front_wheel",
+        "right_back_wheel",
+        "left_back_wheel",
+        "engine"
+    ],
     "PartSettings": {
         "PreInstalled": [
             "steering_wheel:t1_steering_wheel",

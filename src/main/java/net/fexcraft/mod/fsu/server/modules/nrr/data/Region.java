@@ -1,7 +1,6 @@
 package net.fexcraft.mod.fsu.server.modules.nrr.data;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import com.google.gson.JsonArray;
@@ -10,6 +9,7 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fsu.server.modules.nrr.NRR;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 
 public class Region implements DataObject {
 	

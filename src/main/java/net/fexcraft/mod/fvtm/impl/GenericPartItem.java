@@ -49,7 +49,7 @@ public class GenericPartItem extends Item implements PartItem {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
 			PartData part = new GenericPartData().readFromNBT(stack.getTagCompound());
 			if(part == null){
@@ -62,6 +62,9 @@ public class GenericPartItem extends Item implements PartItem {
 			}
 			tooltip.add(Formatter.format("&9Selected Texture: &7" + part.getSelectedTexture()));
 			tooltip.add(Formatter.format("&9Current Offset: &8" + part.getCurrentOffset().toString()));
+			for(Class clazz : part.getPart().getAttributeClasses()){
+				part.getPart().getAttribute(clazz).addInformation(stack, world, tooltip, flag);
+			}
 		}
     }
 	

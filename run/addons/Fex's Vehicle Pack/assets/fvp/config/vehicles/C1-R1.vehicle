@@ -4,14 +4,14 @@
     "FullName": "C1-R1",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC1_R1.class",
     "PrimaryColor": {
-        "Red": 0.5,
-        "Blue": 0.3,
-        "Green": 0.2
+        "Red": 96,
+        "Blue": 96,
+        "Green": 96
     },
     "SecondaryColor": {
-        "Red": 0.0,
-        "Blue": 0.5,
-        "Green": 0.5
+        "Red": 99,
+        "Blue": 99,
+        "Green": 99
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_c1_r1.png"

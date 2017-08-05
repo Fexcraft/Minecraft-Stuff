@@ -1,6 +1,8 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -36,10 +38,10 @@ public class GenericPart implements Part {
 	private TreeMap<ResourceLocation, Pos> compatible = new TreeMap<ResourceLocation, Pos>();
 	private TreeMap<ResourceLocation, ArrayList<ResourceLocation>> incompatible = new TreeMap<ResourceLocation, ArrayList<ResourceLocation>>();
 	private ArrayList<ResourceLocation> textures;
-	private boolean removable, available;
+	private boolean removable, available, adjustable;
 	private PartModel model;
 	private JsonObject attributedata;
-	private TreeMap<Class, Attribute> attributes = new TreeMap<Class, Attribute>();
+	private HashMap<Class, Attribute> attributes = new HashMap<Class, Attribute>();
 	
 	public GenericPart(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "PART");
@@ -51,7 +53,7 @@ public class GenericPart implements Part {
 			for(JsonElement elm : array){
 				try{
 					JsonObject jsn = elm.getAsJsonObject();
-					compatible.put(new ResourceLocation(jsn.get("vehicle").getAsString()), Pos.fromJSON(jsn));
+					compatible.put(new ResourceLocation(jsn.get("Vehicle").getAsString()), Pos.fromJSON(jsn));
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -75,7 +77,8 @@ public class GenericPart implements Part {
 		this.categories = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Category", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
 		//this.attributes = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
 		this.removable = JsonUtil.getIfExists(obj, "Removable", true);
-		this.available = JsonUtil.getIfExists(obj, "Avaiable", true);
+		this.available = JsonUtil.getIfExists(obj, "Avaible", true);
+		this.adjustable = JsonUtil.getIfExists(obj, "Adjustable", false);
 		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), PartModel.class, NullModel.get());
 		this.attributedata = JsonUtil.getIfExists(obj, "AttributeData", new JsonObject()).getAsJsonObject();
 		
@@ -173,6 +176,11 @@ public class GenericPart implements Part {
 		return available;
 	}
 
+	@Override
+	public boolean isAdjustable(){
+		return this.adjustable;
+	}
+
 	@Override @SideOnly(Side.CLIENT)
 	public PartModel getModel(){
 		return model;
@@ -189,7 +197,7 @@ public class GenericPart implements Part {
 	}
 
 	@Override
-	public boolean canInstall(LandVehicleData data, EntityPlayer player){
+	public boolean canInstall(String as, LandVehicleData data, EntityPlayer player){
 		if(this.compatible.containsKey(data.getVehicle().getRegistryName()) || this.compatible.containsKey(new ResourceLocation("all")) || this.compatible.isEmpty()){
 			ArrayList<ResourceLocation> arr = this.incompatible.get(data.getVehicle().getRegistryName());
 			if(arr == null){
@@ -205,6 +213,11 @@ public class GenericPart implements Part {
 		}
 		Print.chat(player, "Incompatible vehicle.");
 		return false;
+	}
+
+	@Override
+	public Collection<Class> getAttributeClasses(){
+		return this.attributes.keySet();
 	}
 	
 }

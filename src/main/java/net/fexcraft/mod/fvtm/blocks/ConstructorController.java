@@ -5,6 +5,7 @@ import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.util.Tabs;
+import net.fexcraft.mod.lib.api.item.PaintItem;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -144,9 +145,9 @@ public class ConstructorController extends BlockContainer {
 				}
 				if(!te.getScreenId().equals("part_add_new")){
 					if(!te.getData().getInstalledParts().contains(data.getPart().getCategory())){
-						if(data.getPart().canInstall(te.getData(), p)){
+						if(data.getPart().canInstall(data.getPart().getCategory(), te.getData(), p)){
 							te.getData().installPart(data.getPart().getCategory(), data);
-							Print.chat(p, "Part installed.");
+							Print.chat(p, "Part installed. (" + data.getPart().getName() + ")");
 							p.getHeldItem(hand).shrink(64);
 							te.updateLandVehicle(null);
 						}
@@ -158,13 +159,24 @@ public class ConstructorController extends BlockContainer {
 				else{
 					if(data.getPart().isAvailable()){
 						te.setPartData(data);
+						p.getHeldItem(hand).shrink(64);
 						Print.chat(p, "Part put into Contructor. You can access it via the part menu.");
 					}
 					else{
-						Print.chat(p, "This part can't be adjusted in the Constructor.");
+						Print.chat(p, "This part isn't available for editement in the Constructor.");
 					}
 				}
 				return true;
+			}
+			else if(stack.getItem() instanceof PaintItem){
+				if(hand == EnumHand.OFF_HAND){
+					te.getData().getSecondaryColor().copyFrom(((PaintItem)stack.getItem()).getRGBColor());
+				}
+				else{
+					te.getData().getPrimaryColor().copyFrom(((PaintItem)stack.getItem()).getRGBColor());
+				}
+				te.updateLandVehicle(null);
+				Print.chat(p, "Colour updated.");
 			}
 		}
 		else{

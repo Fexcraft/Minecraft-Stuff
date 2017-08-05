@@ -4,14 +4,14 @@
     "FullName": "C2 Type P",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC2.class",
     "PrimaryColor": {
-        "Red": 0.98,
-        "Blue": 0.0,
-        "Green": 0.604
+        "Red": 96,
+        "Blue": 96,
+        "Green": 96
     },
     "SecondaryColor": {
-        "Red": 0.078,
-        "Blue": 0.871,
-        "Green": 0.553
+        "Red": 99,
+        "Blue": 99,
+        "Green": 99
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_c2.png"
@@ -42,7 +42,7 @@
     "ConstructionYOffSet": 22.5,
     "ConstructionWheelOffset": 20,
     "ConstructionSettings": {
-        "Requires": [
+        "RequiredParts": [
             "right_front_wheel",
             "left_front_wheel",
             "right_back_wheel",

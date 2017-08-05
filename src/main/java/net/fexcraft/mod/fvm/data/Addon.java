@@ -1,7 +1,6 @@
 package net.fexcraft.mod.fvm.data;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.UUID;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -12,6 +11,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;

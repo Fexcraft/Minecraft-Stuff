@@ -1,7 +1,6 @@
 package net.fexcraft.mod.fsu.server.modules.nvr.data;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import net.fexcraft.mod.fsmm.account.AccountManager.Account;
@@ -9,6 +8,7 @@ import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 
 public class Municipality {
 	

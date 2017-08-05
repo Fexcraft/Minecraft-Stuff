@@ -1,0 +1,26 @@
+{
+    "RegistryName": "fvp:t1_back_wheel",
+    "Addon": "fvtm:fvp",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1BW.class",
+    "Category": [
+        "wheels",
+        "right_back_wheel",
+        "left_back_wheel"
+    ],
+    "Textures": [
+        "fvp:textures/entities/skin_vehicle_t1p.png"
+    ],
+    "Removable": false,
+    "Available": true,
+    "Adjustable": false,
+    "Compatible": [
+        {
+           "Vehicle": "fvp:t1",
+            "x": 0, "y": 0, "z": 0
+        },
+        {
+            "Vehicle": "fvp:ot1",
+             "x": 18,"y": 0,"z": 0
+        }
+    ]
+}

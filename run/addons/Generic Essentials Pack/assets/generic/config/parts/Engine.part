@@ -14,16 +14,10 @@
     ],
     "Removable": true,
     "Available": false,
-    "Compatible": [
-        {
-            "Vehicle": "Any",
-            "Offset": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-            }
-        }
-    ],
-    "EngineSpeed": 1.00,
-    "FuelConsumption": 0.7 
+    "Compatible": [],
+    "AttributeData":{
+        "Engine-Speed": 1.00,
+        "Fuel-Comsumption": 0.7,
+        "Fuel-Type": "diesel"
+    }
 }

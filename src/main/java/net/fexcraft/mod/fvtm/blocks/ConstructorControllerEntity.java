@@ -2,6 +2,8 @@ package net.fexcraft.mod.fvtm.blocks;
 
 import static net.fexcraft.mod.fvtm.blocks.ConstructorController.Button.*;
 
+import java.util.Map.Entry;
+
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
@@ -40,6 +42,7 @@ public class ConstructorControllerEntity {
 		private static final byte text = 8;
 		private BlockPos center;
 		private String window = "null";//Don't save/sync this! Should reset on every world load.
+		private int sel;
 		
 		public void setData(LandVehicleItem item, ItemStack stack){
 			this.updateLandVehicle(item.getLandVehicle(stack));
@@ -58,7 +61,7 @@ public class ConstructorControllerEntity {
 				this.partdata = null;
 			}
 			this.partdata = data;
-			this.updateLandVehicle(null);
+			//this.updateLandVehicle(null);
 			if(this.window.equals("part_add_new")){
 				this.updateScreen("part_view_cache");
 			}
@@ -175,6 +178,12 @@ public class ConstructorControllerEntity {
 		}
 
 		public void onButtonPress(Button button, EntityPlayer player){
+			if(button.isHome()){
+				this.updateScreen("main");
+			}
+			if(window.startsWith("attr")){
+				//TODO
+			}
 			switch(window){
 				case "main": case "null":{
 					if(this.vehicledata == null){
@@ -211,13 +220,13 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "info":{
-					if(button.isHome() || button.isReturn()){
+					if(button.isReturn()){
 						this.updateScreen("main");
 					}
 					break;
 				}
 				case "colour_menu":{
-					if(button.isHome() || button.isReturn()){
+					if(button.isReturn()){
 						this.updateScreen("main");
 					}
 					if(button.isVerticalArrow()){
@@ -246,16 +255,13 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "colour_unavailable":{
-					if(button.isHome()){
-						this.updateScreen("main");
-					}
 					if(button.isReturn()){
 						this.updateScreen("colour_menu");
 					}
 					break;
 				}
 				case "crash":{
-					if(button.isReturn() || button.isHome()){
+					if(button.isReturn()){
 						this.updateScreen("main");
 					}
 					if(button.isVerticalArrow()){
@@ -287,9 +293,6 @@ public class ConstructorControllerEntity {
 					RGB rgb = str.equals("primary") ? this.vehicledata.getPrimaryColor() : this.vehicledata.getSecondaryColor();
 					if(button.isReturn()){
 						this.updateScreen("colour_menu");
-					}
-					if(button.isHome()){
-						this.updateScreen("main");
 					}
 					if(button.isReset()){
 						switch(selection){
@@ -348,7 +351,7 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "part_menu":{
-					if(button.isReturn() || button.isHome()){
+					if(button.isReturn()){
 						this.updateScreen("main");
 					}
 					if(button.isVerticalArrow()){
@@ -357,11 +360,11 @@ public class ConstructorControllerEntity {
 					if(button.isSelect()){
 						switch(selection){
 							case 2:{
-								this.updateScreen("part_view_all");
+								this.updateScreen("part_view_installed");
 								break;
 							}
 							case 3:{
-								this.updateScreen("part_view_missing");
+								this.updateScreen("part_view_required");
 								break;
 							}
 							case 5:{
@@ -396,20 +399,112 @@ public class ConstructorControllerEntity {
 					if(button.isReturn()){
 						this.updateScreen("part_menu");
 					}
-					if(button.isHome()){
-						this.updateScreen("main");
-					}
 					break;
 				}
 				case "part_view_cache":{
 					if(button.isReturn()){
 						this.updateScreen("part_menu");
 					}
-					if(button.isHome()){
-						this.updateScreen("main");
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						switch(selection){
+							case 4:{
+								
+								break;
+							}
+							case 5:{
+															
+								break;
+							}
+							case 6:{
+								
+								break;
+							}
+							case 7:{
+								this.updateScreen("part_cache_install");
+								break;
+							}
+						}
+					}
+					break;
+				}
+				case "part_cache_install":{
+					if(button.isReturn()){
+						this.updateScreen("part_view_cache");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1, true);
+					}
+					if(button.isSelect()){
+						if(scroll + selection >= partdata.getPart().getCategories().size()){
+							return;
+						}
+						if(vehicledata.getInstalledParts().contains(partdata.getPart().getCategories().get(scroll + selection))){
+							Print.chat(player, "Part of that category already installed.");
+							return;
+						}
+						if(this.partdata.getPart().canInstall(partdata.getPart().getCategories().get(scroll + selection), vehicledata, player)){
+							this.vehicledata.installPart(partdata.getPart().getCategories().get(scroll + selection), partdata);
+							this.partdata = null;
+							this.updateLandVehicle(null);
+							this.updateScreen("part_menu");
+						}
+					}
+					break;
+				}
+				case "part_view_required":{
+					if(button.isReturn()){
+						this.updateScreen("part_menu");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1, true);
+					}
+					break;
+				}
+				case "part_view_installed":{
+					if(button.isReturn()){
+						this.updateScreen("part_menu");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1, true);
+					}
+					if(button.isSelect()){
+						PartData data = vehicledata.getParts().values().toArray(new PartData[]{})[selection + scroll];
+						if(data != null){
+							this.sel = selection + scroll;
+							this.updateScreen("part_view_selected");
+						}
+					}
+					break;
+				}
+				case "part_view_selected":{
+					if(button.isReturn()){
+						this.updateScreen("part_view_installed");
 					}
 					if(button.isVerticalArrow()){
 						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						switch(selection){
+							case 4:{
+								this.updateScreen("part_selected_edit_texture");
+								break;
+							}
+							case 5:{
+								this.updateScreen("part_selected_view_attributes");
+								break;
+							}
+							case 6:{
+								this.updateScreen("part_selected_edit_offset");
+								break;
+							}
+							case 7:{
+								this.updateScreen("part_selected_remove");
+								break;
+							}
+						}
 					}
 					break;
 				}
@@ -423,6 +518,10 @@ public class ConstructorControllerEntity {
 		}
 
 		private final NBTTagCompound getWindowUpdate(NBTTagCompound compound){
+			if(window.startsWith("attr")){
+				//TODO
+				return compound;
+			}
 			switch(window){
 				case "main": case "null":{
 					if(vehicledata == null){
@@ -498,7 +597,7 @@ public class ConstructorControllerEntity {
 					compound.setString("Text0", "Part Editor");
 					compound.setString("Text1", "- - - - - - - - - -");
 					compound.setString("Text2", "View Installed Parts");
-					compound.setString("Text3", "View Missing Parts");
+					compound.setString("Text3", "View Required Parts");
 					compound.setString("Text4", "- - - - - - - - - -");
 					compound.setString("Text5", "Select new Part");
 					compound.setString("Text6", "Edit Selected Part");
@@ -512,6 +611,7 @@ public class ConstructorControllerEntity {
 					compound.setString("Text3", "(\"select part\")");
 					compound.setString("Text4", "- - - - - - - - - -");
 					fill(5, compound);
+					sel = -1;
 					break;
 				}
 				case "part_view_cache":{
@@ -527,7 +627,69 @@ public class ConstructorControllerEntity {
 					compound.setString("Text4", "Edit Texture Settings");
 					compound.setString("Text5", "Edit Attribute Settings");
 					compound.setString("Text6", "Edit Offset");
-					compound.setString("Text7", "- - - - - - - - - -");
+					compound.setString("Text7", "Install as...");
+					break;
+				}
+				case "part_cache_install":{
+					if(partdata == null){
+						compound.setString("Text0", "ERROR: NO PART");
+						fill(1, compound);
+						break;
+					}
+					//
+					for(int i = 0; i < text; i++){
+						int j = i + scroll;
+						if(j >= partdata.getPart().getCategories().size()){
+							compound.setString("Text" + i, "[" + j + "]");
+						}
+						else{
+							compound.setString("Text" + i, "[" + j + "] " + partdata.getPart().getCategories().get(j));
+						}
+					}
+					break;
+				}
+				case "part_view_required":{
+					for(int i = 0; i < text; i++){
+						int j = i + scroll;
+						if(j >= vehicledata.getVehicle().getRequiredParts().size()){
+							compound.setString("Text" + i, "&7[&e" + j + "&7]");
+						}
+						else{
+							String str = vehicledata.getVehicle().getRequiredParts().get(j);
+							compound.setString("Text" + i, "&7[&" + (vehicledata.getParts().containsKey(str) ? "a" : "c") + j + "&7] " + str);
+						}
+					}
+					break;
+				}
+				case "part_view_installed":{
+					for(int i = 0; i < text; i++){
+						int j = i + scroll;
+						if(j >= vehicledata.getParts().size()){
+							compound.setString("Text" + i, "[" + j + "]");
+						}
+						else{
+							PartData data = vehicledata.getParts().values().toArray(new PartData[]{})[j];
+							compound.setString("Text" + i, "[" + j + "] " + data.getPart().getName());
+						}
+					}
+					break;
+				}
+				case "part_view_selected":{
+					Entry<String, PartData> entry = (Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel];
+					if(entry == null){
+						compound.setString("Text0", "ERROR: NO PART");
+						fill(1, compound);
+						break;
+					}
+					PartData data = entry.getValue();
+					compound.setString("Text0", "ID: " + data.getPart().getName());
+					compound.setString("Text1", "RG: " + data.getPart().getRegistryName());
+					compound.setString("Text2", "IS: " + entry.getKey());
+					compound.setString("Text3", "- - - - - - - - - -");
+					compound.setString("Text4", "Edit Texture Settings");
+					compound.setString("Text5", "Edit Attribute Settings");
+					compound.setString("Text6", "Edit Offset");
+					compound.setString("Text7", "Remove");
 					break;
 				}
 			}
@@ -575,11 +737,30 @@ public class ConstructorControllerEntity {
 		}
 		
 		private void updateSelection(int i){
+			updateSelection(i, false);
+		}
+		
+		private void updateSelection(int i, boolean b){
 			if(i == -10){ this.selection = -1; }
 			else{
+				if(b){
+					if(selection == 0 && i == -1){
+						scroll -= 1;
+						if(scroll < 0){
+							scroll = 0;
+						}
+						this.updateScreen(null, false);
+					}
+					else if(selection == 7 && i == 1){
+						scroll++;
+						this.updateScreen(null, false);
+					}
+				}
+				//
 				this.selection += i;
 				if(selection < -1){ selection = -1; }
 				if(selection > 7){ selection = 7; }
+				if(b && selection < 0) { selection = 0; }
 			}
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("task", "update_selection");

@@ -15,6 +15,7 @@ import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.math.Pos;
+import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,31 +27,17 @@ public class GenericLandVehicleData implements LandVehicleData {
 	private LandVehicle vehicle;
 	private int sel, tank;
 	private String url;
+	private ResourceLocation custom;
 	private TreeMap<String, PartData> parts = new TreeMap<String, PartData>();
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
-	private boolean doors;
+	private boolean doors, isexternal;
 	
 	public GenericLandVehicleData(){}
 	
 	@Override
 	public LandVehicle getVehicle(){
 		return this.vehicle;
-	}
-
-	@Override
-	public int getSelectedTexture(){
-		return sel;
-	}
-
-	@Override
-	public String getTextureURL(){
-		return url;
-	}
-
-	@Override
-	public void setTextureURL(String string){
-		this.url = string;
 	}
 
 	@Override
@@ -84,7 +71,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 		tagcompound.setString(LandVehicleItem.NBTKEY, vehicle.getRegistryName().toString());
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
-		compound.setString("TextureUrl", url == null ? "" : url);
+		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
+		compound.setBoolean("IsTextureExternal", isexternal);
 		compound.setInteger("FuelTank", tank);
 		NBTTagList list = new NBTTagList();
 		for(Entry<String, PartData> part : parts.entrySet()){
@@ -126,7 +114,9 @@ public class GenericLandVehicleData implements LandVehicleData {
 		}
 		compound = compound.getCompoundTag(FVTM.MODID);
 		this.sel = compound.getInteger("SelectedTexture");
-		this.url = compound.getString("TextureUrl");
+		isexternal = compound.getBoolean("IsTextureExternal");
+		url = isexternal ? compound.getString("CustomTexture") : null;
+		custom = isexternal ? null : new ResourceLocation(compound.getString("CustomTexture"));
 		this.tank = compound.getInteger("FuelTank");
 		if(compound.hasKey("Parts")){
 			NBTTagList list = (NBTTagList)compound.getTag("Parts");
@@ -196,6 +186,38 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public void installPart(String as, PartData data){
 		this.parts.put(as, data);
+	}
+
+	@Override
+	public int getSelectedTexture(){
+		return sel;
+	}
+
+	@Override
+	public void setSelectedTexture(int i){
+		this.sel = i;
+	}
+
+	@Override
+	public ResourceLocation getCustomTexture(){
+		return isexternal ? ExternalTextureHelper.get(url) : custom;
+	}
+
+	@Override
+	public void setCustomTexture(String string, boolean external){
+		url = external ? string : null;
+		custom = external ? null : new ResourceLocation(string);
+		isexternal = external;
+	}
+
+	@Override
+	public boolean isTextureExternal(){
+		return this.isexternal;
+	}
+
+	@Override
+	public ResourceLocation getTexture(){
+		return sel >= 0 ? vehicle.getTextures().get(sel) : this.getCustomTexture();
 	}
 	
 }

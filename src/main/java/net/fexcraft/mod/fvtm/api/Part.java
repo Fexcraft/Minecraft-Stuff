@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvtm.api;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -48,11 +49,15 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public boolean isAvailable();
 	
+	public boolean isAdjustable();
+	
 	public JsonObject getAttributeData();
 	
 	public <T extends Attribute> T getAttribute(Class<T> clazz);
 	
-	public boolean canInstall(LandVehicleData data, EntityPlayer player);
+	public Collection<Class> getAttributeClasses();
+	
+	public boolean canInstall(String as, LandVehicleData data, EntityPlayer player);
 	
 	@SideOnly(Side.CLIENT)
 	public PartModel getModel();
@@ -64,9 +69,15 @@ public interface Part extends IForgeRegistryEntry<Part> {
 		
 		public int getSelectedTexture();
 		
-		public String getTextureURL();
+		public void setSelectedTexture(int i);
 		
-		public void setTextureURL(String string);
+		public ResourceLocation getCustomTexture();
+		
+		public void setCustomTexture(String string, boolean external);
+		
+		public boolean isTextureExternal();
+		
+		public ResourceLocation getTexture();
 		
 		public Pos getCurrentOffset();
 		

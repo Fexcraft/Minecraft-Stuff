@@ -1,0 +1,23 @@
+{
+    "RegistryName": "fvp:t1_type2_cargoupgrade",
+    "Addon": "fvtm:fvp",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1_2.class",
+    "FullName": "Type 2 Tow Truck Upgrade",
+    "Category": [
+        "cargo"
+    ],
+    "Scripts":[
+        "net.fexcraft.mod.fvm.scripts.T1_2Script.class"
+    ],
+    "Textures": [
+        "fvp:textures/entities/skin_vehicle_t1_2.png"
+    ],
+    "Removable": true,
+    "Available": true,
+    "Compatible": [
+        {
+            "Vehicle": "fvp:t1",
+            "x": 0, "y": 0, "z": 0
+        }
+    ]
+}

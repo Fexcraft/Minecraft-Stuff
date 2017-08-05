@@ -6,6 +6,7 @@ import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.math.Pos;
+import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,6 +16,8 @@ public class GenericPartData implements PartData {
 	private int sel;
 	private Pos offset;
 	private String url;
+	private ResourceLocation custom;
+	private boolean isexternal;
 	
 	public GenericPartData(){}
 
@@ -38,7 +41,8 @@ public class GenericPartData implements PartData {
 		tagcompound.setString(PartItem.NBTKEY, part.getRegistryName().toString());
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
-		compound.setString("TextureUrl", url);
+		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
+		compound.setBoolean("IsTextureExternal", isexternal);
 		tagcompound.setTag(FVTM.MODID, offset.toNBT("Offset", compound));
 		return tagcompound;
 	}
@@ -55,18 +59,37 @@ public class GenericPartData implements PartData {
 		compound = compound.getCompoundTag(FVTM.MODID);
 		sel = compound.getInteger("SelectedTexture");
 		offset = Pos.fromNBT("Offset", compound);
-		url = compound.getString("TextureUrl");
+		isexternal = compound.getBoolean("IsTextureExternal");
+		url = isexternal ? compound.getString("CustomTexture") : null;
+		custom = isexternal ? null : new ResourceLocation(compound.getString("CustomTexture"));
 		return this;
 	}
 
 	@Override
-	public String getTextureURL(){
-		return url;
+	public ResourceLocation getCustomTexture(){
+		return isexternal ? ExternalTextureHelper.get(url) : this.custom;
 	}
 
 	@Override
-	public void setTextureURL(String string){
-		url = string;
+	public void setCustomTexture(String string, boolean external){
+		this.url = external ? string : null;
+		this.custom = external ? null : new ResourceLocation(string);
+		this.isexternal = external;
+	}
+
+	@Override
+	public void setSelectedTexture(int i){
+		this.sel = i;
+	}
+
+	@Override
+	public boolean isTextureExternal(){
+		return isexternal;
+	}
+
+	@Override
+	public ResourceLocation getTexture(){
+		return sel >= 0 ? part.getTextures().get(sel) : this.getCustomTexture();
 	}
 	
 }

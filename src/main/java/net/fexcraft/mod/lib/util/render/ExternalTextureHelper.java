@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.util.ResourceLocation;
 
-public class RemoteTextureRenderHelper {
+public class ExternalTextureHelper {
 	
 	private static final Map<String, ResourceLocation> map = new HashMap<String, ResourceLocation>();
 	private static final Map<String, ResourceLocation> tempmap = new HashMap<String, ResourceLocation>();

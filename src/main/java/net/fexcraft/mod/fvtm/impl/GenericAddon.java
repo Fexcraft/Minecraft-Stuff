@@ -1,7 +1,6 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +14,7 @@ import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -26,10 +26,12 @@ public class GenericAddon implements Addon {
 	private List<ResourceLocation> dependencies;
 	private List<UUID> authors;
 	private boolean enabled, missingdeps;
+	protected boolean hybrid = false;
 	
 	/** INTERNAL USE ONLY */
 	public GenericAddon(){}
 	
+	/** MAIN CONSTRUCTOR */
 	public GenericAddon(File file){
 		this.enabled = true;
 		this.file = file;
@@ -153,6 +155,21 @@ public class GenericAddon implements Addon {
 		nbt.setString("file", fileaddr == null ? file.toString() : fileaddr);
 		nbt.setString("version", version);
 		return nbt;
+	}
+
+	public static boolean isHybrid(File file){
+		JsonObject obj = file.isDirectory() ? JsonUtil.get(new File(file, Resources.DEFPACKCFGFILENAME)) : ZipUtil.getJsonObject(file, Resources.DEFPACKCFGFILENAME);
+		return obj.has("class");
+	}
+	
+	/** internal use mostly */
+	public final boolean isHybrid(){
+		return this.hybrid;
+	}
+	
+	public static Class<Addon> getClass(File file) throws ClassNotFoundException{
+		JsonObject obj = file.isDirectory() ? JsonUtil.get(new File(file, Resources.DEFPACKCFGFILENAME)) : ZipUtil.getJsonObject(file, Resources.DEFPACKCFGFILENAME);
+		return (Class<Addon>)Class.forName(obj.get("class").getAsString());
 	}
 	
 }

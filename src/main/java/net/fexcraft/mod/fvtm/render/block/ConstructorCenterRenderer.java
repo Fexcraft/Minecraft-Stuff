@@ -10,7 +10,6 @@ import net.fexcraft.mod.fvtm.model.block.ModelConstructorCenter;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
-import net.fexcraft.mod.lib.util.render.RemoteTextureRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
@@ -48,13 +47,13 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			VehicleModel modvec = ConstructorControllerEntity.Client.vehicledata.getVehicle().getModel();
 			if(modvec != null){
 				LandVehicleData data = ConstructorControllerEntity.Client.vehicledata;
-				Minecraft.getMinecraft().renderEngine.bindTexture(data.getSelectedTexture() >= 0 ? data.getVehicle().getTextures().get(data.getSelectedTexture()) : RemoteTextureRenderHelper.get(data.getTextureURL()));
+				Minecraft.getMinecraft().renderEngine.bindTexture(data.getTexture());
 				GL11.glTranslated(0, (data.getVehicle().getYAxisConstructorOffset() * 0.0625f) - ConstructorControllerEntity.Client.liftstate, 0);
 				modvec.render(data, null, te.getBlockMetadata());
 				if(data.getParts().size() > 0){
 					for(String key : data.getInstalledParts()){
 						PartData part = data.getParts().get(key);
-						Minecraft.getMinecraft().renderEngine.bindTexture(part.getSelectedTexture() >= 0 ? part.getPart().getTextures().get(part.getSelectedTexture()) : RemoteTextureRenderHelper.get(part.getTextureURL()));
+						Minecraft.getMinecraft().renderEngine.bindTexture(part.getTexture());
 						part.getPart().getOffsetFor(data.getVehicle().getRegistryName()).translate();
 						part.getPart().getModel().render(data, key);
 						part.getPart().getOffsetFor(data.getVehicle().getRegistryName()).translateR();

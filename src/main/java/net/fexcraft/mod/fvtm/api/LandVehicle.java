@@ -60,9 +60,15 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public int getSelectedTexture();
 		
-		public String getTextureURL();
+		public void setSelectedTexture(int i);
 		
-		public void setTextureURL(String string);
+		public ResourceLocation getCustomTexture();
+		
+		public void setCustomTexture(String string, boolean external);
+		
+		public boolean isTextureExternal();
+		
+		public ResourceLocation getTexture();
 		
 		public int getFuelTankContent();
 		

@@ -9,6 +9,7 @@ import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.CCS;
 import net.fexcraft.mod.frsm.util.CD;
 import net.fexcraft.mod.lib.api.common.PaintableObject;
+import net.fexcraft.mod.lib.api.item.PaintItem;
 import net.fexcraft.mod.lib.util.common.EnumColor;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -29,7 +30,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PaintSet extends Item {
+public class PaintSet extends Item implements PaintItem {
 	
 	private static PaintSet[] sets;
 	private RGB color = new RGB();
@@ -72,14 +73,6 @@ public class PaintSet extends Item {
 		this(i, meta);
 		custom = b;
 	}
-
-	public RGB getColor() {
-		return color;
-	}
-	
-	private EnumColor getDye(){
-		return dye;
-	}
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
@@ -89,7 +82,7 @@ public class PaintSet extends Item {
 		else{
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock() instanceof PaintableObject){
-				((PaintableObject)state.getBlock()).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
+				((PaintableObject)state.getBlock()).onPaintItemUse(this.getRGBColor(), this.getColor(), player.getHeldItem(hand), player, pos, world);
 			}
 			else if(state.getBlock() == Blocks.WOOL){
 				world.setBlockState(pos, Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, dye.toDyeColor()));
@@ -108,7 +101,7 @@ public class PaintSet extends Item {
 			}
 			else if(state.getBlock().hasTileEntity(state)){
 				if(world.getTileEntity(pos) instanceof PaintableObject){
-					((PaintableObject)world.getTileEntity(pos)).onPaintItemUse(this.getColor(), this.getDye(), player.getHeldItem(hand), player, pos, world);
+					((PaintableObject)world.getTileEntity(pos)).onPaintItemUse(this.getRGBColor(), this.getColor(), player.getHeldItem(hand), player, pos, world);
 				}
 			}
 			else{
@@ -132,5 +125,15 @@ public class PaintSet extends Item {
 			tooltip.add(CCS.fromInt(dye.toDyeColor().getMetadata()) + dye.toString());
 		}
     }
+
+	@Override
+	public EnumColor getColor(){
+		return dye;
+	}
+
+	@Override
+	public RGB getRGBColor(){
+		return color;
+	}
 	
 }

@@ -1,12 +1,17 @@
 package net.fexcraft.mod.fvtm.api;
 
+import java.util.List;
+
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public interface Attribute extends IForgeRegistryEntry<Attribute> {
@@ -26,5 +31,8 @@ public interface Attribute extends IForgeRegistryEntry<Attribute> {
 	public default Class<Attribute> getRegistryType(){
 		return Attribute.class;
 	}
+	
+	/** For Item Tooltips */
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag);
 	
 }

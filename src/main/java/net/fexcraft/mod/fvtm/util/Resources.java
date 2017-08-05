@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Attribute;
+import net.fexcraft.mod.fvtm.api.Fuel;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
@@ -23,6 +24,7 @@ import net.fexcraft.mod.fvtm.impl.GenericMaterial;
 import net.fexcraft.mod.fvtm.impl.GenericMaterialItem;
 import net.fexcraft.mod.fvtm.impl.GenericPart;
 import net.fexcraft.mod.fvtm.impl.GenericPartItem;
+import net.fexcraft.mod.fvtm.impl.HybridAddon;
 import net.fexcraft.mod.lib.FCL;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -51,6 +53,7 @@ public class Resources {
 	public static final IForgeRegistry<LandVehicle> LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
 	public static final TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
 	public static final IForgeRegistry<Attribute> PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
+	public static final IForgeRegistry<Fuel> FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
 	
@@ -127,7 +130,13 @@ public class Resources {
 		}
 		for(File file : addonfolder.listFiles()){
 			if(Addon.isAddonContainer(file)){
-				event.getRegistry().register(new GenericAddon(file));
+				try{
+					Addon addon = GenericAddon.isHybrid(file) ? HybridAddon.getClass(file).getConstructor(File.class).newInstance(file) : new GenericAddon(file);
+					event.getRegistry().register(addon);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		}
 		for(Addon addon : ADDONS.getValues()){
@@ -151,6 +160,17 @@ public class Resources {
 	public void regMaterials(RegistryEvent.Register<Material> event){
 		this.queryAddons();
 		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regMaterials(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
 			Print.debug(addon.getRegistryName());
 			if(addon.isEnabled()/* && !addon.hasMissingDependencies()*/){
 				if(addon.getFile().isDirectory()){
@@ -185,6 +205,17 @@ public class Resources {
 	public void regParts(RegistryEvent.Register<Part> event){
 		this.queryAddons();
 		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regParts(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
 			Print.debug(addon.getRegistryName());
 			if(addon.isEnabled()/* && !addon.hasMissingDependencies()*/){
 				if(addon.getFile().isDirectory()){
@@ -219,6 +250,17 @@ public class Resources {
 	public void regLandVehicles(RegistryEvent.Register<LandVehicle> event){
 		this.queryAddons();
 		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regLandVehicles(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
 			Print.debug(addon.getRegistryName());
 			if(addon.isEnabled()/* && !addon.hasMissingDependencies()*/){
 				if(addon.getFile().isDirectory()){
@@ -251,7 +293,36 @@ public class Resources {
 	
 	@SubscribeEvent
 	public void regPartAttributes(RegistryEvent.Register<Attribute> event){
-		//TODO
+		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regAttributes(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void regFuels(RegistryEvent.Register<Fuel> event){
+		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regFuels(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
+		}
 	}
 
 	public static <T> T getModel(String name, Class<T> clazz, T def){
@@ -271,11 +342,11 @@ public class Resources {
 					model = (T)clasz.newInstance();
 					break;
 				case JTMT:
-					//TODO
-					break;
-				case JSON:
 					JsonObject obj = JsonUtil.getObjectFromInputStream(net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(name)).getInputStream());
 					model = (T)clazz.getConstructor(JsonObject.class).newInstance(obj);
+					break;
+				case JSON:
+					//TODO
 					break;
 				case NONE:
 				case OBJ:
