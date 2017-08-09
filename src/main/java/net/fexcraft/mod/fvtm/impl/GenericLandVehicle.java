@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.JsonArray;
@@ -8,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.api.DriveType;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.model.vehicle.EmptyVehicleModel;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
@@ -158,6 +160,60 @@ public class GenericLandVehicle implements LandVehicle {
 	@Override
 	public Class<? extends LandVehicleData> getDataClass(){
 		return GenericLandVehicleData.class;
+	}
+
+	@Override
+	public boolean canSpawnAs(String modid){
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public float getFMCameraDistance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getFMWheelStepHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getFMMaxNegativeThrottle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getFMMaxPositiveThrottle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getFMTurnLeftModifier() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getFMTurnRightModifier() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public DriveType getDriveType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Class<? extends LandVehicleScript>> getScripts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

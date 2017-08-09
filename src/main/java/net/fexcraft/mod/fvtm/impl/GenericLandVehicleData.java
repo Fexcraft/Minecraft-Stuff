@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,7 +12,9 @@ import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.math.Pos;
@@ -220,6 +223,59 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public ResourceLocation getTexture(){
 		return sel >= 0 ? vehicle.getTextures().get(sel) : this.getCustomTexture();
+	}
+
+	@Override
+	public void toggleDoors(Boolean doors){
+		this.doors = doors == null ? !this.doors : doors;
+	}
+
+	@Override
+	public PartData getPart(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setLocked(Boolean lock) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getLockCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<LandVehicleScript> getScripts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getSpawnedKeysAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setSpawnedKeysAmount(Integer i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FMSeat> getFMSeats() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
