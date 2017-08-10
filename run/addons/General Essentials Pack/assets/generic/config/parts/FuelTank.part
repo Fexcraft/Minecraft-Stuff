@@ -1,0 +1,21 @@
+{
+    "RegistryName": "generic:fuel_tank",
+    "Addon": "fvtm:generic",
+    "FullName": "Generic Fuel Tank",
+    "ModelFile": "null",
+    "Category": [
+        "fuel_tank"
+    ],
+    "Attributes":[
+        "fuel_tank"
+    ],
+    "Textures": [
+        "fvtm:textures/entities/null_texture.png"
+    ],
+    "Removable": true,
+    "Available": false,
+    "Compatible": [],
+    "AttributeData":{
+        "Fuel-TankSize": 100
+    }
+}

@@ -46,7 +46,8 @@
         "HeightOffset": 12.5,
         "WheelOffset": 13,
         "Requires": [
-            "engine"
+            "engine",
+            "fuel_tank"
         ]
     },
     "PartSettings": {

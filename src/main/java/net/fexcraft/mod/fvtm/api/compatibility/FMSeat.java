@@ -13,6 +13,9 @@ public class FMSeat {
 	public FMSeat(JsonObject obj){
 		pos = Pos.fromJSON(obj);
 		id = JsonUtil.getIfExists(obj, "id", -1).intValue();
+		if(obj.has("driver") && obj.get("driver").getAsBoolean()){
+			id = 0;
+		}
 	}
 	
 	public Pos getPos(){

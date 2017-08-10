@@ -1,6 +1,7 @@
 package net.fexcraft.mod.lib.network;
 
 import net.fexcraft.mod.lib.api.network.IPacketListener;
+import net.fexcraft.mod.lib.network.handlers.EntityUpdatePacketHandler;
 import net.fexcraft.mod.lib.network.handlers.ExamplePacketHandler;
 import net.fexcraft.mod.lib.network.handlers.ISUPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.JsonObjectPacketHandler;
@@ -8,6 +9,7 @@ import net.fexcraft.mod.lib.network.handlers.KeyInputPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.NBTTagCompoundPacketHandler;
 import net.fexcraft.mod.lib.network.handlers.TileEntityUpdatePacketHandler;
 import net.fexcraft.mod.lib.network.packet.Packet;
+import net.fexcraft.mod.lib.network.packet.PacketEntityUpdate;
 import net.fexcraft.mod.lib.network.packet.PacketItemStackUpdate;
 import net.fexcraft.mod.lib.network.packet.PacketJsonObject;
 import net.fexcraft.mod.lib.network.packet.PacketKeyInput;
@@ -34,6 +36,8 @@ public class PacketHandler{
 		instance.registerMessage(JsonObjectPacketHandler.Client.class,        PacketJsonObject.class,        7, Side.CLIENT);
 		instance.registerMessage(NBTTagCompoundPacketHandler.Server.class,    PacketNBTTagCompound.class,    8, Side.SERVER);
 		instance.registerMessage(NBTTagCompoundPacketHandler.Client.class,    PacketNBTTagCompound.class,    9, Side.CLIENT);
+		instance.registerMessage(EntityUpdatePacketHandler.Client.class,      PacketEntityUpdate.class,     10, Side.CLIENT);
+		instance.registerMessage(EntityUpdatePacketHandler.Server.class,      PacketEntityUpdate.class,     11, Side.SERVER);
 		Print.log("Done initialising Packet Handler.");
 	}
 	
@@ -42,41 +46,48 @@ public class PacketHandler{
 	}
 	
 	public static enum PacketHandlerType{
-		TILEENTITY, KEYINPUT, ITEMSTACK, JSON, NBT;
+		TILEENTITY, KEYINPUT, ITEMSTACK, JSON, NBT, ENTITY;
 	}
 	
 	public static void registerListener(PacketHandlerType type, Side side, IPacketListener listener){
 		switch(type){
-			case ITEMSTACK:
+			case ITEMSTACK:{
 				ISUPacketHandler.addListener(side, listener);
-				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type ITEMSTACK for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 				break;
-			case JSON:
-				JsonObjectPacketHandler.addListener(side, listener);
-				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type JSON for Side:" + (side.isClient() ? "Client" : "Server") + ".");
-				break;
-			case NBT:
-				NBTTagCompoundPacketHandler.addListener(side, listener);
-				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type NBT for Side:" + (side.isClient() ? "Client" : "Server") + ".");
-				break;
-			case KEYINPUT:
+			}
+			case JSON:{
+				JsonObjectPacketHandler.addListener(side, listener);break;
+			}
+			case NBT:{
+				NBTTagCompoundPacketHandler.addListener(side, listener);break;
+			}
+			case KEYINPUT:{
 				if(side.isServer()){
 					KeyInputPacketHandler.addListener(listener);
 				}
-				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type KEYINPUT for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 				break;
-			case TILEENTITY:
+			}
+			case TILEENTITY:{
 				if(side.isClient()){
 					TileEntityUpdatePacketHandler.Client.addListener(listener);
 				}
 				if(side.isServer()){
 					TileEntityUpdatePacketHandler.Server.addListener(listener);
 				}
-				Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type TILEENTITY for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 				break;
-			default:
+			}
+			case ENTITY:{
+				if(side.isClient()){
+					EntityUpdatePacketHandler.Client.addListener(listener);
+				}
+				if(side.isServer()){
+					EntityUpdatePacketHandler.Server.addListener(listener);
+				}
 				break;
+			}
+			default: break;
 		}
+		Print.log("[FCL] Registered new PacketListener with ID '" + listener.getId() + "' and type " + type.name() + " for Side:" + (side.isClient() ? "Client" : "Server") + ".");
 	}
 	
 }

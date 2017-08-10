@@ -26,7 +26,7 @@ public class GeneralEssentials extends HybridAddon {
 
 	@Override
 	public void regAttributes(Register<Attribute> event){
-		event.getRegistry().register(new EngineAttribute());
+		event.getRegistry().registerAll(new EngineAttribute(), new FuelTankExtensionAttribute(), new FMSeatAttribute());
 	}
 
 	@Override

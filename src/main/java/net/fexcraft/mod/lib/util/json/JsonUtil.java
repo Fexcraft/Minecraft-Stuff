@@ -502,6 +502,20 @@ public class JsonUtil{
 		}
 		return list;
 	}
+
+	public static ArrayList<Class> jsonArrayToClassArray(JsonArray array){
+		ArrayList<Class> list = new ArrayList<Class>();
+		ArrayList<String> json = jsonArrayToStringArray(array);
+		for(String string : json){
+			try{
+				list.add(Class.forName(string));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	
 	public static ArrayList<Integer> jsonArrayToIntegerArray(JsonArray array){
 		ArrayList<Integer> list = new ArrayList<Integer>();

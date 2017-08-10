@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
-import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
@@ -17,6 +16,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,6 +27,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class ConstructorControllerEntity {
 	
@@ -153,7 +154,7 @@ public class ConstructorControllerEntity {
 			if(center != null){
 				compound.setLong("Center", center.toLong());
 			}
-			if(partdata !=null){
+			if(partdata != null){
 				compound = this.partdata.writeToNBT(compound);
 			}
 			return compound;
@@ -162,25 +163,53 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			if(compound.hasKey(LandVehicleItem.NBTKEY)){
-				this.vehicledata = Resources.getLandVehicleData(compound);
-			}
+			this.vehicledata = Resources.getLandVehicleData(compound);
 			this.liftstate = compound.getFloat("LiftState");
 			//this.selection = compound.getByte("Selection");
 			//this.scroll = compound.getByte("Scroll");
 			if(compound.hasKey("Center")){
 				this.center = BlockPos.fromLong(compound.getLong("Center"));
 			}
-			if(compound.hasKey(PartItem.NBTKEY)){
-				this.partdata = Resources.getPartData(compound);
-			}
+			this.partdata = Resources.getPartData(compound);
 		}
 
 		public void onButtonPress(Button button, EntityPlayer player){
 			if(button.isHome()){
 				this.updateScreen("main");
 			}
-			if(window.startsWith("attr")){
+			else if(button.ID < 2){
+				if(button.ID < 0){
+					return;
+				}
+				else if(button.ID == 0){
+					ItemStack stack = vehicledata.getVehicle().getItemStack(vehicledata);
+					EntityItem item = new EntityItem(world);
+					item.setItem(stack);
+					item.setPosition(this.pos.getX() + 0.5f, this.pos.getY(), this.pos.getZ() + 0.5f);
+					world.spawnEntity(item);
+					this.vehicledata = null;
+					this.updateLandVehicle(null);
+				}
+				else{
+					try{
+						Entity ent = (Entity)Class.forName("com.flansmod.fvtm.LandVehicle").getConstructor(World.class, double.class, double.class, double.class, int.class, LandVehicleData.class)
+								.newInstance(world, pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d, this.getBlockMetadata(), vehicledata);//TODO center position
+						world.spawnEntity(ent);
+						this.vehicledata = null;
+						this.updateLandVehicle(null);
+						
+						this.liftstate = 0;
+						this.updateLiftState();
+						this.lift = 0;
+						this.updateLift();
+						this.updateScreen("main");
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			else if(window.startsWith("attr")){
 				//TODO
 			}
 			switch(window){
@@ -787,6 +816,7 @@ public class ConstructorControllerEntity {
 			if(data != null){
 				this.vehicledata = data;
 			}
+			//this.writeToNBT(this.getTileData());
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("task", "update_vehicledata");
 			ApiUtil.sendTileEntityUpdatePacket(this, vehicledata == null ? nbt : vehicledata.writeToNBT(nbt), 256);
@@ -816,12 +846,9 @@ public class ConstructorControllerEntity {
 			}
 			switch(pkt.nbt.getString("task")){
 				case "update_vehicledata":{
-					if(pkt.nbt.hasKey(LandVehicleItem.NBTKEY)){
-						this.vehicledata = Resources.getLandVehicleData(pkt.nbt);
-					}
-					else{
+					this.vehicledata = Resources.getLandVehicleData(pkt.nbt);
+					if(this.vehicledata == null){
 						Print.debug("NO VEHICLE NBT KEY FOUND, RESETTING!");
-						this.vehicledata = null;
 					}
 					break;
 				}
@@ -863,9 +890,7 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			if(compound.hasKey(LandVehicleItem.NBTKEY)){
-				this.vehicledata = Resources.getLandVehicleData(compound);
-			}
+			this.vehicledata = Resources.getLandVehicleData(compound);
 			this.liftstate = compound.getFloat("LiftState");
 			this.lift = compound.getByte("Lift");
 			this.parseScreen(compound);

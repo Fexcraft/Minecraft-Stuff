@@ -17,6 +17,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -133,6 +134,13 @@ public class ConstructorController extends BlockContainer {
 		if(!p.getHeldItem(hand).isEmpty()){
 			ItemStack stack = p.getHeldItem(hand);
 			if(stack.getItem() instanceof LandVehicleItem){
+				if(te.getData() != null){
+					ItemStack istack = te.getData().getVehicle().getItemStack(te.getData());
+					EntityItem item = new EntityItem(w);
+					item.setItem(istack);
+					item.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5d, pos.getZ() + 0.5f);
+					w.spawnEntity(item);
+				}
 				te.setData((LandVehicleItem)stack.getItem(), stack);
 				Print.chat(p, "Vehicle: " + te.getData().getVehicle().getName());
 				p.getHeldItem(hand).shrink(64);
@@ -148,7 +156,7 @@ public class ConstructorController extends BlockContainer {
 						if(data.getPart().canInstall(data.getPart().getCategory(), te.getData(), p)){
 							te.getData().installPart(data.getPart().getCategory(), data);
 							Print.chat(p, "Part installed. (" + data.getPart().getName() + ")");
-							p.getHeldItem(hand).shrink(64);
+							p.getHeldItem(hand).shrink(1);
 							te.updateLandVehicle(null);
 						}
 					}
@@ -159,7 +167,7 @@ public class ConstructorController extends BlockContainer {
 				else{
 					if(data.getPart().isAvailable()){
 						te.setPartData(data);
-						p.getHeldItem(hand).shrink(64);
+						p.getHeldItem(hand).shrink(1);
 						Print.chat(p, "Part put into Contructor. You can access it via the part menu.");
 					}
 					else{

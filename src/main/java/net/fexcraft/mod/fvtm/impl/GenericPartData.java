@@ -4,7 +4,6 @@ import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
-import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -45,20 +44,13 @@ public class GenericPartData implements PartData {
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
-		tagcompound.setTag(FVTM.MODID, offset.toNBT("Offset", compound));
+		tagcompound.setTag(FVTM.MODID + "_part", offset.toNBT("Offset", compound));
 		return tagcompound;
 	}
 
 	@Override
 	public PartData readFromNBT(NBTTagCompound compound){
-		if(!compound.hasKey(PartItem.NBTKEY)){
-			return null;
-		}
-		part = Resources.PARTS.getValue(new ResourceLocation(compound.getString(PartItem.NBTKEY)));
-		if(part == null){
-			return null;
-		}
-		compound = compound.getCompoundTag(FVTM.MODID);
+		compound = compound.getCompoundTag(FVTM.MODID + "_part");
 		sel = compound.getInteger("SelectedTexture");
 		offset = Pos.fromNBT("Offset", compound);
 		isexternal = compound.getBoolean("IsTextureExternal");

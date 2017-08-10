@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.fexcraft.mod.addons.gep.attributes.FMSeatAttribute;
+import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
@@ -16,6 +17,7 @@ import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
+import net.fexcraft.mod.lib.api.item.KeyItem;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
@@ -28,13 +30,15 @@ import net.minecraft.util.ResourceLocation;
 public class GenericLandVehicleData implements LandVehicleData {
 	
 	private LandVehicle vehicle;
-	private int sel, tank;
-	private String url;
+	private int sel, tank, keys;
+	private String url, lockcode;
 	private ResourceLocation custom;
 	private TreeMap<String, PartData> parts = new TreeMap<String, PartData>();
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
-	private boolean doors, isexternal;
+	private boolean doors, isexternal, locked;
+	private ArrayList<LandVehicleScript> scripts = new ArrayList<LandVehicleScript>();
+	private ArrayList<FMSeat> seats = new ArrayList<FMSeat>();
 	
 	public GenericLandVehicleData(LandVehicle veh){
 		this.vehicle = veh;
@@ -52,8 +56,14 @@ public class GenericLandVehicleData implements LandVehicleData {
 
 	@Override
 	public int getFuelTankSize(){
-		//TODO calculation
-		return 0;
+		int[] i = new int[]{0};
+		parts.forEach((key, partdata) -> {
+			if(partdata.getPart().getAttribute(FuelTankExtensionAttribute.class) != null){
+				FuelTankExtensionAttribute ext = partdata.getPart().getAttribute(FuelTankExtensionAttribute.class);
+				i[0] += ext.getFuelTankSize();
+			}
+		});
+		return i[0];
 	}
 
 	@Override
@@ -79,13 +89,15 @@ public class GenericLandVehicleData implements LandVehicleData {
 		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
 		compound.setInteger("FuelTank", tank);
-		NBTTagList list = new NBTTagList();
-		for(Entry<String, PartData> part : parts.entrySet()){
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("UsedAs", part.getKey());
-			list.appendTag(part.getValue().writeToNBT(nbt));
+		if(parts.size() > 0){
+			NBTTagList list = new NBTTagList();
+			parts.forEach((key, partdata) -> {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("UsedAs", key);
+				list.appendTag(partdata.writeToNBT(nbt));
+			});
+			compound.setTag("Parts", list);
 		}
-		compound.setTag("Parts", list);
 		if(wheelpos != null){
 			NBTTagList wlist = new NBTTagList();
 			for(int i = 0; i < wheelpos.size(); i++){
@@ -104,20 +116,22 @@ public class GenericLandVehicleData implements LandVehicleData {
 			compound.setFloat("SecondaryBlue", this.secondary.blue);
 		}
 		compound.setBoolean("DoorsOpen", doors);
-		tagcompound.setTag(FVTM.MODID, compound);
+		//FM
+		compound.setBoolean("Locked", locked);
+		compound.setString("LockCode", lockcode);
+		compound.setInteger("SpawnedKeys", keys);
+		//
+		scripts.forEach((script) -> {
+			script.writeToNBT(compound);
+		});
+		//
+		tagcompound.setTag(FVTM.MODID + "_landvehicle", compound);
 		return tagcompound;
 	}
 
 	@Override
 	public LandVehicleData readFromNBT(NBTTagCompound compound){
-		if(!compound.hasKey(LandVehicleItem.NBTKEY)){
-			return null;
-		}
-		vehicle = Resources.LANDVEHICLES.getValue(new ResourceLocation(compound.getString(LandVehicleItem.NBTKEY)));
-		if(vehicle == null){
-			return null;
-		}
-		compound = compound.getCompoundTag(FVTM.MODID);
+		compound = compound.getCompoundTag(FVTM.MODID + "_landvehicle");
 		this.sel = compound.getInteger("SelectedTexture");
 		isexternal = compound.getBoolean("IsTextureExternal");
 		url = isexternal ? compound.getString("CustomTexture") : null;
@@ -131,8 +145,18 @@ public class GenericLandVehicleData implements LandVehicleData {
 				if(data != null){
 					this.parts.put(nbt.getString("UsedAs"), data);
 				}
-				Print.debug("PART:" + nbt.toString());
+				Print.debug("PART: " + (data == null ? "[NULL] " : "" ) + nbt.toString());
 			}
+			this.updatePartDependantData();
+		}
+		else{
+			vehicle.getPreinstalledParts().forEach((key, rs) -> {
+				PartData data = Resources.getPartData((ResourceLocation)rs);
+				if(data != null){
+					this.parts.put(key, data);
+				}
+			});
+			this.updatePartDependantData();
 		}
 		if(compound.hasKey("WheelPos")){
 			NBTTagList list = (NBTTagList)compound.getTag("WheelPos");
@@ -158,6 +182,21 @@ public class GenericLandVehicleData implements LandVehicleData {
 			this.secondary.copyFrom(vehicle.getDefSecondaryolor());
 		}
 		this.doors = compound.getBoolean("DoorsOpen");
+		//FM
+		this.locked = compound.getBoolean("Locked");
+		this.lockcode = compound.hasKey("LockCode") ? compound.getString("LockCode") : KeyItem.getNewKeyCode();
+		this.keys = compound.getInteger("SpawnedKeys");
+		//
+		this.scripts.clear();
+		for(Class<? extends LandVehicleScript> clazz : this.vehicle.getScripts()){
+			try{
+				this.scripts.add(clazz.newInstance().readFromNBT(compound));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		//
 		return this;
 	}
 
@@ -191,6 +230,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public void installPart(String as, PartData data){
 		this.parts.put(as, data);
+		this.updatePartDependantData();
 	}
 
 	@Override
@@ -231,51 +271,62 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public PartData getPart(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public PartData getPart(String string){
+		return parts.get(string);
 	}
 
 	@Override
-	public boolean isLocked() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isLocked(){
+		return locked;
 	}
 
 	@Override
-	public boolean setLocked(Boolean lock) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean setLocked(Boolean lock){
+		return lock == null ? (locked = !locked) : (locked = lock);
 	}
 
 	@Override
-	public String getLockCode() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getLockCode(){
+		return lockcode;
 	}
 
 	@Override
-	public Collection<LandVehicleScript> getScripts() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<LandVehicleScript> getScripts(){
+		return scripts;
 	}
 
 	@Override
-	public int getSpawnedKeysAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getSpawnedKeysAmount(){
+		return keys;
 	}
 
 	@Override
-	public void setSpawnedKeysAmount(Integer i) {
-		// TODO Auto-generated method stub
-		
+	public void setSpawnedKeysAmount(Integer i){
+		keys = i == null ? (keys + 1) : (keys + i);
 	}
 
 	@Override
-	public List<FMSeat> getFMSeats() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<FMSeat> getFMSeats(){
+		return seats;
+	}
+
+	private void updatePartDependantData(){
+		seats.clear();
+		parts.forEach((key, partdata) -> {
+			if(partdata.getPart().getAttribute(FMSeatAttribute.class) != null) {
+				seats.addAll(partdata.getPart().getAttribute(FMSeatAttribute.class).getSeats());
+			}
+		});
+		FMSeat[] fmseat = new FMSeat[1];
+		seats.forEach((seat) -> {
+			if(seat.isDriver()){
+				fmseat[0] = seat;
+			}
+		});
+		if(fmseat != null && seats.size() > 0){
+			FMSeat fseat = seats.set(0, fmseat[0]);
+			if(fseat != null) { seats.add(fseat); }
+		}
 	}
 	
 }

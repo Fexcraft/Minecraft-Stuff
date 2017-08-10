@@ -17,42 +17,22 @@
         "fvp:textures/entities/skin_vehicle_ot1.png"
     ],
     "WheelPos":[
-        {
-            "x": -53,
-            "y": -10,
-            "z": -14
-        },
-        {
-            "x": -53,
-            "y": -10,
-            "z": 14
-        },
-        {
-            "x": 65,
-            "y": -10,
-            "z": 14
-        },
-        {
-            "x": 65,
-            "y": -10,
-            "z": -14
-        }
+        { "x": -53, "y": -10, "z": -14 },
+        { "x": -53, "y": -10, "z":  14 },
+        { "x":  65, "y": -10, "z":  14 },
+        { "x":  65, "y": -10, "z": -14 }
     ],
     "ConstructionLength": 6,
     "ConstructionYOffSet": 12.5,
     "ConstructionWheelOffset": 19,
-    "ConstructionSettings": {
-        "Length": 6,
-        "HeightOffset": 12.5,
-        "WheelOffset": 19,
-        "RequiredParts": [
-            "right_front_wheel",
-            "left_front_wheel",
-            "right_back_wheel",
-            "left_back_wheel",
-            "engine"
-        ]
-    },
+    "RequiredParts": [
+         "right_front_wheel",
+         "left_front_wheel",
+         "right_back_wheel",
+         "left_back_wheel",
+         "engine",
+         "fuel_tank"
+     ],
     "PartSettings": {
         "PreInstalled": [
             "steering_wheel:ot1_steering_wheel",

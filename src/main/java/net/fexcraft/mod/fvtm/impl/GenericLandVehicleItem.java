@@ -60,13 +60,15 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 			for(String s : veh.getVehicle().getDescription()){
 				tooltip.add(Formatter.format(s));
 			}
+			tooltip.add(Formatter.format("&9Lock Code: &r" + veh.getLockCode()));
 			tooltip.add(Formatter.format("&9Selected Texture: &7" + veh.getSelectedTexture()));
 			if(veh.getInstalledParts().size() > 0){
 				tooltip.add(Formatter.format("&3Installed Parts:"));
 				for(PartData part : veh.getParts().values()){
-					tooltip.add(Formatter.format(part.getPart().getName() + " &7(" + part.getPart().getCategory() + ")"));
+					tooltip.add(Formatter.format("&7- &3" + part.getPart().getName() + " &7(" + part.getPart().getCategory() + ")"));
 				}
 			}
+			tooltip.add(Formatter.format("&9Ready to Spawn: " + (veh.readyToSpawn() ? "&ayes" : "&cno")));
 		}
     }
 	

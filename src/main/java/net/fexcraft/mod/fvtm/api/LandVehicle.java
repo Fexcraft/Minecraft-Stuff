@@ -36,7 +36,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	
 	public ItemStack getItemStack(@Nullable LandVehicleData data);
 	
-	public List<ResourceLocation> getPreinstalledParts();
+	public Map<String, ResourceLocation> getPreinstalledParts();
 	
 	public List<String> getRequiredParts();
 	
@@ -64,6 +64,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	public float getFMCameraDistance();//5f
 
 	public float getFMWheelStepHeight();//1f
+
+	public float getFMWheelSpringStrength();//0.5f
 
 	public float getFMMaxNegativeThrottle();
 	
@@ -135,6 +137,10 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public void setSpawnedKeysAmount(@Nullable Integer i);
 
 		public List<FMSeat> getFMSeats();
+
+		public default boolean allowsLocking(){
+			return true;
+		}
 		
 	}
 	
@@ -148,6 +154,14 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	}
 	
 	public static interface LandVehicleScript {
+		
+		public boolean isOn(Side side);
+		
+		public NBTTagCompound writeToNBT(NBTTagCompound compound);
+		
+		public LandVehicleScript readFromNBT(NBTTagCompound compound);
+		
+		public void onDataPacket(Entity entity, NBTTagCompound compound);
 
 		public void onCreated(Entity entity);
 
@@ -156,8 +170,6 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public void onUpdate(Entity entity);
 
 		public void onRemove(Entity entity);
-		
-		//TODO
 		
 	}
 	

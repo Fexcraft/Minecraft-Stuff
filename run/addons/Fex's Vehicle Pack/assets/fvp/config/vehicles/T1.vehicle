@@ -30,28 +30,27 @@
         "left_front_wheel",
         "right_back_wheel",
         "left_back_wheel",
-        "engine"
+        "engine",
+        "fuel_tank"
     ],
-    "PartSettings": {
-        "PreInstalled": [
-            "steering_wheel:t1_steering_wheel",
-            "driver_seat:t1_driver_seat",
-            "passenger_seats:t1_front_seats"
-        ]
-    },
-    "RenderSettings": {
-        "RotateWheels": true
-    },
-    "InventorySettings": {
-        "TankSize": 25000,
-        "Size": 64
-    },
-    "VehicleDefaults": {
-        "DriveType": "4wd",
-        "Lockable": true,
-        "MaxThrottle": 1.2,
-        "MaxNegativeThrottle": 0.2,
-        "TurnLeftModifier": 1.5,
-        "TurnRightModifier": 1.5
-    }
+    "PreInstalled": [
+        {
+            "as": "steering_wheel",
+            "part": "fvp:t1_steering_wheel"
+        },
+        {
+            "as": "driver_seat",
+            "part": "t1_driver_seat"
+        },
+        {
+            "as": "passenger_seats",
+            "part": "t1_front_seats"
+        }
+    ],
+    "DriveType": "front",
+    "FM-CameraDistance": 6.75,
+    "FM-MaxPositiveThrottle": 1.2,
+    "FM-MaxNegativeThrottle": 0.2,
+    "FM-TurnLeftModifier": 1.5,
+    "FM-TurnRightModifier": 1.5
 }

@@ -406,5 +406,18 @@ public class Resources {
 		}
 		return null;
 	}
+
+	public static final PartData getPartData(ResourceLocation rs){
+		Part part = PARTS.getValue(rs);
+		if(part != null){
+			try{
+				return part.getDataClass().getConstructor(Part.class).newInstance(part).readFromNBT(new NBTTagCompound());
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	
 }

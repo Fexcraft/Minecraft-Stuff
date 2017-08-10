@@ -53,6 +53,7 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public JsonObject getAttributeData();
 	
+	@Nullable
 	public <T extends Attribute> T getAttribute(Class<T> clazz);
 	
 	public Collection<Class> getAttributeClasses();

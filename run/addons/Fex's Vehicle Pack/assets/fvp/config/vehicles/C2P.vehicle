@@ -48,7 +48,8 @@
             "right_back_wheel",
             "left_back_wheel",
             "steering_wheel",
-            "engine"
+            "engine",
+            "fuel_tank"
         ]
     },
     "PartSettings": {

@@ -3,6 +3,8 @@ package net.fexcraft.mod.fvtm.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -31,12 +33,17 @@ public class GenericLandVehicle implements LandVehicle {
 	private String name;
 	private String[] description;
 	private float yoffset, wheeloffset;
-	private List<ResourceLocation> preinstalled, textures;
+	private List<ResourceLocation> textures;
+	private TreeMap<String, ResourceLocation> preinstalled = new TreeMap<String, ResourceLocation>();
 	private List<String> required;
 	private VehicleModel model;
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
 	private int constructionlength;
+	private ArrayList<Class<? extends LandVehicleScript>> scripts = new ArrayList<Class<? extends LandVehicleScript>>();
+	private DriveType drivetype;
+	//FM
+	private float cameradis, maxposthrottle, maxnegthrottle, turnleftmod, turnrightmod, wheelspringstrength, wheelstepheight;
 	
 	public GenericLandVehicle(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "LANDVEHICLE");
@@ -47,7 +54,14 @@ public class GenericLandVehicle implements LandVehicle {
 		this.yoffset = JsonUtil.getIfExists(obj, "ConstructionYOffSet", 0).floatValue();
 		this.constructionlength = JsonUtil.getIfExists(obj, "ConstructionLength", 4).intValue();
 		this.wheeloffset = JsonUtil.getIfExists(obj, "ConstructionWheelOffset", 0).floatValue();
-		this.preinstalled = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "PreInstalledParts", new JsonArray()).getAsJsonArray());
+		//this.preinstalled = JsonUtil.jsonArrayToResourceLocationArray(JsonUtil.getIfExists(obj, "PreInstalledParts", new JsonArray()).getAsJsonArray());
+		if(obj.has("PreInstalled")){
+			JsonArray array = JsonUtil.getIfExists(obj, "PreInstalled", new JsonArray()).getAsJsonArray();
+			array.forEach((element) -> {
+				JsonObject jsn = element.getAsJsonObject();
+				preinstalled.put(jsn.get("as").getAsString(), new ResourceLocation(jsn.get("part").getAsString()));
+			});
+		}
 		this.required = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
 		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), VehicleModel.class, EmptyVehicleModel.INSTANCE);//TODO
 		this.wheelpos = new ArrayList<Pos>();
@@ -67,6 +81,17 @@ public class GenericLandVehicle implements LandVehicle {
 		}
 		this.primary = DataUtil.getRGB(obj, "PrimaryColor");
 		this.secondary = DataUtil.getRGB(obj, "SecondaryColor");
+		ArrayList<Class> arrc = JsonUtil.jsonArrayToClassArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
+		this.scripts.addAll((Collection<? extends Class<? extends LandVehicleScript>>)arrc);
+		this.drivetype = DriveType.fromString(JsonUtil.getIfExists(obj, "DriveType", "fwd"));
+		//FM
+		this.cameradis = JsonUtil.getIfExists(obj, "FM-CameraDistance", 5f).floatValue();
+		this.maxposthrottle = JsonUtil.getIfExists(obj, "FM-MaxPositiveThrottle", 1f).floatValue();
+		this.maxnegthrottle = JsonUtil.getIfExists(obj, "FM-MaxNegativeThrottle", 0.2f).floatValue();
+		this.turnleftmod = JsonUtil.getIfExists(obj, "FM-TurnLeftModifier", 1f).floatValue();
+		this.turnrightmod = JsonUtil.getIfExists(obj, "FM-TurnRightModifier", 1f).floatValue();
+		this.wheelspringstrength = JsonUtil.getIfExists(obj, "FM-WheelSpringStrength", 0.25f).floatValue();
+		this.wheelstepheight = JsonUtil.getIfExists(obj, "FM-WheelStepHeight", 1f).floatValue();
 	}
 
 	@Override
@@ -108,7 +133,7 @@ public class GenericLandVehicle implements LandVehicle {
 	}
 
 	@Override
-	public List<ResourceLocation> getPreinstalledParts(){
+	public Map<String, ResourceLocation> getPreinstalledParts(){
 		return preinstalled;
 	}
 
@@ -164,56 +189,52 @@ public class GenericLandVehicle implements LandVehicle {
 
 	@Override
 	public boolean canSpawnAs(String modid){
-		// TODO Auto-generated method stub
-		return false;
+		return modid.equals("flansmod") || modid.equals("fvtm");
 	}
 
 	@Override
-	public float getFMCameraDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+	public DriveType getDriveType(){
+		return drivetype;
 	}
 
 	@Override
-	public float getFMWheelStepHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Collection<Class<? extends LandVehicleScript>> getScripts(){
+		return scripts;
 	}
 
 	@Override
-	public float getFMMaxNegativeThrottle() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getFMCameraDistance(){
+		return this.cameradis;
 	}
 
 	@Override
-	public float getFMMaxPositiveThrottle() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getFMWheelStepHeight(){
+		return this.wheelstepheight;
 	}
 
 	@Override
-	public float getFMTurnLeftModifier() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getFMMaxNegativeThrottle(){
+		return this.maxnegthrottle;
 	}
 
 	@Override
-	public float getFMTurnRightModifier() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getFMMaxPositiveThrottle(){
+		return this.maxposthrottle;
 	}
 
 	@Override
-	public DriveType getDriveType() {
-		// TODO Auto-generated method stub
-		return null;
+	public float getFMTurnLeftModifier(){
+		return this.turnleftmod;
 	}
 
 	@Override
-	public Collection<Class<? extends LandVehicleScript>> getScripts() {
-		// TODO Auto-generated method stub
-		return null;
+	public float getFMTurnRightModifier(){
+		return this.turnrightmod;
+	}
+
+	@Override
+	public float getFMWheelSpringStrength(){
+		return this.wheelspringstrength;
 	}
 	
 }
