@@ -2,6 +2,7 @@ package net.fexcraft.mod.fvtm.blocks;
 
 import static net.fexcraft.mod.fvtm.blocks.ConstructorController.Button.*;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
@@ -192,8 +193,12 @@ public class ConstructorControllerEntity {
 				}
 				else{
 					try{
+						if(!vehicledata.getVehicle().canSpawnAs("flansmod")){
+							Print.chat(player, "This vehicle cannot be spawned as flansmod entity.");
+							return;
+						}
 						Entity ent = (Entity)Class.forName("com.flansmod.fvtm.LandVehicle").getConstructor(World.class, double.class, double.class, double.class, int.class, LandVehicleData.class)
-								.newInstance(world, pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d, this.getBlockMetadata(), vehicledata);//TODO center position
+								.newInstance(world, center.getX() + 0.5d, center.getY() + 3, center.getZ() + 0.5d, this.getBlockMetadata(), vehicledata);
 						world.spawnEntity(ent);
 						this.vehicledata = null;
 						this.updateLandVehicle(null);
@@ -237,6 +242,11 @@ public class ConstructorControllerEntity {
 								}
 								case 5:{
 									this.updateScreen("constructor_menu");
+									break;
+								}
+								case 6:{
+									recycle();
+									break;
 								}
 								case 7:{
 									this.updateScreen("crash");
@@ -543,8 +553,54 @@ public class ConstructorControllerEntity {
 					if(button.isReturn()){
 						this.updateScreen("main");
 					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect() && selection == 7){
+						this.updateScreen("constructor_connect_center");
+					}
+					break;
+				}
+				case "constructor_connect_center":{
+					if(button.isReturn()){
+						this.updateScreen("constructor_menu");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
 					if(button.isSelect()){
-						return;//TODO
+						switch(selection){
+							case 2:{
+								if(center != null && world.getTileEntity(center) != null){
+									Print.chat(player, "&7Old Connected Center Block still exists!");
+									Print.chat(player, "&7Remove it to proceed.");
+								}
+								else{
+									scanAndConnect(player);
+								}
+								break;
+							}
+							case 3:{
+								Print.chat(player, "Method not avaiable yet.");
+								//TODO
+								break;
+							}
+							case 4:{
+								if(center != null && world.getTileEntity(center) != null){
+									Print.chat(player, "Resetting...");
+									NBTTagCompound nbt = new NBTTagCompound();
+									nbt.setBoolean("reset", true);
+									ApiUtil.sendTileEntityUpdatePacket(world, center, nbt);
+								}
+								else{
+									Print.chat(player, "No TileEntity at that position found!");
+									Print.chat(player, "Clearing settings anyways.");
+								}
+								this.updateScreen("main");
+								center = null;
+								break;
+							}
+						}
 					}
 					break;
 				}
@@ -555,6 +611,67 @@ public class ConstructorControllerEntity {
 					break;
 				}
 			}
+		}
+
+		private void recycle(){
+			ArrayList<EntityItem> list = new ArrayList<EntityItem>();
+			ArrayList<String> slist = new ArrayList<String>();
+			vehicledata.getParts().forEach((as, data) -> {
+				if(!vehicledata.getVehicle().getPreinstalledParts().values().contains(data.getPart().getRegistryName())){
+					EntityItem item = new EntityItem(world);
+					item.setItem(data.getPart().getItemStack(data));
+					item.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
+					list.add(item);
+					slist.add(as);
+				}
+			});
+			for(String string : slist){
+				vehicledata.getParts().remove(string);
+			}
+			//
+			EntityItem item = new EntityItem(world);
+			item.setItem(vehicledata.getVehicle().getItemStack(vehicledata));
+			item.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
+			list.add(item);
+			//
+			list.forEach((entity) -> {
+				world.spawnEntity(entity);
+			});
+			this.vehicledata = null;
+			this.updateLandVehicle(null);
+			this.updateScreen("main");
+		}
+
+		private void scanAndConnect(EntityPlayer player){
+			ArrayList<ConstructorCenterEntity> list = new ArrayList<ConstructorCenterEntity>();
+			int x = pos.getX() - 8;
+			int y = pos.getY();
+			int z = pos.getZ() - 8;
+			for(int i = 0; i < 16; i++){
+				for(int j = 0; j < 16; j++){
+					TileEntity tile = world.getTileEntity(new BlockPos(x + i, y, z + j));
+					if(tile != null && tile instanceof ConstructorCenterEntity){
+						list.add((ConstructorCenterEntity)tile);
+					}
+					tile = world.getTileEntity(new BlockPos(x + i, y - 1, z + j));
+					if(tile != null && tile instanceof ConstructorCenterEntity){
+						list.add((ConstructorCenterEntity)tile);
+					}
+					tile = world.getTileEntity(new BlockPos(x + i, y + 1, z + j));
+					if(tile != null && tile instanceof ConstructorCenterEntity){
+						list.add((ConstructorCenterEntity)tile);
+					}
+				}
+			}
+			for(ConstructorCenterEntity entity : list){
+				if(entity.getConstructor() == null || world.getTileEntity(entity.getConstructor()) == null){
+					entity.link(new BlockPos(this.pos));
+					Print.chat(player, "&aConnected&7!");
+					this.center = new BlockPos(entity.getPos());
+					return;
+				}
+			}
+			Print.chat(player, "&7No &aFree &7Center Block found!");
 		}
 
 		private final NBTTagCompound getWindowUpdate(NBTTagCompound compound){
@@ -733,7 +850,23 @@ public class ConstructorControllerEntity {
 					break;
 				}
 				case "constructor_menu":{
-					
+					compound.setString("Text0", "BlockPos: " + Static.toString(pos));
+					compound.setString("Text1", "Center Conn.: " + !(center == null));
+					compound.setString("Text2", "Center Pos: " + (center == null ? "null" : Static.toString(center)));
+					compound.setString("Text3", "- - - - - - - - - -");
+					compound.setString("Text4", "Vehicle: " + (vehicledata == null ? "null" : vehicledata.getVehicle().getName()));
+					compound.setString("Text5", "Price: soon?");
+					compound.setString("Text6", "- - - - - - - - - -");
+					compound.setString("Text7", "Connect Center Block...");
+					break;
+				}
+				case "constructor_connect_center":{
+					compound.setString("Text0", "Constructor Connector");
+					compound.setString("Text1", "- - - - - - - - - -");
+					compound.setString("Text2", "Scan for Center Blocks");
+					compound.setString("Text3", "Manual input");
+					compound.setString("Text4", "Reset");
+					fill(5, compound);
 					break;
 				}
 			}
@@ -834,10 +967,11 @@ public class ConstructorControllerEntity {
 	
 	public static class Client extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>{
 		
-		public static LandVehicleData vehicledata;//TODO temporary static, fix later;
-		public static double liftstate = 0;//TODO temporary static, fix later;
+		public LandVehicleData vehicledata;
+		public double liftstate = 0;
 		public String[] text = new String[8];
 		public byte selection = -1, lift = 0;
+		private BlockPos center;
 		
 		@Override
 		public void processClientPacket(PacketTileEntityUpdate pkt){
@@ -895,6 +1029,9 @@ public class ConstructorControllerEntity {
 			this.lift = compound.getByte("Lift");
 			this.parseScreen(compound);
 			this.selection = compound.getByte("Selection");
+			if(compound.hasKey("Center")){
+				this.center = BlockPos.fromLong(compound.getLong("Center"));
+			}
 		}
 		
 		private void parseScreen(NBTTagCompound compound){

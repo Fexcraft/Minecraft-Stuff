@@ -422,5 +422,6 @@ public class ModelT1_2 extends PartModel {
 		else{
 			render(in);
 		}*///TODO
+		render(in);
 	}
 }

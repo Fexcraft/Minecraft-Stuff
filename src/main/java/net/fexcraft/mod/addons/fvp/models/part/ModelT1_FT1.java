@@ -90,13 +90,13 @@ public class ModelT1_FT1 extends PartModel {
 	@Override
 	public void render(LandVehicleData data, String us, Entity vehicle){
 		render(body);
-		/*boolean yes = false;
-		if(data.scripts.contains("t1-snowplow")){
+		boolean yes = false;
+		/*if(data.getVehicle().getScripts().contains("").contains("t1-snowplow")){
 			T1SnowPlowScript sps = (T1SnowPlowScript) data.scripts.get("t1-snowplow");
 			yes = sps.on;
-		}
+		}*///TODO
 		rotate(snowplow, 0, 0, yes ? 0 : -Static.rad20, true);
-		render(snowplow);*///TODO
+		render(snowplow);
 	}
 	
 }

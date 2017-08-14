@@ -18,7 +18,6 @@ import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.item.KeyItem;
-import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -145,7 +144,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 				if(data != null){
 					this.parts.put(nbt.getString("UsedAs"), data);
 				}
-				Print.debug("PART: " + (data == null ? "[NULL] " : "" ) + nbt.toString());
+				//Print.debug("PART: " + (data == null ? "[NULL] " : "" ) + nbt.toString());
 			}
 			this.updatePartDependantData();
 		}

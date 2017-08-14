@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.lib.tmt.ModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.entity.Entity;
 
@@ -339,11 +340,12 @@ public class PartModel extends ModelBase {
 		}
 	}
 	
-	public void def_renderWheels4(LandVehicleData type, String us, /*com.flansmod.fvm.LandVehicle*/Entity vehicle){//TODO
-		/*switch(us){
+	public void def_renderWheels4(LandVehicleData type, String us, /*com.flansmod.fvm.LandVehicle*/Entity veh){//TODO
+		com.flansmod.fvtm.LandVehicle vehicle = (com.flansmod.fvtm.LandVehicle)veh;
+		switch(us){
 			case "left_front_wheel":
 				for(ModelRendererTurbo element : wheel_front_left){
-					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleZ = vehicle.wheelsAngle;
 					element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 					element.render();
 					element.rotateAngleY = 0;
@@ -351,7 +353,7 @@ public class PartModel extends ModelBase {
 				break;
 			case "right_front_wheel":
 				for(ModelRendererTurbo element : wheel_front_right){
-					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleZ = vehicle.wheelsAngle;
 					element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 					element.render();
 					element.rotateAngleY = 0;
@@ -359,17 +361,17 @@ public class PartModel extends ModelBase {
 				break;
 			case "left_back_wheel":
 				for(ModelRendererTurbo element : wheel_back_left){
-					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleZ = vehicle.wheelsAngle;
 					element.render();
 				}
 				break;
 			case "right_back_wheel":
 				for(ModelRendererTurbo element : wheel_back_right){
-					element.rotateAngleZ = type.rotateWheels ? vehicle.wheelsAngle : 0;
+					element.rotateAngleZ = vehicle.wheelsAngle;
 					element.render();
 				}
 				break;
-		}*/
+		}
 	}
 	
 }

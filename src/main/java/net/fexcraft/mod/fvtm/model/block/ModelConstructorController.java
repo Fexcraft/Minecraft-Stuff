@@ -15,6 +15,7 @@ import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelConstructorController extends ModelConverter {
+	
 	int textureX = 128;
 	int textureY = 128;
 
@@ -151,10 +152,10 @@ public class ModelConstructorController extends ModelConverter {
 		turretModel[8] = new ModelRendererTurbo(this, 9, 17, textureX, textureY); // Back
 		turretModel[9] = new ModelRendererTurbo(this, 81, 17, textureX, textureY); // Home
 
-		turretModel[0].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // SpawnItem
+		turretModel[0].addBox(0F, 0F, 0F, 2, 1, 2, 0F); // SpawnItem
 		turretModel[0].setRotationPoint(13F, -16.2F, 1F);
 
-		turretModel[1].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // SpawnEntity
+		turretModel[1].addBox(0F, 0F, 0F, 2, 1, 2, 0F); // SpawnEntity
 		turretModel[1].setRotationPoint(13F, -16.2F, 3F);
 
 		turretModel[2].addShapeBox(0F, 0F, 0F, 1, 1, 1, 0F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, -0.1F, 0F, -0.1F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F, 0F, -0.8F, 0F); // Remove

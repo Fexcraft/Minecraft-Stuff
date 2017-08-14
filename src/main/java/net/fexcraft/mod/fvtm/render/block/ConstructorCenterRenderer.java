@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorCenterEntity;
-import net.fexcraft.mod.fvtm.blocks.ConstructorControllerEntity;
 import net.fexcraft.mod.fvtm.model.block.ModelConstructorCenter;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.api.render.fTESR;
@@ -42,24 +41,23 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 		}
 		GL11.glRotated(d, 0, 1, 0);
 		GL11.glRotated(90 , 0, 1D, 0);
-		//
-		if(ConstructorControllerEntity.Client.vehicledata != null){
-			VehicleModel modvec = ConstructorControllerEntity.Client.vehicledata.getVehicle().getModel();
+		LandVehicleData vehicledata = te.getVehicleData();
+		if(vehicledata != null){
+			VehicleModel modvec = vehicledata.getVehicle().getModel();
 			if(modvec != null){
-				LandVehicleData data = ConstructorControllerEntity.Client.vehicledata;
-				Minecraft.getMinecraft().renderEngine.bindTexture(data.getTexture());
-				GL11.glTranslated(0, (data.getVehicle().getYAxisConstructorOffset() * 0.0625f) - ConstructorControllerEntity.Client.liftstate, 0);
-				modvec.render(data, null, te.getBlockMetadata());
-				if(data.getParts().size() > 0){
-					for(String key : data.getInstalledParts()){
-						PartData part = data.getParts().get(key);
+				Minecraft.getMinecraft().renderEngine.bindTexture(vehicledata.getTexture());
+				GL11.glTranslated(0, (vehicledata.getVehicle().getYAxisConstructorOffset() * 0.0625f) - te.getLiftState(), 0);
+				modvec.render(vehicledata, null, te.getBlockMetadata());
+				if(vehicledata.getParts().size() > 0){
+					for(String key : vehicledata.getInstalledParts()){
+						PartData part = vehicledata.getParts().get(key);
 						Minecraft.getMinecraft().renderEngine.bindTexture(part.getTexture());
-						part.getPart().getOffsetFor(data.getVehicle().getRegistryName()).translate();
-						part.getPart().getModel().render(data, key);
-						part.getPart().getOffsetFor(data.getVehicle().getRegistryName()).translateR();
+						part.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translate();
+						part.getPart().getModel().render(vehicledata, key);
+						part.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translateR();
 					}
 				}
-				GL11.glTranslated(0, (data.getVehicle().getYAxisConstructorOffset() * -0.0625f) + ConstructorControllerEntity.Client.liftstate, 0);
+				GL11.glTranslated(0, (vehicledata.getVehicle().getYAxisConstructorOffset() * -0.0625f) + te.getLiftState(), 0);
 				Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 			}
 			else{
@@ -67,16 +65,16 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			}
 		}
 		else{
-			if(te.constructor != null){
-				te.link(te.constructor);
+			if(te.getConstructor() != null){
+				te.link(te.getConstructor());
 			}
 		}
 		//
 		GL11.glTranslatef(0, 0, te.getRenderOffset());
-		renderLP(te, ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
+		renderLP(te, vehicledata, model.bodyModel);
 		GL11.glTranslatef(0, 0, -(te.getRenderOffset() * 2));
 		GL11.glRotated(180, 0, 1, 0);
-		renderLP(te, ConstructorControllerEntity.Client.vehicledata, model.bodyModel);
+		renderLP(te, vehicledata, model.bodyModel);
 		//
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -101,7 +99,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			}
 			GL11.glTranslated(0, 4, 0);
 		}
-		GL11.glTranslated(0, -ConstructorControllerEntity.Client.liftstate, 0);
+		GL11.glTranslated(0, -te.getLiftState(), 0);
 		model.render(model.trailerModel);
 		GL11.glTranslatef(te.getLength() + 1, 0, 0);
 		for(int i = 0; i < te.getRenderLength(); i++){
@@ -109,8 +107,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 			model.render(model.turretModel);
 		}
 		GL11.glTranslatef(te.getLength(), 0, 0);
-		GL11.glTranslated(0, ConstructorControllerEntity.Client.liftstate, 0);
-		
+		GL11.glTranslated(0, te.getLiftState(), 0);
 	}
 	
 }

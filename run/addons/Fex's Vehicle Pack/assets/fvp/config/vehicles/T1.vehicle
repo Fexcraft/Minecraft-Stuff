@@ -40,11 +40,11 @@
         },
         {
             "as": "driver_seat",
-            "part": "t1_driver_seat"
+            "part": "fvp:t1_driver_seat"
         },
         {
             "as": "passenger_seats",
-            "part": "t1_front_seats"
+            "part": "fvp:t1_front_seats"
         }
     ],
     "DriveType": "front",

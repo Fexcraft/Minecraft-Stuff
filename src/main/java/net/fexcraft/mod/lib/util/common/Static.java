@@ -11,6 +11,7 @@ import net.fexcraft.mod.lib.network.Network;
 import net.minecraft.entity.MoverType;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -162,6 +163,10 @@ public class Static{
 			return elm.get("name").getAsString();
 		}
 		return "<null/errored>";
+	}
+
+	public static final String toString(BlockPos pos){
+		return pos.getX() + ", " + pos.getY() + ", " + pos.getZ();
 	}
 	
 }
