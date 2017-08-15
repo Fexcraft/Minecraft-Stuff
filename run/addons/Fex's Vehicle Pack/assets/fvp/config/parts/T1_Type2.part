@@ -7,7 +7,7 @@
         "cargo"
     ],
     "Scripts":[
-        "net.fexcraft.mod.fvm.scripts.T1_2Script.class"
+        "net.fexcraft.mod.addons.fvp.scripts.T1_2Script.class"
     ],
     "Textures": [
         "fvp:textures/entities/skin_vehicle_t1_2.png"

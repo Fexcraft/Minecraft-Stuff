@@ -10,13 +10,17 @@ import javax.annotation.Nullable;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
+import net.fexcraft.mod.lib.network.PacketHandler;
+import net.fexcraft.mod.lib.network.packet.PacketEntityUpdate;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -77,8 +81,6 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 
 	public DriveType getDriveType();
 	
-	public Collection<Class<? extends LandVehicleScript>> getScripts();
-	
 	//<-- VEHICLE DATA -->//
 	public static interface LandVehicleData {
 		
@@ -114,7 +116,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
-		public LandVehicleData readFromNBT(NBTTagCompound compound);
+		public LandVehicleData readFromNBT(NBTTagCompound compound, boolean isRemote);
 		
 		public boolean readyToSpawn();
 
@@ -131,6 +133,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public String getLockCode();
 		
 		public Collection<LandVehicleScript> getScripts();
+		
+		public <T extends LandVehicleScript> T getScript(Class<T> clazz);
 
 		public int getSpawnedKeysAmount();
 
@@ -141,6 +145,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public default boolean allowsLocking(){
 			return true;
 		}
+
+		public boolean isRemote();
 		
 	}
 	
@@ -155,21 +161,66 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	
 	public static interface LandVehicleScript {
 		
+		public ResourceLocation getId();
+		
 		public boolean isOn(Side side);
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
-		public LandVehicleScript readFromNBT(NBTTagCompound compound);
+		public LandVehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote);
 		
-		public void onDataPacket(Entity entity, NBTTagCompound compound);
+		public void onDataPacket(Entity entity, LandVehicleData data, NBTTagCompound compound, Side side);
 
-		public void onCreated(Entity entity);
+		public void onCreated(Entity entity, LandVehicleData data);
 
-		public boolean onInteract(Entity entity, EntityPlayer player);
+		public boolean onInteract(Entity entity, LandVehicleData data, EntityPlayer player);
 
-		public void onUpdate(Entity entity);
+		public void onUpdate(Entity entity, LandVehicleData data);
 
-		public void onRemove(Entity entity);
+		public void onRemove(Entity entity, LandVehicleData data);
+		
+		@SideOnly(Side.CLIENT)
+		public static int getClientSeatId(){
+			EntityPlayer player = net.minecraft.client.Minecraft.getMinecraft().player;
+			if(player.getRidingEntity() != null && player.getRidingEntity() instanceof com.flansmod.fvtm.EntitySeat){
+				return ((com.flansmod.fvtm.EntitySeat)player.getRidingEntity()).getSeatId();
+			}
+			else return -1;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public static boolean playerIsInVehicle(com.flansmod.fvtm.LandVehicle vehicle){
+			EntityPlayer player = net.minecraft.client.Minecraft.getMinecraft().player;
+			for(com.flansmod.fvtm.EntitySeat seat : vehicle.seats){
+				if(player.getRidingEntity() == null){
+					return false;
+				}
+				if(player.getRidingEntity().equals(seat)){
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		public default void sendPacketToClient(Entity ent, EntityPlayerMP player, NBTTagCompound nbt){
+			nbt.setString("ScriptId", getId().toString());
+			PacketHandler.getInstance().sendTo(new PacketEntityUpdate(ent, nbt), player);
+		}
+		
+		public default void sendPacketToAll(Entity ent, NBTTagCompound nbt){
+			nbt.setString("ScriptId", getId().toString());
+			PacketHandler.getInstance().sendToAll(new PacketEntityUpdate(ent, nbt));
+		}
+		
+		public default void sendPacketToAllAround(Entity ent, NBTTagCompound nbt){
+			nbt.setString("ScriptId", getId().toString());
+			PacketHandler.getInstance().sendToAllAround(new PacketEntityUpdate(ent, nbt), new TargetPoint(ent.dimension, ent.posX, ent.posY, ent.posZ, 256));
+		}
+		
+		public default void sendPacketToServer(Entity ent, NBTTagCompound nbt){
+			nbt.setString("ScriptId", getId().toString());
+			PacketHandler.getInstance().sendToServer(new PacketEntityUpdate(ent, nbt));
+		}
 		
 	}
 	

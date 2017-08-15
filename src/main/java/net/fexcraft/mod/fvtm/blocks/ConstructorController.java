@@ -158,6 +158,7 @@ public class ConstructorController extends BlockContainer {
 							Print.chat(p, "Part installed. (" + data.getPart().getName() + ")");
 							p.getHeldItem(hand).shrink(1);
 							te.updateLandVehicle(null);
+							te.updateScreen(null, false);
 						}
 					}
 					else{

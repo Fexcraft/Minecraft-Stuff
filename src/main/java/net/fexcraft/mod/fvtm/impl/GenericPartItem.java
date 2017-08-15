@@ -65,6 +65,16 @@ public class GenericPartItem extends Item implements PartItem {
 			for(Class clazz : part.getPart().getAttributeClasses()){
 				part.getPart().getAttribute(clazz).addInformation(stack, world, tooltip, flag);
 			}
+			if(part.getPart().getScripts().size() > 0){
+				tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
+				tooltip.add(Formatter.format("&9Scripts: &7" + part.getPart().getScripts().size()));
+				for(Class clazz : part.getPart().getScripts()){
+					tooltip.add(Formatter.format("&7- &3" + clazz.getName()));
+				}
+			}
+			else{
+				tooltip.add(Formatter.format("&8No Scripts."));
+			}
 		}
     }
 	

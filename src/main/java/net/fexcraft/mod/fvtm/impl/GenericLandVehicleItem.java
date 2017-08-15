@@ -52,7 +52,7 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			LandVehicleData veh = Resources.getLandVehicleData(stack.getTagCompound());
+			LandVehicleData veh = Resources.getLandVehicleData(stack.getTagCompound(), worldIn == null ? false/*true?*/ : worldIn.isRemote);
 			if(veh == null){
 				return;
 			}
@@ -94,9 +94,9 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
     }
 
 	@Override
-	public LandVehicleData getLandVehicle(ItemStack stack) {
+	public LandVehicleData getLandVehicle(ItemStack stack){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			return Resources.getLandVehicleData(stack.getTagCompound());
+			return Resources.getLandVehicleData(stack.getTagCompound(), false);
 		}
 		return null;
 	}

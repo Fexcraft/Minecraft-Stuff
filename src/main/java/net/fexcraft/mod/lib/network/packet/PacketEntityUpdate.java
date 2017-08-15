@@ -2,6 +2,7 @@ package net.fexcraft.mod.lib.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.fexcraft.mod.lib.api.network.IPacket;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -18,6 +19,12 @@ public class PacketEntityUpdate extends Packet implements IPacket, IMessage{
 		this.id = id;
 		this.nbt = nbt;
 		this.dim = dim;
+	}
+	
+	public PacketEntityUpdate(Entity ent, NBTTagCompound nbt){
+		this.id = ent.getEntityId();
+		this.nbt = nbt;
+		this.dim = ent.dimension;
 	}
 
 	@Override

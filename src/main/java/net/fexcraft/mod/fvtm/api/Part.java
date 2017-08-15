@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,6 +65,8 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	public PartModel getModel();
 	
 	public Class<? extends PartData> getDataClass();
+	
+	public Collection<Class<? extends LandVehicleScript>> getScripts();
 	
 	//<-- PART DATA -->//
 	public static interface PartData {

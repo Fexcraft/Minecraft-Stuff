@@ -57,7 +57,7 @@ public class ConstructorControllerEntity {
 		public void setPartData(PartData data){
 			if(this.partdata != null){
 				ItemStack stack = this.partdata.getPart().getItemStack(partdata);
-				EntityItem entity = new EntityItem(world, this.pos.getX(), this.pos.getY() + 1.5f, this.pos.getZ(), stack);
+				EntityItem entity = new EntityItem(world, this.pos.getX() + 0.5, this.pos.getY() + 1.5f, this.pos.getZ() + 0.5, stack);
 				world.spawnEntity(entity);
 				this.partdata = null;
 			}
@@ -78,6 +78,10 @@ public class ConstructorControllerEntity {
 		
 		public BlockPos getCenter(){
 			return center;
+		}
+		
+		public void setCenter(BlockPos pos){
+			this.center = pos;
 		}
 		
 		public byte getLift(){
@@ -164,7 +168,7 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			this.vehicledata = Resources.getLandVehicleData(compound);
+			this.vehicledata = Resources.getLandVehicleData(compound, false);
 			this.liftstate = compound.getFloat("LiftState");
 			//this.selection = compound.getByte("Selection");
 			//this.scroll = compound.getByte("Scroll");
@@ -197,8 +201,16 @@ public class ConstructorControllerEntity {
 							Print.chat(player, "This vehicle cannot be spawned as flansmod entity.");
 							return;
 						}
+						if(!vehicledata.readyToSpawn()){
+							Print.chat(player, "&7Vehicle can not be spawned yet.");
+							Print.chat(player, "&7Check if all &erequired &7parts are installed!");
+							return;
+						}
+						if(center == null){
+							Print.chat(player, "ER: C#NULL");
+						}
 						Entity ent = (Entity)Class.forName("com.flansmod.fvtm.LandVehicle").getConstructor(World.class, double.class, double.class, double.class, int.class, LandVehicleData.class)
-								.newInstance(world, center.getX() + 0.5d, center.getY() + 3, center.getZ() + 0.5d, this.getBlockMetadata(), vehicledata);
+								.newInstance(world, center.getX() + 0.5d, center.getY() + 3, center.getZ() + 0.5d, world.getTileEntity(center).getBlockMetadata() + 1, vehicledata);
 						world.spawnEntity(ent);
 						this.vehicledata = null;
 						this.updateLandVehicle(null);
@@ -887,7 +899,7 @@ public class ConstructorControllerEntity {
 			this.updateScreen(string, true);
 		}
 		
-		private void updateScreen(String string, boolean selres){
+		public void updateScreen(String string, boolean selres){
 			if(string != null){
 				window = string;
 			}
@@ -980,7 +992,7 @@ public class ConstructorControllerEntity {
 			}
 			switch(pkt.nbt.getString("task")){
 				case "update_vehicledata":{
-					this.vehicledata = Resources.getLandVehicleData(pkt.nbt);
+					this.vehicledata = Resources.getLandVehicleData(pkt.nbt, world.isRemote);
 					if(this.vehicledata == null){
 						Print.debug("NO VEHICLE NBT KEY FOUND, RESETTING!");
 					}
@@ -1024,7 +1036,7 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			this.vehicledata = Resources.getLandVehicleData(compound);
+			this.vehicledata = Resources.getLandVehicleData(compound, world.isRemote);
 			this.liftstate = compound.getFloat("LiftState");
 			this.lift = compound.getByte("Lift");
 			this.parseScreen(compound);

@@ -1,7 +1,6 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,7 +39,6 @@ public class GenericLandVehicle implements LandVehicle {
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
 	private int constructionlength;
-	private ArrayList<Class<? extends LandVehicleScript>> scripts = new ArrayList<Class<? extends LandVehicleScript>>();
 	private DriveType drivetype;
 	//FM
 	private float cameradis, maxposthrottle, maxnegthrottle, turnleftmod, turnrightmod, wheelspringstrength, wheelstepheight;
@@ -81,8 +79,6 @@ public class GenericLandVehicle implements LandVehicle {
 		}
 		this.primary = DataUtil.getRGB(obj, "PrimaryColor");
 		this.secondary = DataUtil.getRGB(obj, "SecondaryColor");
-		ArrayList<Class> arrc = JsonUtil.jsonArrayToClassArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
-		this.scripts.addAll((Collection<? extends Class<? extends LandVehicleScript>>)arrc);
 		this.drivetype = DriveType.fromString(JsonUtil.getIfExists(obj, "DriveType", "fwd"));
 		//FM
 		this.cameradis = JsonUtil.getIfExists(obj, "FM-CameraDistance", 5f).floatValue();
@@ -195,11 +191,6 @@ public class GenericLandVehicle implements LandVehicle {
 	@Override
 	public DriveType getDriveType(){
 		return drivetype;
-	}
-
-	@Override
-	public Collection<Class<? extends LandVehicleScript>> getScripts(){
-		return scripts;
 	}
 
 	@Override

@@ -33,6 +33,8 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 			nbt.setLong("pos", this.constructor.toLong());
 			nbt.setBoolean("reset", false);
 			ApiUtil.sendTileEntityUpdatePacket(world, this.pos, nbt);
+			//remind controller we're here
+			((Server)world.getTileEntity(constructor)).setCenter(this.pos);
 		}
 	}
 	
@@ -47,6 +49,7 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 		if(packet.nbt.hasKey("reset") && packet.nbt.getBoolean("reset")){
 			this.constructor = null; this.link = null;
 			Print.chat(net.minecraft.client.Minecraft.getMinecraft().player, "Center Block at " + pos.toString() + " resseted!");
+			Print.debug("SYNC -> RS");
 		}
 	}
 	

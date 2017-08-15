@@ -1,0 +1,24 @@
+{
+    "RegistryName": "fvp:t1_front_seats",
+    "FullName": "T1 Front Passenger Seats",
+    "Addon": "fvtm:fvp",
+    "ModelFile": "null",
+    "Category": [
+        "front_seats"
+    ],
+    "Attributes":[
+        "seat"
+    ],
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_t1p.png"
+    ],
+    "Removable": false,
+    "Available": false,
+    "AttributeData":{
+        "FM-Seats":[
+            { "x": 33, "y": 12, "z":  6 },
+            { "x": 33, "y": 12, "z": 14 }
+        ]    
+    }
+    
+}

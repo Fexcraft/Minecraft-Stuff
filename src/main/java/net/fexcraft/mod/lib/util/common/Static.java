@@ -137,10 +137,9 @@ public class Static{
 	public static Side side(){
 		return FMLCommonHandler.instance().getSide();
 	}
-
-	public static String crashString(){
-		Static.exception(5);
-		return null;
+	
+	public static Side side(boolean isRemote){
+		return isRemote ? Side.CLIENT : Side.SERVER;
 	}
 
 	public static String sideString(){

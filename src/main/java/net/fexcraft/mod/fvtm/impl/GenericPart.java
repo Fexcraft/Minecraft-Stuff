@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.model.part.NullModel;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
@@ -42,6 +43,7 @@ public class GenericPart implements Part {
 	private PartModel model;
 	private JsonObject attributedata;
 	private HashMap<Class, Attribute> attributes = new HashMap<Class, Attribute>();
+	private ArrayList<Class<? extends LandVehicleScript>> scripts = new ArrayList<Class<? extends LandVehicleScript>>();
 	
 	public GenericPart(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "PART");
@@ -76,6 +78,7 @@ public class GenericPart implements Part {
 		this.textures = DataUtil.getTextures(obj, registryname, "PART");
 		this.categories = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Category", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
 		//this.attributes = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray()).toArray(new String[]{});
+		
 		this.removable = JsonUtil.getIfExists(obj, "Removable", true);
 		this.available = JsonUtil.getIfExists(obj, "Avaible", true);
 		this.adjustable = JsonUtil.getIfExists(obj, "Adjustable", false);
@@ -95,6 +98,9 @@ public class GenericPart implements Part {
 				e.printStackTrace();
 			}
 		}
+		//
+		ArrayList<Class> arrc = JsonUtil.jsonArrayToClassArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
+		this.scripts.addAll((Collection<? extends Class<? extends LandVehicleScript>>)arrc);
 		
 	}
 
@@ -203,6 +209,10 @@ public class GenericPart implements Part {
 			if(arr == null){
 				return true;
 			}
+			if(arr.contains(new ResourceLocation("all"))){
+				Print.chat(player, "Incompatible parts installed in the vehicle.");
+				return false;
+			}
 			for(PartData part : data.getParts().values()){
 				if(arr.contains(part.getPart().getRegistryName())){
 					Print.chat(player, "Incompatible parts installed in the vehicle.");
@@ -223,6 +233,11 @@ public class GenericPart implements Part {
 	@Override
 	public Class<? extends PartData> getDataClass(){
 		return GenericPartData.class;
+	}
+
+	@Override
+	public Collection<Class<? extends LandVehicleScript>> getScripts(){
+		return this.scripts;
 	}
 	
 }

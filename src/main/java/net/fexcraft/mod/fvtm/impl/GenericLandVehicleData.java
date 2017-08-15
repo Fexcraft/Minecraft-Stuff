@@ -2,6 +2,7 @@ package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.item.KeyItem;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -35,8 +37,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 	private TreeMap<String, PartData> parts = new TreeMap<String, PartData>();
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
-	private boolean doors, isexternal, locked;
-	private ArrayList<LandVehicleScript> scripts = new ArrayList<LandVehicleScript>();
+	private boolean doors, isexternal, locked, remote;
+	private Map<Class, LandVehicleScript> scripts = new HashMap<Class, LandVehicleScript>();
 	private ArrayList<FMSeat> seats = new ArrayList<FMSeat>();
 	
 	public GenericLandVehicleData(LandVehicle veh){
@@ -120,7 +122,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		compound.setString("LockCode", lockcode);
 		compound.setInteger("SpawnedKeys", keys);
 		//
-		scripts.forEach((script) -> {
+		scripts.forEach((clazz, script) -> {
 			script.writeToNBT(compound);
 		});
 		//
@@ -129,7 +131,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public LandVehicleData readFromNBT(NBTTagCompound compound){
+	public LandVehicleData readFromNBT(NBTTagCompound compound, boolean isRemote){
+		this.remote = isRemote();
 		compound = compound.getCompoundTag(FVTM.MODID + "_landvehicle");
 		this.sel = compound.getInteger("SelectedTexture");
 		isexternal = compound.getBoolean("IsTextureExternal");
@@ -187,14 +190,20 @@ public class GenericLandVehicleData implements LandVehicleData {
 		this.keys = compound.getInteger("SpawnedKeys");
 		//
 		this.scripts.clear();
-		for(Class<? extends LandVehicleScript> clazz : this.vehicle.getScripts()){
-			try{
-				this.scripts.add(clazz.newInstance().readFromNBT(compound));
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		}
+		NBTTagCompound[] nbt = new NBTTagCompound[]{compound};
+		parts.forEach((key, data) ->{
+			data.getPart().getScripts().forEach((clazz) -> {
+				try{
+					LandVehicleScript script = clazz.newInstance();
+					if(script.isOn(Static.side(remote))){
+						this.scripts.put(clazz, script.readFromNBT(nbt[0], remote));
+					}
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			});
+		});
 		//
 		return this;
 	}
@@ -291,7 +300,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 
 	@Override
 	public Collection<LandVehicleScript> getScripts(){
-		return scripts;
+		return scripts.values();
 	}
 
 	@Override
@@ -326,6 +335,16 @@ public class GenericLandVehicleData implements LandVehicleData {
 			FMSeat fseat = seats.set(0, fmseat[0]);
 			if(fseat != null) { seats.add(fseat); }
 		}
+	}
+
+	@Override
+	public boolean isRemote(){
+		return remote;
+	}
+
+	@Override
+	public <T extends LandVehicleScript> T getScript(Class<T> clazz){
+		return (T)scripts.get(clazz);
 	}
 	
 }

@@ -508,7 +508,7 @@ public class JsonUtil{
 		ArrayList<String> json = jsonArrayToStringArray(array);
 		for(String string : json){
 			try{
-				list.add(Class.forName(string));
+				list.add(Class.forName(string.replace(".class", "")));
 			}
 			catch(Exception e){
 				e.printStackTrace();

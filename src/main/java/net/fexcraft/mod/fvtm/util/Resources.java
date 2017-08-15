@@ -377,12 +377,12 @@ public class Resources {
 		return ModelType.NONE;
 	}
 	
-	public static final LandVehicleData getLandVehicleData(NBTTagCompound compound){
+	public static final LandVehicleData getLandVehicleData(NBTTagCompound compound, boolean remote){
 		if(compound.hasKey(LandVehicleItem.NBTKEY)){
 			LandVehicle vehicle = LANDVEHICLES.getValue(new ResourceLocation(compound.getString(LandVehicleItem.NBTKEY)));
 			if(vehicle != null){
 				try{
-					return vehicle.getDataClass().getConstructor(LandVehicle.class).newInstance(vehicle).readFromNBT(compound);
+					return vehicle.getDataClass().getConstructor(LandVehicle.class).newInstance(vehicle).readFromNBT(compound, remote);
 				}
 				catch(Exception e){
 					e.printStackTrace();

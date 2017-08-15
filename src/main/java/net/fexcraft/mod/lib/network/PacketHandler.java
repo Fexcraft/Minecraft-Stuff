@@ -36,8 +36,8 @@ public class PacketHandler{
 		instance.registerMessage(JsonObjectPacketHandler.Client.class,        PacketJsonObject.class,        7, Side.CLIENT);
 		instance.registerMessage(NBTTagCompoundPacketHandler.Server.class,    PacketNBTTagCompound.class,    8, Side.SERVER);
 		instance.registerMessage(NBTTagCompoundPacketHandler.Client.class,    PacketNBTTagCompound.class,    9, Side.CLIENT);
-		instance.registerMessage(EntityUpdatePacketHandler.Client.class,      PacketEntityUpdate.class,     10, Side.CLIENT);
-		instance.registerMessage(EntityUpdatePacketHandler.Server.class,      PacketEntityUpdate.class,     11, Side.SERVER);
+		instance.registerMessage(EntityUpdatePacketHandler.Server.class,      PacketEntityUpdate.class,     10, Side.SERVER);
+		instance.registerMessage(EntityUpdatePacketHandler.Client.class,      PacketEntityUpdate.class,     11, Side.CLIENT);
 		Print.log("Done initialising Packet Handler.");
 	}
 	

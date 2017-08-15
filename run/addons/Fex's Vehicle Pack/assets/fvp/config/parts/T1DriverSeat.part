@@ -1,5 +1,6 @@
 {
     "RegistryName": "fvp:t1_driver_seat",
+    "FullName": "T1 Driver Seat",
     "Addon": "fvtm:fvp",
     "ModelFile": "null",
     "Category": [
