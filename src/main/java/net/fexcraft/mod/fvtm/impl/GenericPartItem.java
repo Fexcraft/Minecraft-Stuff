@@ -65,6 +65,13 @@ public class GenericPartItem extends Item implements PartItem {
 			for(Class clazz : part.getPart().getAttributeClasses()){
 				part.getPart().getAttribute(clazz).addInformation(stack, world, tooltip, flag);
 			}
+			if(part.getPart().getModel() != null && part.getPart().getModel().creators.size() > 0){
+				tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
+				tooltip.add(Formatter.format("&6Model by:"));
+				for(String string : part.getPart().getModel().creators){
+					tooltip.add(Formatter.format("&7- &3" + string));
+				}
+			}
 			if(part.getPart().getScripts().size() > 0){
 				tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
 				tooltip.add(Formatter.format("&9Scripts: &7" + part.getPart().getScripts().size()));
@@ -75,6 +82,7 @@ public class GenericPartItem extends Item implements PartItem {
 			else{
 				tooltip.add(Formatter.format("&8No Scripts."));
 			}
+			
 		}
     }
 	

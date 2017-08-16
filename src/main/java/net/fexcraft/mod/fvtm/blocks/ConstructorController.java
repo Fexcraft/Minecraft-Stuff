@@ -144,6 +144,7 @@ public class ConstructorController extends BlockContainer {
 				te.setData((LandVehicleItem)stack.getItem(), stack);
 				Print.chat(p, "Vehicle: " + te.getData().getVehicle().getName());
 				p.getHeldItem(hand).shrink(64);
+				te.updateColour(null, null);
 				return true;
 			}
 			else if(stack.getItem() instanceof PartItem){

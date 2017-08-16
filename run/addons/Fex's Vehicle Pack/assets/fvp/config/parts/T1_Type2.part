@@ -3,6 +3,9 @@
     "Addon": "fvtm:fvp",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1_2.class",
     "FullName": "Type 2 Tow Truck Upgrade",
+    "Description": [
+        "&7Use the &c`L`&7 key to open/close."
+    ],
     "Category": [
         "cargo"
     ],

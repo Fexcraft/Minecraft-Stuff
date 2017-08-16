@@ -27,7 +27,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class ConstructorControllerEntity {
@@ -39,7 +38,7 @@ public class ConstructorControllerEntity {
 		private byte lift = 0, selection = 0, scroll = 0;
 		private int lc = -1;
 		private double liftstate = 0;
-		private float brush = 0.01f;
+		private byte brush = 1;
 		private static final byte text = 8;
 		private BlockPos center;
 		private String window = "null";//Don't save/sync this! Should reset on every world load.
@@ -350,23 +349,22 @@ public class ConstructorControllerEntity {
 					if(button.isReset()){
 						switch(selection){
 							case 1:{
-								brush = 0.01f;
+								brush = 1;
 								break;
 							}
 							case 2: case 3: {
-								rgb.red   = 1f;
+								rgb.red   = 127;
 								break;
 							}
 							case 4: case 5: {
-								rgb.green = 1f;
+								rgb.green = 127;
 								break;
 							}
 							case 6: case 7: {
-								rgb.blue  = 1f;
+								rgb.blue  = 127;
 								break;
 							}
 						}
-						rgb.quickValidate();
 						this.updateScreen(window, false);
 						this.updateColour(str, rgb);
 					}
@@ -376,25 +374,23 @@ public class ConstructorControllerEntity {
 					if(button.isHorizontalArrow()){
 						switch(selection){
 							case 1:{
-								brush += button.isLeftArrow() ? -0.011f : 0.011f;
-								brush = RGB.truncateS(brush);
-								if(brush <= 0){ brush = 0f;};
+								brush += button.isLeftArrow() ? -1f : 1f;
+								if(brush <= 0){ brush = 0;};
 								break;
 							}
 							case 3:{
-								rgb.red   += button.isLeftArrow() ? -brush : brush;
+								rgb.add(0, button.isLeftArrow() ? -brush : brush);
 								break;
 							}
 							case 5:{
-								rgb.green += button.isLeftArrow() ? -brush : brush;
+								rgb.add(1, button.isLeftArrow() ? -brush : brush);
 								break;
 							}
 							case 7:{
-								rgb.blue  += button.isLeftArrow() ? -brush : brush;
+								rgb.add(2, button.isLeftArrow() ? -brush : brush);
 								break;
 							}
 						}
-						rgb.quickValidate();
 						this.updateScreen(window, false);
 						this.updateColour(str, rgb);
 					}
@@ -753,13 +749,13 @@ public class ConstructorControllerEntity {
 					String str = window.split("_")[2];
 					RGB rgb = str.equals("primary") ? this.vehicledata.getPrimaryColor() : this.vehicledata.getSecondaryColor();
 					compound.setString("Text0", "Color Editor (" + str + ")");
-					compound.setString("Text1", "&9Brush: &7" + brush);
-					compound.setString("Text2", "&cRed:");
-					compound.setString("Text3", "{ " + rgb.red   + " }f  [~" + floatTo256Int(rgb.red)   + "]i");
-					compound.setString("Text4", "&aGreen:");
-					compound.setString("Text5", "{ " + rgb.green + " }f  [~" + floatTo256Int(rgb.green) + "]i");
-					compound.setString("Text6", "&3Blue:");
-					compound.setString("Text7", "{ " + rgb.blue  + " }f  [~" + floatTo256Int(rgb.blue)  + "]i");
+					compound.setString("Text1", "&3Brush: &7" + brush);
+					compound.setString("Text2", "&cRed:   &7{" + (rgb.red   + 128) + "}i [" + rgb.red   + "]b");
+					compound.setString("Text3", this.getColorBar(rgb.red,   "c"));
+					compound.setString("Text4", "&aGreen: &7{" + (rgb.green + 128) + "}i [" + rgb.green + "]b");
+					compound.setString("Text5", this.getColorBar(rgb.green, "a"));
+					compound.setString("Text6", "&bBlue:  &7{" + (rgb.blue  + 128) + "}i [" + rgb.blue  + "]b");
+					compound.setString("Text7", this.getColorBar(rgb.blue,  "b"));
 					break;
 				}
 				case "part_menu":{
@@ -885,8 +881,27 @@ public class ConstructorControllerEntity {
 			return compound;
 		}
 		
-		private int floatTo256Int(float f){
-			return MathHelper.floor(f * 255);
+		private String getColorBar(byte f, String c){
+			String str = "&7-=|";
+			int i = 0;
+			while((f -= 1) > -128){
+				i++;
+			}
+			//Print.debug(i);
+			int j = (i + 1) / 16;
+			//Print.debug(j);
+			boolean b = (i + 1) % 16 != 0;
+			//Print.debug(i % 16 + " | " + (i + 1) % 16);
+			for(int k = 0; k < j; k++){
+				str += "&" + c + "#";
+			}
+			if(b){
+				str += "&e#";
+			}
+			for(int l = 0; l < ((16 - j) - (b ? 1 : 0)); l++){
+				str += "&8#";
+			}
+			return str + "&7|=-";
 		}
 		
 		private static final void fill(int j, NBTTagCompound compound){
@@ -967,7 +982,24 @@ public class ConstructorControllerEntity {
 			ApiUtil.sendTileEntityUpdatePacket(this, vehicledata == null ? nbt : vehicledata.writeToNBT(nbt), 256);
 		}
 		
-		private void updateColour(String str, RGB rgb){
+		public void updateColour(String str, RGB rgb){
+			if(str == null && vehicledata != null){
+				{
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("task", "update_colour");
+					nbt.setString("type", "primary");
+					nbt = vehicledata.getPrimaryColor().writeToNBT(nbt, null);
+					ApiUtil.sendTileEntityUpdatePacket(this, nbt, 256);
+				}
+				{
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("task", "update_colour");
+					nbt.setString("type", "secondary");
+					nbt = vehicledata.getSecondaryColor().writeToNBT(nbt, null);
+					ApiUtil.sendTileEntityUpdatePacket(this, nbt, 256);
+				}
+				return;
+			}
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("task", "update_colour");
 			nbt.setString("type", str);

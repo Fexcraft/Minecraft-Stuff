@@ -68,6 +68,13 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 					tooltip.add(Formatter.format("&7- &3" + part.getPart().getName() + " &7(" + part.getPart().getCategory() + ")"));
 				}
 			}
+			if(veh.getVehicle().getModel() != null && veh.getVehicle().getModel().creators.size() > 0){
+				tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
+				tooltip.add(Formatter.format("&6Model by:"));
+				for(String string : veh.getVehicle().getModel().creators){
+					tooltip.add(Formatter.format("&7- &3" + string));
+				}
+			}
 			tooltip.add(Formatter.format("&9Ready to Spawn: " + (veh.readyToSpawn() ? "&ayes" : "&cno")));
 		}
     }

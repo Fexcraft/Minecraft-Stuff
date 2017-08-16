@@ -4,73 +4,45 @@
     "FullName": "C2 Type P",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC2.class",
     "PrimaryColor": {
-        "Red": 96,
-        "Blue": 96,
-        "Green": 96
+        "Red": 168,
+        "Blue": 168,
+        "Green": 168
     },
     "SecondaryColor": {
-        "Red": 99,
-        "Blue": 99,
-        "Green": 99
+        "Red": 194,
+        "Blue": 194,
+        "Green": 194
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_c2.png"
     ],
     "WheelPos":[
-        {
-            "x": -59,
-            "y": 2,
-            "z": -20
-        },
-        {
-            "x": -59,
-            "y": 2,
-            "z": 20
-        },
-        {
-            "x": 28,
-            "y": 2,
-            "z": 20
-        },
-        {
-            "x": 28,
-            "y": 2,
-            "z": -20
-        }
+        { "x": -59, "y": 2, "z": -20 },
+        { "x": -59, "y": 2, "z":  20 },
+        { "x":  28, "y": 2, "z":  20 },
+        { "x":  28, "y": 2, "z": -20 }
     ],
     "ConstructionLength": 5,
     "ConstructionYOffSet": 22.5,
     "ConstructionWheelOffset": 20,
-    "ConstructionSettings": {
-        "RequiredParts": [
-            "right_front_wheel",
-            "left_front_wheel",
-            "right_back_wheel",
-            "left_back_wheel",
-            "steering_wheel",
-            "engine",
-            "fuel_tank"
-        ]
-    },
-    "PartSettings": {
-        "PreInstalled": [
-            "interior:c2_interior"
-        ]
-    },
-    "RenderSettings": {
-        "RotateWheels": true
-    },
-    "InventorySettings": {
-        "TankSize": 14000,
-        "Size": 12
-    },
-    "VehicleDefaults": {
-        "DriveType": "fwd",
-        "Lockable": true,
-        "MaxThrottle": 1.47,
-        "MaxNegativeThrottle": 0.7,
-        "TurnLeftModifier": 1.325,
-        "TurnRightModifier": 1.325
-    }
-    
+    "RequiredParts": [
+        "right_front_wheel",
+        "left_front_wheel",
+        "right_back_wheel",
+        "left_back_wheel",
+        "steering_wheel",
+        "engine",
+        "fuel_tank"
+    ],
+    "PreInstalled":[
+        {
+            "as": "interior",
+            "part": "fvp:c2_interior"
+        }
+    ],
+    "DriveType": "fwd",
+    "FM-MaxPositiveThrottle": 1.47,
+    "FM-MaxNegativeThrottle": 0.7,
+    "FM-TurnLeftModifier": 1.325,
+    "FM-TurnRightModifier": 1.325
 }

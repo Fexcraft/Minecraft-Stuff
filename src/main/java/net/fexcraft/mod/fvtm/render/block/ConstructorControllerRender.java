@@ -8,7 +8,6 @@ import net.fexcraft.mod.fvtm.render.Renderer;
 import net.fexcraft.mod.lib.api.render.fTESR;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Static;
-import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
@@ -44,13 +43,13 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer<Const
 		//Buttons
 		{
 			for(int i = 0; i < model.turretModel.length; i++){
-				switch(i){
+				/*switch(i){
 					case 0:{ RGB.GREEN.glColorApply(); }
 					case 1:{ ConstructorControllerEntity.ORANGE.glColorApply(); }
 					default:{ ConstructorControllerEntity.GRAY.glColorApply(); }
-				}
+				}*/
 				model.turretModel[i].render();
-				RGB.glColorReset();
+				//RGB.glColorReset();
 			}
 		}
 		{

@@ -4,77 +4,46 @@
     "FullName": "C7 Raw",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC7.class",
     "PrimaryColor": {
-        "Red": 96,
-        "Blue": 96,
-        "Green": 96
+        "Red": 168,
+        "Blue": 168,
+        "Green": 168
     },
     "SecondaryColor": {
-        "Red": 99,
-        "Blue": 99,
-        "Green": 99
+        "Red": 194,
+        "Blue": 194,
+        "Green": 194
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_c7.png"
     ],
     "WheelPos":[
-        {
-            "x": -31.5,
-            "y": -3,
-            "z": -16
-        },
-        {
-            "x": -31.5,
-            "y": -3,
-            "z": 16
-        },
-        {
-            "x": 31.5,
-            "y": -3,
-            "z": 16
-        },
-        {
-            "x": 31.5,
-            "y": -3,
-            "z": -16
-        }
+        { "x": -31.5, "y": -3, "z": -16 },
+        { "x": -31.5, "y": -3, "z":  16 },
+        { "x":  31.5, "y": -3, "z":  16 },
+        { "x":  31.5, "y": -3, "z": -16 }
     ],
     "ConstructionLength": 3,
     "ConstructionYOffSet": 20.5,
     "ConstructionWheelOffset": 12.5,
-    "ConstructionSettings": {
-        "Length": 3,
-        "HeightOffset": 20.5,
-        "WheelOffset": 12.5,
-        "RequiredParts": [
-            "right_front_wheel",
-            "left_front_wheel",
-            "right_back_wheel",
-            "left_back_wheel",
-            "steering_wheel",
-            "interior",
-            "engine",
-            "fuel_tank"
-        ]
-    },
-    "PartSettings": {
-        "PreInstalled": [
-            "seats:c7_seats"
-        ]
-    },
-    "RenderSettings": {
-        "RotateWheels": true
-    },
-    "InventorySettings": {
-        "TankSize": 25700,
-        "Size": 28
-    },
-    "VehicleDefaults": {
-        "DriveType": "4wd",
-        "Lockable": true,
-        "MaxThrottle": 1.567,
-        "MaxNegativeThrottle": 0.8,
-        "TurnLeftModifier": 1.45,
-        "TurnRightModifier": 1.45
-    }
-    
+    "RequiredParts": [
+        "right_front_wheel",
+        "left_front_wheel",
+        "right_back_wheel",
+        "left_back_wheel",
+        "steering_wheel",
+        "interior",
+        "engine",
+        "fuel_tank"
+    ],
+    "PreInstalled": [
+        {
+            "as": "seats",
+            "part": "fvp:c7_seats"
+        }
+    ],
+    "DriveType": "4wd",
+    "FM-MaxPositiveThrottle": 1.567,
+    "FM-MaxNegativeThrottle": 0.8,
+    "FM-TurnLeftModifier": 1.45,
+    "FM-TurnRightModifier": 1.45
 }

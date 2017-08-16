@@ -169,20 +169,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 				}
 			}
 		}
-		if(compound.hasKey("PrimaryRed")){
-			this.primary = new RGB(compound.getFloat("PrimaryRed"), compound.getFloat("PrimaryGreen"), compound.getFloat("PrimaryBlue"));
-		}
-		else{
-			this.primary = new RGB();
-			this.primary.copyFrom(vehicle.getDefPrimaryColor());
-		}
-		if(compound.hasKey("SecondaryRed")){
-			this.secondary = new RGB(compound.getFloat("SecondaryRed"), compound.getFloat("SecondaryGreen"), compound.getFloat("SecondaryBlue"));
-		}
-		else{
-			this.secondary = new RGB();
-			this.secondary.copyFrom(vehicle.getDefSecondaryolor());
-		}
+		this.primary = compound.hasKey("PrimaryRed") ? new RGB(compound.getByte("PrimaryRed"), compound.getByte("PrimaryGreen"), compound.getByte("PrimaryBlue")) : new RGB(vehicle.getDefPrimaryColor());
+		this.secondary = compound.hasKey("SecondaryRed") ? new RGB(compound.getByte("SecondaryRed"), compound.getByte("SecondaryGreen"), compound.getByte("SecondaryBlue")) : new RGB(vehicle.getDefSecondaryolor());
 		this.doors = compound.getBoolean("DoorsOpen");
 		//FM
 		this.locked = compound.getBoolean("Locked");

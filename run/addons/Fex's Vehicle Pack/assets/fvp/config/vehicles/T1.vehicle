@@ -4,14 +4,14 @@
     "FullName": "T1 Type P-",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelT1P.class",
     "PrimaryColor": {
-        "Red": 96,
-        "Blue": 96,
-        "Green": 96
+        "Red": 168,
+        "Blue": 168,
+        "Green": 168
     },
     "SecondaryColor": {
-        "Red": 99,
-        "Blue": 99,
-        "Green": 99
+        "Red": 194,
+        "Blue": 194,
+        "Green": 194
     },
     "Textures": [
         "fvp:textures/entities/skin_vehicle_t1p.png"
@@ -33,7 +33,7 @@
         "engine",
         "fuel_tank"
     ],
-    "PreInstalled": [
+    "PreInstalled":[
         {
             "as": "steering_wheel",
             "part": "fvp:t1_steering_wheel"

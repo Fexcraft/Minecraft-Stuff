@@ -1,5 +1,6 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
+import net.fexcraft.mod.addons.fvp.scripts.T1SnowPlowScript;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
@@ -90,12 +91,8 @@ public class ModelT1_FT1 extends PartModel {
 	@Override
 	public void render(LandVehicleData data, String us, Entity vehicle){
 		render(body);
-		boolean yes = false;
-		/*if(data.getVehicle().getScripts().contains("").contains("t1-snowplow")){
-			T1SnowPlowScript sps = (T1SnowPlowScript) data.scripts.get("t1-snowplow");
-			yes = sps.on;
-		}*///TODO
-		rotate(snowplow, 0, 0, yes ? 0 : -Static.rad20, true);
+		T1SnowPlowScript sps = data.getScript(T1SnowPlowScript.class);
+		rotate(snowplow, 0, 0, sps == null ? 0 : sps.on ? 0 : -Static.rad20, true);
 		render(snowplow);
 	}
 	
