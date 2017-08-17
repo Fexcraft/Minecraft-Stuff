@@ -536,6 +536,7 @@ public class ConstructorControllerEntity {
 						this.updateSelection(button == ARROW_UP ? -1 : 1);
 					}
 					if(button.isSelect()){
+						Entry<String, PartData> entry = (Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel];
 						switch(selection){
 							case 4:{
 								this.updateScreen("part_selected_edit_texture");
@@ -550,7 +551,21 @@ public class ConstructorControllerEntity {
 								break;
 							}
 							case 7:{
-								this.updateScreen("part_selected_remove");
+								//this.updateScreen("part_selected_remove");
+								if(entry.getValue().getPart().isRemovable()){
+									vehicledata.getParts().remove(entry.getKey());
+									//
+									PartData data = entry.getValue();
+									Print.chat(player, "&7Part &c'" + data.getPart().getName() + "' &7removed from vehicle!");
+									EntityItem item = new EntityItem(world);
+									item.setItem(data.getPart().getItemStack(data));
+									item.setPosition(this.pos.getX() + 0.5, this.pos.getY() + 1.5, this.pos.getZ() + 0.5);
+									world.spawnEntity(item);
+								}
+								else{
+									Print.chat(player, "Part is marked as non-removable.");
+								}
+								this.updateScreen("part_view_installed");
 								break;
 							}
 						}
