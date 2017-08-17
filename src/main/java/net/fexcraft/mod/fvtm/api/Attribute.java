@@ -35,4 +35,16 @@ public interface Attribute extends IForgeRegistryEntry<Attribute> {
 	/** For Item Tooltips */
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag);
 	
+	public boolean hasDataClass();
+	
+	public Class<? extends AttributeData> getDataClass();
+	
+	public static interface AttributeData {
+		
+		public NBTTagCompound writeToNBT(NBTTagCompound compound);
+		
+		public AttributeData readFromNBT(NBTTagCompound compound);
+		
+	}
+	
 }

@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.fvtm.api.Attribute.AttributeData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
@@ -90,6 +91,9 @@ public interface Part extends IForgeRegistryEntry<Part> {
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
 		public PartData readFromNBT(NBTTagCompound compound);
+		
+		@Nullable
+		public <T extends AttributeData> T getAttributeData(Class<T> clazz);
 		
 	}
 	

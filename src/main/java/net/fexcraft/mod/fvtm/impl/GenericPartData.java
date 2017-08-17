@@ -1,6 +1,10 @@
 package net.fexcraft.mod.fvtm.impl;
 
+import java.util.HashMap;
+
 import net.fexcraft.mod.fvtm.FVTM;
+import net.fexcraft.mod.fvtm.api.Attribute;
+import net.fexcraft.mod.fvtm.api.Attribute.AttributeData;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
@@ -17,6 +21,7 @@ public class GenericPartData implements PartData {
 	private String url;
 	private ResourceLocation custom;
 	private boolean isexternal;
+	private HashMap<Class, AttributeData> attributes = new HashMap<Class, AttributeData>();
 	
 	public GenericPartData(Part part){
 		this.part = part;
@@ -44,6 +49,12 @@ public class GenericPartData implements PartData {
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
+		part.getAttributeClasses().forEach((clazz) -> {
+			Attribute attr = part.getAttribute(clazz);
+			if(attr.hasDataClass()){
+				this.attributes.get(attr.getDataClass()).writeToNBT(compound);
+			}
+		});
 		tagcompound.setTag(FVTM.MODID + "_part", offset.toNBT("Offset", compound));
 		return tagcompound;
 	}
@@ -56,6 +67,18 @@ public class GenericPartData implements PartData {
 		isexternal = compound.getBoolean("IsTextureExternal");
 		url = isexternal ? compound.getString("CustomTexture") : null;
 		custom = isexternal ? null : new ResourceLocation(compound.getString("CustomTexture"));
+		NBTTagCompound[] tagc = new NBTTagCompound[]{compound};
+		part.getAttributeClasses().forEach((clazz) -> {
+			Attribute attr = part.getAttribute(clazz);
+			if(attr.hasDataClass()){
+				try{
+					this.attributes.put(attr.getDataClass(), attr.getDataClass().getConstructor(Attribute.class).newInstance(attr).readFromNBT(tagc[0]));
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
 		return this;
 	}
 
@@ -84,6 +107,11 @@ public class GenericPartData implements PartData {
 	@Override
 	public ResourceLocation getTexture(){
 		return sel >= 0 ? part.getTextures().get(sel) : this.getCustomTexture();
+	}
+
+	@Override
+	public <T extends AttributeData> T getAttributeData(Class<T> clazz){
+		return (T)attributes.get(clazz);
 	}
 	
 }
