@@ -20,30 +20,35 @@ public class GeneralEssentials extends HybridAddon {
 
 	@Override
 	public void regMaterials(Register<Material> event){
-		// TODO Auto-generated method stub
-		
+		//
 	}
 
 	@Override
 	public void regAttributes(Register<Attribute> event){
-		event.getRegistry().registerAll(new EngineAttribute(), new FuelTankExtensionAttribute(), new FMSeatAttribute());
+		event.getRegistry().registerAll(
+			new EngineAttribute(),
+			new FuelTankExtensionAttribute(),
+			new FMSeatAttribute(),
+			new InventoryAttribute()
+		);
 	}
 
 	@Override
 	public void regParts(Register<Part> event){
-		// TODO Auto-generated method stub
-		
+		//
 	}
 
 	@Override
 	public void regLandVehicles(Register<LandVehicle> event){
-		// TODO Auto-generated method stub
-		
+		//
 	}
 
 	@Override
 	public void regFuels(Register<Fuel> event){
-		event.getRegistry().registerAll(new Gasoline(), new Diesel());
+		event.getRegistry().registerAll(
+			new Gasoline(),
+			new Diesel()
+		);
 	}
 
 	@Override

@@ -9,6 +9,9 @@
     "Category": [
         "cargo"
     ],
+    "Attributes":[
+        "inventory"
+    ],
     "Scripts":[
         "net.fexcraft.mod.addons.fvp.scripts.T1_2Script.class"
     ],
@@ -22,5 +25,18 @@
             "Vehicle": "fvp:t1",
             "x": 0, "y": 0, "z": 0
         }
-    ]
+    ],
+    "AttributeData":{
+        "Inventory-Size": 4,
+        "Inventory-Whitelist":[
+            {
+                "id": "minecraft:stone",
+                "meta": 6
+            },
+            {
+                "id": "minecraft:stone",
+                "meta": 5
+            }
+        ]
+    }
 }

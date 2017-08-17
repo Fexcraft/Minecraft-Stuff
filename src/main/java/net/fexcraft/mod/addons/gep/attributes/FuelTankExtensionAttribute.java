@@ -37,25 +37,35 @@ public class FuelTankExtensionAttribute implements Attribute {
 	}
 
 	@Override
-	public NBTTagCompound getScreen(NBTTagCompound compound, PartData part, int selection, int scroll) {
+	public NBTTagCompound getScreen(NBTTagCompound compound, PartData part, int selection, int scroll){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void onButtonPress(Button button, EntityPlayer player) {
+	public void onButtonPress(Button button, EntityPlayer player, String[] args){
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
 		tooltip.add(Formatter.format("&9Tank Size: &7" + tanksize));
 	}
 
 	public int getFuelTankSize(){
 		return tanksize;
+	}
+
+	@Override
+	public boolean hasDataClass(){
+		return false;
+	}
+
+	@Override
+	public Class<? extends AttributeData> getDataClass(){
+		return null;
 	}
 	
 }

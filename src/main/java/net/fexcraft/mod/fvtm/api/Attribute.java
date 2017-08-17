@@ -41,9 +41,9 @@ public interface Attribute extends IForgeRegistryEntry<Attribute> {
 	
 	public static interface AttributeData {
 		
-		public NBTTagCompound writeToNBT(NBTTagCompound compound);
+		public NBTTagCompound writeToNBT(PartData data, NBTTagCompound compound);
 		
-		public AttributeData readFromNBT(NBTTagCompound compound);
+		public AttributeData readFromNBT(PartData data, NBTTagCompound compound);
 		
 	}
 	

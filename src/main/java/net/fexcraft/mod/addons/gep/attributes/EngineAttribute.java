@@ -48,7 +48,7 @@ public class EngineAttribute implements Attribute {
 	}
 
 	@Override
-	public void onButtonPress(Button button, EntityPlayer player) {
+	public void onButtonPress(Button button, EntityPlayer player, String[] args){
 		// TODO Auto-generated method stub
 		
 	}
@@ -71,6 +71,16 @@ public class EngineAttribute implements Attribute {
 	
 	public float getEngineSpeed(){
 		return enginespeed;
+	}
+
+	@Override
+	public boolean hasDataClass(){
+		return false;
+	}
+
+	@Override
+	public Class<? extends AttributeData> getDataClass(){
+		return null;
 	}
 	
 }

@@ -52,7 +52,7 @@ public class GenericPartData implements PartData {
 		part.getAttributeClasses().forEach((clazz) -> {
 			Attribute attr = part.getAttribute(clazz);
 			if(attr.hasDataClass()){
-				this.attributes.get(attr.getDataClass()).writeToNBT(compound);
+				this.attributes.get(attr.getDataClass()).writeToNBT(this, compound);
 			}
 		});
 		tagcompound.setTag(FVTM.MODID + "_part", offset.toNBT("Offset", compound));
@@ -72,7 +72,7 @@ public class GenericPartData implements PartData {
 			Attribute attr = part.getAttribute(clazz);
 			if(attr.hasDataClass()){
 				try{
-					this.attributes.put(attr.getDataClass(), attr.getDataClass().getConstructor(Attribute.class).newInstance(attr).readFromNBT(tagc[0]));
+					this.attributes.put(attr.getDataClass(), attr.getDataClass().getConstructor(PartData.class, Attribute.class).newInstance(this, attr).readFromNBT(this, tagc[0]));
 				}
 				catch(Exception e){
 					e.printStackTrace();

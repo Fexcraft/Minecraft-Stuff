@@ -6,6 +6,9 @@
     "Category": [
         "cargo"
     ],
+    "Attributes":[
+        "inventory"
+    ],
     "Textures": [
         "fvp:textures/entities/skin_vehicle_t1_1p.png"
     ],
@@ -16,5 +19,8 @@
             "Vehicle": "fvp:t1",
             "x": 0, "y": 0, "z": 0
         }
-    ]
+    ],
+    "AttributeData":{
+        "Inventory-Size": 63
+    }
 }

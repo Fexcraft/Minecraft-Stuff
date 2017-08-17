@@ -644,16 +644,16 @@ public class ConstructorControllerEntity {
 						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
 						switch(selection){
 							case 6:{
-								String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+								String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "internal" : "supplied";
 								//Print.debug("PR: " + str);
 								switch(str){
 									case "external":{
 										data.setSelectedTexture(-1);
 										data.setCustomTexture("minecraft:stone", false);
-										//set to custom
+										//set to internal
 										break;
 									}
-									case "custom":{
+									case "internal":{
 										data.setSelectedTexture(0);
 										data.setCustomTexture("minecraft:stone", false);
 										//set to normal
@@ -677,13 +677,13 @@ public class ConstructorControllerEntity {
 					}
 					if(button.isHorizontalArrow() && selection == 7){
 						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
-						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "internal" : "supplied";
 						switch(str){
 							case "external":{
 								Print.chat(player, "Use the select key to open the input window.");
 								break;
 							}
-							case "custom":{
+							case "internal":{
 								Print.chat(player, "Use the select key to open the input window.");
 								break;
 							}
@@ -704,13 +704,13 @@ public class ConstructorControllerEntity {
 					}
 					if(button.isInput() && selection == 7){
 						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
-						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "internal" : "supplied";
 						switch(str){
 							case "external":{
 								data.setCustomTexture(args[0], true);
 								break;
 							}
-							case "custom":{
+							case "internal":{
 								data.setCustomTexture(args[0], false);
 								break;
 							}
@@ -769,17 +769,17 @@ public class ConstructorControllerEntity {
 						this.updateSelection(button == ARROW_UP ? -1 : 1);
 					}
 					if(button.isSelect()){
-						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "internal" : "supplied";
 						switch(selection){
 							case 6:{
 								switch(str){
 									case "external":{
 										vehicledata.setSelectedTexture(-1);
 										vehicledata.setCustomTexture("minecraft:stone", false);
-										//set to custom
+										//set to internal
 										break;
 									}
-									case "custom":{
+									case "internal":{
 										vehicledata.setSelectedTexture(0);
 										vehicledata.setCustomTexture("minecraft:stone", false);
 										//set to normal
@@ -801,13 +801,13 @@ public class ConstructorControllerEntity {
 						this.updateScreen(window, false);
 					}
 					if(button.isHorizontalArrow() && selection == 7){
-						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "internal" : "supplied";
 						switch(str){
 							case "external":{
 								Print.chat(player, "Use the select key to open the input window.");
 								break;
 							}
-							case "custom":{
+							case "internal":{
 								Print.chat(player, "Use the select key to open the input window.");
 								break;
 							}
@@ -827,13 +827,13 @@ public class ConstructorControllerEntity {
 						this.updateScreen(window, false);
 					}
 					if(button.isInput() && selection == 7){
-						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "internal" : "supplied";
 						switch(str){
 							case "external":{
 								vehicledata.setCustomTexture(args[0], true);
 								break;
 							}
-							case "custom":{
+							case "internal":{
 								vehicledata.setCustomTexture(args[0], false);
 								break;
 							}
@@ -1140,8 +1140,8 @@ public class ConstructorControllerEntity {
 					PartData data = entry.getValue();
 					compound.setString("Text0", "Part Texture Editor");
 					compound.setString("Text1", "- - - - - - - - - -");
-					compound.setString("Text2", "Current Type: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied"));
-					compound.setString("Text3", "Selected Texture: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : data.getSelectedTexture()));
+					compound.setString("Text2", "Current Type: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "internal" : "supplied"));
+					compound.setString("Text3", "Selected Texture: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "internal" : data.getSelectedTexture()));
 					//compound.setString("Text3", "Texture RS:");
 					String str = data.getTexture().toString();
 					compound.setString("Text4", "&e" + (str.length() > 27 ? ("..." + str.substring(str.length() - 27, str.length())) : str));
@@ -1164,8 +1164,8 @@ public class ConstructorControllerEntity {
 				case "vehicle_edit_texture":{
 					compound.setString("Text0", "Vehicle Texture Editor");
 					compound.setString("Text1", "- - - - - - - - - -");
-					compound.setString("Text2", "Current Type: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied"));
-					compound.setString("Text3", "Selected Texture: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : vehicledata.getSelectedTexture()));
+					compound.setString("Text2", "Current Type: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "internal" : "supplied"));
+					compound.setString("Text3", "Selected Texture: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "internal" : vehicledata.getSelectedTexture()));
 					String str = vehicledata.getTexture().toString();
 					compound.setString("Text4", "&e" + (str.length() > 27 ? ("..." + str.substring(str.length() - 27, str.length())) : str));
 					compound.setString("Text5", "- - - - - - - - - -");
