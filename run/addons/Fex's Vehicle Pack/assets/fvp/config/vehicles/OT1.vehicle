@@ -14,7 +14,9 @@
         "Green": 194
     },
     "Textures": [
-        "fvp:textures/entities/skin_vehicle_ot1.png"
+        "fvp:textures/entities/skin_vehicle_ot1.png",
+        "fvp:textures/entities/skin_vehicle_ot1_nonoise.png",
+        "fvp:textures/entities/skin_vehicle_ot1_test.png"
     ],
     "WheelPos":[
         { "x": -53, "y": -10, "z": -14 },

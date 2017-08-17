@@ -2,6 +2,8 @@ package net.fexcraft.mod.fvtm.gui;
 
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.blocks.ConstructorController;
+import net.fexcraft.mod.fvtm.blocks.ConstructorControllerEntity;
 import net.fexcraft.mod.fvtm.impl.GenericAddon;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.network.IPacketListener;
@@ -12,18 +14,21 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 
 	public static final int ADDON_MANAGER = 55;
+	public static final int CONSTRUCTOR_INPUT = 88;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
 		Print.debug("REQUEST " + ID + " | " + x + ", " + y + ", " + z + ";");
 		switch(ID){
 			case 55:
+			case 88:
 				return new GenericPlaceholderContainer();
 			default:
 				return null;
@@ -37,6 +42,9 @@ public class GuiHandler implements IGuiHandler {
 			case 55:
 				Print.debug("CREATING GUI!;");
 				return new AddonManagerGui(x, y, z);
+			case 88:
+				Print.debug("CREATING GUI!");
+				return new ConstructorInputGui(player, new BlockPos(x, y, z));
 			default:
 				return null;
 		}
@@ -112,6 +120,13 @@ public class GuiHandler implements IGuiHandler {
 					PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(tagc), (net.minecraft.entity.player.EntityPlayerMP)objs[0]);
 					Print.debug("S: " + tagc);
 					break;
+				case "constructor_input":{
+					BlockPos pos = BlockPos.fromLong(packet.nbt.getLong("pos"));
+					String input = packet.nbt.getString("input");
+					EntityPlayer player = (EntityPlayer)objs[0];
+					((ConstructorControllerEntity.Server)player.world.getTileEntity(pos)).onButtonPress(ConstructorController.Button.INPUT, player, new String[]{input});
+					break;
+				}
 				
 			}
 		}

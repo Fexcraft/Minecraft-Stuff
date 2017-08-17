@@ -22,7 +22,7 @@ public interface Attribute extends IForgeRegistryEntry<Attribute> {
 	
 	public NBTTagCompound getScreen(NBTTagCompound compound, PartData part, int selection, int scroll);
 	
-	public void onButtonPress(Button button, EntityPlayer player);
+	public void onButtonPress(Button button, EntityPlayer player, String[] args);
 	
 	public default Attribute setRegistryName(ResourceLocation name){
 		return this;

@@ -214,7 +214,7 @@ public class ConstructorController extends BlockContainer {
 		return false;
     }
 	
-	private boolean findAndPressButton(ConstructorControllerEntity.Server te, World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumFacing side, float hitX, float hitY, float hitZ) {
+	private boolean findAndPressButton(ConstructorControllerEntity.Server te, World w, BlockPos pos, IBlockState state, EntityPlayer p, EnumFacing side, float hitX, float hitY, float hitZ){
 		boolean found = false;
 		if(side == EnumFacing.UP){
 			//Print.debugChat(hitX + " ||| " + hitZ);
@@ -226,7 +226,7 @@ public class ConstructorController extends BlockContainer {
 			if(button != null){
 				//Print.debugChat(button.name());
 				if(button.ID < 10){
-					te.onButtonPress(button, p);
+					te.onButtonPress(button, p, null);
 				}
 				else{
 					te.addLift(button.ID == 10 ? 1 : -1);
@@ -251,7 +251,8 @@ public class ConstructorController extends BlockContainer {
 		RETURN(8,       new int[]{ 6}, new int[]{11}),
 		HOME(9,         new int[]{ 6}, new int[]{12}),
 		LIFT_DOWN(10,   new int[]{ 9, 10}, new int[]{3, 2}),
-		LIFT_UP(11,     new int[]{ 6,  7}, new int[]{3, 2});
+		LIFT_UP(11,     new int[]{ 6,  7}, new int[]{3, 2}),
+		INPUT(12,       new int[]{ 0}, new int[]{ 0});
 		
 		public int ID;
 		public int[] xc, zc;
@@ -340,6 +341,10 @@ public class ConstructorController extends BlockContainer {
 		
 		public boolean isDownArrow(){
 			return this == ARROW_DOWN;
+		}
+
+		public boolean isInput(){
+			return this == INPUT;
 		}
 		
 	}

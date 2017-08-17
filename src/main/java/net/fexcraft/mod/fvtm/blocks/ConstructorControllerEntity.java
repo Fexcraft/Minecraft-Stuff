@@ -5,10 +5,12 @@ import static net.fexcraft.mod.fvtm.blocks.ConstructorController.Button.*;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
+import net.fexcraft.mod.fvtm.gui.GuiHandler;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
@@ -177,7 +179,7 @@ public class ConstructorControllerEntity {
 			this.partdata = Resources.getPartData(compound);
 		}
 
-		public void onButtonPress(Button button, EntityPlayer player){
+		public void onButtonPress(Button button, EntityPlayer player, String[] args){
 			if(button.isHome()){
 				this.updateScreen("main");
 			}
@@ -241,6 +243,10 @@ public class ConstructorControllerEntity {
 							switch(selection){
 								case 0:{
 									this.updateScreen("info");
+									break;
+								}
+								case 1:{
+									this.updateScreen("vehicle_menu");
 									break;
 								}
 								case 2:{
@@ -627,6 +633,232 @@ public class ConstructorControllerEntity {
 					}
 					break;
 				}
+				case "part_selected_edit_texture":{
+					if(button.isReturn()){
+						this.updateScreen("part_view_selected");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
+						switch(selection){
+							case 6:{
+								String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+								//Print.debug("PR: " + str);
+								switch(str){
+									case "external":{
+										data.setSelectedTexture(-1);
+										data.setCustomTexture("minecraft:stone", false);
+										//set to custom
+										break;
+									}
+									case "custom":{
+										data.setSelectedTexture(0);
+										data.setCustomTexture("minecraft:stone", false);
+										//set to normal
+										break;
+									}
+									case "supplied":{
+										data.setSelectedTexture(-1);
+										data.setCustomTexture("http://fexcraft.net/webfiles/img/deftex.png", true);
+										//set to external
+										break;
+									}
+								}
+								//Print.debug("AF: " + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied"));
+								break;
+							}
+							case 7:{
+								this.openInputGui(player);
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					if(button.isHorizontalArrow() && selection == 7){
+						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
+						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+						switch(str){
+							case "external":{
+								Print.chat(player, "Use the select key to open the input window.");
+								break;
+							}
+							case "custom":{
+								Print.chat(player, "Use the select key to open the input window.");
+								break;
+							}
+							case "supplied":{
+								int i = data.getSelectedTexture();
+								i += button.isLeftArrow() ? -1 : 1;
+								if(i < 0){
+									i = 0;
+								}
+								if(i >= data.getPart().getTextures().size()){
+									i = data.getPart().getTextures().size() - 1;
+								}
+								data.setSelectedTexture(i);
+								break;
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					if(button.isInput() && selection == 7){
+						PartData data = ((Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel]).getValue();
+						String str = data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied";
+						switch(str){
+							case "external":{
+								data.setCustomTexture(args[0], true);
+								break;
+							}
+							case "custom":{
+								data.setCustomTexture(args[0], false);
+								break;
+							}
+							case "supplied":{
+								try{
+									int i = Integer.parseInt(args[0]);
+									if(i < 0){
+										i = 0;
+									}
+									if(i >= data.getPart().getTextures().size()){
+										i = data.getPart().getTextures().size() - 1;
+									}
+									data.setSelectedTexture(i);
+								}
+								catch(Exception e){
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					this.updateLandVehicle(vehicledata);
+					break;
+				}
+				case "vehicle_menu":{
+					if(button.isReturn()){
+						this.updateScreen("main");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						switch(selection){
+							case 5:{
+								this.updateScreen("vehicle_edit_texture");
+								break;
+							}
+							case 6:{
+								this.updateScreen("vehicle_edit_wheelpos");
+								break;
+							}
+							case 7:{
+								Print.chat(player, "Empty Field.");
+								break;
+							}
+						}
+					}
+					break;
+				}
+				case "vehicle_edit_texture":{
+					if(button.isReturn()){
+						this.updateScreen("vehicle_menu");
+					}
+					if(button.isVerticalArrow()){
+						this.updateSelection(button == ARROW_UP ? -1 : 1);
+					}
+					if(button.isSelect()){
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						switch(selection){
+							case 6:{
+								switch(str){
+									case "external":{
+										vehicledata.setSelectedTexture(-1);
+										vehicledata.setCustomTexture("minecraft:stone", false);
+										//set to custom
+										break;
+									}
+									case "custom":{
+										vehicledata.setSelectedTexture(0);
+										vehicledata.setCustomTexture("minecraft:stone", false);
+										//set to normal
+										break;
+									}
+									case "supplied":{
+										vehicledata.setSelectedTexture(-1);
+										vehicledata.setCustomTexture("http://fexcraft.net/webfiles/img/deftex.png", true);
+										//set to external
+										break;
+									}
+								}
+								break;
+							}
+							case 7:{
+								this.openInputGui(player);
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					if(button.isHorizontalArrow() && selection == 7){
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						switch(str){
+							case "external":{
+								Print.chat(player, "Use the select key to open the input window.");
+								break;
+							}
+							case "custom":{
+								Print.chat(player, "Use the select key to open the input window.");
+								break;
+							}
+							case "supplied":{
+								int i = vehicledata.getSelectedTexture();
+								i += button.isLeftArrow() ? -1 : 1;
+								if(i < 0){
+									i = 0;
+								}
+								if(i >= vehicledata.getVehicle().getTextures().size()){
+									i = vehicledata.getVehicle().getTextures().size() - 1;
+								}
+								vehicledata.setSelectedTexture(i);
+								break;
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					if(button.isInput() && selection == 7){
+						String str = vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied";
+						switch(str){
+							case "external":{
+								vehicledata.setCustomTexture(args[0], true);
+								break;
+							}
+							case "custom":{
+								vehicledata.setCustomTexture(args[0], false);
+								break;
+							}
+							case "supplied":{
+								try{
+									int i = Integer.parseInt(args[0]);
+									if(i < 0){
+										i = 0;
+									}
+									if(i >= vehicledata.getVehicle().getTextures().size()){
+										i = vehicledata.getVehicle().getTextures().size() - 1;
+									}
+									vehicledata.setSelectedTexture(i);
+								}
+								catch(Exception e){
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+						this.updateScreen(window, false);
+					}
+					this.updateLandVehicle(vehicledata);
+					break;
+				}
 				default:{
 					if(button.isReturn()){
 						this.updateScreen("main");
@@ -634,6 +866,12 @@ public class ConstructorControllerEntity {
 					break;
 				}
 			}
+		}
+
+		private void openInputGui(EntityPlayer player){
+			this.updateScreen(window, false);
+			Print.chat(player, "&c&oOpening input GUI...");
+			player.openGui(FVTM.getInstance(), GuiHandler.CONSTRUCTOR_INPUT, world, this.pos.getX(), this.pos.getY(), this.pos.getZ());
 		}
 
 		private void recycle(){
@@ -801,7 +1039,7 @@ public class ConstructorControllerEntity {
 						break;
 					}
 					compound.setString("Text0", "ID: " + partdata.getPart().getName());
-					compound.setString("Text1", "RG: " + partdata.getPart().getRegistryName());
+					compound.setString("Text1", "RG: " + partdata.getPart().getRegistryName().toString());
 					compound.setString("Text2", "MC: " + partdata.getPart().getCategory());
 					compound.setString("Text3", "- - - - - - - - - -");
 					compound.setString("Text4", "Edit Texture Settings");
@@ -863,7 +1101,7 @@ public class ConstructorControllerEntity {
 					}
 					PartData data = entry.getValue();
 					compound.setString("Text0", "ID: " + data.getPart().getName());
-					compound.setString("Text1", "RG: " + data.getPart().getRegistryName());
+					compound.setString("Text1", "RG: " + data.getPart().getRegistryName().toString());
 					compound.setString("Text2", "IS: " + entry.getKey());
 					compound.setString("Text3", "- - - - - - - - - -");
 					compound.setString("Text4", "Edit Texture Settings");
@@ -890,6 +1128,49 @@ public class ConstructorControllerEntity {
 					compound.setString("Text3", "Manual input");
 					compound.setString("Text4", "Reset");
 					fill(5, compound);
+					break;
+				}
+				case "part_selected_edit_texture":{
+					Entry<String, PartData> entry = (Entry<String, PartData>)vehicledata.getParts().entrySet().toArray()[sel];
+					if(entry == null){
+						compound.setString("Text0", "ERROR: NO PART");
+						fill(1, compound);
+						break;
+					}
+					PartData data = entry.getValue();
+					compound.setString("Text0", "Part Texture Editor");
+					compound.setString("Text1", "- - - - - - - - - -");
+					compound.setString("Text2", "Current Type: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : "supplied"));
+					compound.setString("Text3", "Selected Texture: &3" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "external" : "custom" : data.getSelectedTexture()));
+					//compound.setString("Text3", "Texture RS:");
+					String str = data.getTexture().toString();
+					compound.setString("Text4", "&e" + (str.length() > 27 ? ("..." + str.substring(str.length() - 27, str.length())) : str));
+					compound.setString("Text5", "- - - - - - - - - -");
+					compound.setString("Text6", "Change Type... &3(" + (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "e" : "c" : "s") + ")");
+					compound.setString("Text7", (data.getSelectedTexture() < 0 ? data.isTextureExternal() ? "Enter URL..." : "Enter RS..." : (" &7[<[ &6" + (data.getSelectedTexture() + 1) + " / " + data.getPart().getTextures().size() + " &7]>]")));
+					break;
+				}
+				case "vehicle_menu":{
+					compound.setString("Text0", "Vehicle Editor");
+					compound.setString("Text1", "- - - - - - - - - -");
+					compound.setString("Text2", "ID: " + vehicledata.getVehicle().getName());
+					compound.setString("Text3", "RG: " + vehicledata.getVehicle().getRegistryName().toString());
+					compound.setString("Text4", "- - - - - - - - - -");
+					compound.setString("Text5", "Edit Texture Settings");
+					compound.setString("Text6", "Edit WheelPos");
+					compound.setString("Text7", "Empty Field");
+					break;
+				}
+				case "vehicle_edit_texture":{
+					compound.setString("Text0", "Vehicle Texture Editor");
+					compound.setString("Text1", "- - - - - - - - - -");
+					compound.setString("Text2", "Current Type: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : "supplied"));
+					compound.setString("Text3", "Selected Texture: &3" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "external" : "custom" : vehicledata.getSelectedTexture()));
+					String str = vehicledata.getTexture().toString();
+					compound.setString("Text4", "&e" + (str.length() > 27 ? ("..." + str.substring(str.length() - 27, str.length())) : str));
+					compound.setString("Text5", "- - - - - - - - - -");
+					compound.setString("Text6", "Change Type... &3(" + (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "e" : "c" : "s") + ")");
+					compound.setString("Text7", (vehicledata.getSelectedTexture() < 0 ? vehicledata.isTextureExternal() ? "Enter URL..." : "Enter RS..." : (" &7[<[ &6" + (vehicledata.getSelectedTexture() + 1) + " / " + vehicledata.getVehicle().getTextures().size() + " &7]>]")));
 					break;
 				}
 			}
@@ -935,6 +1216,7 @@ public class ConstructorControllerEntity {
 			}
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("task", "update_screen");
+			compound.setString("window", window);
 			ApiUtil.sendTileEntityUpdatePacket(this, this.getWindowUpdate(compound), 256);
 			if(selres){
 				this.updateSelection(-10);
@@ -1029,6 +1311,7 @@ public class ConstructorControllerEntity {
 		public LandVehicleData vehicledata;
 		public double liftstate = 0;
 		public String[] text = new String[8];
+		public String window;
 		public byte selection = -1, lift = 0;
 		private BlockPos center;
 		
@@ -1037,6 +1320,7 @@ public class ConstructorControllerEntity {
 			if(!pkt.nbt.hasKey("task")){
 				return;
 			}
+			window = pkt.nbt.hasKey("window") ? pkt.nbt.getString("window") : "null";
 			switch(pkt.nbt.getString("task")){
 				case "update_vehicledata":{
 					this.vehicledata = Resources.getLandVehicleData(pkt.nbt, world.isRemote);
