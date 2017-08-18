@@ -73,7 +73,8 @@ public class FuelTankExtensionAttribute implements Attribute {
 		private double content;
 		
 		public FuelTankExtensionAttributeData(PartData data, Attribute attr){
-			content = 0;//((FuelTankExtensionAttribute)attr).getFuelTankSize();
+			content = ((FuelTankExtensionAttribute)attr).getFuelTankSize();
+			//should actually be `0`, but let's keep this for testing till an appropiate system is in.
 		}
 
 		@Override
