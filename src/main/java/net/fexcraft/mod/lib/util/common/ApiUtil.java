@@ -2,7 +2,10 @@ package net.fexcraft.mod.lib.util.common;
 
 import net.fexcraft.mod.lib.api.tileentity.Cable;
 import net.fexcraft.mod.lib.network.PacketHandler;
+import net.fexcraft.mod.lib.network.packet.PacketEntityUpdate;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -33,6 +36,22 @@ public class ApiUtil{
 	public static void sendTileEntityUpdatePacket(TileEntity entity, NBTTagCompound nbt, int i) {
 		BlockPos pos = entity.getPos();
 		PacketHandler.getInstance().sendToAllAround(new PacketTileEntityUpdate(entity.getWorld().provider.getDimension(), pos, nbt), new TargetPoint(entity.getWorld().provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), i));
+	}
+	
+	public static void sendEntityUpdatePacketToClient(Entity ent, EntityPlayerMP player, NBTTagCompound nbt){
+		PacketHandler.getInstance().sendTo(new PacketEntityUpdate(ent, nbt), player);
+	}
+	
+	public static void sendEntityUpdatePacketToAll(Entity ent, NBTTagCompound nbt){
+		PacketHandler.getInstance().sendToAll(new PacketEntityUpdate(ent, nbt));
+	}
+	
+	public static void sendEntityUpdatePacketToAllAround(Entity ent, NBTTagCompound nbt){
+		PacketHandler.getInstance().sendToAllAround(new PacketEntityUpdate(ent, nbt), new TargetPoint(ent.dimension, ent.posX, ent.posY, ent.posZ, 256));
+	}
+	
+	public static void sendEntityUpdatePacketToServer(Entity ent, NBTTagCompound nbt){
+		PacketHandler.getInstance().sendToServer(new PacketEntityUpdate(ent, nbt));
 	}
 	
 	public static void tryTransfer(Cable sender, World w, BlockPos pos, EnumFacing side){

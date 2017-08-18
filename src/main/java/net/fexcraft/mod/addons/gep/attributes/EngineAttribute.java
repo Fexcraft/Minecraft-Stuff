@@ -75,12 +75,46 @@ public class EngineAttribute implements Attribute {
 
 	@Override
 	public boolean hasDataClass(){
-		return false;
+		return true;
 	}
 
 	@Override
 	public Class<? extends AttributeData> getDataClass(){
-		return null;
+		return EngineAttributeData.class;
+	}
+	
+	public static class EngineAttributeData implements AttributeData {
+		
+		private boolean isOn;
+		
+		public EngineAttributeData(PartData data, Attribute attr){
+			this.isOn = false;
+		}
+
+		@Override
+		public NBTTagCompound writeToNBT(PartData data, NBTTagCompound compound){
+			compound.setBoolean("EngineOn", isOn);
+			return compound;
+		}
+
+		@Override
+		public AttributeData readFromNBT(PartData data, NBTTagCompound compound){
+			this.isOn = compound.hasKey("EngineOn") ? compound.getBoolean("EngineOn") : this.isOn;
+			return this;
+		}
+		
+		public boolean isOn(){
+			return this.isOn;
+		}
+
+		public boolean toggle(){
+			return this.isOn = !this.isOn;
+		}
+
+		public boolean setOn(boolean bool){
+			return this.isOn = bool;
+		}
+		
 	}
 	
 }

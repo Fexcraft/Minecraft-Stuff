@@ -121,7 +121,7 @@ public class PartModel extends ModelBase {
 		render(TEST);
 	}
 	
-	public void render(LandVehicleData data, String usedAS, /*com.flansmod.fvm.LandVehicle*/ Entity vehicle){//TODO
+	public void render(LandVehicleData data, String usedAS, Entity entity){
 		//Vehicle Body
 		render(body);
 		if(data.doorsOpen()){
@@ -150,7 +150,8 @@ public class PartModel extends ModelBase {
 		//Render Turret
 		render(turret);
 		
-		/*//Render Steering
+		com.flansmod.fvtm.LandVehicle vehicle = (com.flansmod.fvtm.LandVehicle)entity;
+		//Render Steering
 		for (ModelRendererTurbo submodel : steering) {
 			submodel.rotateAngleX = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
 			submodel.render();
@@ -158,48 +159,48 @@ public class PartModel extends ModelBase {
 		
 		//Render Wheels
 		for(ModelRendererTurbo element : wheel_back_left){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_back_right){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_back){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front_left){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front_right){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheels){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels_right){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels_left){
-			element.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
+			element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
-		}*/
+		}
 		
 		//Particles
 		/*if(vehicle.throttle != 0 && data.parts.get(usedAS).pspawners != null){

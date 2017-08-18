@@ -4,7 +4,8 @@
     "FullName": "Generic Fuel Tank",
     "ModelFile": "null",
     "Category": [
-        "fuel_tank"
+        "fuel_tank",
+        "secondary_fuel_tank"
     ],
     "Attributes":[
         "fuel_tank"

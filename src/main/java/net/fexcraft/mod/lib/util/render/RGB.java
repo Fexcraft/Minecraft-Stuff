@@ -1,5 +1,8 @@
 package net.fexcraft.mod.lib.util.render;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import com.google.gson.JsonObject;
 
 import net.minecraft.item.EnumDyeColor;
@@ -194,6 +197,15 @@ public class RGB {
 	
 	public final void setAll(int j){
 		set(0, j); set(1, j); set(2, j);
+	}
+	
+	/// OTHER ///
+	
+	private static final DecimalFormat df = new DecimalFormat("##.#####");
+	static { df.setRoundingMode(RoundingMode.DOWN); }
+	
+	public static String format(double d){
+		return df.format(d);
 	}
 	
 }

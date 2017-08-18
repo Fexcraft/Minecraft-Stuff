@@ -60,12 +60,48 @@ public class FuelTankExtensionAttribute implements Attribute {
 
 	@Override
 	public boolean hasDataClass(){
-		return false;
+		return true;
 	}
 
 	@Override
 	public Class<? extends AttributeData> getDataClass(){
-		return null;
+		return FuelTankExtensionAttributeData.class;
+	}
+	
+	public static class FuelTankExtensionAttributeData implements AttributeData {
+		
+		private double content;
+		
+		public FuelTankExtensionAttributeData(PartData data, Attribute attr){
+			content = 0;//((FuelTankExtensionAttribute)attr).getFuelTankSize();
+		}
+
+		@Override
+		public NBTTagCompound writeToNBT(PartData data, NBTTagCompound compound){
+			compound.setDouble("FuelTankContent", content);
+			return compound;
+		}
+
+		@Override
+		public AttributeData readFromNBT(PartData data, NBTTagCompound compound){
+			this.content = compound.hasKey("FuelTankContent") ? compound.getDouble("FuelTankContent") : content;
+			return this;
+		}
+
+		public double getContent(){
+			return content;
+		}
+		
+		public double consume(double d){
+			content -= d;
+			if(content < 0){
+				double f = content;
+				content = 0;
+				return -(f);
+			}
+			return 0;
+		}
+		
 	}
 	
 }

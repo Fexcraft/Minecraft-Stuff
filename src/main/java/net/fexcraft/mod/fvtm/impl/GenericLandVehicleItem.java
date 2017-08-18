@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.addons.gep.attributes.EngineAttribute;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -62,11 +63,13 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 			}
 			tooltip.add(Formatter.format("&9Lock Code: &r" + veh.getLockCode()));
 			tooltip.add(Formatter.format("&9Selected Texture: &7" + veh.getSelectedTexture()));
+			tooltip.add(Formatter.format("&9Fuel Tank: &7" + RGB.format(veh.getFuelTankContent()) + "&8/&e" + veh.getFuelTankSize()));
+			tooltip.add(Formatter.format("&9Fuel Type: &7" + (veh.getPart("engine") == null ? "unknown / no engine" : veh.getPart("engine").getPart().getAttribute(EngineAttribute.class).getFuelType().getName())));
 			if(veh.getInstalledParts().size() > 0){
 				tooltip.add(Formatter.format("&3Installed Parts:"));
-				for(PartData part : veh.getParts().values()){
-					tooltip.add(Formatter.format("&7- &3" + part.getPart().getName() + " &7(" + part.getPart().getCategory() + ")"));
-				}
+				veh.getParts().forEach((key, data) -> {
+					tooltip.add(Formatter.format("&7- &3" + data.getPart().getName() + " &7(" + key + ")"));
+				});
 			}
 			if(veh.getVehicle().getModel() != null && veh.getVehicle().getModel().creators.size() > 0){
 				tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));

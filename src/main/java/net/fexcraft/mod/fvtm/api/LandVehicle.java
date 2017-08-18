@@ -98,7 +98,9 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public ResourceLocation getTexture();
 		
-		public int getFuelTankContent();
+		public double getFuelTankContent();
+
+		public boolean consumeFuel(double d);
 		
 		public int getFuelTankSize();
 		

@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import net.fexcraft.mod.addons.gep.attributes.FMSeatAttribute;
 import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
+import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute.FuelTankExtensionAttributeData;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
@@ -31,7 +32,8 @@ import net.minecraft.util.ResourceLocation;
 public class GenericLandVehicleData implements LandVehicleData {
 	
 	private LandVehicle vehicle;
-	private int sel, tank, keys;
+	private int sel, keys;
+	//private double tank;
 	private String url, lockcode;
 	private ResourceLocation custom;
 	private TreeMap<String, PartData> parts = new TreeMap<String, PartData>();
@@ -48,23 +50,6 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public LandVehicle getVehicle(){
 		return this.vehicle;
-	}
-
-	@Override
-	public int getFuelTankContent(){
-		return tank;
-	}
-
-	@Override
-	public int getFuelTankSize(){
-		int[] i = new int[]{0};
-		parts.forEach((key, partdata) -> {
-			if(partdata.getPart().getAttribute(FuelTankExtensionAttribute.class) != null){
-				FuelTankExtensionAttribute ext = partdata.getPart().getAttribute(FuelTankExtensionAttribute.class);
-				i[0] += ext.getFuelTankSize();
-			}
-		});
-		return i[0];
 	}
 
 	@Override
@@ -89,7 +74,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
-		compound.setInteger("FuelTank", tank);
+		//compound.setDouble("FuelTank", tank);
 		if(parts.size() > 0){
 			NBTTagList list = new NBTTagList();
 			parts.forEach((key, partdata) -> {
@@ -138,7 +123,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		isexternal = compound.getBoolean("IsTextureExternal");
 		url = isexternal ? compound.getString("CustomTexture") : null;
 		custom = isexternal ? null : new ResourceLocation(compound.getString("CustomTexture"));
-		this.tank = compound.getInteger("FuelTank");
+		//this.tank = compound.getDouble("FuelTank");
 		if(compound.hasKey("Parts")){
 			NBTTagList list = (NBTTagList)compound.getTag("Parts");
 			for(NBTBase base : list){
@@ -333,6 +318,44 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public <T extends LandVehicleScript> T getScript(Class<T> clazz){
 		return (T)scripts.get(clazz);
+	}
+
+	@Override
+	public int getFuelTankSize(){
+		int[] i = new int[]{0};
+		parts.forEach((key, partdata) -> {
+			if(partdata.getPart().getAttribute(FuelTankExtensionAttribute.class) != null){
+				FuelTankExtensionAttribute ext = partdata.getPart().getAttribute(FuelTankExtensionAttribute.class);
+				i[0] += ext.getFuelTankSize();
+			}
+		});
+		return i[0];
+	}
+
+	@Override
+	public double getFuelTankContent(){
+		double[] d = new double[]{0};
+		parts.forEach((key, partdata) -> {
+			if(partdata.getAttributeData(FuelTankExtensionAttributeData.class) != null){
+				d[0] += partdata.getAttributeData(FuelTankExtensionAttributeData.class).getContent();
+			}
+		});
+		return d[0];
+	}
+
+	@Override
+	public boolean consumeFuel(double d){
+		double f = d;
+		for(PartData data : parts.values()){
+			if(data.getAttributeData(FuelTankExtensionAttributeData.class) != null){
+				FuelTankExtensionAttributeData tank = data.getAttributeData(FuelTankExtensionAttributeData.class);
+				f = tank.consume(d);
+				if(f == 0){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }
