@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import net.fexcraft.mod.addons.gep.attributes.FMSeatAttribute;
 import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
+import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
 import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute.FuelTankExtensionAttributeData;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.LandVehicle;
@@ -24,9 +25,11 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.fexcraft.mod.lib.util.render.RGB;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 
 public class GenericLandVehicleData implements LandVehicleData {
@@ -356,6 +359,28 @@ public class GenericLandVehicleData implements LandVehicleData {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getMaxInventorySize(){
+		int[] i = new int[]{0};
+		this.parts.forEach((key, data) -> {
+			if(data.getPart().getAttribute(InventoryAttribute.class) != null){
+				i[0] += data.getPart().getAttribute(InventoryAttribute.class).getSize();
+			}
+		});
+		return i[0];
+	}
+
+	@Override
+	public NonNullList<ItemStack> getAllInventoryContents(){
+		NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(this.getMaxInventorySize(), ItemStack.EMPTY);
+		this.parts.forEach((key, data) -> {
+			if(data.getAttributeData(InventoryAttribute.InventoryAttributeData.class) != null){
+				stacks.addAll(data.getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory());
+			}
+		});
+		return stacks;
 	}
 	
 }

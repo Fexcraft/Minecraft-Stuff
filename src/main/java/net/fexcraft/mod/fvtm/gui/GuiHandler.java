@@ -22,6 +22,7 @@ public class GuiHandler implements IGuiHandler {
 
 	public static final int ADDON_MANAGER = 55;
 	public static final int CONSTRUCTOR_INPUT = 88;
+	public static final int VEHICLE_INVENTORY = 9910;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
@@ -30,6 +31,8 @@ public class GuiHandler implements IGuiHandler {
 			case 55:
 			case 88:
 				return new GenericPlaceholderContainer();
+			case 9910:
+				return new VehicleInventoryGui.Server(player, world, x, y, z);
 			default:
 				return null;
 		}
@@ -45,6 +48,8 @@ public class GuiHandler implements IGuiHandler {
 			case 88:
 				Print.debug("CREATING GUI!");
 				return new ConstructorInputGui(player, new BlockPos(x, y, z));
+			case 9910:
+				return new VehicleInventoryGui.Client(player, world, x, y, z);
 			default:
 				return null;
 		}

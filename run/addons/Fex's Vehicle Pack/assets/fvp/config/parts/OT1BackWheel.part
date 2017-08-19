@@ -1,31 +1,20 @@
 {
     "RegistryName": "fvp:ot1_back_wheel",
-    "AddOn": "fvm:fvp",
+    "Addon": "fvtm:fvp",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelOT1BW.class",
     "Category": [
         "wheels",
         "right_back_wheel",
         "left_back_wheel"
     ],
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_ot1.png"
-        ]
-    },
+    "Textures": [
+        "fvp:textures/entities/skin_vehicle_ot1.png"
+    ],
     "Removable": false,
-    "ConstructionSettings":{
-        "Available": false,
-        "Compatible": [
-            {
-                "Vehicle": "OT1",
-                "Offset": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            }
-        ]
-    },
+    "Available": false,
+    "Compatible": [
+        { "Vehicle": "fvp:ot1", "x": 0, "y": 0, "z": 0 }
+    ],
     "Recipes":[
         {
             "Type": "Blueprint",

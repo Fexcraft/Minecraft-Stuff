@@ -4,6 +4,8 @@ import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class ModelOT1LogTransportUpgrade extends PartModel {
 	
@@ -288,17 +290,16 @@ public class ModelOT1LogTransportUpgrade extends PartModel {
 	@Override
 	public void render(LandVehicleData data, String us, Entity vehicle){
 		super.render(data, us, vehicle);
-		/*int j = cargo.length > data.getContainer().getSizeInventory() ? data.getContainer().getSizeInventory() : cargo.length;
-		int k = 0;
-		for(int i = 0; i < j; i++){
-			if(!data.getContainer().getStackInSlot(i).isEmpty()){
-				k++;
+		NonNullList<ItemStack> stacks = data.getAllInventoryContents();
+		for(int i = 0; i < cargo.length; i++){
+			if(i < stacks.size() && !stacks.get(i).isEmpty()){
+				cargo[i].render();
+				continue;
+			}
+			if(i >= stacks.size()){
+				return;//break;
 			}
 		}
-		for(int i = 0; i < k; i++){
-			cargo[i].render();
-		}*///TODO
-		
 	}
 	
 }

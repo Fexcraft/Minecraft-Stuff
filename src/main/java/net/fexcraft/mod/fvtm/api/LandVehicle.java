@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
@@ -149,6 +150,11 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		}
 
 		public boolean isRemote();
+		
+		public int getMaxInventorySize();
+		
+		/** Prefferably don't edit stuff in this one, do any processing in the specific part attribute. */
+		public NonNullList<ItemStack> getAllInventoryContents();
 		
 	}
 	

@@ -1,35 +1,27 @@
 {
     "RegistryName": "fvp:ot1_logtransport",
-    "AddOn": "fvm:fvp",
+    "Addon": "fvtm:fvp",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelOT1LogTransportUpgrade.class",
     "Category": [
         "cargo"
     ],
     "Attributes":[
-        "cargo",
-        "item_discriminator"
+        "inventory"
     ],
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/ot1_logtransportupgrade.png"
-        ]
-    },
+    "Textures": [
+        "fvp:textures/entities/ot1_logtransportupgrade.png"
+    ],
     "Removable": true,
-    "ConstructionSettings":{
-        "Available": true,
-        "Compatible": [
-            {
-                "Vehicle": "OT1",
-                "Offset": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            }
-        ]
-    },
-    "AttributeSettings":{
-        "AcceptedItems":[
+    "Available": true,
+    "Compatible": [
+        {
+            "Vehicle": "fvp:ot1",
+            "x": 0, "y": 0, "z": 0
+        }
+    ],
+    "AttributeData":{
+        "Inventory-Size": 44,
+        "Inventory-Whitelist":[
             "minecraft:log",
             "minecraft:log2",
             "minecraft:planks",

@@ -1,34 +1,25 @@
 {
     "RegistryName": "fvp:ot1_steering_wheel",
-    "AddOn": "fvm:fvp",
-    "ModelFile": "fvm:models/parts/ot1st.jtmt",
+    "Addon": "fvtm:fvp",
+    "ModelFile": "fvp:models/parts/ot1st.jtmt",
     "Category": [
         "steering_wheel"
     ],
     "Attributes":[
         "particle_spawner"
     ],
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_ot1.png"
-        ]
-    },
+    "Textures": [
+        "fvp:textures/entities/skin_vehicle_ot1.png"
+    ],
     "Removable": false,
-    "ConstructionSettings":{
-        "Compatible": [
-            {
-                "Vehicle": "OT1",
-                "Offset": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            }
-        ],
-        "Requires": []
-    },
-    "AttributeSettings":{
-        "ParticleSpawners":[
+    "Compatible": [
+        {
+            "Vehicle": "fvp:ot1",
+            "x": 0, "y": 0, "z": 0
+        }
+    ],
+    "AttributeData":{
+        "Particle-Spawner":[
             {
                 "x": 4.5,
                 "y": 5.5,

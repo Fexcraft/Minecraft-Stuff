@@ -98,6 +98,10 @@ public class InventoryAttribute implements Attribute {
 			ItemStackHelper.loadAllItems(compound.getCompoundTag("inventory"), stacks);
 			return this;
 		}
+
+		public NonNullList<ItemStack> getInventory(){
+			return stacks;
+		}
 		
 	}
 	
