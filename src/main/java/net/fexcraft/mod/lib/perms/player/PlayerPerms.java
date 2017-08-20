@@ -1,6 +1,7 @@
 package net.fexcraft.mod.lib.perms.player;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -22,7 +23,7 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 public class PlayerPerms implements IPlayerPerms {
 	
 	private TreeMap<String, PermissionNode> permissions = new TreeMap<String, PermissionNode>();
-	private TreeMap<String, AttachedData> data = new TreeMap<String, AttachedData>();
+	private HashMap<Class, AttachedData> data = new HashMap<Class, AttachedData>();
 	private static final HashSet<Class> set = new HashSet<Class>();
 	private Rank rank;
 	
@@ -38,9 +39,7 @@ public class PlayerPerms implements IPlayerPerms {
 			Print.log("No perm data for " + uuid.toString() + " found! Setting to default rank and saving.");
 			for(Class clazz : set){
 				try{
-					AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
-					iad.load(uuid, null);
-					this.data.put(iad.getId(), iad);
+					this.data.put(clazz, ((AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this)).load(uuid, null));
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -59,7 +58,7 @@ public class PlayerPerms implements IPlayerPerms {
 							AttachedData iad = (AttachedData)clazz.getConstructor(PlayerPerms.class).newInstance(this);
 							JsonElement jsn = data.getAsJsonObject().get(iad.getId());
 							iad.load(uuid, jsn == null ? null : jsn.getAsJsonObject());
-							this.data.put(iad.getId(), iad);
+							this.data.put(clazz, iad);
 						}
 						catch(Exception e){
 							e.printStackTrace();
@@ -92,9 +91,9 @@ public class PlayerPerms implements IPlayerPerms {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("Rank", rank == null ? "default" : rank.getId());
 		JsonObject data = new JsonObject();
-		for(Entry<String, AttachedData> entry : this.data.entrySet()){
-			data.add(entry.getKey(), entry.getValue().save(uuid));
-		}
+		this.data.values().forEach((adata) -> {
+			data.add(adata.getId(), adata.save(uuid));
+		});
 		obj.add("AttachedData", data);
 		JsonObject array = new JsonObject();
 		for(PermissionNode node : permissions.values()){
@@ -192,8 +191,8 @@ public class PlayerPerms implements IPlayerPerms {
 		set.add(type);
 	}
 	
-	public AttachedData getAdditionalData(String id){
-		return data.get(id);
+	public <T extends AttachedData> T getAdditionalData(Class<T> clazz){
+		return (T)data.get(clazz);
 	}
 	
 }

@@ -40,7 +40,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
 import net.minecraftforge.fml.common.discovery.ContainerType;
@@ -153,7 +152,7 @@ public class Resources {
 				map.put("version", addon.getVersion());
 				FMLModContainer container = new FMLModContainer("net.fexcraft.mod.fvtm.FVTM", new ModCandidate(addon.getFile(), addon.getFile(), addon.getFile().isDirectory() ? ContainerType.DIR : ContainerType.JAR), map);
 				container.bindMetadata(MetadataCollection.from(null, ""));
-				FMLClientHandler.instance().addModAsResource(container);
+				net.minecraftforge.fml.client.FMLClientHandler.instance().addModAsResource(container);
 			}
 		}
 		if(Static.side().isClient() && ADDONS.getEntries().size() > 0){

@@ -6,12 +6,12 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
-public interface AttachedData<T> {
+public interface AttachedData {
 	
 	public String getId();
 	
 	public JsonObject save(UUID uuid);
 	
-	public void load(UUID uuid, @Nullable JsonObject jsonElement);
+	public AttachedData load(UUID uuid, @Nullable JsonObject obj);
 	
 }
