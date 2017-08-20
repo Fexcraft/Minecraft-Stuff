@@ -263,7 +263,7 @@ public class NRR implements IModule<NRR> {
 	}
 	
 	public static final PlayerData getPlayerData(EntityPlayer player){
-		return (PlayerData)PermManager.getPlayerPerms(player).getAdditionalData(PLAYERDATA);
+		return (PlayerData)PermManager.getPlayerPerms(player).getAdditionalData(PlayerData.class);
 	}
 
 	public static PlayerData getPlayerData(String string){

@@ -20,6 +20,7 @@ import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +41,7 @@ public class GenericPart implements Part {
 	private TreeMap<ResourceLocation, ArrayList<ResourceLocation>> incompatible = new TreeMap<ResourceLocation, ArrayList<ResourceLocation>>();
 	private ArrayList<ResourceLocation> textures;
 	private boolean removable, available, adjustable;
-	private PartModel model;
+	@SideOnly(Side.CLIENT) private PartModel model;
 	private JsonObject attributedata;
 	private HashMap<Class, Attribute> attributes = new HashMap<Class, Attribute>();
 	private ArrayList<Class<? extends LandVehicleScript>> scripts = new ArrayList<Class<? extends LandVehicleScript>>();
@@ -82,7 +83,9 @@ public class GenericPart implements Part {
 		this.removable = JsonUtil.getIfExists(obj, "Removable", true);
 		this.available = JsonUtil.getIfExists(obj, "Avaible", true);
 		this.adjustable = JsonUtil.getIfExists(obj, "Adjustable", false);
-		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), PartModel.class, NullModel.get());
+		if(Static.side().isClient()){
+			this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), PartModel.class, NullModel.get());
+		}
 		this.attributedata = JsonUtil.getIfExists(obj, "AttributeData", new JsonObject()).getAsJsonObject();
 		
 		JsonArray atr_array = JsonUtil.getIfExists(obj, "Attributes", new JsonArray()).getAsJsonArray();

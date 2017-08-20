@@ -21,8 +21,6 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -224,18 +222,18 @@ public class RegistryUtil {
 				int meta = this.meta.get(item.getRegistryName());
 				if(this.arr.get(item.getRegistryName()) == null){
 					for(int i = 0; i < meta; i++){
-						net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + i, "inventory"));
+						net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new net.minecraft.client.renderer.block.model.ModelResourceLocation(item.getRegistryName() + "_" + i, "inventory"));
 					}
 				}
 				else{
 					String[] arr = this.arr.get(item.getRegistryName());
 					for(int i = 0; i < meta; i++){
-						net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + arr[i], "inventory"));
+						net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, i, new net.minecraft.client.renderer.block.model.ModelResourceLocation(item.getRegistryName() + "_" + arr[i], "inventory"));
 					}
 				}
 			}
 			else{
-				net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+				net.minecraftforge.client.model.ModelLoader.setCustomModelResourceLocation(item, 0, new net.minecraft.client.renderer.block.model.ModelResourceLocation(item.getRegistryName(), "inventory"));
 			}
 		}
 		
@@ -399,7 +397,7 @@ public class RegistryUtil {
 		Set<ASMData> data = table.getAll(tesr);
 		for(ASMData entry : data){
 			try{
-				TileEntitySpecialRenderer cTESR = (TileEntitySpecialRenderer)Class.forName(entry.getClassName()).newInstance();
+				net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer cTESR = (net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer)Class.forName(entry.getClassName()).newInstance();
 				net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer((Class<? extends TileEntity>)((ParameterizedType)cTESR.getClass().getGenericSuperclass()).getActualTypeArguments()[0], cTESR);
 			}
 			catch(Exception e){

@@ -29,6 +29,7 @@ public class Player implements AttachedData {
 
 	@Override
 	public AttachedData load(UUID uuid, JsonObject obj){
+		obj = obj == null ? new JsonObject() : obj;
 		this.uuid = uuid;
 		this.nick = obj.has("Nick") ? obj.get("Nick").getAsString() : null;
 		this.account = Account.getAccountManager().getAccountOf(uuid);

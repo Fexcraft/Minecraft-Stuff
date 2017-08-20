@@ -188,7 +188,7 @@ public class NVR implements IModule<NVR> {
 	}
 	
 	public static final Player getPlayerData(EntityPlayer player){
-		return (Player)PermManager.getPlayerPerms(player).getAdditionalData(PLAYERDATA);
+		return (Player)PermManager.getPlayerPerms(player).getAdditionalData(Player.class);
 	}
 
 	public static Player getPlayerData(String string){

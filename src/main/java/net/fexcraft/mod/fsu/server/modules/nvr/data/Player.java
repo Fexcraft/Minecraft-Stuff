@@ -13,7 +13,7 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.minecraft.command.ICommandSender;
 
-public class Player implements AttachedData<Player> {
+public class Player implements AttachedData {
 	
 	public UUID uuid;
 	public PlayerPerms perms;
@@ -46,7 +46,7 @@ public class Player implements AttachedData<Player> {
 	}
 
 	@Override
-	public void load(UUID uuid, JsonObject elm){
+	public Player load(UUID uuid, JsonObject elm){
 		this.uuid = uuid;
 		if(elm == null){
 			this.municipality = NVR.municipalities.get(-1);
@@ -61,6 +61,7 @@ public class Player implements AttachedData<Player> {
 			Print.debug("NOT NULL");
 		}
 		account = Account.getAccountManager().getAccountOf(uuid);
+		return this;
 	}
 
 	public String getNick(ICommandSender sender){

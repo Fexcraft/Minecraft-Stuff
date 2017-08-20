@@ -39,7 +39,7 @@ public class ConstructorCenter extends BlockContainer {
 		this.setCreativeTab(Tabs.BLOCKS);
 		INSTANCE = this;
 		
-		RecipeRegistry.addBluePrintRecipe("FVM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 1), new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Blocks.PLANKS, 4), new ItemStack(Items.STICK, 4), new ItemStack(Blocks.LOG, 2));
+		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 1), new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Blocks.PLANKS, 4), new ItemStack(Items.STICK, 4), new ItemStack(Blocks.LOG, 2));
 	}
 
 	@Override

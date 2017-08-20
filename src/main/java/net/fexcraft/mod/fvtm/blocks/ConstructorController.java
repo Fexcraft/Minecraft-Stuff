@@ -49,7 +49,7 @@ public class ConstructorController extends BlockContainer {
 		FVTM.getRegisterer().addBlock("landvehicle_constructor_controller", this, null, 1, null);
 		GameRegistry.registerTileEntity(ConstructorControllerEntity.Server.class, this.getRegistryName().toString() + "_server");
 		GameRegistry.registerTileEntity(ConstructorControllerEntity.Client.class, this.getRegistryName().toString() + "_client");
-		RecipeRegistry.addBluePrintRecipe("FVM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 2), new ItemStack(Items.REDSTONE, 8), new ItemStack(Items.GOLD_INGOT, 3));
+		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 2), new ItemStack(Items.REDSTONE, 8), new ItemStack(Items.GOLD_INGOT, 3));
 	}
 
 	@Override

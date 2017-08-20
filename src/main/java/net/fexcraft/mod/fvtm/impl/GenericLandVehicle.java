@@ -16,6 +16,7 @@ import net.fexcraft.mod.fvtm.model.vehicle.EmptyVehicleModel;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
 import net.fexcraft.mod.fvtm.util.Resources;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -35,7 +36,7 @@ public class GenericLandVehicle implements LandVehicle {
 	private List<ResourceLocation> textures;
 	private TreeMap<String, ResourceLocation> preinstalled = new TreeMap<String, ResourceLocation>();
 	private List<String> required;
-	private VehicleModel model;
+	@SideOnly(Side.CLIENT) private VehicleModel model;
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
 	private int constructionlength;
@@ -61,7 +62,9 @@ public class GenericLandVehicle implements LandVehicle {
 			});
 		}
 		this.required = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "RequiredParts", new JsonArray()).getAsJsonArray());
-		this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), VehicleModel.class, EmptyVehicleModel.INSTANCE);//TODO
+		if(Static.side().isClient()){
+			this.model = Resources.getModel(JsonUtil.getIfExists(obj, "ModelFile", "null"), VehicleModel.class, EmptyVehicleModel.INSTANCE);//TODO
+		}
 		this.wheelpos = new ArrayList<Pos>();
 		if(obj.has("WheelPos")){
 			JsonArray array = obj.get("WheelPos").getAsJsonArray();

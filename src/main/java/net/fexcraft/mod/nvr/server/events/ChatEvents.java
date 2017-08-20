@@ -1,10 +1,10 @@
 package net.fexcraft.mod.nvr.server.events;
 
-import net.fexcraft.mod.fsu.server.modules.nvr.NVR;
-import net.fexcraft.mod.fsu.server.modules.nvr.data.Player;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.nvr.server.NVR;
+import net.fexcraft.mod.nvr.server.data.Player;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

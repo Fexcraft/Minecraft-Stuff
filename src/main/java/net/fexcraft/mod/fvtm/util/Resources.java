@@ -38,13 +38,14 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
 import net.minecraftforge.fml.common.discovery.ContainerType;
 import net.minecraftforge.fml.common.discovery.ModCandidate;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
@@ -62,7 +63,6 @@ public class Resources {
 	private final File configpath, addonconfig;
 	
 	public Resources(){
-		MinecraftForge.EVENT_BUS.register(this);
 		configpath = new File(FCL.getInstance().getConfigDirectory().getParentFile(), "/fvtm/");
 		if(!configpath.exists()){
 			configpath.mkdirs();
@@ -113,17 +113,18 @@ public class Resources {
 	@SubscribeEvent
 	public void regItems(RegistryEvent.Register<Item> event){
 		event.getRegistry().register(GenericMaterialItem.INSTANCE);
-		if(Static.side().isClient()){
-			net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericMaterialItem.INSTANCE, new GenericMaterialItem.ItemMeshDef());
-		}
 		event.getRegistry().register(GenericPartItem.INSTANCE);
-		if(Static.side().isClient()){
-			net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericPartItem.INSTANCE, new GenericPartItem.ItemMeshDef());
-		}
 		event.getRegistry().register(GenericLandVehicleItem.INSTANCE);
+		
 		if(Static.side().isClient()){
-			net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericLandVehicleItem.INSTANCE, new GenericLandVehicleItem.ItemMeshDef());
 		}
+	}
+	
+	@SubscribeEvent @SideOnly(Side.CLIENT)
+	public void regModels(net.minecraftforge.client.event.ModelRegistryEvent event){
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericMaterialItem.INSTANCE, new GenericMaterialItem.ItemMeshDef());
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericPartItem.INSTANCE, new GenericPartItem.ItemMeshDef());
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericLandVehicleItem.INSTANCE, new GenericLandVehicleItem.ItemMeshDef());
 	}
 	
 	@SubscribeEvent
@@ -185,7 +186,9 @@ public class Resources {
 						if(!file.isDirectory() && file.getName().endsWith(".material")){
 							GenericMaterial mat = new GenericMaterial(JsonUtil.get(file));
 							event.getRegistry().register(mat);
-							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericMaterialItem.INSTANCE, mat.getRegistryName());
+							if(Static.side().isClient()){
+								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericMaterialItem.INSTANCE, mat.getRegistryName());
+							}
 							Print.debug(mat.getRegistryName());
 						}
 						Print.debug(file.getPath());
@@ -197,7 +200,9 @@ public class Resources {
 					for(JsonElement elm : array){
 						GenericMaterial mat = new GenericMaterial(elm.getAsJsonObject());
 						event.getRegistry().register(mat);
-						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericMaterialItem.INSTANCE, mat.getRegistryName());
+						if(Static.side().isClient()){
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericMaterialItem.INSTANCE, mat.getRegistryName());
+						}
 						Print.debug(mat.getRegistryName());
 					}
 				}
@@ -230,7 +235,9 @@ public class Resources {
 						if(!file.isDirectory() && file.getName().endsWith(".part")){
 							GenericPart part = new GenericPart(JsonUtil.get(file));
 							event.getRegistry().register(part);
-							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+							if(Static.side().isClient()){
+								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+							}
 							Print.debug(part.getRegistryName());
 						}
 						Print.debug(file.getPath());
@@ -242,7 +249,9 @@ public class Resources {
 					for(JsonElement elm : array){
 						GenericPart part = new GenericPart(elm.getAsJsonObject());
 						event.getRegistry().register(part);
-						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+						if(Static.side().isClient()){
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+						}
 						Print.debug(part.getRegistryName());
 					}
 				}
@@ -275,7 +284,9 @@ public class Resources {
 						if(!file.isDirectory() && file.getName().endsWith(".vehicle")){
 							GenericLandVehicle veh = new GenericLandVehicle(JsonUtil.get(file));
 							event.getRegistry().register(veh);
-							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+							if(Static.side().isClient()){
+								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+							}
 							Print.debug(veh.getRegistryName());
 						}
 						Print.debug(file.getPath());
@@ -287,7 +298,9 @@ public class Resources {
 					for(JsonElement elm : array){
 						GenericLandVehicle veh = new GenericLandVehicle(elm.getAsJsonObject());
 						event.getRegistry().register(veh);
-						net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+						if(Static.side().isClient()){
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+						}
 						Print.debug(veh.getRegistryName());
 					}
 				}
@@ -329,6 +342,7 @@ public class Resources {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static <T> T getModel(String name, Class<T> clazz, T def){
 		if(name == null || name.equals("") || name.equals("null")){
 			return def;

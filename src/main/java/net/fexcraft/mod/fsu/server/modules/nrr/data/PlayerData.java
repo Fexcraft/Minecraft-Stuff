@@ -15,7 +15,7 @@ import net.fexcraft.mod.lib.util.math.Time;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.math.BlockPos;
 
-public class PlayerData implements AttachedData<PlayerData> {
+public class PlayerData implements AttachedData {
 	
 	public UUID uuid;
 	public PlayerPerms perms;
@@ -54,7 +54,7 @@ public class PlayerData implements AttachedData<PlayerData> {
 	}
 
 	@Override
-	public void load(UUID uuid, JsonObject elm){
+	public PlayerData load(UUID uuid, JsonObject elm){
 		this.uuid = uuid;
 		if(elm == null){
 			province = NRR.provinces.get(-1);
@@ -79,6 +79,7 @@ public class PlayerData implements AttachedData<PlayerData> {
 			Print.debug("NOT NULL");
 		}
 		account = FSMM.getInstance().getAccountManager().getAccountOf(uuid);
+		return this;
 	}
 
 	public String getNick(ICommandSender sender){

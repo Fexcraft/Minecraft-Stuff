@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -71,7 +72,7 @@ public class RGB {
 		return (byte)((i > 127 ? 127 : i < -128 ? -128 : i) & 0xFF);
 	}
 
-	public void copyFrom(RGB color){
+	public final void copyFrom(RGB color){
 		red = color.red; green = color.green; blue = color.blue;
 	}
 	
@@ -85,13 +86,34 @@ public class RGB {
 		org.lwjgl.opengl.GL11.glColor3b(Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE);
 	}
 	
-	public void fromDyeColor(EnumDyeColor e){
-		int c = e.getColorValue();
+	public final void fromDyeColor(EnumDyeColor e){
+		int c = Static.side().isClient() ? e.getColorValue() : get(e);
 		blue  = con(c & 255);
 		green = con((c >> 8) & 255);
 		red   = con((c >> 16) & 255);
 	}
 	
+	private static final int get(EnumDyeColor e){
+		switch(e){
+			case WHITE: return 16383998;
+			case ORANGE: return 16351261;
+			case MAGENTA: return 13061821;
+			case LIGHT_BLUE: return 3847130;
+			case YELLOW: return 16701501;
+			case LIME: return 8439583;
+			case PINK: return 15961002;
+			case GRAY: return 4673362;
+			case SILVER: return 10329495;
+			case CYAN: return 1481884;
+			case PURPLE: return 8991416;
+			case BLUE: return 3949738;
+			case BROWN: return 8606770;
+			case GREEN: return 6192150;
+			case RED: return 11546150;
+			case BLACK: default: return 1908001;
+		}
+	}
+
 	public static RGB fromSingleInt(int i){
 		return new RGB(con((i >> 16) & 255), con((i >> 8) & 255), con(i & 255));
 	}
@@ -99,7 +121,7 @@ public class RGB {
 	/**
 	 * @param a additional name data to append into the nbt tag key
 	 */
-	public NBTTagCompound writeToNBT(NBTTagCompound tag, String a){
+	public final NBTTagCompound writeToNBT(NBTTagCompound tag, String a){
 		try{
 			String s = a == null ? "" : "_" + a;
 			tag.setByte("RGB_Red" + s, red);
@@ -116,7 +138,7 @@ public class RGB {
 	/**
 	 * @param tag additional name data to retrieve the right nbt key.
 	 */
-	public void readFromNBT(NBTTagCompound tag, String a){
+	public final void readFromNBT(NBTTagCompound tag, String a){
 		try{
 			String s = a == null ? "" : "_" + a;
 			red = tag.getByte("RGB_Red" + s);
@@ -130,15 +152,15 @@ public class RGB {
 	}
 	
 	@Override
-	public String toString(){
+	public final String toString(){
 		return "[" + red + ":" + green + ":" + blue + "]";
 	}
 
-	public int toSingleInteger(){
+	public final int toSingleInteger(){
 		return (65536 * red) + (256 * green) + blue;
 	}
 
-	public JsonObject toJsonObject(){
+	public final JsonObject toJsonObject(){
 		JsonObject obj = new JsonObject();
 		obj.addProperty("Red", red + 128);
 		obj.addProperty("Blue", blue + 128);

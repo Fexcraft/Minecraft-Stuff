@@ -12,8 +12,6 @@ import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.render.RGB;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -37,14 +35,15 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 		this.setUnlocalizedName(this.getRegistryName().toString());
 	}
 	
-	public static class ItemMeshDef implements ItemMeshDefinition {
+	@SideOnly(Side.CLIENT)
+	public static class ItemMeshDef implements net.minecraft.client.renderer.ItemMeshDefinition {
 
 		@Override
-		public final ModelResourceLocation getModelLocation(ItemStack stack){
+		public final net.minecraft.client.renderer.block.model.ModelResourceLocation getModelLocation(ItemStack stack){
 			if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-				return new ModelResourceLocation(new ResourceLocation(stack.getTagCompound().getString(NBTKEY)), "inventory");
+				return new net.minecraft.client.renderer.block.model.ModelResourceLocation(new ResourceLocation(stack.getTagCompound().getString(NBTKEY)), "inventory");
 			}
-			return new ModelResourceLocation(INSTANCE.getRegistryName(), "inventory");
+			return new net.minecraft.client.renderer.block.model.ModelResourceLocation(INSTANCE.getRegistryName(), "inventory");
 		}
 		
 	}
