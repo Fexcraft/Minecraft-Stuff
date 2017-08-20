@@ -7,11 +7,13 @@ Repository for stuff related to my Minecraft Mods, APIs and Libraries.
 --- ---
 
 # License
+Unless otherwise stated, license for all mods, code and assets is:<br>
 http://fexcraft.net/license?id=mods
 
 --- ---
 
 # Having issues?
+Read that first:<br>
 https://github.com/Fexcraft/Minecraft-Stuff/issues/1
 
 --- ---
