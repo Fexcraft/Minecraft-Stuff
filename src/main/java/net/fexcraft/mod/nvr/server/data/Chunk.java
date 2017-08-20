@@ -11,7 +11,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 
 public class Chunk {
 	
-	public int x, z;
+	public final int x, z;
 	public Type type;
 	public UUID claimer, owner;
 	public long claimed, changed;
@@ -25,9 +25,10 @@ public class Chunk {
 		try{
 			ResultSet set = NVR.SQL.query("SELECT * FROM chunks WHERE x='" + x + "' AND z='" + z + "';");
 			if(set.first()){
+				String temp = null;
 				type = Type.fromString(set.getString("type"));
 				claimer = UUID.fromString(set.getString("claimer"));
-				owner = set.getString("owner") == null ? null : UUID.fromString(set.getString("owner"));
+				owner = (temp = set.getString("owner")) == null || temp.equals("") ? null : UUID.fromString(temp);
 				claimed = set.getLong("claimed");
 				changed = set.getLong("changed");
 				whitelist = JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(set.getString("whitelist")).getAsJsonArray());
@@ -66,7 +67,7 @@ public class Chunk {
 		}
 	}
 	
-	private void log(Chunk chunk, String string, UUID claim, String data, long date){
+	private static final void log(Chunk chunk, String string, UUID claim, String data, long date){
 		try{
 			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".chunk_log (x, z, action, uuid, data, time) VALUES ("
 					+ "'" + chunk.x + "',"
@@ -84,7 +85,7 @@ public class Chunk {
 
 	public final void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist) + "', linked='" + JsonUtil.getArrayFromObjectList(linked) + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = `" + x + "` AND z = `" + z + "`;");
+			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = `" + x + "` AND z = `" + z + "`;");
 		}
 		catch(Exception e){
 			e.printStackTrace();

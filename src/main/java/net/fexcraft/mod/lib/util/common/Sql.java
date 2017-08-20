@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 
 /**
  * Based off the SQL Util used on the fexcraft.net website.
@@ -206,6 +206,23 @@ public class Sql {
 
 	public String getDataBaseId(){
 		return this.database;
+	}
+
+	public ArrayList<Integer> getArray(String select, String from, String orderby, boolean desc, int limit){
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		try{
+			limit = limit < 0 ? Integer.MAX_VALUE : 0;
+			int i = 0;
+			ResultSet set = query("SELECT " + select + " FROM " + from + " ORDER BY " + orderby + (desc ? " DESC;" : " ASC;"));
+			while(set.next() && i < limit){
+				array.add(set.getInt(select));
+				i++;
+			}
+			return array;
+		}
+		catch(Exception e){
+			return array;
+		}
 	}
 	
 }

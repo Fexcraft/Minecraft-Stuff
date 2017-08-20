@@ -10,12 +10,16 @@ import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
+import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.data.Chunk;
+import net.fexcraft.mod.nvr.server.data.District;
 import net.fexcraft.mod.nvr.server.data.DoubleKey;
 import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
 import net.fexcraft.mod.nvr.server.events.ChunkEvents;
 import net.fexcraft.mod.nvr.server.util.Permissions;
+import net.fexcraft.mod.nvr.server.util.Sender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.launchwrapper.Launch;
@@ -39,6 +43,7 @@ public class NVR {
 	public static Sql SQL;
 
 	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
+	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
@@ -74,7 +79,25 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
+		if(!SQL.exists("id", "districts", "id='-1'", false)){
+			District dis = new District(-1, null);
+			dis.name = "Unclaimed Area";
+			dis.changed = Time.getDate();
+			dis.tax = -1;
+			dis.save();
+		}
+		if(!SQL.exists("id", "districts", "id='0'", false)){
+			District dis = new District(0, null);
+			dis.name = "Spawn";
+			dis.changed = Time.getDate();
+			dis.tax = 0;
+			dis.save();
+		}
 		//
+		ArrayList<Integer> districts = SQL.getArray("id", "districts", "id", false, -1);
+		districts.forEach((id) -> {
+			DISTRICTS.put(id, new District(id, null));
+		});
 	}
 	
 	@Mod.EventHandler
@@ -82,15 +105,32 @@ public class NVR {
 		/*CHUNKS.values().forEach((chunk) -> {
 			chunk.save();
 		});*/ //Actually they should be unloaded on server stop, so another event handles this.
+		DISTRICTS.values().forEach((dis) -> {
+			dis.save();
+		});
 	}
 	
 	public static final Player getPlayerData(EntityPlayer player){
 		return PermManager.getPlayerPerms(player).getAdditionalData(Player.class);
 	}
 
-	public static Player getPlayerData(String string){
+	public static final Player getPlayerData(String string){
 		EntityPlayerMP player = Static.getServer().getPlayerList().getPlayerByUsername(string);
 		return player == null ? null : getPlayerData(player);
+	}
+	
+	public static final void save(){
+		Sender.serverMessage("&5Saving data. Expect a short lag.");
+		/*new Runnable(){
+			@Override
+			public void run(){
+				CHUNKS.forEach((key, chunk) -> {
+					chunk.save();
+				});
+			}
+		};*/ //Should be handled on chunk unload
+		new Runnable(){ @Override public void run(){ DISTRICTS.forEach((key, dis) -> { dis.save(); Sender.serverMessage("&3Done saving district data.");});}};
+		Sender.serverMessage("&5Done saving all data.");
 	}
 	
 }
