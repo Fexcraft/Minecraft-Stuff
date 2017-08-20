@@ -203,5 +203,9 @@ public class Sql {
 			return array;
 		}
 	}
+
+	public String getDataBaseId(){
+		return this.database;
+	}
 	
 }

@@ -1,6 +1,7 @@
 package net.fexcraft.mod.nvr.server;
 
 import java.io.File;
+import java.util.TreeMap;
 
 import com.google.gson.JsonObject;
 
@@ -9,8 +10,11 @@ import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.common.Sql;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
+import net.fexcraft.mod.nvr.server.data.Chunk;
+import net.fexcraft.mod.nvr.server.data.DoubleKey;
 import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
+import net.fexcraft.mod.nvr.server.events.ChunkEvents;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,6 +37,8 @@ public class NVR {
 	public static final String DATASTR = "nvr-sa";
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
 	public static Sql SQL;
+
+	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
@@ -55,6 +61,7 @@ public class NVR {
 	@Mod.EventHandler
 	public static void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChatEvents());
+		MinecraftForge.EVENT_BUS.register(new ChunkEvents());
 		//
 		Permissions.register();
 		PlayerPerms.addAdditionalData(Player.class);
@@ -72,7 +79,9 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void serverStop(FMLServerStoppingEvent event){
-		//
+		/*CHUNKS.values().forEach((chunk) -> {
+			chunk.save();
+		});*/ //Actually they should be unloaded on server stop, so another event handles this.
 	}
 	
 	public static final Player getPlayerData(EntityPlayer player){

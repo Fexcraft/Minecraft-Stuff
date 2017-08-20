@@ -565,22 +565,14 @@ public class JsonUtil{
 		}
 		return ja;
 	}
-	
-	/*public static JsonArray getArrayFromList(ArrayList<String> requires){
+
+	public static JsonElement getArrayFromObjectList(ArrayList array){
 		JsonArray ja = new JsonArray();
-		for(Object obj : requires){
-			if(obj instanceof Number){
-				ja.add(new JsonPrimitive((Number)obj));
-			}
-			else if(obj instanceof String){
-				ja.add(new JsonPrimitive((String)obj));
-			}
-			else{
-				Print.log(obj + " isn't a number nor string! Can not add to JSON ARRAY;");
-			}
+		for(Object obj : array){
+			add(ja, obj.toString());
 		}
 		return ja;
-	}*/
+	}
 	
 	public static JsonArray getArrayFromIntegerList(ArrayList<Integer> array){
 		JsonArray ja = new JsonArray();
