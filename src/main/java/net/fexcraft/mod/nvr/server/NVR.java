@@ -15,6 +15,7 @@ import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.data.Chunk;
 import net.fexcraft.mod.nvr.server.data.District;
 import net.fexcraft.mod.nvr.server.data.DoubleKey;
+import net.fexcraft.mod.nvr.server.data.Municipality;
 import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
 import net.fexcraft.mod.nvr.server.events.ChunkEvents;
@@ -44,6 +45,7 @@ public class NVR {
 
 	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
 	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
+	public static final TreeMap<Integer, Municipality> MUNICIPALITIES = new TreeMap<Integer, Municipality>();
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
@@ -79,6 +81,26 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
+		if(!SQL.exists("id", "municipalities", "id='-1'", false)){
+			Municipality mun = new Municipality(-1, null);
+			mun.name = "Unnamed Place";
+			mun.changed = Time.getDate();
+			mun.citizentax = -1;
+			mun.save();
+		}
+		if(!SQL.exists("id", "municipalities", "id='0'", false)){
+			Municipality mun = new Municipality(0, null);
+			mun.name = "Spawn";
+			mun.type = mun.type.METROPOLIS;
+			mun.changed = Time.getDate();
+			mun.citizentax = 0;
+			mun.save();
+		}
+		ArrayList<Integer> municipalities = SQL.getArray("id", "municipalities", "id", false, -1);
+		municipalities.forEach((id) -> {
+			MUNICIPALITIES.put(id, new Municipality(id, null));
+		});
+		//
 		if(!SQL.exists("id", "districts", "id='-1'", false)){
 			District dis = new District(-1, null);
 			dis.name = "Unclaimed Area";
@@ -105,6 +127,9 @@ public class NVR {
 		/*CHUNKS.values().forEach((chunk) -> {
 			chunk.save();
 		});*/ //Actually they should be unloaded on server stop, so another event handles this.
+		MUNICIPALITIES.values().forEach((mun) -> {
+			mun.save();
+		});
 		DISTRICTS.values().forEach((dis) -> {
 			dis.save();
 		});
@@ -129,8 +154,23 @@ public class NVR {
 				});
 			}
 		};*/ //Should be handled on chunk unload
+		new Runnable(){ @Override public void run(){ MUNICIPALITIES.forEach((key, dis) -> { dis.save(); Sender.serverMessage("&3Done saving municipality data.");});}};
 		new Runnable(){ @Override public void run(){ DISTRICTS.forEach((key, dis) -> { dis.save(); Sender.serverMessage("&3Done saving district data.");});}};
 		Sender.serverMessage("&5Done saving all data.");
+	}
+	
+	public static Municipality getMunicipality(int i){
+		Municipality mun = MUNICIPALITIES.get(i);
+		return mun == null ? MUNICIPALITIES.get(-1) : mun;
+	}
+
+	public static District getDistrict(int i){
+		District dis = DISTRICTS.get(i);
+		return dis == null ? DISTRICTS.get(-1) : dis;
+	}
+	
+	public static Chunk getChunk(int x, int z){
+		return CHUNKS.get(new DoubleKey(x, z));
 	}
 	
 }

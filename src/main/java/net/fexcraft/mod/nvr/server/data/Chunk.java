@@ -13,12 +13,12 @@ public class Chunk {
 	
 	public final int x, z;
 	public Type type;
+	public District district;
 	public UUID claimer, owner;
 	public long claimed, changed;
 	public ArrayList<String> whitelist = new ArrayList<String>();
 	public ArrayList<DoubleKey> linked = new ArrayList<DoubleKey>();
 	public double tax;
-	//TODO district
 	
 	public Chunk(int x, int z, UUID claim){
 		this.x = x; this.z = z;
@@ -27,6 +27,7 @@ public class Chunk {
 			if(set.first()){
 				String temp = null;
 				type = Type.fromString(set.getString("type"));
+				district = NVR.getDistrict(set.getInt("district"));
 				claimer = UUID.fromString(set.getString("claimer"));
 				owner = (temp = set.getString("owner")) == null || temp.equals("") ? null : UUID.fromString(temp);
 				claimed = set.getLong("claimed");
@@ -38,6 +39,7 @@ public class Chunk {
 			else{
 				//Create;
 				type = Type.NEUTRAL;
+				district = NVR.getDistrict(-1);
 				claimer = claim == null ? UUID.fromString(NVR.DEF_UUID) : claim;
 				owner = null;
 				claimed = Time.getDate();
@@ -45,10 +47,11 @@ public class Chunk {
 				whitelist.clear();
 				linked.clear();
 				tax = 0.0f;
-				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".chunks (x, z, type, claimer, owner, claimed, changed, whitelist, linked, saved, tax) VALUES ("
+				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".chunks (x, z, type, district, claimer, owner, claimed, changed, whitelist, linked, saved, tax) VALUES ("
 						+ "'" + x + "',"
 						+ "'" + z + "',"
 						+ "'" + type.name() + "',"
+						+ "'" + district.id + "',"
 						+ "'" + claimer + "',"
 						+ "'" + (owner == null ? "" : owner.toString()) + "',"
 						+ "'" + claimed + "',"
@@ -85,7 +88,7 @@ public class Chunk {
 
 	public final void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = `" + x + "` AND z = `" + z + "`;");
+			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', district='" + district.id + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = `" + x + "` AND z = `" + z + "`;");
 		}
 		catch(Exception e){
 			e.printStackTrace();

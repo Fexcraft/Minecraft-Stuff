@@ -162,12 +162,16 @@ public class Sql {
 		}
 	}
 	
-	public int update(String table, String set, String compare, String with) throws Exception{
+	public int update(String table, String set, String compare, String with) throws Exception {
 		return update("UPDATE " + table + " SET " + set + " WHERE " + compare + " = '" + with + "';");
 	}
 	
-	public int update(String table, String set, String compare, int with) throws Exception{
+	public int update(String table, String set, String compare, int with) throws Exception {
 		return update("UPDATE " + table + " SET " + set + " WHERE " + compare + " = '" + with + "';");
+	}
+
+	public int update(String table, String set, Object to, String where, Object equals) throws Exception {
+		return update("UPDATE " + table + " SET " + set + "='" + to.toString() + "' WHERE " + where + "='" + equals.toString() + "';");
 	}
 
 	public int insert(String table, String rows, String content) throws Exception {

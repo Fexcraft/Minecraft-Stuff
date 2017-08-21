@@ -83,7 +83,7 @@ public class Resources {
 
 	private void queryAddons(){
 		try{
-			JsonArray array = JsonUtil.read(addonconfig, true).getAsJsonArray();
+			JsonArray array = JsonUtil.read(addonconfig, true, new JsonArray()).getAsJsonArray();
 			for(JsonElement elm : array){
 				try{
 					Addon addon = ADDONS.getValue(new ResourceLocation(elm.getAsJsonObject().get("id").getAsString()));

@@ -14,7 +14,7 @@ public class District {
 	public final int id;
 	public Type type;
 	public String name;
-	//TODO Municipality;
+	public Municipality municipality;
 	public UUID manager, creator;
 	public long created, changed;
 	public ArrayList<Integer> neighbors = new ArrayList<Integer>();
@@ -47,6 +47,7 @@ public class District {
 				tax = 0;
 				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".districts (id) VALUES ('" + id + "');");
 				NVR.SQL.update("districts", "name='" + name + "'", "id", id);
+				NVR.SQL.update("districts", "municipality='" + municipality.id + "'", "id", id);
 				NVR.SQL.update("districts", "manager='" + (manager == null ? "" : manager.toString()) + "'", "id", id);
 				NVR.SQL.update("districts", "creator='" + creator.toString() + "'", "id", id);
 				NVR.SQL.update("districts", "created='" + created + "'", "id", id);
@@ -55,6 +56,7 @@ public class District {
 				NVR.SQL.update("districts", "prev_income='" + previncome + "'", "id", id);
 				NVR.SQL.update("districts", "saved='" + Time.getDate() + "'", "id", id);
 				NVR.SQL.update("districts", "tax='" + tax + "'", "id", id);
+				log(this, "created", creatorid, "", Time.getDate());
 			}
 		}
 		catch(Exception e){
@@ -65,7 +67,7 @@ public class District {
 	
 	public static final void log(District district, String string, UUID who, String data, long time){
 		try{
-			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".common_log (id, action, uuid, data, time) VALUES ("
+			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".district_log (id, action, uuid, data, time) VALUES ("
 					+ "'" + district.id + "',"
 					+ "'" + string + "',"
 					+ "'" + (who == null ? "" : who) + "',"
@@ -80,7 +82,7 @@ public class District {
 
 	public void save(){
 		try{
-			NVR.SQL.update("UPDATE districts SET name='" + name + "', manager='" + (manager == null ? "" : manager.toString()) + "', creator='" + creator.toString() + "', changed='" + changed + "', neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "', prev_income='" + previncome + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE id='" + id + "';");
+			NVR.SQL.update("UPDATE districts SET name='" + name + "', municipality='" + municipality.id + "', manager='" + (manager == null ? "" : manager.toString()) + "', creator='" + creator.toString() + "', changed='" + changed + "', neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "', prev_income='" + previncome + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE id='" + id + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -90,6 +92,7 @@ public class District {
 	public static enum Type {
 		MIXED,
 		CENTER,
+		VILLAGE,
 		RESIDENTAL,
 		COMMERCIAL,
 		INDUSTRIAL,
