@@ -15,7 +15,7 @@ public class Municipality {
 	public final int id;
 	public String name;
 	public Type type;
-	//TODO public Province province;
+	public Province province;
 	public ArrayList<UUID> management = new ArrayList<UUID>();
 	public ArrayList<Integer> neighbors = new ArrayList<Integer>();
 	public UUID creator;
@@ -32,8 +32,9 @@ public class Municipality {
 		try{
 			ResultSet set = NVR.SQL.query("SELECT * FROM municipalities WHERE id='" + id + "';");
 			if(set.first()){
+				name = set.getString("name");
 				type = Type.fromString(set.getString("type"));
-				//province
+				province = NVR.getProvince(set.getInt("province"));
 				management = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("management")).getAsJsonArray());
 				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
 				creator = UUID.fromString(set.getString("creator"));
@@ -46,7 +47,7 @@ public class Municipality {
 			else {
 				name = "Unnamed Place";
 				type = Type.ABANDONED;
-				//province
+				province = NVR.getProvince(-1);
 				management.clear();
 				neighbors.clear();
 				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
@@ -89,6 +90,7 @@ public class Municipality {
 			String m = "municipalities";
 			NVR.SQL.update(m, "name", name, "id", id);
 			NVR.SQL.update(m, "type", type.name(), "id", id);
+			NVR.SQL.update(m, "province", province.id, "id", id);
 			NVR.SQL.update(m, "management", JsonUtil.getArrayFromUUIDList(management), "id", id);
 			NVR.SQL.update(m, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
 			NVR.SQL.update(m, "changed", changed, "id", id);

@@ -27,6 +27,7 @@ public class District {
 			if(set.first()){
 				String temp = null;
 				name = set.getString("name");
+				municipality = NVR.getMunicipality(set.getInt("municipality"));
 				manager = (temp = set.getString("manager")) == null || temp.equals("") ? null : UUID.fromString(temp);
 				creator = UUID.fromString(set.getString("creator"));
 				created = set.getLong("created");
@@ -38,6 +39,7 @@ public class District {
 			else{
 				type = Type.UNSPECIFIED;
 				name = "Unnamed District";
+				municipality = NVR.getMunicipality(-1);
 				manager = null;
 				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
 				created = Time.getDate();
@@ -82,7 +84,15 @@ public class District {
 
 	public void save(){
 		try{
-			NVR.SQL.update("UPDATE districts SET name='" + name + "', municipality='" + municipality.id + "', manager='" + (manager == null ? "" : manager.toString()) + "', creator='" + creator.toString() + "', changed='" + changed + "', neighbors='" + JsonUtil.getArrayFromIntegerList(neighbors).toString() + "', prev_income='" + previncome + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE id='" + id + "';");
+			String d = "districts";
+			NVR.SQL.update(d, "name", name, "id", id);
+			NVR.SQL.update(d, "municipality", municipality.id, "id", id);
+			NVR.SQL.update(d, "manager", (manager == null ? "" : manager), "id", id);
+			NVR.SQL.update(d, "changed", changed, "id", id);
+			NVR.SQL.update(d, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
+			NVR.SQL.update(d, "prev_income", previncome, "id", id);
+			NVR.SQL.update(d, "saved", Time.getDate(), "id", id);
+			NVR.SQL.update(d, "tax", tax, "id", id);
 		}
 		catch(Exception e){
 			e.printStackTrace();

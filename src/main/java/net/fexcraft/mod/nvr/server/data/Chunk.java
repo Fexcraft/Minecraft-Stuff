@@ -88,7 +88,7 @@ public class Chunk {
 
 	public final void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', district='" + district.id + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = `" + x + "` AND z = `" + z + "`;");
+			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', district='" + district.id + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = '" + x + "' AND z = '" + z + "';");
 		}
 		catch(Exception e){
 			e.printStackTrace();
