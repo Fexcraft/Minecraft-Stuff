@@ -16,6 +16,7 @@ import net.fexcraft.mod.nvr.server.data.Chunk;
 import net.fexcraft.mod.nvr.server.data.District;
 import net.fexcraft.mod.nvr.server.data.DoubleKey;
 import net.fexcraft.mod.nvr.server.data.Municipality;
+import net.fexcraft.mod.nvr.server.data.Nation;
 import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.data.Province;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
@@ -48,6 +49,7 @@ public class NVR {
 	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
 	public static final TreeMap<Integer, Municipality> MUNICIPALITIES = new TreeMap<Integer, Municipality>();
 	public static final TreeMap<Integer, Province> PROVINCES = new TreeMap<Integer, Province>();
+	public static final TreeMap<Integer, Nation> NATIONS = new TreeMap<Integer, Nation>();
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
@@ -83,18 +85,37 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
+		if(!SQL.exists("id", "nations", "id='-1'", false)){
+			Nation nat = new Nation(-1, null);
+			nat.name = "Wilderness";
+			nat.changed = Time.getDate();
+			nat.account.setBalance(20000000f);
+			nat.save();
+		}
+		if(!SQL.exists("id", "nations", "id='0'", false)){
+			Nation nat = new Nation(0, null);
+			nat.name = "Centurian Union";
+			nat.changed = Time.getDate();
+			nat.account.setBalance(80000000f);
+			nat.save();
+		}
+		ArrayList<Integer> nations = SQL.getArray("id", "nations", "id", false, -1);
+		nations.forEach((id) -> {
+			NATIONS.put(id, new Nation(id, null));
+		});
+		//
 		if(!SQL.exists("id", "provinces", "id='-1'", false)){
 			Province pro = new Province(-1, null);
 			pro.name = "Neural Territory";
 			pro.changed = Time.getDate();
-			//pro.nation = getNation(-1);
+			pro.nation = getNation(-1);
 			pro.save();
 		}
 		if(!SQL.exists("id", "provinces", "id='0'", false)){
 			Province pro = new Province(0, null);
 			pro.name = "Spawn";
 			pro.changed = Time.getDate();
-			//pro.nation = getNation(0);
+			pro.nation = getNation(0);
 			pro.save();
 		}
 		ArrayList<Integer> provinces = SQL.getArray("id", "provinces", "id", false, -1);
@@ -112,7 +133,7 @@ public class NVR {
 		}
 		if(!SQL.exists("id", "municipalities", "id='0'", false)){
 			Municipality mun = new Municipality(0, null);
-			mun.name = "Spawn";
+			mun.name = "Centuria";
 			mun.type = mun.type.METROPOLIS;
 			mun.changed = Time.getDate();
 			mun.citizentax = 0;
@@ -148,6 +169,9 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void serverStop(FMLServerStoppingEvent event){
+		NATIONS.values().forEach((nat) -> {
+			nat.save();
+		});
 		PROVINCES.values().forEach((pro) -> {
 			pro.save();
 		});
@@ -173,11 +197,17 @@ public class NVR {
 	
 	public static final void save(){
 		Sender.serverMessage("&5Saving data. Expect a short lag.");
+		new Runnable(){ @Override public void run(){ NATIONS.forEach((key, pro) -> { pro.save(); Sender.serverMessage("&3Done saving nation data.");});}};
 		new Runnable(){ @Override public void run(){ PROVINCES.forEach((key, pro) -> { pro.save(); Sender.serverMessage("&3Done saving province data.");});}};
 		new Runnable(){ @Override public void run(){ MUNICIPALITIES.forEach((key, dis) -> { dis.save(); Sender.serverMessage("&3Done saving municipality data.");});}};
 		new Runnable(){ @Override public void run(){ DISTRICTS.forEach((key, dis) -> { dis.save(); Sender.serverMessage("&3Done saving district data.");});}};
 		//new Runnable(){ @Override public void run(){ CHUNKS.forEach((key, chunk) -> { chunk.save(); Sender.serverMessage("&3Done saving chunk data.");});}}; //Should be handled on chunk unload
 		Sender.serverMessage("&5Done saving all data.");
+	}
+
+	public static Nation getNation(int i){
+		Nation nat = NATIONS.get(i);
+		return nat == null ? NATIONS.get(-1) : nat;
 	}
 
 	public static Province getProvince(int i){

@@ -221,7 +221,7 @@ public class AccountManager{
 			type = string;
 		}
 		
-		public static AccountManager getAccountManager(){
+		public static final AccountManager getAccountManager(){
 			return FSMM.getInstance().getAccountManager();
 		}
 	}

@@ -13,7 +13,7 @@ public class Province {
 	
 	public final int id;
 	public String name;
-	//TODO public Nation nation;
+	public Nation nation;
 	public UUID ruler;
 	public UUID creator;
 	public long created, changed;
@@ -21,6 +21,7 @@ public class Province {
 	public ArrayList<Integer> neighbors = new ArrayList<Integer>();
 	public ArrayList<UUID> rebels = new ArrayList<UUID>();
 	public ArrayList<UUID> sepers = new ArrayList<UUID>();
+	//public ArrayList<Integer> districts = new ArrayList<Integer>();
 	
 	public Province(int id, UUID creatorid){
 		this.id = id;
@@ -29,7 +30,7 @@ public class Province {
 			if(set.first()){
 				String str = null;
 				name = set.getString("name");
-				//nation = NVR.NATIONS.get(set.getInt("nation");
+				nation = NVR.NATIONS.get(set.getInt("nation"));
 				ruler = (str = set.getString("ruler")) == null || str.equals("") ? null : UUID.fromString(str);
 				creator = UUID.fromString(set.getString("creator"));
 				created = set.getLong("created");
@@ -41,7 +42,7 @@ public class Province {
 			}
 			else{
 				name = "Unnamed Province";
-				//nation = NVR.NATIONS.get(-1);
+				nation = NVR.NATIONS.get(-1);
 				ruler = null;
 				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
 				created = Time.getDate();
@@ -83,7 +84,7 @@ public class Province {
 		try{
 			String p = "provinces";
 			NVR.SQL.update(p, "name", name, "id", id);
-			//NVR.SQL.update(p, "nation", nation.id, "id", id);
+			NVR.SQL.update(p, "nation", nation.id, "id", id);
 			NVR.SQL.update(p, "ruler", ruler == null ? "" : ruler, "id", id);
 			NVR.SQL.update(p, "changed", changed, "id", id);
 			NVR.SQL.update(p, "prev_income", previncome, "id", id);
