@@ -38,18 +38,20 @@ public class Sender {
 	private static final List colours = Arrays.asList(new String[]{"green", "yellow", "red", "blue"});
 
 	private static final void writeIcon(NBTTagCompound compound, String icon, int id, String color){
-		if((icon == null || icon.equals("")) && color == null){
+		if(icon != null && !icon.equals("")){
+			if(colours.contains(icon)){
+				compound.setString("color_" + id, icon);
+			}
+			else{
+				compound.setString("icon_" + id, icon);
+			}
+		}
+		else if(color == null){
 			compound.setInteger("x_" + id, 64);
 			compound.setInteger("y_" + id, 224);
-			return;
-		}
-		else if(colours.contains(icon) || color != null){
-			compound.setString("color_" + id, color == null ? icon : color);
-			return;
 		}
 		else{
-			compound.setString("icon_" + id, icon);
-			return;
+			compound.setString("color_" + id, color);
 		}
 	}
 	

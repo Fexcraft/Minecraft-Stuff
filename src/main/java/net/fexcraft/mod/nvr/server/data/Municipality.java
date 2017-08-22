@@ -44,7 +44,7 @@ public class Municipality {
 				previncome = set.getDouble("prev_income");
 				citizens = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("citizens")).getAsJsonArray());
 				citizentax = set.getDouble("citizentax");
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : icon;
+				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
 			}
 			else {
 				name = "Unnamed Place";

@@ -61,7 +61,7 @@ public class PlayerEvents {
 			ItemStack stack = player.getHeldItem(hand);
 			String item = stack.getItem().getRegistryName() + " | " + stack.getCount() + " | " + stack.getMetadata() + " | " + (stack.hasTagCompound() ? stack.getTagCompound().toString() : "no tags");
 			String bleck = block.getBlock().getRegistryName() + "|" + block.getBlock().getMetaFromState(block);
-			NVR.SQL.update("INSERT INTO blocklog (`action`, `block`, `inhand`, `player`, `date`) VALUES ('" + action + "', '" + bleck + "', '" + item + "', '" + player.getGameProfile().getId().toString() + "', '" + date + "');");
+			NVR.SQL.update("INSERT INTO block_log (`action`, `block`, `inhand`, `player`, `date`) VALUES ('" + ((Static.dev() ? "DEV_" : "") + action) + "', '" + bleck + "', '" + item + "', '" + player.getGameProfile().getId().toString() + "', '" + date + "');");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -73,15 +73,6 @@ public class PlayerEvents {
 		if(!data.perms.hasPermission(b ? Permissions.BLOCK_BREAK : Permissions.BLOCK_PLACE)){
 			Print.chat(player, "No permission to " + (b ? "break" : "place") + " blocks.");
 			return true;
-		}
-		if(player.dimension == 5){
-			if(data.perms.hasPermission("nv1.whitelisted")){
-				return false;
-			}
-			else{
-				Print.chat(player, "You aren't whitelisted in the NV1 World.");
-				return true;
-			}
 		}
 		Chunk chunk = NVR.getChunk(world, pos);
 		if(chunk.district.municipality.province.nation.isInAnarchy()){

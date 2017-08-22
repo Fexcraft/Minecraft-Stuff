@@ -7,6 +7,9 @@ import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -34,8 +37,16 @@ public class LocationGui extends GuiScreen {
 				this.drawTexturedModalRect(22, 2, x[0], y[0], 32, 32);
 			}
 			else{
+				int x = 22, y = 2, width = 32, height = 32;
 				mc.getTextureManager().bindTexture(icon[0]);
-				this.drawTexturedModalRect(22, 2, 0, 0, 32, 32);
+				Tessellator tessellator = Tessellator.getInstance();
+		        BufferBuilder bufferbuilder = tessellator.getBuffer();
+		        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		        bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)this.zLevel).tex(0, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + height), (double)this.zLevel).tex(1, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)this.zLevel).tex(1, 0).endVertex();
+		        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex(0, 0).endVertex();
+		        tessellator.draw();
 			}
 			//
 			if(icon[1] == null){
@@ -43,14 +54,32 @@ public class LocationGui extends GuiScreen {
 			}
 			else{
 				mc.getTextureManager().bindTexture(icon[1]);
-				this.drawTexturedModalRect(6, 16, 0, 0, 16, 16);
+				int x = 6, y = 16, width = 16, height = 16;
+				mc.getTextureManager().bindTexture(icon[0]);
+				Tessellator tessellator = Tessellator.getInstance();
+		        BufferBuilder bufferbuilder = tessellator.getBuffer();
+		        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		        bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)this.zLevel).tex(0, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + height), (double)this.zLevel).tex(1, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)this.zLevel).tex(1, 0).endVertex();
+		        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex(0, 0).endVertex();
+		        tessellator.draw();
 			}
 			if(icon[2] == null){
 				this.drawTexturedModalRect(6, 2, x[2], y[2], 16, 16);
 			}
 			else{
 				mc.getTextureManager().bindTexture(icon[2]);
-				this.drawTexturedModalRect(6, 2, 0, 0, 16, 16);
+				int x = 6, y = 2, width = 16, height = 16;
+				mc.getTextureManager().bindTexture(icon[0]);
+				Tessellator tessellator = Tessellator.getInstance();
+		        BufferBuilder bufferbuilder = tessellator.getBuffer();
+		        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		        bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)this.zLevel).tex(0, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + height), (double)this.zLevel).tex(1, 1).endVertex();
+		        bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)this.zLevel).tex(1, 0).endVertex();
+		        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex(0, 0).endVertex();
+		        tessellator.draw();
 			}
 			mc.fontRenderer.drawString(up  , 57, 7, MapColor.GRAY.colorValue);
 			mc.fontRenderer.drawString(down, 57, 21, MapColor.GRAY.colorValue);

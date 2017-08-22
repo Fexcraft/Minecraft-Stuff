@@ -39,7 +39,7 @@ public class Province {
 				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
 				rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("rebels")).getAsJsonArray());
 				sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("sepers")).getAsJsonArray());
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : icon;
+				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
 			}
 			else{
 				name = "Unnamed Province";

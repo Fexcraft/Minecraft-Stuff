@@ -47,7 +47,7 @@ public class Nation {
 				prev_income = set.getDouble("prev_income");
 				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
 				parent = (i = set.getInt("parent")) == -10 ? null : NVR.getNation(i);
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : icon;
+				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
 			}
 			else{
 				name = "Unnamed Nation";
