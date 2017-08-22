@@ -7,6 +7,7 @@ import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.nvr.server.NVR;
 import net.fexcraft.mod.nvr.server.data.Player;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
@@ -18,7 +19,7 @@ public class Sender {
 		Static.getServer().getPlayerList().sendMessage(new TextComponentString(string));
 	}
 	
-	public static final void sendLocationUpdate(EntityPlayerMP player, String ms, String mg, String color, Integer time){
+	public static final void sendLocationUpdate(EntityPlayer player, String ms, String mg, String color, Integer time){
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString("target_listener", "nvr-lg");
 		nbt.setString("task", "show");
@@ -31,18 +32,18 @@ public class Sender {
 		if(time != null){
 			nbt.setInteger("time", time);
 		}
-		PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), player);
+		PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), (EntityPlayerMP)player);
 	}
 	
 	private static final List colours = Arrays.asList(new String[]{"green", "yellow", "red", "blue"});
 
 	private static final void writeIcon(NBTTagCompound compound, String icon, int id, String color){
-		if(icon == null || icon.equals("")){
+		if((icon == null || icon.equals("")) && color == null){
 			compound.setInteger("x_" + id, 64);
 			compound.setInteger("y_" + id, 224);
 			return;
 		}
-		else if(colours.contains(icon)){
+		else if(colours.contains(icon) || color != null){
 			compound.setString("color_" + id, color == null ? icon : color);
 			return;
 		}

@@ -21,11 +21,14 @@ import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.data.Province;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
 import net.fexcraft.mod.nvr.server.events.ChunkEvents;
+import net.fexcraft.mod.nvr.server.events.PlayerEvents;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.fexcraft.mod.nvr.server.util.Sender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -73,6 +76,7 @@ public class NVR {
 	public static void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChatEvents());
 		MinecraftForge.EVENT_BUS.register(new ChunkEvents());
+		MinecraftForge.EVENT_BUS.register(new PlayerEvents());
 		//
 		Permissions.register();
 		PlayerPerms.addAdditionalData(Player.class);
@@ -227,6 +231,12 @@ public class NVR {
 	
 	public static Chunk getChunk(int x, int z){
 		return CHUNKS.get(new DoubleKey(x, z));
+	}
+
+	public static Chunk getChunk(World world, BlockPos pos){
+		int x = world.getChunkFromBlockCoords(pos).x;
+		int z = world.getChunkFromBlockCoords(pos).z;
+		return getChunk(x, z);
 	}
 	
 }

@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.lib.perms.player.AttachedData;
 import net.fexcraft.mod.lib.perms.player.PlayerPerms;
+import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.NVR;
 import net.minecraft.command.ICommandSender;
@@ -21,6 +23,7 @@ public class Player implements AttachedData {
 	//tracking
 	public District lastseen;
 	public Vec3d lastseenpos;
+	public Municipality municipality;
 	
 	public Player(PlayerPerms pp){
 		perms = pp;
@@ -37,6 +40,13 @@ public class Player implements AttachedData {
 		this.uuid = uuid;
 		this.nick = obj.has("Nick") ? obj.get("Nick").getAsString() : null;
 		this.account = Account.getAccountManager().getAccountOf(uuid);
+		//
+		int mun = JsonUtil.getIfExists(obj, "Municipality", -1).intValue();
+		municipality = NVR.getMunicipality(mun);
+		if(!municipality.citizens.contains(uuid) && mun != -1){
+			municipality = NVR.getMunicipality(-1);
+			Print.debug(uuid + " not found in citizen list of (" + municipality.id + ") " + municipality.name + ";");
+		}
 		return this;
 	}
 
@@ -46,6 +56,7 @@ public class Player implements AttachedData {
 		JsonObject obj = new JsonObject();
 		if(nick != null){ obj.addProperty("Nick", nick); }
 		obj.addProperty("LastSave", Time.getDate());
+		obj.addProperty("Municipality", this.municipality.id);
 		return obj;
 	}
 

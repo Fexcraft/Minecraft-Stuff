@@ -18,7 +18,7 @@ public class LocationGui extends GuiScreen {
 		mc = Minecraft.getMinecraft();
 	}
 	
-	private static long till;
+	private static long till = Time.getDate();
 	private static String up = "null > UP", down = "null < DOWN";
 	private static final ResourceLocation texture = new ResourceLocation("nvr:textures/guis/location_gui.png");
 	private static ResourceLocation[] icon = new ResourceLocation[3];
@@ -26,7 +26,7 @@ public class LocationGui extends GuiScreen {
 	
 	@SubscribeEvent
 	public void displayLocationUpdate(RenderGameOverlayEvent event){
-		if(event.getType() == ElementType.HOTBAR && till < Time.getDate()){
+		if(event.getType() == ElementType.HOTBAR && till >= Time.getDate()){
 			mc.getTextureManager().bindTexture(texture);
 			this.drawTexturedModalRect(0, 0, 0, 0, 256, 36);
 			//

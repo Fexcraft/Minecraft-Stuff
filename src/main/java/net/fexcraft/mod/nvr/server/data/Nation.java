@@ -136,5 +136,9 @@ public class Nation {
 		}
 		
 	}
+
+	public boolean isInAnarchy(){
+		return type == Type.ANARCHY;
+	}
 	
 }
