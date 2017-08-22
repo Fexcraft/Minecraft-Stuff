@@ -6,7 +6,6 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.NVR;
 import net.fexcraft.mod.nvr.server.data.Chunk;
-import net.fexcraft.mod.nvr.server.data.Nation;
 import net.fexcraft.mod.nvr.server.data.Player;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.fexcraft.mod.nvr.server.util.Sender;
@@ -79,7 +78,7 @@ public class PlayerEvents {
 			return false;
 		}
 		switch(chunk.type){
-			case NEUTRAL:
+			case NEUTRAL:{
 				if(data.perms.hasPermission(Permissions.ADMIN)){
 					return false;
 				}
@@ -87,13 +86,19 @@ public class PlayerEvents {
 					Print.chat(player, "&7Chunk isn't claimed.");
 					return true;
 				}
-			case CLAIMED:
-				if(data.municipality.id == chunk.district.municipality.id){
+			}
+			case CLAIMED:{
+				if(data.municipality == chunk.district.municipality){
 					return false;
 				}
-				else{
-					if(chunk.district.municipality.province.nation.type == Nation.Type.AUTOCRACY && (chunk.district.manager.equals(data.uuid) || chunk.district.municipality.management.contains(data.uuid)
-							|| chunk.district.municipality.province.ruler.equals(data.uuid) /*|| chunk.district.municipality.province.nation.canInteractWithBlocks(data.uuid) //TODO */)){
+				else if(/*data.municipality.province == chunk.district.municipality.province &&*/ chunk.district.municipality.province.ruler.equals(data.uuid)){
+					return false;
+				}
+				else if(data.municipality.province.nation == chunk.district.municipality.province.nation){
+					if(chunk.district.municipality.province.nation.incharge.equals(data.uuid)){
+						return false;
+					}
+					else if(chunk.district.municipality.province.nation.gov.contains(data.uuid) && !chunk.district.municipality.province.nation.isDemocratic()){
 						return false;
 					}
 					else{
@@ -101,35 +106,46 @@ public class PlayerEvents {
 						return true;
 					}
 				}
-			case PRIVATE:
+				else{
+					Print.chat(player, "&7You aren't a citizen of this Municipality.");
+					return true;
+				}
+			}
+			case PRIVATE:{
 				if(data.uuid.equals(chunk.owner) || chunk.whitelist.contains(data.uuid.toString())){
 					return false;
 				}
-				else{
-					Print.chat(player, "&7This chunk is private property of &9" + Static.getPlayerNameByUUID(chunk.owner) + "&7.");
-					return true;
+				else if(chunk.district.municipality.province.nation.isAutocratic() && chunk.district.municipality.province.nation.incharge.equals(data.uuid)){
+					return false;
 				}
+				else if(chunk.district.municipality.province.nation.isMonarchy() && (chunk.district.municipality.province.nation.incharge.equals(data.uuid) || chunk.district.municipality.province.nation.gov.contains(data.uuid))){
+					return false;
+				}
+				Print.chat(player, "&7This chunk is private property of &9" + Static.getPlayerNameByUUID(chunk.owner) + "&7.");
+				return true;
+			}
 			case COMPANY:
-				//Company com = NVR.companies.get(chunk.owner);
-				//if(com != null && company.members.contains(data.uuid)){
-					//return false;
-				//}
-				/*else*/ if(chunk.whitelist.contains(data.uuid.toString())){
+				/*Company com = NVR.getCompany(chunk.owner);
+				if(com != null && company.members.contains(data.uuid)){
+					return false;
+				}
+				else if(chunk.whitelist.contains(data.uuid.toString())){
 					return true;
 				}
 				else{
-					Print.chat(player, "&7This chunk is property of &9" /*com.name*/ + "&7.");
+					Print.chat(player, "&7This chunk is property of &9" + com.name + "&7.");
+					return false;
+				}*/
+			case PROTECTED:{
+				if(chunk.district.manager.equals(data.uuid) || chunk.district.municipality.management.contains(data.uuid) || chunk.district.municipality.province.ruler.equals(data.uuid)){
 					return false;
 				}
-			case PROTECTED:
-				if(chunk.district.manager.equals(data.uuid) || chunk.district.municipality.management.contains(data.uuid)
-						|| chunk.district.municipality.province.ruler.equals(data.uuid) /*|| chunk.district.municipality.province.nation.canInteractWithBlocks(data.uuid) //TODO */){
+				if((chunk.district.municipality.province.nation.isAutocratic() || chunk.district.municipality.province.nation.isMonarchy()) && chunk.district.municipality.province.nation.incharge.equals(data.uuid)){
 					return false;
 				}
-				else{
-					Print.chat(player, "&7Protected Territory of this Municipality.");
-					return true;
-				}
+				Print.chat(player, "&7Protected Territory of this Municipality.");
+				return true;
+			}
 			case PUBLIC:
 			default:
 				return false;

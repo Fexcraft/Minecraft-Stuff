@@ -141,4 +141,16 @@ public class Nation {
 		return type == Type.ANARCHY;
 	}
 	
+	public boolean isDemocratic(){
+		return type == Type.DEMOCRACY;
+	}
+	
+	public boolean isAutocratic(){
+		return type == Type.AUTOCRACY;
+	}
+	
+	public boolean isMonarchy(){
+		return type == Type.MONARCHY;
+	}
+	
 }
