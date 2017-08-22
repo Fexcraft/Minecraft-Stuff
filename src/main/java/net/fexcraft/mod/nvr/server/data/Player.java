@@ -10,6 +10,7 @@ import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.NVR;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.math.Vec3d;
 
 public class Player implements AttachedData {
 	
@@ -17,6 +18,9 @@ public class Player implements AttachedData {
 	public PlayerPerms perms;
 	public Account account;
 	private String nick;
+	//tracking
+	public District lastseen;
+	public Vec3d lastseenpos;
 	
 	public Player(PlayerPerms pp){
 		perms = pp;

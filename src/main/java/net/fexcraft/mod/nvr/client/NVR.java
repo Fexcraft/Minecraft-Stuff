@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = NVR.MODID, name = "NVR Client", version="xxx.xxx", acceptableRemoteVersions = "*", clientSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
 	
-	public static final String MODID = "nvr";
+	public static final String MODID = "nvr-c";
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){

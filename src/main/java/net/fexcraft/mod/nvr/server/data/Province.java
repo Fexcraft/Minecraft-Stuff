@@ -12,7 +12,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 public class Province {
 	
 	public final int id;
-	public String name;
+	public String name, icon;
 	public Nation nation;
 	public UUID ruler;
 	public UUID creator;
@@ -39,6 +39,7 @@ public class Province {
 				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
 				rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("rebels")).getAsJsonArray());
 				sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("sepers")).getAsJsonArray());
+				icon = (str = set.getString("icon")) == null || str.equals("") ? null : icon;
 			}
 			else{
 				name = "Unnamed Province";
@@ -51,6 +52,7 @@ public class Province {
 				neighbors.clear();
 				rebels.clear();
 				sepers.clear();
+				icon = null;
 				//
 				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".provinces (id) VALUES ('" + id + "');");
 				NVR.SQL.update("provinces", "creator", creator, "id", id);
@@ -92,6 +94,7 @@ public class Province {
 			NVR.SQL.update(p, "rebels", JsonUtil.getArrayFromUUIDList(rebels), "id", id);
 			NVR.SQL.update(p, "sepers", JsonUtil.getArrayFromUUIDList(sepers), "id", id);
 			NVR.SQL.update(p, "saved", Time.getDate(), "id", id);
+			NVR.SQL.update(p, "icon", icon == null ? "" : icon, "id", id);
 		}
 		catch(Exception e){
 			e.printStackTrace();
