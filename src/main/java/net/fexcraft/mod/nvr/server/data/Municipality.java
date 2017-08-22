@@ -13,7 +13,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 public class Municipality {
 	
 	public final int id;
-	public String name;
+	public String name, icon;
 	public Type type;
 	public Province province;
 	public ArrayList<UUID> management = new ArrayList<UUID>();
@@ -32,6 +32,7 @@ public class Municipality {
 		try{
 			ResultSet set = NVR.SQL.query("SELECT * FROM municipalities WHERE id='" + id + "';");
 			if(set.first()){
+				String str = null;
 				name = set.getString("name");
 				type = Type.fromString(set.getString("type"));
 				province = NVR.getProvince(set.getInt("province"));
@@ -43,6 +44,7 @@ public class Municipality {
 				previncome = set.getDouble("prev_income");
 				citizens = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("citizens")).getAsJsonArray());
 				citizentax = set.getDouble("citizentax");
+				icon = (str = set.getString("icon")) == null || str.equals("") ? null : icon;
 			}
 			else {
 				name = "Unnamed Place";
@@ -56,6 +58,7 @@ public class Municipality {
 				previncome = 0;
 				citizens.clear();
 				citizentax = 1;
+				icon = null;
 				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".municipalities (id) VALUES ('" + id + "');");
 				NVR.SQL.update("municipalities", "creator", creator, "id", id);
 				NVR.SQL.update("municipalities", "created", created, "id", id);
@@ -98,6 +101,7 @@ public class Municipality {
 			NVR.SQL.update(m, "citizens", JsonUtil.getArrayFromUUIDList(citizens), "id", id);
 			NVR.SQL.update(m, "citizentax", citizentax, "id", id);
 			NVR.SQL.update(m, "saved", Time.getDate(), "id", id);
+			NVR.SQL.update(m, "icon", icon == null ? "" : icon, "id", id);
 		}
 		catch(Exception e){
 			e.printStackTrace();
