@@ -41,7 +41,7 @@ public class Nation {
 				gov_name = set.getString("gov_name");
 				incharge = (str = set.getString("incharge")) == null || str.equals("") ? null : UUID.fromString(str);
 				incharge_title = set.getString("incharge_title");
-				creator = UUID.fromString("creator");
+				creator = UUID.fromString(set.getString("creator"));
 				created = set.getLong("created");
 				changed = set.getLong("changed");
 				prev_income = set.getDouble("prev_income");
@@ -104,7 +104,7 @@ public class Nation {
 			NVR.SQL.update(n, "changed", changed, "id", id);
 			NVR.SQL.update(n, "prev_income", prev_income, "id", id);
 			NVR.SQL.update(n, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
-			NVR.SQL.update(n, "parent", parent == null ? "" : parent.id, "id", id);
+			NVR.SQL.update(n, "parent", parent == null ? "-10" : parent.id, "id", id);
 			NVR.SQL.update(n, "saved", Time.getDate(), "id", id);
 		}
 		catch(Exception e){
