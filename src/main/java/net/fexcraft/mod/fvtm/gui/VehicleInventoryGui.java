@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fvtm.gui;
 
+import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
@@ -34,7 +35,7 @@ public class VehicleInventoryGui {
 		private int x, y, z;
 		private GenericGuiButton arrowUp, arrowDown, fuel, info;
 		private GenericGuiButton[] parts;
-		private int scroll, part;
+		private int scroll;
 
 		public Client(EntityPlayer player, World world, int x, int y, int z){
 			super(new Server(player, world, x, y, z));
@@ -48,7 +49,9 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 1:{
-					//TODO
+					this.xSize = 226;
+					this.ySize = 195;
+					this.scroll = z;
 					break;
 				}
 				case 2:{
@@ -73,7 +76,10 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 1:{
-					//TODO
+					this.mc.getTextureManager().bindTexture(invtex);
+					int i = this.guiLeft, j = this.guiTop;
+					this.drawTexturedModalRect(i, j, 0, 0, this.xSize + 16, this.ySize);
+					this.fontRenderer.drawString(data.getInventoryContainers().get(y).getPart().getName(), i + 7, j + 7, MapColor.SNOW.colorValue);
 					break;
 				}
 				case 2:{
@@ -117,12 +123,12 @@ public class VehicleInventoryGui {
 						case 2: case 3: case 4:
 						case 5: case 6: case 7:
 						case 8: case 9: case 10:{
-							part = (button.id - 2) + scroll;
+							y = (button.id - 2) + scroll;
 							NBTTagCompound nbt = new NBTTagCompound();
 							nbt.setString("target_listener", "fvtm");
 							nbt.setString("task", "open_gui");
 							nbt.setInteger("gui", GuiHandler.VEHICLE_INVENTORY);
-							nbt.setIntArray("args", new int[]{1, part, 0});
+							nbt.setIntArray("args", new int[]{1, y, 0});
 							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
 							break;
 						}
@@ -139,8 +145,32 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 1:{
-					//TODO
-					break;
+					switch(button.id){
+						case 0: case 1:{
+							if(button.id == 0){
+								scroll--;
+								if(scroll < 0){
+									scroll = 0;
+								}
+							}
+							else{
+								if((scroll + 1) * 60 <= data.getInventoryContainers().get(y).getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory().size()){
+									scroll++;
+								}
+							}
+							arrowUp.enabled = scroll > 0;
+							arrowDown.enabled = (scroll + 1) * 60 < data.getInventoryContainers().get(y).getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory().size();
+							if(scroll != z){
+								NBTTagCompound nbt = new NBTTagCompound();
+								nbt.setString("target_listener", "fvtm");
+								nbt.setString("task", "open_gui");
+								nbt.setInteger("gui", GuiHandler.VEHICLE_INVENTORY);
+								nbt.setIntArray("args", new int[]{1, y, scroll});
+								PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
+							}
+						}
+						break;
+					}
 				}
 				case 2:{
 					//TODO
@@ -198,7 +228,20 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 1:{
-					//TODO
+					this.buttonList.add(arrowUp = new GenericGuiButton(0, 225 + i, 127 + j, 12, 15, ""));
+					arrowUp.setTexturePos(0, 12, 211);
+					arrowUp.setTexturePos(1, 12, 196);
+					arrowUp.setTexturePos(2, 12, 226);
+					arrowUp.setTexturePos(3, 12, 241);
+					arrowUp.setTexture(invtex);
+					arrowUp.enabled = scroll > 0;
+					this.buttonList.add(arrowDown = new GenericGuiButton(1, 225 + i, 144 + j, 12, 15, ""));
+					arrowDown.setTexturePos(0, 0, 211);
+					arrowDown.setTexturePos(1, 0, 196);
+					arrowDown.setTexturePos(2, 0, 226);
+					arrowDown.setTexturePos(3, 0, 241);
+					arrowDown.setTexture(invtex);
+					arrowDown.enabled = scroll * 60 < data.getInventoryContainers().get(y).getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory().size();
 					break;
 				}
 				case 2:{
@@ -231,6 +274,7 @@ public class VehicleInventoryGui {
 				}
 				case 1:{
 					//TODO
+					// add inventory stuff
 					break;
 				}
 				case 2:{
