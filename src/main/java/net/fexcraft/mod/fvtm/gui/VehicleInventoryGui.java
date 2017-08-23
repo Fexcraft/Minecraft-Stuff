@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvtm.gui;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.GenericGuiButton;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.gui.GuiButton;
@@ -85,8 +86,14 @@ public class VehicleInventoryGui {
 							arrowDown.enabled = scroll + 9 < data.getInventoryContainers().size();
 							for(int i = 0; i < 9; i++){
 								int j = i + scroll;
-								parts[i].displayString = j >= data.getInventoryContainers().size() ? "" : j + "| " + data.getInventoryContainers().get(j).getPart().getName();
+								parts[i].displayString = j >= data.getInventoryContainers().size() ? "" : Formatter.format("&6" + j + "&e| &r" + data.getInventoryContainers().get(j).getPart().getName());
 							}
+							break;
+						}
+						case 2: case 3: case 4:
+						case 5: case 6: case 7:
+						case 8: case 9: case 10:{
+							
 							break;
 						}
 					}
@@ -123,7 +130,7 @@ public class VehicleInventoryGui {
 					arrowDown.enabled = scroll + 9 < data.getInventoryContainers().size();
 					//
 					for(int k = 0; k < 9; k++){
-						String name = k >= data.getInventoryContainers().size() ? "" : data.getInventoryContainers().get(k).getPart().getName();
+						String name = k >= data.getInventoryContainers().size() ? "" : Formatter.format("&6" + k + "&e| &r" + data.getInventoryContainers().get(k).getPart().getName());
 						this.buttonList.add(parts[k] = new GenericGuiButton(k + 2, 5 + i, (19 + (k * 14)) + j, 158, 12, name));
 						parts[k].setTexture(maintex);
 						parts[k].setTexturePos(0, 0, 232);
@@ -131,7 +138,7 @@ public class VehicleInventoryGui {
 						parts[k].setTexturePos(2, 0, 208);
 						parts[k].setTexturePos(3, 0, 220);
 						parts[k].enabled = !(parts[k].displayString == null || parts[k].displayString.equals(""));
-						parts[k].setTextPos(7 + i, (21 + (k * 14)) + j);
+						parts[k].setTextPos(7 + i, (22 + (k * 14)) + j);
 					}
 					break;
 				}

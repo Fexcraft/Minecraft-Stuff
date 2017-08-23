@@ -67,7 +67,8 @@ public class GenericGuiButton extends GuiButton {
 			if(packedFGColour != 0){ j = packedFGColour; }
             else if(!this.enabled){ j = 10526880; }
             else if(this.hovered){ j = 16777120; }
-			this.drawString(mc.fontRenderer, this.displayString, textpos[0], textpos[1], j);
+			mc.fontRenderer.drawString(this.displayString, textpos[0], textpos[1], j);
+			//this.drawString(mc.fontRenderer, this.displayString, textpos[0], textpos[1], j);
 		}
 	}
 	
