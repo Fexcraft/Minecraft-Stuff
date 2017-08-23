@@ -241,7 +241,7 @@ public class VehicleInventoryGui {
 					arrowDown.setTexturePos(2, 0, 226);
 					arrowDown.setTexturePos(3, 0, 241);
 					arrowDown.setTexture(invtex);
-					arrowDown.enabled = scroll * 60 < data.getInventoryContainers().get(y).getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory().size();
+					arrowDown.enabled = (scroll + 1) * 60 < data.getInventoryContainers().get(y).getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory().size();
 					break;
 				}
 				case 2:{
