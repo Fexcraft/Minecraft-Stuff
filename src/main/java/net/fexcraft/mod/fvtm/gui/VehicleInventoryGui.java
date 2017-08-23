@@ -1,6 +1,8 @@
 package net.fexcraft.mod.fvtm.gui;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.lib.network.PacketHandler;
+import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.GenericGuiButton;
 import net.minecraft.block.material.MapColor;
@@ -8,6 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -29,9 +32,9 @@ public class VehicleInventoryGui {
 		
 		private LandVehicleData data;
 		private int x, y, z;
-		private GenericGuiButton arrowUp, arrowDown;
+		private GenericGuiButton arrowUp, arrowDown, fuel, info;
 		private GenericGuiButton[] parts;
-		private int scroll;
+		private int scroll, part;
 
 		public Client(EntityPlayer player, World world, int x, int y, int z){
 			super(new Server(player, world, x, y, z));
@@ -48,6 +51,14 @@ public class VehicleInventoryGui {
 					//TODO
 					break;
 				}
+				case 2:{
+					//TODO
+					break;
+				}
+				case 3:{
+					//TODO
+					break;
+				}
 			}
 		}
 
@@ -59,6 +70,19 @@ public class VehicleInventoryGui {
 					int i = this.guiLeft, j = this.guiTop;
 					this.drawTexturedModalRect(i, j, 0, 0, this.xSize + 12, this.ySize);
 					this.fontRenderer.drawString(data.getVehicle().getName(), i + 7, j + 7, MapColor.SNOW.colorValue);
+					break;
+				}
+				case 1:{
+					//TODO
+					break;
+				}
+				case 2:{
+					//TODO
+					break;
+				}
+				case 3:{
+					//TODO
+					break;
 				}
 			}
 		}
@@ -93,14 +117,37 @@ public class VehicleInventoryGui {
 						case 2: case 3: case 4:
 						case 5: case 6: case 7:
 						case 8: case 9: case 10:{
-							
+							part = (button.id - 2) + scroll;
+							NBTTagCompound nbt = new NBTTagCompound();
+							nbt.setString("target_listener", "fvtm");
+							nbt.setString("task", "open_gui");
+							nbt.setInteger("gui", GuiHandler.VEHICLE_INVENTORY);
+							nbt.setIntArray("args", new int[]{1, part, 0});
+							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
+							break;
+						}
+						case 11: case 12:{
+							NBTTagCompound nbt = new NBTTagCompound();
+							nbt.setString("target_listener", "fvtm");
+							nbt.setString("task", "open_gui");
+							nbt.setInteger("gui", GuiHandler.VEHICLE_INVENTORY);
+							nbt.setIntArray("args", new int[]{button.id - 9, 0, 0});
+							PacketHandler.getInstance().sendToServer(new PacketNBTTagCompound(nbt));
 							break;
 						}
 					}
 					break;
 				}
 				case 1:{
-					
+					//TODO
+					break;
+				}
+				case 2:{
+					//TODO
+					break;
+				}
+				case 3:{
+					//TODO
 					break;
 				}
 			}
@@ -140,6 +187,26 @@ public class VehicleInventoryGui {
 						parts[k].enabled = !(parts[k].displayString == null || parts[k].displayString.equals(""));
 						parts[k].setTextPos(7 + i, (22 + (k * 14)) + j);
 					}
+					//
+					this.buttonList.add(fuel = new GenericGuiButton(11, 167 + i, 80 + j, 9, 12, ""));
+					this.buttonList.add(info = new GenericGuiButton(12, 167 + i, 98 + j, 9, 12, ""));
+					fuel.setTexturePos(0, 192, 80); info.setTexturePos(0, 192, 98);
+					fuel.setTexturePos(1, 183, 80); info.setTexturePos(1, 183, 98);
+					fuel.setTexturePos(2, 210, 80); info.setTexturePos(2, 210, 98);
+					fuel.setTexturePos(3, 201, 80); info.setTexturePos(3, 201, 98);
+					fuel.setTexture(maintex); info.setTexture(maintex);
+					break;
+				}
+				case 1:{
+					//TODO
+					break;
+				}
+				case 2:{
+					//TODO
+					break;
+				}
+				case 3:{
+					//TODO
 					break;
 				}
 			}
@@ -163,6 +230,14 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 1:{
+					//TODO
+					break;
+				}
+				case 2:{
+					//TODO
+					break;
+				}
+				case 3:{
 					//TODO
 					break;
 				}
