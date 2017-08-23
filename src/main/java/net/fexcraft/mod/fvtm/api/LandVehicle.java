@@ -155,6 +155,8 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		/** Prefferably don't edit stuff in this one, do any processing in the specific part attribute. */
 		public NonNullList<ItemStack> getAllInventoryContents();
+
+		public List<PartData> getInventoryContainers();
 		
 	}
 	

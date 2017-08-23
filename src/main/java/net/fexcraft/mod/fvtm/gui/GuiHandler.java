@@ -134,7 +134,7 @@ public class GuiHandler implements IGuiHandler {
 				}
 				case "open_gui":{
 					int gui = packet.nbt.getInteger("gui");
-					int[] args = packet.nbt.getIntArray("args");
+					int[] args = packet.nbt.hasKey("args") ? packet.nbt.getIntArray("args") : new int[0];
 					EntityPlayer player = (EntityPlayer)objs[0];
 					player.openGui(FVTM.getInstance(), gui, player.world, args.length >= 1 ? args[0] : 0, args.length >= 2 ? args[1] : 0, args.length >= 3 ? args[2] : 0);
 					break;

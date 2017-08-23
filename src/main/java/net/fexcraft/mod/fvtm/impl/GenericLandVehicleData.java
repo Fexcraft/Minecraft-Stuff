@@ -1,6 +1,5 @@
 package net.fexcraft.mod.fvtm.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +21,7 @@ import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.item.KeyItem;
 import net.fexcraft.mod.lib.util.common.Static;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
 import net.fexcraft.mod.lib.util.render.RGB;
@@ -364,10 +364,8 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public int getMaxInventorySize(){
 		int[] i = new int[]{0};
-		this.parts.forEach((key, data) -> {
-			if(data.getPart().getAttribute(InventoryAttribute.class) != null){
-				i[0] += data.getPart().getAttribute(InventoryAttribute.class).getSize();
-			}
+		this.getInventoryContainers().forEach((data) -> {
+			i[0] += data.getPart().getAttribute(InventoryAttribute.class).getSize();
 		});
 		return i[0];
 	}
@@ -375,12 +373,21 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public NonNullList<ItemStack> getAllInventoryContents(){
 		NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(this.getMaxInventorySize(), ItemStack.EMPTY);
-		this.parts.forEach((key, data) -> {
-			if(data.getAttributeData(InventoryAttribute.InventoryAttributeData.class) != null){
-				stacks.addAll(data.getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory());
-			}
+		this.getInventoryContainers().forEach((data) -> {
+			stacks.addAll(data.getAttributeData(InventoryAttribute.InventoryAttributeData.class).getInventory());
 		});
 		return stacks;
+	}
+
+	@Override
+	public List<PartData> getInventoryContainers(){
+		ArrayList<PartData> map = new ArrayList<PartData>();
+		this.parts.forEach((key, data) -> {
+			if(data.getPart().getAttribute(InventoryAttribute.class) != null){
+				map.add(data);
+			}
+		});
+		return map;
 	}
 	
 }
