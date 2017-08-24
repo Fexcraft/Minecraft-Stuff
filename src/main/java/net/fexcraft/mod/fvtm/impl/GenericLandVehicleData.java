@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import net.fexcraft.mod.addons.gep.attributes.FMSeatAttribute;
@@ -53,11 +52,6 @@ public class GenericLandVehicleData implements LandVehicleData {
 	@Override
 	public LandVehicle getVehicle(){
 		return this.vehicle;
-	}
-
-	@Override
-	public Set<String> getInstalledParts(){
-		return parts.keySet();
 	}
 
 	@Override

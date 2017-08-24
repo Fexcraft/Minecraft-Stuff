@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Attribute;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
 import net.fexcraft.mod.lib.util.common.Formatter;
@@ -111,6 +112,25 @@ public class InventoryAttribute implements Attribute {
 	
 	public ArrayList<ItemStack> getItemWhitelist(){
 		return whitelist;
+	}
+
+	public boolean isItemValidForSlot(int index, ItemStack stack){
+		if(stack.isEmpty()){
+			return true;
+		}
+		if(stack.getItem() instanceof LandVehicleItem){
+			return false;
+		}
+		boolean found = false;
+		for(ItemStack itemstack : whitelist){
+			if(stack.getItem().getRegistryName().equals(itemstack.getItem().getRegistryName())){
+				if(itemstack.getMetadata() == 0 || stack.getItemDamage() == itemstack.getItemDamage()){
+					found = true;
+					break;
+				}
+			}
+		}
+		return found;
 	}
 	
 }

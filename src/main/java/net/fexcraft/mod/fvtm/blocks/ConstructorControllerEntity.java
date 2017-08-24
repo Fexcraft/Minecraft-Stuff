@@ -496,7 +496,7 @@ public class ConstructorControllerEntity {
 						if(scroll + selection >= partdata.getPart().getCategories().size()){
 							return;
 						}
-						if(vehicledata.getInstalledParts().contains(partdata.getPart().getCategories().get(scroll + selection))){
+						if(vehicledata.getParts().containsKey(partdata.getPart().getCategories().get(scroll + selection))){
 							Print.chat(player, "Part of that category already installed.");
 							return;
 						}

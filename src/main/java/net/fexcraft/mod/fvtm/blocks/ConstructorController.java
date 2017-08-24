@@ -153,7 +153,7 @@ public class ConstructorController extends BlockContainer {
 					return false;
 				}
 				if(!te.getScreenId().equals("part_add_new")){
-					if(!te.getData().getInstalledParts().contains(data.getPart().getCategory())){
+					if(!te.getData().getParts().containsKey(data.getPart().getCategory())){
 						if(data.getPart().canInstall(data.getPart().getCategory(), te.getData(), p)){
 							te.getData().installPart(data.getPart().getCategory(), data);
 							Print.chat(p, "Part installed. (" + data.getPart().getName() + ")");

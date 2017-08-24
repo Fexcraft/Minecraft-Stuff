@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvtm.gui;
 
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
+import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttributeData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -80,6 +82,12 @@ public class VehicleInventoryGui {
 					int i = this.guiLeft, j = this.guiTop;
 					this.drawTexturedModalRect(i, j, 0, 0, this.xSize + 16, this.ySize);
 					this.fontRenderer.drawString(data.getInventoryContainers().get(y).getPart().getName(), i + 7, j + 7, MapColor.SNOW.colorValue);
+					//
+					InventoryAttributeData invdata = data.getInventoryContainers().get(y).getAttributeData(InventoryAttributeData.class);
+					String curr = "&a" + ((z * 60) + 1) + "&c-&a" + ((z * 60 + 60) > invdata.getInventory().size() ? invdata.getInventory().size() : (z * 60 + 60));
+					this.fontRenderer.drawString(z + " (scr)", i + 171, j + 118, MapColor.SNOW.colorValue);
+					this.fontRenderer.drawString(Formatter.format(curr), i + 171, j + 146, MapColor.SNOW.colorValue);
+					this.fontRenderer.drawString(Formatter.format("&6" + invdata.getInventory().size() + " max"), i + 171, j + 160, MapColor.SNOW.colorValue);
 					break;
 				}
 				case 2:{
@@ -264,17 +272,37 @@ public class VehicleInventoryGui {
 	public static class Server extends Container {
 		
 		private int x, y, z;
+		private TempInventory temp = null;
+		private LandVehicleData data;
 		
 		public Server(EntityPlayer player, World world, int x, int y, int z){
 			this.x = x; this.y = y; this.z = z;
+			data = ((com.flansmod.fvtm.EntitySeat)player.getRidingEntity()).vehicle.data;
 			switch(x){
 				case 0:{
 					//do nothing
 					break;
 				}
 				case 1:{
-					//TODO
-					// add inventory stuff
+					temp = new TempInventory(data.getInventoryContainers().get(y));
+					for(int row = 0; row < 5; row++){
+						for(int col = 0; col < 12; col++){
+							int index = (col + row * 12) + (z * 60);
+							if(index >= temp.getSizeInventory()){
+								break;
+							}
+							addSlotToContainer(new Slot(temp, index, 6 + col * 18, 20 + row * 18));
+						}
+					}
+					//
+					for(int row = 0; row < 3; row++){
+						for(int col = 0; col < 9; col++){
+							addSlotToContainer(new Slot(player.inventory, col + row * 9 + 9, 6 + col * 18, 117 + row * 18));
+						}
+					}
+					for(int col = 0; col < 9; col++){
+						addSlotToContainer(new Slot(player.inventory, col, 6 + col * 18, 173));
+					}
 					break;
 				}
 				case 2:{

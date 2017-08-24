@@ -64,7 +64,7 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 			tooltip.add(Formatter.format("&9Selected Texture: &7" + veh.getSelectedTexture()));
 			tooltip.add(Formatter.format("&9Fuel Tank: &7" + RGB.format(veh.getFuelTankContent()) + "&8/&e" + veh.getFuelTankSize()));
 			tooltip.add(Formatter.format("&9Fuel Type: &7" + (veh.getPart("engine") == null ? "unknown / no engine" : veh.getPart("engine").getPart().getAttribute(EngineAttribute.class).getFuelType().getName())));
-			if(veh.getInstalledParts().size() > 0){
+			if(veh.getParts().size() > 0){
 				tooltip.add(Formatter.format("&3Installed Parts:"));
 				veh.getParts().forEach((key, data) -> {
 					tooltip.add(Formatter.format("&7- &3" + data.getPart().getName() + " &7(" + key + ")"));

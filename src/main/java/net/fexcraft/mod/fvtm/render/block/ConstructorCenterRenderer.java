@@ -3,7 +3,6 @@ package net.fexcraft.mod.fvtm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorCenterEntity;
 import net.fexcraft.mod.fvtm.model.block.ModelConstructorCenter;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
@@ -48,15 +47,12 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 				Minecraft.getMinecraft().renderEngine.bindTexture(vehicledata.getTexture());
 				GL11.glTranslated(0, (vehicledata.getVehicle().getYAxisConstructorOffset() * 0.0625f) - te.getLiftState(), 0);
 				modvec.render(vehicledata, null, te.getBlockMetadata());
-				if(vehicledata.getParts().size() > 0){
-					for(String key : vehicledata.getInstalledParts()){
-						PartData part = vehicledata.getParts().get(key);
-						Minecraft.getMinecraft().renderEngine.bindTexture(part.getTexture());
-						part.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translate();
-						part.getPart().getModel().render(vehicledata, key);
-						part.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translateR();
-					}
-				}
+				vehicledata.getParts().forEach((key, partdata) -> {
+					Minecraft.getMinecraft().renderEngine.bindTexture(partdata.getTexture());
+					partdata.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translate();
+					partdata.getPart().getModel().render(vehicledata, key);
+					partdata.getPart().getOffsetFor(vehicledata.getVehicle().getRegistryName()).translateR();
+				});
 				GL11.glTranslated(0, (vehicledata.getVehicle().getYAxisConstructorOffset() * -0.0625f) + te.getLiftState(), 0);
 				Minecraft.getMinecraft().renderEngine.bindTexture(model.getTexture());
 			}

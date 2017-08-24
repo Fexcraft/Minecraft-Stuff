@@ -105,8 +105,6 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public int getFuelTankSize();
 		
-		public Set<String> getInstalledParts();
-		
 		public Map<String, PartData> getParts();
 
 		public PartData getPart(String string);
