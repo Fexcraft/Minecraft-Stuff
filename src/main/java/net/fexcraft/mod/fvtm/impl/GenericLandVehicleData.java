@@ -346,7 +346,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		for(PartData data : parts.values()){
 			if(data.getAttributeData(FuelTankExtensionAttributeData.class) != null){
 				FuelTankExtensionAttributeData tank = data.getAttributeData(FuelTankExtensionAttributeData.class);
-				f = tank.consume(d);
+				f = tank.consume(d, data.getPart().getAttribute(FuelTankExtensionAttribute.class).getFuelTankSize());
 				if(f == 0){
 					return true;
 				}

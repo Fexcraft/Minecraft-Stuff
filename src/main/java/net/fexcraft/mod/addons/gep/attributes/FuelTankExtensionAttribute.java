@@ -93,14 +93,30 @@ public class FuelTankExtensionAttribute implements Attribute {
 			return content;
 		}
 		
-		public double consume(double d){
-			content -= d;
-			if(content < 0){
-				double f = content;
-				content = 0;
-				return -(f);
+		public double consume(double d, int tanksize){
+			if(d < 0){
+				d = -d;
+				if(content + d <= tanksize){
+					content += d;
+				}
+				else{
+					content += d;
+					return -(content - tanksize);
+				}
+			}
+			else{
+				content -= d;
+				if(content < 0){
+					double f = content;
+					content = 0;
+					return -(f);
+				}
 			}
 			return 0;
+		}
+
+		public void setContent(double amount){
+			content = amount;
 		}
 		
 	}

@@ -11,6 +11,7 @@ import net.fexcraft.mod.fvtm.api.Material.MaterialItem;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.util.common.Formatter;
+import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -61,7 +62,7 @@ public class GenericMaterialItem extends Item implements MaterialItem, FuelItem 
 			}
 			if(mat.isFuelContainer()){
 				tooltip.add(Formatter.format("&9Fuel Type: &7" + mat.getFuelType().getName()));
-				tooltip.add(Formatter.format("&9Fuel: &7" + stack.getTagCompound().getDouble("FuelContent") + "&6/&3" + mat.maxCapacity()));
+				tooltip.add(Formatter.format("&9Fuel: &7" + RGB.format(this.getContent(stack)) + "&6/&3" + mat.maxCapacity()));
 			}
 		}
     }
@@ -73,6 +74,9 @@ public class GenericMaterialItem extends Item implements MaterialItem, FuelItem 
         		ItemStack stack = new ItemStack(this);
         		NBTTagCompound nbt = new NBTTagCompound();
         		nbt.setString(NBTKEY, material.getRegistryName().toString());
+        		if(material.isFuelContainer()){
+        			nbt.setDouble("FuelContent", material.maxCapacity());
+        		}
         		stack.setTagCompound(nbt);
                 items.add(stack);
         	}

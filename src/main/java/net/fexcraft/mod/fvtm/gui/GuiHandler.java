@@ -1,7 +1,9 @@
 package net.fexcraft.mod.fvtm.gui;
 
+import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute.FuelTankExtensionAttributeData;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
+import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController;
 import net.fexcraft.mod.fvtm.blocks.ConstructorControllerEntity;
 import net.fexcraft.mod.fvtm.impl.GenericAddon;
@@ -13,6 +15,7 @@ import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -164,7 +167,7 @@ public class GuiHandler implements IGuiHandler {
 				return;
 			}
 			switch(packet.nbt.getString("cargo")){
-				case "addon_list":
+				case "addon_list":{
 					AddonManagerGui.addons.clear();
 					int size = packet.nbt.getInteger("Size");
 					for(int i = 0; i < size; i++){
@@ -173,12 +176,24 @@ public class GuiHandler implements IGuiHandler {
 						AddonManagerGui.addons.add(addon.fromNBT(nbt));
 					}
 					break;
-				case "addon_state_change_confirmation":
+				}
+				case "addon_state_change_confirmation":{
 					if(packet.nbt.hasKey("success") && packet.nbt.getBoolean("success")){
 						AddonManagerGui.addon.setEnabled(packet.nbt.getBoolean("enabled"));
 					}
 					Print.debug("C: " + packet.nbt);
 					break;
+				}
+				case "update_fuel_tanks":{
+					Print.debug(packet.nbt.toString());
+					LandVehicleData data = ((com.flansmod.fvtm.EntitySeat)((EntityPlayer)objs[0]).getRidingEntity()).vehicle.data;
+					NBTTagList list = (NBTTagList)packet.nbt.getTag("parts");
+					list.forEach((nbtbase) -> {
+						NBTTagCompound compound = (NBTTagCompound)nbtbase;
+						data.getPart(compound.getString("part")).getAttributeData(FuelTankExtensionAttributeData.class).setContent(compound.getDouble("amount"));
+					});
+					break;
+				}
 			}
 		}
 		

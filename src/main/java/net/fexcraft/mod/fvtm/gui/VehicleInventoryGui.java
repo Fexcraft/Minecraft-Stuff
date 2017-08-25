@@ -1,19 +1,30 @@
 package net.fexcraft.mod.fvtm.gui;
 
+import java.util.Map.Entry;
+
+import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute.FuelTankExtensionAttributeData;
+import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttributeData;
+import net.fexcraft.mod.fvtm.api.Fuel.FuelItem;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.GenericGuiButton;
+import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -30,6 +41,7 @@ public class VehicleInventoryGui {
 	
 	private static final ResourceLocation maintex = new ResourceLocation("fvtm:textures/guis/vehicle_inventory_main.png");
 	private static final ResourceLocation invtex = new ResourceLocation("fvtm:textures/guis/vehicle_inventory.png");
+	private static final ResourceLocation fueltex = new ResourceLocation("fvtm:textures/guis/vehicle_inventory_fuel.png");
 	
 	public static class Client extends GuiContainer {
 		
@@ -38,9 +50,10 @@ public class VehicleInventoryGui {
 		private GenericGuiButton arrowUp, arrowDown, fuel, info;
 		private GenericGuiButton[] parts;
 		private int scroll;
+		private static Server server;
 
 		public Client(EntityPlayer player, World world, int x, int y, int z){
-			super(new Server(player, world, x, y, z));
+			super(server = new Server(player, world, x, y, z));
 			this.x = x; this.y = y; this.z = z;
 			data = ((com.flansmod.fvtm.EntitySeat)player.getRidingEntity()).vehicle.data;
 			switch(x){
@@ -57,7 +70,8 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 2:{
-					//TODO
+					this.xSize = 210;
+					this.ySize = 126;
 					break;
 				}
 				case 3:{
@@ -66,6 +80,13 @@ public class VehicleInventoryGui {
 				}
 			}
 		}
+		
+		@Override
+		public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	        this.drawDefaultBackground();
+	        super.drawScreen(mouseX, mouseY, partialTicks);
+	        this.renderHoveredToolTip(mouseX, mouseY);
+	    }
 
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
@@ -91,7 +112,17 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 2:{
-					//TODO
+					this.mc.getTextureManager().bindTexture(fueltex);
+					int i = this.guiLeft, j = this.guiTop;
+					this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+					int perducenti = (int)(data.getFuelTankContent() / data.getFuelTankSize() * 200);
+					this.drawTexturedModalRect(i + 6, j + 25, 0, 242, perducenti, 14);
+					//
+					String fipc = server.hasFuel() ? server.getFuelPercent() + "" : " - - ";//fuel item per cent
+					this.fontRenderer.drawString(data.getVehicle().getName(), i + 7, j + 7, MapColor.SNOW.colorValue);
+					this.fontRenderer.drawString(Formatter.format("&a" + (perducenti / 2) + "%"), i + 171, j + 91, MapColor.SNOW.colorValue);
+					this.fontRenderer.drawString(Formatter.format("&6" + fipc + "%"), i + 171, j + 77, MapColor.SNOW.colorValue);
+					this.fontRenderer.drawString(RGB.format(data.getFuelTankContent()) + " / " + data.getFuelTankSize(), i + 9, j + 28, MapColor.SNOW.colorValue);
 					break;
 				}
 				case 3:{
@@ -267,15 +298,24 @@ public class VehicleInventoryGui {
 			
 		}
 		
+		@Override
+		public void onGuiClosed(){
+			//TODO
+		}
+		
 	}
 	
 	public static class Server extends Container {
 		
+		private EntityPlayer player;
 		private int x, y, z;
 		private TempInventory temp = null;
 		private LandVehicleData data;
+		//
+		FuelInventory fuelinv;
 		
 		public Server(EntityPlayer player, World world, int x, int y, int z){
+			this.player = player;
 			this.x = x; this.y = y; this.z = z;
 			data = ((com.flansmod.fvtm.EntitySeat)player.getRidingEntity()).vehicle.data;
 			switch(x){
@@ -306,7 +346,16 @@ public class VehicleInventoryGui {
 					break;
 				}
 				case 2:{
-					//TODO
+					addSlotToContainer(new FuelSlot(fuelinv = new FuelInventory(), 0, 179, 50, data));
+					//
+					for(int row = 0; row < 3; row++){
+						for(int col = 0; col < 9; col++){
+							addSlotToContainer(new Slot(player.inventory, col + row * 9 + 9, 6 + col * 18, 48 + row * 18));
+						}
+					}
+					for(int col = 0; col < 9; col++){
+						addSlotToContainer(new Slot(player.inventory, col, 6 + col * 18, 104));
+					}
 					break;
 				}
 				case 3:{
@@ -316,9 +365,77 @@ public class VehicleInventoryGui {
 			}
 		}
 
+		public boolean hasFuel(){
+			return fuelinv == null ? false : fuelinv.getStackInSlot(0).isEmpty() ? false : true;
+		}
+		
+		public int getFuelPercent(){
+			if(!hasFuel()){
+				return 0;
+			}
+			ItemStack stack = fuelinv.getStackInSlot(0);
+			FuelItem item = (FuelItem)stack.getItem();
+			return (int)(item.getContent(stack) / item.maxCapacity(stack) * 100);
+		}
+
 		@Override
 		public boolean canInteractWith(EntityPlayer player){
 			return true;
+		}
+		
+		@Override
+		public void onContainerClosed(EntityPlayer player){
+			super.onContainerClosed(player);
+			if(fuelinv != null){
+				fuelinv.closeInventory(player);
+			}
+		}
+		
+		private int sec = -1;
+		
+		@Override
+		public void detectAndSendChanges(){
+			super.detectAndSendChanges();
+			if(fuelinv != null && !fuelinv.isEmpty()){
+				if(sec != Time.getSecond()){
+					sec = Time.getSecond();
+					ItemStack stack = fuelinv.getStackInSlot(0);
+					FuelItem item = (FuelItem)stack.getItem();
+					int con = 2;//5//10
+					//
+					if(item.getContent(stack) > 0){
+						double d = item.getContent(stack) >= con ? con : item.getContent(stack);
+						if(data.getFuelTankContent() + d > data.getFuelTankSize()){
+							d = data.getFuelTankSize() - data.getFuelTankContent();
+							if(d > 0 && data.consumeFuel(-d)){
+								item.setContent(stack, item.getContent(stack) - d);
+							}
+						}
+						else{
+							if(data.consumeFuel(-d)){
+								item.setContent(stack, item.getContent(stack) - d);
+							}
+						}
+					}
+					if(!player.world.isRemote){
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setString("target_listener", "fvtm");
+						nbt.setString("cargo", "update_fuel_tanks");
+						NBTTagList list = new NBTTagList();
+						for(Entry<String, PartData> entry : data.getParts().entrySet()){
+							if(entry.getValue().getPart().getAttribute(FuelTankExtensionAttribute.class) == null){
+								continue;
+							}
+							NBTTagCompound compound = new NBTTagCompound();
+							compound.setString("part", entry.getKey());
+							compound.setDouble("amount", entry.getValue().getAttributeData(FuelTankExtensionAttributeData.class).getContent());
+							list.appendTag(compound);
+						}
+						nbt.setTag("parts", list);
+						PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), (EntityPlayerMP)player);
+					}
+				}
+			}
 		}
 		
 	}

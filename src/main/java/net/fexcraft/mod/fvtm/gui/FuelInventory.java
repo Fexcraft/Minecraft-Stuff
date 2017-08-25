@@ -1,26 +1,20 @@
 package net.fexcraft.mod.fvtm.gui;
 
-import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
-import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttributeData;
-import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-public class TempInventory implements IInventory {
+public class FuelInventory implements IInventory {
 	
-	private PartData partdata;
+	private NonNullList<ItemStack> fuelinv = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	
-	public TempInventory(PartData data){
-		this.partdata = data;
-	}
-
 	@Override
 	public String getName(){
-		return partdata.getPart().getRegistryName().toString();
+		return fuelinv.get(0).isEmpty() ? "Null;" : fuelinv.get(0).getDisplayName();
 	}
 
 	@Override
@@ -30,52 +24,52 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public ITextComponent getDisplayName(){
-		return new TextComponentString(partdata.getPart().getName());
+		return new TextComponentString(getName());
 	}
 
 	@Override
 	public int getSizeInventory(){
-		return partdata.getPart().getAttribute(InventoryAttribute.class).getSize();
+		return 1;
 	}
 
 	@Override
 	public boolean isEmpty(){
-		return partdata.getAttributeData(InventoryAttributeData.class).isEmpty();
+		return fuelinv.get(0).isEmpty();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int index){
-		return partdata.getAttributeData(InventoryAttributeData.class).getInventory().get(index);
+		return fuelinv.get(index);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count){
-		return !getStackInSlot(index).isEmpty() ? ItemStackHelper.getAndSplit(partdata.getAttributeData(InventoryAttributeData.class).getInventory(), index, count) : ItemStack.EMPTY;
+		return !getStackInSlot(index).isEmpty() ? ItemStackHelper.getAndSplit(fuelinv, index, count) : ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index){
-		return partdata.getAttributeData(InventoryAttributeData.class).getInventory().set(index, ItemStack.EMPTY);
+		return fuelinv.set(index, ItemStack.EMPTY);
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack){
-		partdata.getAttributeData(InventoryAttributeData.class).getInventory().set(index, stack);
+		fuelinv.set(index, stack);
 	}
 
 	@Override
 	public int getInventoryStackLimit(){
-		return 64;
+		return 1;
 	}
 
 	@Override
 	public void markDirty(){
-		// ?
+		//
 	}
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player){
-		return true;//TODO perm/lock check maybe?
+		return !player.isDead;
 	}
 
 	@Override
@@ -85,12 +79,12 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public void closeInventory(EntityPlayer player){
-		//
+		player.dropItem(fuelinv.get(0), false);
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack){
-		return partdata.getPart().getAttribute(InventoryAttribute.class).isItemValid(stack);
+		return true;
 	}
 
 	@Override
@@ -110,11 +104,7 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public void clear(){
-		partdata.getAttributeData(InventoryAttributeData.class).getInventory().clear();
-	}
-
-	public PartData getData(){
-		return this.partdata;
+		fuelinv.clear();
 	}
 	
 }

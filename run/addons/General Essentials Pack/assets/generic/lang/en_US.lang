@@ -13,6 +13,8 @@ item.generic:fuel_tank.name=Fuel Tank (C)
 item.generic:rubber.name=Rubber
 item.generic:steel_ingot.name=Steel Ingot
 item.generic:steel_plate.name=Steel Plate
+item.generic:diesel_canister.name=Diesel Canister
+item.generic:petroleum_canister.name=Petroleum Canister
 
 
 

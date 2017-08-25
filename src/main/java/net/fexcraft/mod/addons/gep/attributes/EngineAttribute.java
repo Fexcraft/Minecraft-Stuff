@@ -58,7 +58,7 @@ public class EngineAttribute implements Attribute {
 		tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
 		tooltip.add(Formatter.format("&9Speed: &7" + enginespeed));
 		tooltip.add(Formatter.format("&9Compsumption: &7" + fuelcompsumption));
-		tooltip.add(Formatter.format("&9Fuel: &7" + fueltype.getRegistryName().toString()));
+		tooltip.add(Formatter.format("&9Fuel: &7" + fueltype.getName()));
 	}
 
 	public float getFuelCompsumption(){
