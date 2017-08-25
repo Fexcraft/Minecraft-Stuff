@@ -3,8 +3,6 @@ package net.fexcraft.mod.fvtm.api;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
 import net.fexcraft.mod.fvtm.api.Part.PartData;

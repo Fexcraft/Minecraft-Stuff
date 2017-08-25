@@ -53,12 +53,12 @@ public class Resources {
 	
 	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
 	public static final IForgeRegistry<Addon> ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
+	public static final IForgeRegistry<Fuel> FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 	public static final IForgeRegistry<Material> MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
 	public static final IForgeRegistry<Part> PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
 	public static final IForgeRegistry<LandVehicle> LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
 	public static final TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
 	public static final IForgeRegistry<Attribute> PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
-	public static final IForgeRegistry<Fuel> FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
 	
@@ -116,8 +116,7 @@ public class Resources {
 		event.getRegistry().register(GenericPartItem.INSTANCE);
 		event.getRegistry().register(GenericLandVehicleItem.INSTANCE);
 		
-		if(Static.side().isClient()){
-		}
+		//
 	}
 	
 	@SubscribeEvent @SideOnly(Side.CLIENT)

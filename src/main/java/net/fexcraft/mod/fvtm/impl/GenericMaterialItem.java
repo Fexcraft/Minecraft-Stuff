@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.fexcraft.mod.fvtm.api.Fuel;
+import net.fexcraft.mod.fvtm.api.Fuel.FuelItem;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Material.MaterialItem;
 import net.fexcraft.mod.fvtm.util.Resources;
@@ -20,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GenericMaterialItem extends Item implements MaterialItem {
+public class GenericMaterialItem extends Item implements MaterialItem, FuelItem {
 	
 	public static final GenericMaterialItem INSTANCE = new GenericMaterialItem();
 	
@@ -57,6 +59,10 @@ public class GenericMaterialItem extends Item implements MaterialItem {
 			for(String s : mat.getDescription()){
 				tooltip.add(Formatter.format(s));
 			}
+			if(mat.isFuelContainer()){
+				tooltip.add(Formatter.format("&9Fuel Type: &7" + mat.getFuelType().getName()));
+				tooltip.add(Formatter.format("&9Fuel : &7" + stack.getTagCompound().getDouble("FuelContent") + "&6/&3" + mat.maxCapacity()));
+			}
 		}
     }
 	
@@ -87,6 +93,28 @@ public class GenericMaterialItem extends Item implements MaterialItem {
 			return Resources.MATERIALS.getValue(new ResourceLocation(stack.getTagCompound().getString(NBTKEY)));
 		}
 		return null;
+	}
+
+	@Override
+	public Fuel getFuel(ItemStack stack){
+		Material material = getMaterial(stack);
+		return material.getFuelType();
+	}
+
+	@Override
+	public double getContent(ItemStack stack){
+		return stack.getTagCompound().getDouble("FuelContent");
+	}
+
+	@Override
+	public void setContent(ItemStack stack, double amount) {
+		stack.getTagCompound().setDouble("FuelContent", amount);
+	}
+
+	@Override
+	public int maxCapacity(ItemStack stack){
+		Material material = getMaterial(stack);
+		return material.maxCapacity();
 	}
 	
 }

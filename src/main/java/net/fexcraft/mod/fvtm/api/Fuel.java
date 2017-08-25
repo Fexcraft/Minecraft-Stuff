@@ -14,4 +14,18 @@ public interface Fuel extends IForgeRegistryEntry<Fuel> {
 	
 	public boolean isValidFuelContainer(ItemStack stack);
 	
+	// Fuel - Item //
+	
+	public static interface FuelItem {
+		
+		public Fuel getFuel(ItemStack stack);
+		
+		public double getContent(ItemStack stack);
+		
+		public void setContent(ItemStack stack, double amount);
+		
+		public int maxCapacity(ItemStack stack);
+		
+	}
+	
 }

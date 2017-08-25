@@ -18,6 +18,12 @@ public interface Material extends IForgeRegistryEntry<Material> {
 	
 	public ItemStack getItemStack();
 	
+	public boolean isFuelContainer();
+	
+	public Fuel getFuelType();
+	
+	public int maxCapacity();
+	
 	//<--- ITEM --->//
 	public static interface MaterialItem {
 		
