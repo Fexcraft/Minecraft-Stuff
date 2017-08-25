@@ -5,6 +5,7 @@ import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttrib
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -39,7 +40,7 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public boolean isEmpty(){
-		return partdata.getAttributeData(InventoryAttributeData.class).getInventory().isEmpty();
+		return partdata.getAttributeData(InventoryAttributeData.class).isEmpty();
 	}
 
 	@Override
@@ -49,18 +50,16 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int index, int count){
-		ItemStack stack = getStackInSlot(index);
-		stack.shrink(count);
-		return stack;
+		return !getStackInSlot(index).isEmpty() ? ItemStackHelper.getAndSplit(partdata.getAttributeData(InventoryAttributeData.class).getInventory(), index, count) : ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index){
-		return partdata.getAttributeData(InventoryAttributeData.class).getInventory().remove(index);
+		return partdata.getAttributeData(InventoryAttributeData.class).getInventory().set(index, ItemStack.EMPTY);
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(int index, ItemStack stack){
 		partdata.getAttributeData(InventoryAttributeData.class).getInventory().set(index, stack);
 	}
 
@@ -91,12 +90,11 @@ public class TempInventory implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack){
-		return partdata.getPart().getAttribute(InventoryAttribute.class).isItemValidForSlot(index, stack);
+		return partdata.getPart().getAttribute(InventoryAttribute.class).isItemValid(stack);
 	}
 
 	@Override
 	public int getField(int id){
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -113,6 +111,10 @@ public class TempInventory implements IInventory {
 	@Override
 	public void clear(){
 		partdata.getAttributeData(InventoryAttributeData.class).getInventory().clear();
+	}
+
+	public PartData getData(){
+		return this.partdata;
 	}
 	
 }

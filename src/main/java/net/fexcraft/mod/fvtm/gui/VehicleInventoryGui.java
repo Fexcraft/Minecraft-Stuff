@@ -291,7 +291,7 @@ public class VehicleInventoryGui {
 							if(index >= temp.getSizeInventory()){
 								break;
 							}
-							addSlotToContainer(new Slot(temp, index, 6 + col * 18, 20 + row * 18));
+							addSlotToContainer(new TempInventorySlot(temp, index, 6 + col * 18, 20 + row * 18, temp.getData()));
 						}
 					}
 					//

@@ -1,5 +1,6 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
+import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttributeData;
 import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
@@ -290,15 +291,20 @@ public class ModelOT1LogTransportUpgrade extends PartModel {
 	@Override
 	public void render(LandVehicleData data, String us, Entity vehicle){
 		super.render(data, us, vehicle);
-		NonNullList<ItemStack> stacks = data.getAllInventoryContents();
+		NonNullList<ItemStack> stacks = data.getPart(us).getAttributeData(InventoryAttributeData.class).getInventory();
+		int j = 0;
 		for(int i = 0; i < cargo.length; i++){
 			if(i < stacks.size() && !stacks.get(i).isEmpty()){
-				cargo[i].render();
+				//cargo[i].render();
+				j++;
 				continue;
 			}
 			if(i >= stacks.size()){
-				return;//break;
+				break;
 			}
+		}
+		for(int i = 0; i < j; i++){
+			cargo[i].render();
 		}
 	}
 	

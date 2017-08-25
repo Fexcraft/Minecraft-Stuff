@@ -36,6 +36,9 @@
             {
                 "id": "minecraft:stone",
                 "meta": 5
+            },
+            {
+                "id": "minecraft:cobblestone"
             }
         ]
     }
