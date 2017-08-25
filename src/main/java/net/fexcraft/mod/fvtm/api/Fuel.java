@@ -12,7 +12,13 @@ public interface Fuel extends IForgeRegistryEntry<Fuel> {
 	
 	public String getName();
 	
-	public boolean isValidFuelContainer(ItemStack stack);
+	public default boolean isValidFuelContainer(ItemStack stack){
+		if(stack.getItem() instanceof FuelItem){
+			FuelItem item = (FuelItem)stack.getItem();
+			return item.getFuel(stack) == this;
+		}
+		return false;
+	}
 	
 	// Fuel - Item //
 	

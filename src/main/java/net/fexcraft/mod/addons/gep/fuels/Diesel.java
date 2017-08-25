@@ -25,7 +25,10 @@ public class Diesel implements Fuel {
 
 	@Override
 	public boolean isValidFuelContainer(ItemStack stack){
-		//TODO
+		if(stack.getItem() instanceof FuelItem){
+			FuelItem item = (FuelItem)stack.getItem();
+			return item.getFuel(stack) == this;
+		}
 		return false;
 	}
 	

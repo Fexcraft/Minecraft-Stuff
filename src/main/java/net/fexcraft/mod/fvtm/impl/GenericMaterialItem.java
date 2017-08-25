@@ -61,7 +61,7 @@ public class GenericMaterialItem extends Item implements MaterialItem, FuelItem 
 			}
 			if(mat.isFuelContainer()){
 				tooltip.add(Formatter.format("&9Fuel Type: &7" + mat.getFuelType().getName()));
-				tooltip.add(Formatter.format("&9Fuel : &7" + stack.getTagCompound().getDouble("FuelContent") + "&6/&3" + mat.maxCapacity()));
+				tooltip.add(Formatter.format("&9Fuel: &7" + stack.getTagCompound().getDouble("FuelContent") + "&6/&3" + mat.maxCapacity()));
 			}
 		}
     }

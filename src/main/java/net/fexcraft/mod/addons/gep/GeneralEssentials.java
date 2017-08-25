@@ -19,6 +19,14 @@ public class GeneralEssentials extends HybridAddon {
 	}
 
 	@Override
+	public void regFuels(Register<Fuel> event){
+		event.getRegistry().registerAll(
+			new Gasoline(),
+			new Diesel()
+		);
+	}
+
+	@Override
 	public void regMaterials(Register<Material> event){
 		//
 	}
@@ -41,14 +49,6 @@ public class GeneralEssentials extends HybridAddon {
 	@Override
 	public void regLandVehicles(Register<LandVehicle> event){
 		//
-	}
-
-	@Override
-	public void regFuels(Register<Fuel> event){
-		event.getRegistry().registerAll(
-			new Gasoline(),
-			new Diesel()
-		);
 	}
 
 	@Override

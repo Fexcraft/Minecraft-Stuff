@@ -16,6 +16,8 @@ public abstract class HybridAddon extends GenericAddon {
 		super(file);
 		hybrid = true;
 	}
+
+	public abstract void regFuels(Register<Fuel> event);
 	
 	public abstract void regMaterials(RegistryEvent.Register<Material> event);
 
@@ -24,8 +26,6 @@ public abstract class HybridAddon extends GenericAddon {
 	public abstract void regParts(RegistryEvent.Register<Part> event);
 	
 	public abstract void regLandVehicles(RegistryEvent.Register<LandVehicle> event);
-
-	public abstract void regFuels(Register<Fuel> event);
 	
 	/** Set `true` if you want to skip default JSON config search and parsing for this addon. */
 	public abstract boolean skipDefaultRegistryMethods();
