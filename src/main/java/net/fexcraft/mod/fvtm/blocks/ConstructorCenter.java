@@ -3,7 +3,6 @@ package net.fexcraft.mod.fvtm.blocks;
 import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.api.block.fBlock;
-import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.block.BlockContainer;
@@ -14,8 +13,6 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -38,8 +35,6 @@ public class ConstructorCenter extends BlockContainer {
     	this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setCreativeTab(Tabs.BLOCKS);
 		INSTANCE = this;
-		
-		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 1), new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Blocks.PLANKS, 4), new ItemStack(Items.STICK, 4), new ItemStack(Blocks.LOG, 2));
 	}
 
 	@Override

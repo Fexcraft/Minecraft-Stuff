@@ -18,6 +18,7 @@ import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.model.part.NullModel;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
+import net.fexcraft.mod.fvtm.util.RecipeObject;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -104,7 +105,17 @@ public class GenericPart implements Part {
 		//
 		ArrayList<Class> arrc = JsonUtil.jsonArrayToClassArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
 		this.scripts.addAll((Collection<? extends Class<? extends LandVehicleScript>>)arrc);
-		
+		//
+		if(obj.has("Recipes")){
+			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
+				try{
+					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(this.getClass()).newInstance(this)), elm.getAsJsonObject(), "FVTM:Parts");
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			});
+		}
 	}
 
 	@Override

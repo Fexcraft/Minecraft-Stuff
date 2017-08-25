@@ -19,10 +19,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GenericAddon implements Addon {
+	
+	public static final String NONE = "###EXIT###";
 
 	private ResourceLocation registryname;
 	private File file;
-	private String name, version, website, license, fileaddr;
+	private String name, version, website, license, fileaddr, updateid;
 	private List<ResourceLocation> dependencies;
 	private List<UUID> authors;
 	private boolean enabled, missingdeps;
@@ -49,6 +51,7 @@ public class GenericAddon implements Addon {
 		this.website = JsonUtil.getIfExists(obj, "url", "no url provided by pack author");
 		this.license = JsonUtil.getIfExists(obj, "license", "no license url provided by pack author");
 		this.version = JsonUtil.getIfExists(obj, "version", "1.0");
+		this.updateid = JsonUtil.getIfExists(obj, "updateid", NONE);
 	}
 	
 	@Override
@@ -74,7 +77,7 @@ public class GenericAddon implements Addon {
 
 	@Override
 	public String getVersion(){
-		return "version";
+		return version;
 	}
 
 	@Override
@@ -139,6 +142,7 @@ public class GenericAddon implements Addon {
 		addon.missingdeps = nbt.getBoolean("missing_dependencies");
 		addon.fileaddr = nbt.getString("file");
 		addon.version = nbt.getString("version");
+		addon.updateid = nbt.getString("updateid");
 		return addon;
 	}
 	
@@ -154,6 +158,7 @@ public class GenericAddon implements Addon {
 		nbt.setBoolean("missing_depencencies", missingdeps);
 		nbt.setString("file", fileaddr == null ? file.toString() : fileaddr);
 		nbt.setString("version", version);
+		nbt.setString("updateid", updateid);
 		return nbt;
 	}
 
@@ -170,6 +175,11 @@ public class GenericAddon implements Addon {
 	public static Class<Addon> getClass(File file) throws ClassNotFoundException{
 		JsonObject obj = file.isDirectory() ? JsonUtil.get(new File(file, Resources.DEFPACKCFGFILENAME)) : ZipUtil.getJsonObject(file, Resources.DEFPACKCFGFILENAME);
 		return (Class<Addon>)Class.forName(obj.get("class").getAsString());
+	}
+
+	@Override
+	public String getUpdateId(){
+		return this.updateid;
 	}
 	
 }

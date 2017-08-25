@@ -1,13 +1,21 @@
 package net.fexcraft.mod.fvtm;
 
+import net.fexcraft.mod.fvtm.blocks.ConstructorCenter;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController;
 import net.fexcraft.mod.fvtm.gui.GuiHandler;
 import net.fexcraft.mod.fvtm.util.Command;
+import net.fexcraft.mod.fvtm.util.FvtmUpdateHandler;
+import net.fexcraft.mod.fvtm.util.RecipeObject;
 import net.fexcraft.mod.fvtm.util.Resources;
+import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.network.PacketHandler;
+import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil.AutoRegisterer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -50,11 +58,20 @@ public class FVTM {
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 		PacketHandler.registerListener(PacketHandlerType.NBT, Side.SERVER, new GuiHandler.SReceiver());
 		PacketHandler.registerListener(PacketHandlerType.NBT, Side.CLIENT, new GuiHandler.CReceiver());
+		//
+		RecipeObject.registerRecipes();
+		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(ConstructorController.INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 2), new ItemStack(Items.REDSTONE, 8), new ItemStack(Items.GOLD_INGOT, 3));
+		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(ConstructorCenter.INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 1), new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Blocks.PLANKS, 4), new ItemStack(Items.STICK, 4), new ItemStack(Blocks.LOG, 2));
 	}
 	
 	@Mod.EventHandler
 	public void initPost(FMLPostInitializationEvent event){
-				
+		SimpleUpdateHandler.register("fvm", 1, VERSION);
+		SimpleUpdateHandler.setUpdateMessage("fvm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvm") + ")&7");
+		FvtmUpdateHandler.load();
+		FvtmUpdateHandler.register();
+		//check if addons have updates
+		RESOURCES.checkForUpdates();
 	}
 	
 	@Mod.EventHandler

@@ -6,6 +6,7 @@ import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Fuel;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.util.DataUtil;
+import net.fexcraft.mod.fvtm.util.RecipeObject;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,16 @@ public class GenericMaterial implements Material {
 		if(this.isFuelContainer){
 			this.fueltype = Resources.FUELS.getValue(new ResourceLocation(JsonUtil.getIfExists(obj, "FuelType", "minecraft:stone")));
 			this.maxcapacity = JsonUtil.getIfExists(obj, "MaxCapacity", 100).intValue();
+		}
+		if(obj.has("Recipes")){
+			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
+				try{
+					RecipeObject.parse(this.getItemStack(), elm.getAsJsonObject(), "FVTM:Materials");
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 

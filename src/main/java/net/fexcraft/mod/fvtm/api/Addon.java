@@ -25,6 +25,8 @@ public interface Addon extends IForgeRegistryEntry<Addon> {
 	
 	public String getLicense();
 	
+	public String getUpdateId();
+	
 	/** Internal use. */
 	public default String getFileAddress(){
 		return null;

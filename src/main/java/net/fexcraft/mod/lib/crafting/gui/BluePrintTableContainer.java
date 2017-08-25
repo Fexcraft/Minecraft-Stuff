@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
 public class BluePrintTableContainer extends Container {
@@ -107,7 +108,8 @@ public class BluePrintTableContainer extends Container {
 		}
 
 		private boolean areItemStacksEqual(ItemStack stack, ItemStack itemStack){
-			return stack.getItem() != itemStack.getItem() ? false : stack.getCount() > itemStack.getCount() ? false : stack.getItemDamage() != itemStack.getItemDamage() ? false : true;
+			boolean b = stack.getItem() != itemStack.getItem() ? false : stack.getCount() > itemStack.getCount() ? false : stack.getItemDamage() != itemStack.getItemDamage() ? false : true;
+			return !b ? false : stack.hasTagCompound() ? stack.getTagCompound().equals(itemStack.hasTagCompound() ? itemStack.getTagCompound() : new NBTTagCompound()): true;
 		}
 		
 	}

@@ -3,6 +3,7 @@ package net.fexcraft.mod.fvtm.util;
 import java.io.File;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -30,6 +31,7 @@ import net.fexcraft.mod.fvtm.impl.GenericPart;
 import net.fexcraft.mod.fvtm.impl.GenericPartItem;
 import net.fexcraft.mod.fvtm.impl.HybridAddon;
 import net.fexcraft.mod.lib.FCL;
+import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.common.ZipUtil;
@@ -44,6 +46,7 @@ import net.minecraftforge.fml.common.MetadataCollection;
 import net.minecraftforge.fml.common.discovery.ContainerType;
 import net.minecraftforge.fml.common.discovery.ModCandidate;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -430,6 +433,60 @@ public class Resources {
 			}
 		}
 		return null;
+	}
+	
+	// UPDATE CHECKS //
+	
+	private TreeMap<ResourceLocation, String> updatelist = new TreeMap<ResourceLocation, String>();
+
+	public void checkForUpdates(){
+		ADDONS.forEach((addon) -> {
+			String str = addon.getUpdateId();
+			if(str != null && !str.equals("") && !str.equals(GenericAddon.NONE)){
+				JsonObject obj = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=exists&modid=" + str);
+				if(obj != null && obj.has("exists") && obj.get("exists").getAsBoolean()){
+					obj = Network.getModData(str);
+					if(obj != null && obj.has("versions")){
+						JsonArray array = obj.get("versions").getAsJsonArray();
+						array.forEach((elm) -> {
+							JsonObject jsn = elm.getAsJsonObject();
+							if(jsn.get("version").getAsString().equals(FCL.mcv)){
+								String lv = jsn.get("latest_version").getAsString();
+								if(!lv.equals(addon.getVersion())){
+									//updatelist.add(addon.getRegistryName().toString() + ":" + lv);
+									//actually, let's also check the FVTM version
+									//might get removed tho ^ :thinking:
+									boolean proceed = true;
+									if(jsn.has("fvtm_version")){
+										proceed = jsn.get("fvtm_version").getAsString().equals(FVTM.VERSION);
+									}
+									if(proceed){
+										updatelist.put(addon.getRegistryName(), lv);
+									}
+								}
+							}
+						});
+					}
+				}
+				else{
+					Print.debug("NEGATIVE RESPONSE FOR '" + str + "' >>:>> " + (obj == null ? "null" : obj));
+				}
+			}
+		});
+	}
+	
+	@SubscribeEvent
+	public void onJoin(PlayerEvent.PlayerLoggedInEvent event){
+		if(event.player.world.isRemote){
+			return;
+		}
+		for(Entry<ResourceLocation, String> entry : updatelist.entrySet()){
+			Addon addon = ADDONS.getValue(entry.getKey());
+			Print.chat(event.player, "&0[&9FVTM&0]&7 Update for Addon &8'&3" + addon.getName() + "&8'&7 found!");
+			Print.chat(event.player, "&0[&9FVTM&0]&7 Installed Version: &3" + addon.getVersion());
+			Print.chat(event.player, "&0[&9FVTM&0]&7 Latest Version: &3" + entry.getValue());
+			Print.link(event.player, "&0[&9FVTM&0]&7 Download ?: &3&o&lCLICK", addon.getURL());
+		}
 	}
 	
 }

@@ -2,10 +2,12 @@
   "id": "fvtm:generic",
   "name": "General Essentials Pack",
   "url": "http://fexcraft.net/",
+  "updateid": "addon_gep",
   "license": "https://fexcraft.net/license?id=mods",
   "dependencies": [],
   "authors": [
     "01e4af9b-2a30-471e-addf-f6338ffce04b"
   ],
-  "class": "net.fexcraft.mod.addons.gep.GeneralEssentials"
+  "class": "net.fexcraft.mod.addons.gep.GeneralEssentials",
+  "version": "1.0-pre"
 }

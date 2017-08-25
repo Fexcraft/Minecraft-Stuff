@@ -15,6 +15,7 @@ import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.model.vehicle.EmptyVehicleModel;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
+import net.fexcraft.mod.fvtm.util.RecipeObject;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -91,6 +92,16 @@ public class GenericLandVehicle implements LandVehicle {
 		this.turnrightmod = JsonUtil.getIfExists(obj, "FM-TurnRightModifier", 1f).floatValue();
 		this.wheelspringstrength = JsonUtil.getIfExists(obj, "FM-WheelSpringStrength", 0.25f).floatValue();
 		this.wheelstepheight = JsonUtil.getIfExists(obj, "FM-WheelStepHeight", 1f).floatValue();
+		if(obj.has("Recipes")){
+			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
+				try{
+					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(this.getClass()).newInstance(this)), elm.getAsJsonObject(), "FVTM:Vehicles");
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			});
+		}
 	}
 
 	@Override

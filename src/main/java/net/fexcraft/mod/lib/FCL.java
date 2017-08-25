@@ -27,8 +27,8 @@ import net.minecraftforge.fml.relauncher.Side;
  * 
  * @author Ferdinand Calo' (FEX___96)
  * 
- * @description This Library is currently part of FRSM,
- * if you got it from anywhere else then Fexcraft.net or another official download site,
+ * @description This Library is usually delivered as a separate jar,
+ * if you got it from anywhere else then Fexcraft.net or another <i>official</i> download site,
  * consider deleting it instantly for security reasons!
  * 
  */

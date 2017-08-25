@@ -6,7 +6,6 @@ import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.api.item.PaintItem;
-import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.minecraft.block.BlockContainer;
@@ -19,8 +18,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -49,7 +46,6 @@ public class ConstructorController extends BlockContainer {
 		FVTM.getRegisterer().addBlock("landvehicle_constructor_controller", this, null, 1, null);
 		GameRegistry.registerTileEntity(ConstructorControllerEntity.Server.class, this.getRegistryName().toString() + "_server");
 		GameRegistry.registerTileEntity(ConstructorControllerEntity.Client.class, this.getRegistryName().toString() + "_client");
-		RecipeRegistry.addBluePrintRecipe("FVTM:Blocks", new ItemStack(INSTANCE, 1, 0), new ItemStack(Blocks.IRON_BLOCK, 2), new ItemStack(Items.REDSTONE, 8), new ItemStack(Items.GOLD_INGOT, 3));
 	}
 
 	@Override
