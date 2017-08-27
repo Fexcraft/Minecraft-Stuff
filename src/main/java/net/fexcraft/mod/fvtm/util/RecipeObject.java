@@ -1,10 +1,12 @@
 package net.fexcraft.mod.fvtm.util;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
@@ -14,6 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class RecipeObject {
@@ -31,8 +35,39 @@ public class RecipeObject {
 	private int[] amount, meta;
 	private String category;
 	private NBTTagCompound[] compounds;
+	//
+	private static final TreeMap<String, Boolean> mods = new TreeMap<String, Boolean>();
 	
 	public static void parse(ItemStack stack, JsonObject obj, @Nullable String category) throws Exception {
+		if(obj.has("Mods")){
+			for(JsonElement elm : obj.get("Mods").getAsJsonArray()){
+				String string = elm.getAsString();
+				if(mods.containsKey(string)){
+					if(mods.get(string)){
+						//continue
+					}
+					else {
+						return;
+					}
+				}
+				boolean bool = Loader.isModLoaded(string);
+				mods.put(string, bool);
+				if(!bool){
+					return;
+				}
+			}
+		}
+		if(obj.has("Addons")){
+			for(JsonElement elm : obj.get("Addons").getAsJsonArray()){
+				String string = elm.getAsString();
+				if(Resources.ADDONS.containsKey(new ResourceLocation(string))){
+					//continue
+				}
+				else{
+					return;
+				}
+			}
+		}
 		RecipeObject rcp = new RecipeObject();
 		rcp.stack = stack;
 		rcp.type = Type.fromString(obj.get("Type").getAsString());
