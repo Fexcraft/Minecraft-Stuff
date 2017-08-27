@@ -22,5 +22,17 @@
                 "fvp:t1_dc2"
             ]
         }
+    ],
+     "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 12
+                }
+            ],
+            "Output": 1
+        }
     ]
 }

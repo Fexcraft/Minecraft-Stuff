@@ -19,5 +19,25 @@
             "Vehicle": "fvp:t1",
             "x": 0, "y": 0, "z": 0
         }
+    ],
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 1
+                },
+                {
+                    "Item": "minecraft:redstone",
+                    "Amount": 1
+                },
+                {
+                    "Item": "minecraft:gold_nugget",
+                    "Amount": 1
+                }
+            ],
+            "Output": 1
+        }
     ]
 }

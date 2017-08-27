@@ -95,10 +95,11 @@ public class GenericLandVehicle implements LandVehicle {
 		if(obj.has("Recipes")){
 			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
 				try{
-					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(this.getClass()).newInstance(this)), elm.getAsJsonObject(), "FVTM:Vehicles");
+					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(LandVehicle.class).newInstance(this)), elm.getAsJsonObject(), "FVTM:Vehicles");
 				}
 				catch(Exception e){
 					e.printStackTrace();
+					Static.stop();
 				}
 			});
 		}

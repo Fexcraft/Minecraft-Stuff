@@ -39,5 +39,17 @@
     "FM-MaxPositiveThrottle": 2.5,
     "FM-MaxNegativeThrottle": 1.2,
     "FM-TurnLeftModifier": 1.56,
-    "FM-TurnRightModifier": 1.56
+    "FM-TurnRightModifier": 1.56,
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_block",
+                    "Amount": 4
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

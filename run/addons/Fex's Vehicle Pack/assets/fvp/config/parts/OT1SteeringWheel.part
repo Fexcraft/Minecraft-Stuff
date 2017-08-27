@@ -41,5 +41,25 @@
                 "frequency": 8
             }
         ] 
-    }
+    },
+     "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "minecraft:leather",
+                    "Amount": 4
+                },
+                {
+                    "Item": "minecraft:redstone",
+                    "Amount": 2
+                },
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 3
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

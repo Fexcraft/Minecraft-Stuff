@@ -13,13 +13,6 @@
                 {
                     "Item": "minecraft:dye",
                     "Amount": 1
-                },
-                {
-                    "Item": "fvtm:material",
-                    "Amount": 5,
-                    "NBTTagCompound":{
-                        "FVTM:Material": "generic:rubber"
-                    }
                 }
             ],
             "Output": 2

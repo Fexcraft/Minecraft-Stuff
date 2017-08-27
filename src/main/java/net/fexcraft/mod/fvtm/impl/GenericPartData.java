@@ -47,15 +47,18 @@ public class GenericPartData implements PartData {
 		tagcompound.setString(PartItem.NBTKEY, part.getRegistryName().toString());
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
-		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
+		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom == null ? "minecraft:stone" : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
 		part.getAttributeClasses().forEach((clazz) -> {
 			Attribute attr = part.getAttribute(clazz);
 			if(attr.hasDataClass()){
-				this.attributes.get(attr.getDataClass()).writeToNBT(this, compound);
+				AttributeData data = this.attributes.get(attr.getDataClass());
+				if(data != null){
+					data.writeToNBT(this, compound);
+				}
 			}
 		});
-		tagcompound.setTag(FVTM.MODID + "_part", offset.toNBT("Offset", compound));
+		tagcompound.setTag(FVTM.MODID + "_part", offset == null ? compound : offset.toNBT("Offset", compound));
 		return tagcompound;
 	}
 

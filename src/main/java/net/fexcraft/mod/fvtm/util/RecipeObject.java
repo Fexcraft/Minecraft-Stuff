@@ -51,7 +51,7 @@ public class RecipeObject {
 					JsonObject jsn = array.get(i).getAsJsonObject();
 					rcp.components[i] = JsonUtil.getIfExists(jsn, "Item", "minecraft:stone");
 					rcp.amount[i] = JsonUtil.getIfExists(jsn, "Amount", 1).intValue();
-					rcp.meta[i] = JsonUtil.getIfExists(obj, "Meta", 0).intValue();
+					rcp.meta[i] = JsonUtil.getIfExists(jsn, "Meta", -1).intValue();
 					rcp.compounds[i] = jsn.has("NBTTagCompound") ? JsonToNBT.getTagFromJson(jsn.get("NBTTagCompound").getAsJsonObject().toString()) : null;
 				}
 				break;
@@ -99,7 +99,7 @@ public class RecipeObject {
 								stacks[i].setTagCompound(obj.compounds[i]);
 							}
 						}
-						RecipeRegistry.addBluePrintRecipe(obj.category == null ? "FVM Categoryless Recipes" : obj.category, obj.stack, stacks);
+						RecipeRegistry.addBluePrintRecipe(obj.category == null ? "FVTM Categoryless Recipes" : obj.category, obj.stack, stacks);
 						break;
 					}
 					case SMELTING:{

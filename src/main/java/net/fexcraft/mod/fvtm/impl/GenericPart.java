@@ -109,10 +109,11 @@ public class GenericPart implements Part {
 		if(obj.has("Recipes")){
 			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
 				try{
-					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(this.getClass()).newInstance(this)), elm.getAsJsonObject(), "FVTM:Parts");
+					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(Part.class).newInstance(this)), elm.getAsJsonObject(), "FVTM:Parts");
 				}
 				catch(Exception e){
 					e.printStackTrace();
+					Static.stop();
 				}
 			});
 		}

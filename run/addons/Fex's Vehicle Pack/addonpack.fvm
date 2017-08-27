@@ -2,9 +2,11 @@
   "id": "fvtm:fvp",
   "name": "Fex's Vehicle Pack",
   "url": "http://fexcraft.net/",
+  "updateid": "addon_fvp",
   "license": "https://fexcraft.net/license?id=mods",
-  "dependencies": ["fvm:generic"],
+  "dependencies": ["fvtm:generic"],
   "authors": [
     "01e4af9b-2a30-471e-addf-f6338ffce04b"
-  ]
+  ],
+  "version": "1.32-pre"
 }

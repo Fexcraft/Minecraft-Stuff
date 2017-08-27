@@ -19,6 +19,25 @@
             { "x": 33, "y": 12, "z":  6 },
             { "x": 33, "y": 12, "z": 14 }
         ]    
-    }
-    
+    },
+     "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "minecraft:leather",
+                    "Amount": 6
+                },
+                {
+                    "Item": "minecraft:sponge",
+                    "Amount": 2
+                },
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 4
+                }
+            ],
+            "Output": 1
+        }
+    ]
 }

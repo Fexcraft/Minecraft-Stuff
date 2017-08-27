@@ -69,7 +69,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		tagcompound.setString(LandVehicleItem.NBTKEY, vehicle.getRegistryName().toString());
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
-		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom.toString());
+		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom == null ? "minecraft:stone" : custom.toString());
 		compound.setBoolean("IsTextureExternal", isexternal);
 		//compound.setDouble("FuelTank", tank);
 		if(parts.size() > 0){
@@ -101,7 +101,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		compound.setBoolean("DoorsOpen", doors);
 		//FM
 		compound.setBoolean("Locked", locked);
-		compound.setString("LockCode", lockcode);
+		compound.setString("LockCode", lockcode == null ? KeyItem.getNewKeyCode() : lockcode);
 		compound.setInteger("SpawnedKeys", keys);
 		//
 		scripts.forEach((clazz, script) -> {
