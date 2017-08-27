@@ -67,7 +67,7 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public Class<? extends PartData> getDataClass();
 	
-	public Collection<Class<? extends LandVehicleScript>> getScripts();
+	public List<Class<? extends LandVehicleScript>> getScripts();
 	
 	//<-- PART DATA -->//
 	public static interface PartData {

@@ -103,8 +103,17 @@ public class GenericPart implements Part {
 			}
 		}
 		//
-		ArrayList<Class> arrc = JsonUtil.jsonArrayToClassArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
-		this.scripts.addAll((Collection<? extends Class<? extends LandVehicleScript>>)arrc);
+		ArrayList<Class<? extends LandVehicleScript>> list = new ArrayList<Class<? extends LandVehicleScript>>();
+		ArrayList<String> json = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
+		for(String string : json){
+			try{
+				list.add((Class<? extends LandVehicleScript>)Class.forName(string.replace(".class", "")));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		this.scripts.addAll(list);
 		//
 		if(obj.has("Recipes")){
 			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
@@ -251,7 +260,7 @@ public class GenericPart implements Part {
 	}
 
 	@Override
-	public Collection<Class<? extends LandVehicleScript>> getScripts(){
+	public List<Class<? extends LandVehicleScript>> getScripts(){
 		return this.scripts;
 	}
 	

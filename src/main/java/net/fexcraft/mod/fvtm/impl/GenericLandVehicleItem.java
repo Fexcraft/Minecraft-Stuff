@@ -14,11 +14,19 @@ import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -50,7 +58,7 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
 			LandVehicleData veh = Resources.getLandVehicleData(stack.getTagCompound(), worldIn == null ? false/*true?*/ : worldIn.isRemote);
 			if(veh == null){
@@ -79,28 +87,28 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 			}
 			tooltip.add(Formatter.format("&9Ready to Spawn: " + (veh.readyToSpawn() ? "&ayes" : "&cno")));
 		}
-    }
+	}
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
-        if(this.isInCreativeTab(tab)){
-        	for(LandVehicle veh : Resources.LANDVEHICLES.getValues()){
-        		ItemStack stack = new ItemStack(this);
-        		NBTTagCompound nbt = new NBTTagCompound();
-        		nbt.setString(NBTKEY, veh.getRegistryName().toString());
-        		stack.setTagCompound(nbt);
-                items.add(stack);
-        	}
-        }
-    }
+		if(this.isInCreativeTab(tab)){
+			for(LandVehicle veh : Resources.LANDVEHICLES.getValues()){
+				ItemStack stack = new ItemStack(this);
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString(NBTKEY, veh.getRegistryName().toString());
+				stack.setTagCompound(nbt);
+				items.add(stack);
+			}
+		}
+	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack){
 		if(stack.hasTagCompound()){
 			return "item." + stack.getTagCompound().getString(NBTKEY);
 		}
-        return this.getUnlocalizedName();
-    }
+		return this.getUnlocalizedName();
+	}
 
 	@Override
 	public LandVehicleData getLandVehicle(ItemStack stack){
@@ -108,6 +116,34 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 			return Resources.getLandVehicleData(stack.getTagCompound(), false);
 		}
 		return null;
+	}
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
+		//Raytracing
+		float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
+		float sinYaw = MathHelper.sin(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
+		float cosPitch = -MathHelper.cos(-entityplayer.rotationPitch * 0.01745329F);
+		float sinPitch = MathHelper.sin(-entityplayer.rotationPitch * 0.01745329F);
+		double length = 5D;
+		Vec3d posVec = new Vec3d(entityplayer.posX, entityplayer.posY + 1.62D - entityplayer.getYOffset(), entityplayer.posZ);		
+		Vec3d lookVec = posVec.addVector(sinYaw * cosPitch * length, sinPitch * length, cosYaw * cosPitch * length);
+		RayTraceResult movingobjectposition = world.rayTraceBlocks(posVec, lookVec, true);
+		
+		//Result check
+		if(movingobjectposition == null){
+			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItem(hand));
+		}
+		if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK){
+			BlockPos pos = movingobjectposition.getBlockPos();
+			if(!world.isRemote){
+				world.spawnEntity(new com.flansmod.fvtm.LandVehicle(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, this.getLandVehicle(entityplayer.getHeldItem(hand))));
+			}
+			if(!entityplayer.capabilities.isCreativeMode){
+				entityplayer.getHeldItem(hand).shrink(1);
+			}
+		}
+		return new ActionResult(EnumActionResult.SUCCESS, entityplayer.getHeldItemMainhand());
 	}
 	
 }
