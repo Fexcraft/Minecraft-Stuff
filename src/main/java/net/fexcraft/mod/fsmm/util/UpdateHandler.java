@@ -54,18 +54,27 @@ public class UpdateHandler {
 			data.addProperty("type", "error.could.not.connect.to.server;\nNo Internet?");
 		}
 		else{
-			boolean found = false;
-			for(JsonElement elm : json.get("versions").getAsJsonArray()){
-				if(elm.getAsJsonObject().get("version").getAsString().equals(FCL.mcv)){
-					data = elm.getAsJsonObject();
-					found = true; break;
+			try{
+				boolean found = false;
+				for(JsonElement elm : json.get("versions").getAsJsonArray()){
+					if(elm.getAsJsonObject().get("version").getAsString().equals(FCL.mcv)){
+						data = elm.getAsJsonObject();
+						found = true; break;
+					}
+				}
+				if(!found){
+					data = new JsonObject();
+					data.addProperty("latest_version", FI.VERSION);
+					data.addProperty("latest_mc_version", FCL.mcv);
+					data.addProperty("type", "mc.version.not.found;");
 				}
 			}
-			if(!found){
+			catch(Exception e){
+				e.printStackTrace();
 				data = new JsonObject();
 				data.addProperty("latest_version", FI.VERSION);
 				data.addProperty("latest_mc_version", FCL.mcv);
-				data.addProperty("type", "mc.version.not.found;");
+				data.addProperty("type", "error.check.console");
 			}
 		}
 	}

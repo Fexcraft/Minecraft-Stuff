@@ -52,7 +52,7 @@ public class BluePrintTable extends Block {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(!world.isRemote){
 			if(!player.isSneaking()){
-				player.openGui(FCL.getInstance(), 1, world, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(FCL.getInstance(), 1, world, 0, 0, 0);
 				player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
 				return true;
 			}

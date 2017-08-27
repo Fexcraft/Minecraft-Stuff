@@ -1,13 +1,14 @@
 package net.fexcraft.mod.lib.crafting;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.fexcraft.mod.lib.crafting.gui.BluePrintTableContainer;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
+import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.registry.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,21 +21,31 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class RecipeRegistry {
 	
-	private static final TreeMap<String, ArrayList<BluePrintRecipe>> recipes = new TreeMap<String, ArrayList<BluePrintRecipe>>();
-	//private static final TreeMap<ResourceLocation, IRecipe> vrecipes = new TreeMap<ResourceLocation, IRecipe>();
+	//private static final TreeMap<String, ArrayList<BluePrintRecipe>> recipes = new TreeMap<String, ArrayList<BluePrintRecipe>>();
+	private static final TreeMap<String, TreeMap<String, List<BluePrintRecipe>>> RECIPES = new TreeMap<String, TreeMap<String, List<BluePrintRecipe>>>();
 	
 	public static final void addBluePrintRecipe(String category, ItemStack stack, ItemStack... recipeComponents){
-		if(!recipes.containsKey(category)){
-			recipes.put(category, new ArrayList<BluePrintRecipe>());
+		if(!RECIPES.containsKey(category)){
+			RECIPES.put(category, new TreeMap<String, List<BluePrintRecipe>>());
+			Print.debug("[BPT] Created Category: " + category);
 		}
-		recipes.get(category).add(new BluePrintRecipe(category, stack, recipeComponents));
+		String reg = stack.getUnlocalizedName();
+		if(!RECIPES.get(category).containsKey(reg)){
+			Print.debug("[BPT] Created Stack: " + reg.toString());
+			RECIPES.get(category).put(reg, new ArrayList<BluePrintRecipe>());
+		}
+		if(RECIPES.get(category).get(reg) == null){
+			Print.debug("[BPT] Fixing... " + reg.toString());
+			RECIPES.get(category).put(reg, new ArrayList<BluePrintRecipe>());
+		}
+		Print.debug("[BPT] Registering Recipe for Stack: " + stack.toString());
+		RECIPES.get(category).get(reg).add(new BluePrintRecipe(category, stack, recipeComponents));
 	}
 	
 	public static void addShapelessRecipe(String rs, String string, ItemStack output, Ingredient... ingredients){
@@ -76,7 +87,7 @@ public class RecipeRegistry {
 		public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 			switch(ID){
 				case 1:
-					return new net.fexcraft.mod.lib.crafting.gui.BluePrintTableContainer(player);
+					return new BluePrintTableGui.Server(player, world, x, y, z);
 				default: return null;
 			}
 		}
@@ -84,7 +95,7 @@ public class RecipeRegistry {
 		public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
 			switch(ID){
 				case 1:
-					return new net.fexcraft.mod.lib.crafting.gui.BluePrintTable(player, world, new BlockPos(x, y, z));
+					return new BluePrintTableGui.Client(player, world, x, y, z);
 				default: return null;
 			}
 		}
@@ -104,19 +115,40 @@ public class RecipeRegistry {
 	public static void initialize(){
 		workbench = new WorkBench();
 		blueprinttable = new BluePrintTable();
-		PacketHandler.registerListener(PacketHandlerType.JSON, Side.SERVER, new BluePrintTableContainer.Receiver());
+		PacketHandler.registerListener(PacketHandlerType.NBT, Side.SERVER, new BluePrintTableGui.SRBTP());
 	}
 	
-	public static TreeMap<String, ArrayList<BluePrintRecipe>> getRecipes(){
-		return recipes;
+	public static List<BluePrintRecipe> getRecipes(String category, ItemStack stack){
+		TreeMap<String, List<BluePrintRecipe>> cat = RECIPES.get(category == null ? "" : category);
+		return cat == null ? null : cat.get(stack.getUnlocalizedName());
 	}
 	
-	public static ArrayList<BluePrintRecipe> getRecipes(String category){
-		return category == null ? null : recipes.get(category);
+	public static List<BluePrintRecipe> getRecipes(int x, int y){
+		TreeMap<String, List<BluePrintRecipe>> cat = getRecipes(x);
+		//ItemStackComparable stack = cat == null ? null : (ItemStackComparable)cat.keySet().toArray()[y];
+		//return stack == null ? null : cat.get(stack);
+		return cat == null ? null : (List<BluePrintRecipe>)cat.values().toArray()[y];
+	}
+	
+	public static TreeMap<String, List<BluePrintRecipe>> getRecipes(String category){
+		return category == null ? null : RECIPES.get(category);
+	}
+
+	public static TreeMap<String, List<BluePrintRecipe>> getRecipes(int x){
+		String key = (String)RECIPES.keySet().toArray()[x];
+		return RECIPES.get(key);
 	}
 	
 	public static Set<String> getCategories(){
-		return recipes.keySet();
+		return RECIPES.keySet();
+	}
+
+	public static String getCategory(int x){
+		return (String)RECIPES.keySet().toArray()[x];
+	}
+
+	public static String getCategory(int x, int y){
+		return (String)getRecipes(x).keySet().toArray()[y];
 	}
 	
 	//
