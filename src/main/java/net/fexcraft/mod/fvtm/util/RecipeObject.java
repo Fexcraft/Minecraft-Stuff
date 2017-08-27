@@ -43,10 +43,7 @@ public class RecipeObject {
 			for(JsonElement elm : obj.get("Mods").getAsJsonArray()){
 				String string = elm.getAsString();
 				if(mods.containsKey(string)){
-					if(mods.get(string)){
-						//continue
-					}
-					else {
+					if(!mods.get(string)){
 						return;
 					}
 				}
@@ -60,10 +57,7 @@ public class RecipeObject {
 		if(obj.has("Addons")){
 			for(JsonElement elm : obj.get("Addons").getAsJsonArray()){
 				String string = elm.getAsString();
-				if(Resources.ADDONS.containsKey(new ResourceLocation(string))){
-					//continue
-				}
-				else{
+				if(!Resources.ADDONS.containsKey(new ResourceLocation(string))){
 					return;
 				}
 			}

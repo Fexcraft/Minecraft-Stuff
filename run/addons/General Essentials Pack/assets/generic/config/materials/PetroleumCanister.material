@@ -3,5 +3,5 @@
     "Addon": "fvtm:generic",
     "FullName": "Petroleum Canister",
     "FuelType": "gasoline",
-    "MaxCapacity": 128
+    "MaxCapacity": 250
 }
