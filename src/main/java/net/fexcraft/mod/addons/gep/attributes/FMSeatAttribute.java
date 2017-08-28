@@ -1,5 +1,6 @@
 package net.fexcraft.mod.addons.gep.attributes;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public class FMSeatAttribute implements Attribute {
 	

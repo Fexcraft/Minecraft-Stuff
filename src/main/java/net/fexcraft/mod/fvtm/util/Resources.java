@@ -1,12 +1,14 @@
 package net.fexcraft.mod.fvtm.util;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FilenameUtils;
 
+import com.flansmod.common.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -55,15 +57,16 @@ import net.minecraftforge.registries.RegistryBuilder;
 public class Resources {
 	
 	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
-	public static final IForgeRegistry<Addon> ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
-	public static final IForgeRegistry<Fuel> FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
-	public static final IForgeRegistry<Material> MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
-	public static final IForgeRegistry<Part> PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
-	public static final IForgeRegistry<LandVehicle> LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
-	public static final TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
-	public static final IForgeRegistry<Attribute> PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
+	public static IForgeRegistry<Addon> ADDONS;// = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
+	public static IForgeRegistry<Fuel> FUELS;// = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
+	public static IForgeRegistry<Material> MATERIALS;// = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
+	public static IForgeRegistry<Part> PARTS;// = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
+	public static IForgeRegistry<LandVehicle> LANDVEHICLES;// = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
+	public static TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
+	public static IForgeRegistry<Attribute> PARTATTRIBUTES;// = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
+	private Method method;
 	
 	public Resources(){
 		configpath = new File(FCL.getInstance().getConfigDirectory().getParentFile(), "/fvtm/");
@@ -71,6 +74,13 @@ public class Resources {
 			configpath.mkdirs();
 		}
 		addonconfig = new File(configpath, "/addonpacks.fex");
+		//
+		ADDONS = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
+		FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
+		MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
+		PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
+		LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
+		PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
 	}
 
 	public void updateAddonConfig() {
@@ -131,6 +141,16 @@ public class Resources {
 	
 	@SubscribeEvent
 	public void regAddons(RegistryEvent.Register<Addon> event){
+		ClassLoader cl = net.minecraft.server.MinecraftServer.class.getClassLoader();
+		try{
+			method = (java.net.URLClassLoader.class).getDeclaredMethod("addURL", java.net.URL.class);
+			method.setAccessible(true);
+		}
+		catch (Exception e){
+			Util.log("Failed to get class loader. All content loading will now fail.");
+			e.printStackTrace();
+		}
+		
 		File addonfolder = new File(FCL.getInstance().getConfigDirectory().getParentFile().getParentFile(), "/addons/");
 		if(!addonfolder.exists()){
 			addonfolder.mkdirs();
@@ -138,6 +158,7 @@ public class Resources {
 		for(File file : addonfolder.listFiles()){
 			if(Addon.isAddonContainer(file)){
 				try{
+					method.invoke(cl, file.toURI().toURL());
 					Addon addon = GenericAddon.isHybrid(file) ? HybridAddon.getClass(file).getConstructor(File.class).newInstance(file) : new GenericAddon(file);
 					event.getRegistry().register(addon);
 				}

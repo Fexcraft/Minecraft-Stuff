@@ -69,20 +69,23 @@ public class ZipUtil {
 		try{
 			ZipFile zip = new ZipFile(file);
 			ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 			while(true){
 				ZipEntry entry = stream.getNextEntry();
 				if(entry == null){
 					break;
 				}
+				//Print.log(path + "[<<ENTRY>>]" + extension);
 				if(entry.getName().startsWith(path) && entry.getName().endsWith(extension)){
+					//Print.log("1 >>:>> " + entry.getName());
 					array.add(JsonUtil.getObjectFromInputStream(zip.getInputStream(entry)));
-					break;
 				}
+				/*else{
+					Print.log("0 >>:>> " + entry.getName());
+				}*/
 			}
-			reader.close();
 			zip.close();
 			stream.close();
+			//Static.halt();
 		}
 		catch(Exception e){
 			e.printStackTrace();
