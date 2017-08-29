@@ -43,6 +43,7 @@ Thumbs.db
 #Other
 src/main/java/com/
 src/main/java/net/fexcraft/mod/extensions/ve/
+src/main/java/net/fexcraft/mod/addons/manus/models/
 src/main/resources/assets/flansmod/
 src/main/resources/assets/rythorn/
 src/main/java/org/
