@@ -75,7 +75,7 @@ public class GenericMaterialItem extends Item implements MaterialItem, FuelItem 
         		NBTTagCompound nbt = new NBTTagCompound();
         		nbt.setString(NBTKEY, material.getRegistryName().toString());
         		if(material.isFuelContainer()){
-        			nbt.setDouble("FuelContent", material.maxCapacity());
+        			nbt.setDouble("FuelContent", 0);
         		}
         		stack.setTagCompound(nbt);
                 items.add(stack);

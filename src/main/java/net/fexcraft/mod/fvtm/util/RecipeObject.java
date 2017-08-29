@@ -62,6 +62,9 @@ public class RecipeObject {
 				}
 			}
 		}
+		if(obj.has("NBTTagCompound")){
+			stack.setTagCompound(JsonToNBT.getTagFromJson(obj.get("NBTTagCompound").getAsJsonObject().toString()));
+		}
 		RecipeObject rcp = new RecipeObject();
 		rcp.stack = stack;
 		rcp.type = Type.fromString(obj.get("Type").getAsString());

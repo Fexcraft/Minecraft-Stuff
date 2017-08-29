@@ -567,6 +567,7 @@ public class ConstructorControllerEntity {
 									item.setItem(data.getPart().getItemStack(data));
 									item.setPosition(this.pos.getX() + 0.5, this.pos.getY() + 1.5, this.pos.getZ() + 0.5);
 									world.spawnEntity(item);
+									this.updateLandVehicle(null);
 								}
 								else{
 									Print.chat(player, "Part is marked as non-removable.");

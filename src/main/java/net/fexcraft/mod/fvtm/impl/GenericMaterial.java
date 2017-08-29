@@ -78,7 +78,7 @@ public class GenericMaterial implements Material {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString(MaterialItem.NBTKEY, this.getRegistryName().toString());
 		if(this.isFuelContainer){
-			nbt.setDouble("FuelContent", maxcapacity);
+			nbt.setDouble("FuelContent", 0);
 		}
 		stack.setTagCompound(nbt);
 		return stack;

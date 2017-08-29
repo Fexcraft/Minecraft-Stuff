@@ -1,42 +1,37 @@
 {
-    "RegistryName": "generic:fuel_tank",
+    "RegistryName": "generic:canister",
     "Addon": "fvtm:generic",
-    "FullName": "Generic Fuel Tank",
-    "ModelFile": "null",
-    "Category": [
-        "fuel_tank",
-        "secondary_fuel_tank"
-    ],
-    "Attributes":[
-        "fuel_tank"
-    ],
-    "Textures": [
-        "fvtm:textures/entities/null_texture.png"
-    ],
-    "Removable": true,
-    "Available": false,
-    "Compatible": [],
-    "AttributeData":{
-        "Fuel-TankSize": 100
-    },
+    "FullName": "Empty Canister",
     "Recipes":[
         {
             "Type": "Blueprint",
             "Components":[
                 {
                     "Item": "minecraft:iron_ingot",
-                    "Amount": 6
+                    "Amount": 4
                 },
                 {
                     "Item": "minecraft:dye",
-                    "Amount": 4,
-                    "Meta": 8
+                    "Amount": 1
                 },
                 {
                     "Item": "fvtm:material",
-                    "Amount": 2,
+                    "Amount": 1,
                     "NBTTagCompound":{
                         "FVTM:Material": "generic:rubber"
+                    }
+                }
+            ],
+            "Output": 2
+        },
+        {
+            "Type": "Blueprint",
+            "Components":[
+                {
+                    "Item": "fvtm:material",
+                    "Amount": 1,
+                    "NBTTagCompound":{
+                        "FVTM:Material": "generic:diesel_canister"
                     }
                 }
             ],
@@ -47,9 +42,9 @@
             "Components":[
                 {
                     "Item": "fvtm:material",
-                    "Amount": 4,
+                    "Amount": 1,
                     "NBTTagCompound":{
-                        "FVTM:Material": "generic:canister"
+                        "FVTM:Material": "generic:petroleum_canister"
                     }
                 }
             ],
