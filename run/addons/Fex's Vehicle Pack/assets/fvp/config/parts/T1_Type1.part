@@ -10,7 +10,9 @@
         "inventory"
     ],
     "Textures": [
-        "fvp:textures/entities/skin_vehicle_t1_1p.png"
+        "fvp:textures/entities/skin_vehicle_t1_1p.png",
+        "fvp:textures/entities/t1_alt_skin_1.png",
+        "fvp:textures/entities/t1_alt_skin_2.png"
     ],
     "Removable": true,
     "Available": true,

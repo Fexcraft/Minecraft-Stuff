@@ -29,8 +29,8 @@ public class UpdateHandler {
 			}
 			else {
 				Status  = FI.PREFIX + CCS.GRAY + " New Version avaible! (" + CCS.DGREEN  + newest_version + CCS.GRAY + ")"
-				 + "\n" + FI.PREFIX + CCS.GRAY + " Your Client version: (" + CCS.RED + FI.VERSION + CCS.GRAY + ")"
-				 + "\n" + FI.PREFIX + CCS.GRAY + " Use '/frsm download' to get the link.";
+				 + "\n" + FI.PREFIX + CCS.GRAY + " Your Client version: (" + CCS.RED + FI.VERSION + CCS.GRAY + ")";
+				// + "\n" + FI.PREFIX + CCS.GRAY + " Use '/frsm download' to get the link.";
 				if(Data.getData().get("update_note").getAsString().length() > 4){
 					Status = Status + "\n" + CCS.DGRAY + "================";
 					Status = Status + "\n" + CCS.GOLD + "[Update Note]: " + CCS.WHITE + Data.getData().get("update_note").getAsString();

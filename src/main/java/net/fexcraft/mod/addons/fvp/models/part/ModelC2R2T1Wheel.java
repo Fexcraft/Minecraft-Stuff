@@ -8,14 +8,10 @@
 
 package net.fexcraft.mod.addons.fvp.models.part;
 
-import org.lwjgl.opengl.GL11;
-
-import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
-import net.fexcraft.mod.fvm.model.AdjustableWheelModel;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
-import net.minecraft.entity.Entity;
 
-public class ModelC2R2T1Wheel extends AdjustableWheelModel {
+public class ModelC2R2T1Wheel extends PartModel {
 	
 	int textureX = 128;
 	int textureY = 64;
@@ -221,7 +217,7 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 		flipAll();
 	}
 
-	@Override
+	/*@Override
 	public void renderExchangeWheel(VehicleData data, String usedAS) {
 		return;
 	}
@@ -260,7 +256,7 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 		/*for(ModelRendererTurbo model : wheels){
 			model.rotateAngleZ = data.rotateWheels ? vehicle.wheelsAngle : 0;
 			model.render();
-		}*/
+		}*//*
 	}
 
 	@Override
@@ -269,7 +265,7 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 		/*for(ModelRendererTurbo model : wheels){
 			model.rotateAngleZ = data.rotateWheels ? -vehicle.wheelsAngle : 0;
 			model.render();
-		}*/
+		}*//*
 		GL11.glRotated(-180, 0, 1, 0);
 	}
 
@@ -281,7 +277,7 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 			model.render();
 			model.rotateAngleY = 0;
 		}*///TODO
-	}
+	/*}
 
 	@Override
 	public void renderLeftFront(VehicleData data, String usedAS, Entity vehicle) {
@@ -292,8 +288,8 @@ public class ModelC2R2T1Wheel extends AdjustableWheelModel {
 			model.render();
 			model.rotateAngleY = 0;
 		}*///TODO
-		GL11.glRotated(-180, 0, 1, 0);
-	}
+		/*GL11.glRotated(-180, 0, 1, 0);
+	}*/
 	
 	
 }

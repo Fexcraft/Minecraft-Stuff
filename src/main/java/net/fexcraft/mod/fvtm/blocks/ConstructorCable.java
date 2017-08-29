@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.fexcraft.mod.fvm.blocks.ConstructorCenter;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

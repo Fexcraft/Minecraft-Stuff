@@ -3,7 +3,7 @@
 	  "modid": "fvtm",
 	  "name": "Fex's Vehicle and Transportation Mod",
 	  "description": "< - todo - >",
-	  "version": "${version}",
+	  "version": "2.0-alpha12",
 	  "mcversion": "${mcversion}",
 	  "url": "http://fexcraft.net",
 	  "updateUrl": "http://fexcraft.net/download?modid=fvtm",

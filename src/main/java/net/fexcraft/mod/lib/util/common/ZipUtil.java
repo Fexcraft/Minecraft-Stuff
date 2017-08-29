@@ -11,7 +11,6 @@ import java.util.zip.ZipInputStream;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvm.util.FvmResources;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 
 public class ZipUtil {
@@ -51,7 +50,7 @@ public class ZipUtil {
 				if(entry == null){
 					break;
 				}
-				if(entry.getName().equals(FvmResources.DEFPACKCFGFILENAME)){
+				if(entry.getName().equals(target)){
 					stream.close();
 					return true;
 				}

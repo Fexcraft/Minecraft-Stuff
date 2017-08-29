@@ -8,14 +8,10 @@
 
 package net.fexcraft.mod.addons.fvp.models.part;
 
-import org.lwjgl.opengl.GL11;
-
-import net.fexcraft.mod.fvm.data.Vehicle.VehicleData;
-import net.fexcraft.mod.fvm.model.AdjustableWheelModel;
+import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
-import net.minecraft.entity.Entity;
 
-public class ModelC2R1T1Wheel extends AdjustableWheelModel {
+public class ModelC2R1T1Wheel extends PartModel {
 	
 	int textureX = 128;
 	int textureY = 64;
@@ -264,7 +260,7 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 		//flipAll();
 	}
 
-	@Override
+	/*@Override
 	public void renderExchangeWheel(VehicleData data, String usedAS, Entity vehicle) {
 		return;
 	}
@@ -312,7 +308,7 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 			model.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			model.render();
 		}*///TODO
-		data.secondary.glColorReset();
+		/*data.secondary.glColorReset();
 		GL11.glPopMatrix();
 	}
 
@@ -334,7 +330,7 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 			model.rotateAngleX = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			model.render();
 		}*///TODO
-		data.secondary.glColorReset();
+		/*data.secondary.glColorReset();
 		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 	}
@@ -397,6 +393,6 @@ public class ModelC2R1T1Wheel extends AdjustableWheelModel {
 		GL11.glRotated(-180, 0, 1, 0);
 		GL11.glPopMatrix();
 		return;
-	}
+	}*/
 	
 }

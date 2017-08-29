@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvm.FVM;
+import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.lib.network.Network;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -24,7 +24,7 @@ public class FvtmUpdateHandler {
 		if(obj != null && obj.has("notifications")){
 			JsonArray array = obj.get("notifications").getAsJsonArray();
 			for(JsonElement elm : array){
-				if(elm.getAsJsonObject().has("version") && elm.getAsJsonObject().get("version").getAsString().equals(FVM.VERSION)){
+				if(elm.getAsJsonObject().has("version") && elm.getAsJsonObject().get("version").getAsString().equals(FVTM.VERSION)){
 					jsn = elm.getAsJsonObject();
 				}
 			}
