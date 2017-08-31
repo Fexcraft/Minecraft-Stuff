@@ -1,7 +1,7 @@
 {
     "RegistryName": "fvp:c7",
     "Addon": "fvtm:fvp",
-    "FullName": "C7 Raw",
+    "FullName": "C7",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC7.class",
     "PrimaryColor": {
         "Red": 168,
@@ -24,7 +24,7 @@
     ],
     "ConstructionLength": 3,
     "ConstructionYOffSet": 20.5,
-    "ConstructionWheelOffset": 12.5,
+    "ConstructionWheelOffset": 15,
     "RequiredParts": [
         "right_front_wheel",
         "left_front_wheel",
@@ -32,14 +32,9 @@
         "left_back_wheel",
         "steering_wheel",
         "interior",
+        "seats",
         "engine",
         "fuel_tank"
-    ],
-    "PreInstalled": [
-        {
-            "as": "seats",
-            "part": "fvp:c7_seats"
-        }
     ],
     "DriveType": "4wd",
     "FM-MaxPositiveThrottle": 1.567,

@@ -149,18 +149,18 @@ public class ModelBase extends Model {
 		return;
 	}
 	
-	protected final void fixRotation(ModelRendererTurbo[] model, boolean[] bools){
-		if(bools[0]){
+	protected final void fixRotation(ModelRendererTurbo[] model, boolean... bools){
+		if(bools.length >= 1 && bools[0]){
 			for(ModelRendererTurbo mod : model){
 				mod.rotateAngleX = -mod.rotateAngleX;
 			}
 		}
-		if(bools[1]){
+		if(bools.length >= 2 && bools[1]){
 			for(ModelRendererTurbo mod : model){
 				mod.rotateAngleY = -mod.rotateAngleY;
 			}
 		}
-		if(bools[2]){
+		if(bools.length >= 3 && bools[2]){
 			for(ModelRendererTurbo mod : model){
 				mod.rotateAngleZ = -mod.rotateAngleZ;
 			}

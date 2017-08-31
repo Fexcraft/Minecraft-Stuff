@@ -1,6 +1,6 @@
 {
     "RegistryName": "fvp:c7_wheel",
-    "AddOn": "fvm:fvp",
+    "Addon": "fvtm:fvp",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC7W1.class",
     "FullName": "C7 Default Wheel",
     "Category": [
@@ -10,37 +10,31 @@
         "right_back_wheel",
         "left_back_wheel"
     ],
-    "TextureSettings": {
-        "Textures": [
-            "fvm:textures/entities/skin_vehicle_c7.png"
-        ]
-    },
+    "Textures": [
+        "fvp:textures/entities/skin_vehicle_c7.png"
+    ],
     "Removable": true,
-    "ConstructionSettings":{
-        "Available": false,
-        "Compatible": [
-            {
-                "Vehicle": "C7",
-                "Offset": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            }
-        ]
-    },
+    "Available": false,
+    "Compatible": [
+        {
+            "Vehicle": "fvp:c7",
+            "x": 0, "y": 0, "z": 0
+        }
+    ],
     "Recipes":[
         {
             "Type": "Blueprint",
-            "Category": "FVM Parts",
             "Components":[
                 {
                     "Item": "minecraft:iron_ingot",
-                    "Amount": 4
+                    "Amount": 3
                 },
                 {
-                    "Item": "fvm:material_rubber",
-                    "Amount": 8
+                    "Item": "fvtm:part",
+                    "Amount": 5,
+                    "NBTTagCompound":{
+                        "FVTM:Part": "fvp:ot1_front_wheel"
+                    }
                 }
             ],
             "Output": 1
