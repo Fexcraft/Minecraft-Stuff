@@ -35,8 +35,6 @@ public class PartModel extends ModelBase {
 	public ModelRendererTurbo track_wheels_right[] = new ModelRendererTurbo[0];
 	public ModelRendererTurbo track_wheels_left[] = new ModelRendererTurbo[0];
 	//
-	public ModelRendererTurbo OTHER[] = new ModelRendererTurbo[0];//GRMS
-	public ModelRendererTurbo TEST[] = new ModelRendererTurbo[0];
 	public ArrayList<String> creators = new ArrayList<String>();
 	
 	
@@ -100,7 +98,6 @@ public class PartModel extends ModelBase {
 		render(turret);
 		
 		//TODO
-		//rotateSteeringWheel();
 		render(steering);
 		
 		//Render Wheels
@@ -116,9 +113,6 @@ public class PartModel extends ModelBase {
 		render(track_wheels_right);
 		render(track_wheels_left);
 		
-		//Render Other
-		render(OTHER);
-		render(TEST);
 	}
 	
 	public void render(LandVehicleData data, String usedAS, Entity entity){
@@ -242,10 +236,6 @@ public class PartModel extends ModelBase {
 			}
             part.bindTexture();
 		}*/
-		
-		//Render Other
-		render(OTHER);
-		render(TEST);
 	}
 	
 	/*protected static IBlockState getBlockToRender(int index, VehicleData data){

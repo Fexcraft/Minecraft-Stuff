@@ -14,6 +14,7 @@ import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
 public class ModelC7 extends VehicleModel {
+	
 	private static final int textureX = 512;
 	private static final int textureY = 512;
 
