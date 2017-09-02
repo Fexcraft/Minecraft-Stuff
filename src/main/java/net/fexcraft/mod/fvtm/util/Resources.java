@@ -214,6 +214,18 @@ public class Resources {
 							}
 							Print.debug(mat.getRegistryName());
 						}
+						else if(file.isDirectory()){
+							for(File fl : file.listFiles()){
+								if(fl.getName().endsWith(".material")){
+									GenericMaterial mat = new GenericMaterial(JsonUtil.get(fl));
+									event.getRegistry().register(mat);
+									if(Static.side().isClient()){
+										net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericMaterialItem.INSTANCE, mat.getRegistryName());
+									}
+									Print.debug(mat.getRegistryName());
+								}
+							}
+						}
 						Print.debug(file.getPath());
 						//else skip;
 					}
@@ -263,6 +275,18 @@ public class Resources {
 							}
 							Print.debug(part.getRegistryName());
 						}
+						else if(file.isDirectory()){
+							for(File fl : file.listFiles()){
+								if(fl.getName().endsWith(".part")){
+									GenericPart part = new GenericPart(JsonUtil.get(fl));
+									event.getRegistry().register(part);
+									if(Static.side().isClient()){
+										net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericPartItem.INSTANCE, part.getRegistryName());
+									}
+									Print.debug(part.getRegistryName());
+								}
+							}
+						}
 						Print.debug(file.getPath());
 						//else skip;
 					}
@@ -311,6 +335,17 @@ public class Resources {
 								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
 							}
 							Print.debug(veh.getRegistryName());
+						}
+						else if(file.isDirectory()){
+							for(File fl : file.listFiles()){
+								if(fl.getName().endsWith(".vehicle")){
+									GenericLandVehicle veh = new GenericLandVehicle(JsonUtil.get(fl));
+									event.getRegistry().register(veh);
+									if(Static.side().isClient()){
+										net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+									}
+								}
+							}
 						}
 						Print.debug(file.getPath());
 						//else skip;
