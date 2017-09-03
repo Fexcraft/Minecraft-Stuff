@@ -1,5 +1,5 @@
 {
-    "RegistryName": "fvm:c2",
+    "RegistryName": "fvp:c2",
     "Addon": "fvtm:fvp",
     "FullName": "C2 Type P",
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelC2.class",
