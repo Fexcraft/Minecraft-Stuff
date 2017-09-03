@@ -56,7 +56,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 public class Resources {
 	
-	public static final String DEFPACKCFGFILENAME = "addonpack.fvm";
+	public static final String DEFPACKCFGFILENAME = "addonpack.fvtm";
 	public static IForgeRegistry<Addon> ADDONS;// = (IForgeRegistry<Addon>)new RegistryBuilder<Addon>().setName(new ResourceLocation("fvtm:addons")).setType(Addon.class).create();
 	public static IForgeRegistry<Fuel> FUELS;// = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 	public static IForgeRegistry<Material> MATERIALS;// = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
