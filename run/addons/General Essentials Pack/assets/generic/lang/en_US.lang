@@ -7,7 +7,7 @@
 #>
 
 item.generic:engine.name=Engine (C)
-item.generic:engine.name=Engine (C+)
+item.generic:engine2.name=Engine (C+)
 item.generic:fuel_tank.name=Fuel Tank (C)
 
 #Materials

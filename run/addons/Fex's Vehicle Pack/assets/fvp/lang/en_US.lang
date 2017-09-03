@@ -21,14 +21,20 @@ item.fvp:t1_type1_cargoupgrade.name=T1 Cargo Upgrade (1)
 item.fvp:t1_type2_cargoupgrade.name=T1 Cargo Upgrade (2)
 item.fvp:t1_snowplow.name=T1 Snow Plow
 item.fvp:ot1_logtransport.name=OT1 Log Transport
-item.fvp:c1r1_wheel.name=C1R1 Wheel
 item.fvp:c2r1t1_wheel.name=C2R1T1 Wheel
 item.fvp:c2r2t1_wheel.name=C2R2T1 Wheel
 item.fvp:c2_interior.name=C2 Interior
 item.fvp:c2_steering_wheel.name=C2 Default Steering Wheel
+item.fvp:engine_c7i4.name=Engine (C7I4)
+item.fvp:c7_doors.name=C7 Default Doors
+item.fvp:c7_hood.name=C7 Default Hood
+item.fvp:c7_steerin_wheel.name=C7 Default Steering Wheel
+item.fvp:c7_wheel.name=C7 Default Wheel
+item.fvp:c7_fuel_tank.name=Fuel Tank (Type C7)
+item.fvp:c7_seats.name=C7 Default Seats
+item.fvp:c7_interior.name=C7 Default Interior
 
 #Vehicles
-item.fvp:c1r1.name=C1 - R1
 item.fvp:t1.name=T1
 item.fvp:ot1.name=OT1
 item.fvp:c2.name=C2
