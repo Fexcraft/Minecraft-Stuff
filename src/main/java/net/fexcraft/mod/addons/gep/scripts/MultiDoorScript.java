@@ -85,6 +85,9 @@ public class MultiDoorScript implements LandVehicle.LandVehicleScript {
 			return;
 		}
 		if(entity.world.isRemote && LandVehicleScript.playerIsInVehicle((com.flansmod.fvtm.LandVehicle)entity)){
+			if(net.minecraft.client.Minecraft.getMinecraft().currentScreen == null){//TODO check this.
+				return;
+			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_L)){
 				int seat = LandVehicleScript.getClientSeatId();
 				switch(seat){

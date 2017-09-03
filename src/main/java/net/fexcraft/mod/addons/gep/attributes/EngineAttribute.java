@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class EngineAttribute implements Attribute {
 	
 	private float enginespeed;
-	private float fuelcompsumption;
+	private float fuelconsumption;
 	private Fuel fueltype;
 
 	@Override
@@ -32,7 +32,7 @@ public class EngineAttribute implements Attribute {
 	@Override
 	public void load(JsonObject obj){
 		this.enginespeed = JsonUtil.getIfExists(obj, "Engine-Speed", 0.5f).floatValue();
-		this.fuelcompsumption = JsonUtil.getIfExists(obj, "Fuel-Compsumption", 0.5f).floatValue();
+		this.fuelconsumption = JsonUtil.getIfExists(obj, "Fuel-Consumption", 0.5f).floatValue();
 		this.fueltype = Resources.FUELS.getValue(new ResourceLocation(JsonUtil.getIfExists(obj, "Fuel-Type", "gasoline")));
 	}
 
@@ -57,12 +57,12 @@ public class EngineAttribute implements Attribute {
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
 		tooltip.add(Formatter.format("&9Speed: &7" + enginespeed));
-		tooltip.add(Formatter.format("&9Compsumption: &7" + fuelcompsumption));
+		tooltip.add(Formatter.format("&9Compsumption: &7" + fuelconsumption));
 		tooltip.add(Formatter.format("&9Fuel: &7" + fueltype.getName()));
 	}
 
 	public float getFuelCompsumption(){
-		return fuelcompsumption;
+		return fuelconsumption;
 	}
 	
 	public Fuel getFuelType(){

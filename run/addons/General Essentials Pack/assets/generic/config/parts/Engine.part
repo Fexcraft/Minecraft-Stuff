@@ -17,7 +17,7 @@
     "Compatible": [],
     "AttributeData":{
         "Engine-Speed": 1.00,
-        "Fuel-Comsumption": 0.7,
+        "Fuel-Consumption": 0.7,
         "Fuel-Type": "diesel"
     },
     "Recipes":[

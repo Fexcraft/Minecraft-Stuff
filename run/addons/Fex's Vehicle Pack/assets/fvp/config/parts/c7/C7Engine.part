@@ -1,8 +1,8 @@
 {
-    "RegistryName": "generic:engine2",
-    "Addon": "fvtm:generic",
-    "FullName": "Petroleum Test Engine",
-    "ModelFile": "null",
+    "RegistryName": "fvp:engine_c7i4",
+    "Addon": "fvtm:fvp",
+    "FullName": "C7I4 Engine",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC7I4E.class",
     "Category": [
         "engine"
     ],
@@ -10,14 +10,14 @@
         "engine"
     ],
     "Textures": [
-        "fvtm:textures/entities/null_texture.png"
+        "fvp:textures/entities/c7i4.png"
     ],
     "Removable": true,
     "Available": false,
     "Compatible": [],
     "AttributeData":{
-        "Engine-Speed": 1.20,
-        "Fuel-Consumption": 0.9,
+        "Engine-Speed": 1.10,
+        "Fuel-Consumption": 1,
         "Fuel-Type": "gasoline"
     },
     "Recipes":[
@@ -30,21 +30,21 @@
                 },
                 {
                     "Item": "minecraft:iron_ingot",
-                    "Amount": 4
+                    "Amount": 6
                 },
                 {
                     "Item": "minecraft:dye",
-                    "Amount": 4,
+                    "Amount": 5,
                     "Meta": 7
                 },
                 {
                     "Item": "minecraft:dye",
-                    "Amount": 1,
-                    "Meta": 15
+                    "Amount": 2,
+                    "Meta": 1
                 },
                 {
                     "Item": "fvtm:material",
-                    "Amount": 4,
+                    "Amount": 6,
                     "NBTTagCompound":{
                         "FVTM:Material": "generic:rubber"
                     }
