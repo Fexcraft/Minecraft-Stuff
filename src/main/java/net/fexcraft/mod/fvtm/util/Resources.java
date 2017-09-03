@@ -538,6 +538,7 @@ public class Resources {
 		}
 		for(Entry<ResourceLocation, String> entry : updatelist.entrySet()){
 			Addon addon = ADDONS.getValue(entry.getKey());
+			Print.chat(event.player, "&0[&9FVTM&0]&7 === === &5=&6=&5=&7 === ===");
 			Print.chat(event.player, "&0[&9FVTM&0]&7 Update for Addon &8'&3" + addon.getName() + "&8'&7 found!");
 			Print.chat(event.player, "&0[&9FVTM&0]&7 Installed Version: &3" + addon.getVersion());
 			Print.chat(event.player, "&0[&9FVTM&0]&7 Latest Version: &3" + entry.getValue());

@@ -66,8 +66,8 @@ public class FVTM {
 	
 	@Mod.EventHandler
 	public void initPost(FMLPostInitializationEvent event){
-		SimpleUpdateHandler.register("fvtm", 1, VERSION);
-		SimpleUpdateHandler.setUpdateMessage("fvtm", PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvtm") + ")&7");
+		SimpleUpdateHandler.register(MODID, 1, VERSION);
+		SimpleUpdateHandler.setUpdateMessage(MODID, PREFIX + "Update avaible! &3(" + SimpleUpdateHandler.getLatestVersionOf("fvtm") + ")&7");
 		FvtmUpdateHandler.load();
 		FvtmUpdateHandler.register();
 		//check if addons have updates
