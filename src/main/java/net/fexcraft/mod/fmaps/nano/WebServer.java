@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fmaps.FMaps;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 public class WebServer extends NanoHTTPD {
 	
 	private int sec = Time.getSecond(), min = Time.getMinute();
-	private static final TreeMap<UUID, Key> keys = new TreeMap<UUID, Key>();
+	public static final TreeMap<UUID, Key> keys = new TreeMap<UUID, Key>();
 	
 	public WebServer(int port){
 		super(port);
@@ -92,8 +93,17 @@ public class WebServer extends NanoHTTPD {
 		}
 		String rq = session.getParameters().get("rq").get(0);
 		switch(rq){
-			case "test":{
+			case "connect":{
+				JsonArray array = new JsonArray();
+				FMaps.getPlugins().forEach((plugin) -> {
+					array.add(plugin.toJsonObject());
+				});
+				result.add("plugins", array);
 				result.addProperty("received", true);
+				break;
+			}
+			default:{
+				result.addProperty("error", "Missing Request.");
 				break;
 			}
 		}
@@ -109,9 +119,10 @@ public class WebServer extends NanoHTTPD {
 		
 		public Key(UUID key){
 			this.key = key;
-			code = UUID.randomUUID().toString().substring(0, 9);
+			code = UUID.randomUUID().toString().replace("-", "").substring(0, 9);
 			lastuse = Time.getDate();
 			expired = false;
+			keys.put(key, this);
 		}
 	}
 	
