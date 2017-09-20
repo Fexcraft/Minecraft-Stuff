@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.lib.tmt.ModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -68,7 +68,7 @@ public class PartModel extends ModelBase {
 		wheel_back_right = parse("wheel_back_right", obj, tx, ty);
 	}
 
-	public void render(LandVehicleData data, String usedAS){
+	public void render(VehicleData data, String usedAS){
 		//Vehicle Body
 		render(body);
 		if(data.doorsOpen()){
@@ -115,7 +115,7 @@ public class PartModel extends ModelBase {
 		
 	}
 	
-	public void render(LandVehicleData data, String usedAS, Entity entity){
+	public void render(VehicleData data, String usedAS, Entity vehicle){
 		//Vehicle Body
 		render(body);
 		if(data.doorsOpen()){
@@ -144,55 +144,54 @@ public class PartModel extends ModelBase {
 		//Render Turret
 		render(turret);
 		
-		com.flansmod.fvtm.LandVehicle vehicle = (com.flansmod.fvtm.LandVehicle)entity;
 		//Render Steering
 		for (ModelRendererTurbo submodel : steering) {
-			submodel.rotateAngleX = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
+			//submodel.rotateAngleX = vehicle.wheelsYaw * 3.14159265F / 180F * 3F;
 			submodel.render();
 		}
 		
 		//Render Wheels
 		for(ModelRendererTurbo element : wheel_back_left){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_back_right){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_back){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front_left){
-			element.rotateAngleZ = vehicle.wheelsAngle;
-			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front_right){
-			element.rotateAngleZ = vehicle.wheelsAngle;
-			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheel_front){
-			element.rotateAngleZ = vehicle.wheelsAngle;
-			element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleY = vehicle.wheelsYaw * Static.rad180 / 180F * 3F;
 			element.render();
 		}
 		for(ModelRendererTurbo element : wheels){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels_right){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		for(ModelRendererTurbo element : track_wheels_left){
-			element.rotateAngleZ = vehicle.wheelsAngle;
+			//element.rotateAngleZ = vehicle.wheelsAngle;
 			element.render();
 		}
 		
@@ -314,7 +313,7 @@ public class PartModel extends ModelBase {
 		flip(track_wheels_left);
 	}
 	
-	public void def_renderWheels4(LandVehicleData type, String us){
+	public void def_renderWheels4(VehicleData type, String us){
 		switch(us){
 			case "left_front_wheel":
 				render(wheel_front_left);
@@ -331,7 +330,7 @@ public class PartModel extends ModelBase {
 		}
 	}
 	
-	public void def_renderWheels4(LandVehicleData type, String us, /*com.flansmod.fvm.LandVehicle*/Entity veh){//TODO
+	public void def_renderWheels4(VehicleData type, String us, Entity veh){//TODO
 		com.flansmod.fvtm.LandVehicle vehicle = (com.flansmod.fvtm.LandVehicle)veh;
 		switch(us){
 			case "left_front_wheel":

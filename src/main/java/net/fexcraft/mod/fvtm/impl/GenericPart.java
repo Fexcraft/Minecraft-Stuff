@@ -13,9 +13,9 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Attribute;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.api.Part;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.fvtm.model.part.NullModel;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
@@ -29,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -45,7 +46,11 @@ public class GenericPart implements Part {
 	@SideOnly(Side.CLIENT) private PartModel model;
 	private JsonObject attributedata;
 	private HashMap<Class, Attribute> attributes = new HashMap<Class, Attribute>();
-	private ArrayList<Class<? extends LandVehicleScript>> scripts = new ArrayList<Class<? extends LandVehicleScript>>();
+	private ArrayList<Class<? extends VehicleScript>> scripts = new ArrayList<Class<? extends VehicleScript>>();
+	//Sound
+	private TreeMap<String, ResourceLocation> sounds = new TreeMap<String, ResourceLocation>();
+	private TreeMap<ResourceLocation, SoundEvent> soundevents = new TreeMap<ResourceLocation, SoundEvent>();
+	private TreeMap<String, Integer> soundlenghts = new TreeMap<String, Integer>();
 	
 	public GenericPart(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "PART");
@@ -103,11 +108,11 @@ public class GenericPart implements Part {
 			}
 		}
 		//
-		ArrayList<Class<? extends LandVehicleScript>> list = new ArrayList<Class<? extends LandVehicleScript>>();
+		ArrayList<Class<? extends VehicleScript>> list = new ArrayList<Class<? extends VehicleScript>>();
 		ArrayList<String> json = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "Scripts", new JsonArray()).getAsJsonArray());
 		for(String string : json){
 			try{
-				list.add((Class<? extends LandVehicleScript>)Class.forName(string.replace(".class", "")));
+				list.add((Class<? extends VehicleScript>)Class.forName(string.replace(".class", "")));
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -125,6 +130,13 @@ public class GenericPart implements Part {
 					Static.stop();
 				}
 			});
+		}
+		if(obj.has("Sounds")){
+			for(JsonElement elm : obj.get("Sounds").getAsJsonArray()){
+				JsonObject jsn = elm.getAsJsonObject();
+				this.sounds.put(jsn.get("event").getAsString(), new ResourceLocation(jsn.get("sound").getAsString()));
+				this.soundlenghts.put(jsn.get("event").getAsString(), JsonUtil.getIfExists(jsn, "length", 0).intValue());
+			}
 		}
 	}
 
@@ -227,7 +239,7 @@ public class GenericPart implements Part {
 	}
 
 	@Override
-	public boolean canInstall(String as, LandVehicleData data, EntityPlayer player){
+	public boolean canInstall(String as, VehicleData data, EntityPlayer player){
 		if(this.compatible.containsKey(data.getVehicle().getRegistryName()) || this.compatible.containsKey(new ResourceLocation("all")) || this.compatible.isEmpty()){
 			ArrayList<ResourceLocation> arr = this.incompatible.get(data.getVehicle().getRegistryName());
 			if(arr == null){
@@ -260,8 +272,30 @@ public class GenericPart implements Part {
 	}
 
 	@Override
-	public List<Class<? extends LandVehicleScript>> getScripts(){
+	public List<Class<? extends VehicleScript>> getScripts(){
 		return this.scripts;
+	}
+
+	@Override
+	public Collection<ResourceLocation> getSounds(){
+		return this.sounds.values();
+	}
+
+	@Override
+	public SoundEvent getSound(String event){
+		ResourceLocation loc = this.sounds.get(event);
+		return loc == null ? null : this.soundevents.get(loc);
+	}
+
+	@Override
+	public void setSound(ResourceLocation sound, SoundEvent soundevent){
+		Print.debug(sound, soundevent.getRegistryName());
+		this.soundevents.put(sound, soundevent);
+	}
+
+	@Override
+	public int getFMSoundLength(String event){
+		return this.soundlenghts.get(event);
 	}
 	
 }

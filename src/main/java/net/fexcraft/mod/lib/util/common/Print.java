@@ -16,11 +16,20 @@ public class Print{
 	private static final Logger logger = LogManager.getLogger("FCL");
 	
 	public static void log(Object obj){
+		if(obj instanceof Iterable){
+			Iterable inte = (Iterable)obj;
+			logger.info("ITERABLE: {");
+			for(Object object : inte){
+				logger.info("    " + (object == null ? ">> IS null;" : String.valueOf(object)));
+			}
+			logger.info("}");
+			return;
+		}
 		logger.info(obj == null ? ">> IS null;" : String.valueOf(obj));
 	}
 	
-	public static void log(String prefix, Object obj){
-		logger.info("[" + prefix + "]> " + String.valueOf(obj));
+	public static void log(Object prefix, Object obj){
+		logger.info("[" + String.valueOf(prefix) + "]> " + String.valueOf(obj));
 	}
 	
 	public static void chat(ICommandSender sender, Object obj){
@@ -55,6 +64,16 @@ public class Print{
 	public static void debug(Object obj) {
 		if(Static.dev()){
 			log(obj);
+		}
+	}
+
+	public static void debug(Object... objs){
+		if(Static.dev()){
+			String str = "[";
+			for(int i = 0; i < objs.length; i++){
+				str += objs[i] == null ? ">> IS null;" : String.valueOf(objs[i]) + (i == objs.length - 1 ? "" : ", ");
+			}
+			log(str + "]");
 		}
 	}
 	

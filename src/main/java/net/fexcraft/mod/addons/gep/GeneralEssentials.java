@@ -6,10 +6,11 @@ import net.fexcraft.mod.addons.gep.attributes.*;
 import net.fexcraft.mod.addons.gep.fuels.*;
 import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.Fuel;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
+import net.fexcraft.mod.fvtm.api.Vehicle;
 import net.fexcraft.mod.fvtm.impl.HybridAddon;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 public class GeneralEssentials extends HybridAddon {
@@ -47,13 +48,18 @@ public class GeneralEssentials extends HybridAddon {
 	}
 
 	@Override
-	public void regLandVehicles(Register<LandVehicle> event){
+	public void regVehicles(Register<Vehicle> event){
 		//
 	}
 
 	@Override
 	public boolean skipDefaultRegistryMethods(){
 		return false;
+	}
+
+	@Override
+	public void regSounds(Register<SoundEvent> event){
+		//
 	}
 	
 }

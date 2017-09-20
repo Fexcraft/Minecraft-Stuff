@@ -9,7 +9,7 @@
 
 package net.fexcraft.mod.addons.fvp.models.vehicle;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 
@@ -717,7 +717,7 @@ public class ModelC7 extends VehicleModel {
 	}
 	
 	@Override
-	public void render(LandVehicleData data){
+	public void render(VehicleData data){
 		render(body);
 		data.getPrimaryColor().glColorApply();
 		render(bodyColoredPrimary);

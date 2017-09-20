@@ -9,7 +9,7 @@
 
 package net.fexcraft.mod.fvtm.model.part;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.minecraft.entity.Entity;
 
 public class NullModel extends PartModel {
@@ -27,12 +27,12 @@ public class NullModel extends PartModel {
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String usedAs){
+	public void render(VehicleData data, String usedAs){
 		return;
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String usedAS, /*com.flansmod.fvm.LandVehicle*/Entity vehicle){
+	public void render(VehicleData data, String usedAS, Entity vehicle){
 		/*//Particle
 		if(vehicle.throttle != 0 && data.parts.get(usedAS).pspawners != null){
 			PartType part = data.parts.get(usedAS);

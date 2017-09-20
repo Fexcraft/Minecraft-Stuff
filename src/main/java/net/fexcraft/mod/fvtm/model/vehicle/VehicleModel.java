@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.lib.tmt.ModelBase;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -51,11 +51,11 @@ public class VehicleModel extends ModelBase {
 	}
 	
 
-	public void render(LandVehicleData data){
+	public void render(VehicleData data){
 		render(data, null, 0);
 	}
 	
-	public void render(LandVehicleData data, @Nullable Entity entity, int meta){
+	public void render(VehicleData data, @Nullable Entity entity, int meta){
 		//Vehicle Chassis
 		render(chassis);
 		

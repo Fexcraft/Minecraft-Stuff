@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.gson.JsonObject;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.Vec3d;
 
 public class Pos{
 	
@@ -89,6 +90,10 @@ public class Pos{
 	
 	public void translateR(){
 		GL11.glTranslatef(x == 0 ? 0 : -this.to16FloatX(), y == 0 ? 0 : -this.to16FloatY(), z == 0 ? 0 : -this.to16FloatZ());
+	}
+
+	public Vec3d to16Double(){
+		return new Vec3d(this.to16FloatX(), this.to16FloatY(), this.to16FloatZ());
 	}
 	
 }

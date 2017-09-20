@@ -3,8 +3,10 @@ package net.fexcraft.mod.fvtm.util;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -17,16 +19,17 @@ import net.fexcraft.mod.fvtm.FVTM;
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.Fuel;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleItem;
+import net.fexcraft.mod.fvtm.api.VehicleType;
 import net.fexcraft.mod.fvtm.impl.GenericAddon;
-import net.fexcraft.mod.fvtm.impl.GenericLandVehicle;
-import net.fexcraft.mod.fvtm.impl.GenericLandVehicleItem;
+import net.fexcraft.mod.fvtm.impl.GenericVehicle;
+import net.fexcraft.mod.fvtm.impl.GenericVehicleItem;
 import net.fexcraft.mod.fvtm.impl.GenericMaterial;
 import net.fexcraft.mod.fvtm.impl.GenericMaterialItem;
 import net.fexcraft.mod.fvtm.impl.GenericPart;
@@ -42,6 +45,7 @@ import net.fexcraft.mod.lib.util.render.ModelType;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
@@ -61,8 +65,9 @@ public class Resources {
 	public static IForgeRegistry<Fuel> FUELS;// = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 	public static IForgeRegistry<Material> MATERIALS;// = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
 	public static IForgeRegistry<Part> PARTS;// = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
-	public static IForgeRegistry<LandVehicle> LANDVEHICLES;// = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
+	public static IForgeRegistry<Vehicle> VEHICLES;// = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
 	public static TreeMap<String, Object> MODELS = new TreeMap<String, Object>();
+	public static TreeMap<ResourceLocation, SoundEvent> SOUNDS = new TreeMap<ResourceLocation, SoundEvent>();
 	public static IForgeRegistry<Attribute> PARTATTRIBUTES;// = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
 	public static ResourceLocation NULL_TEXTURE = new ResourceLocation("fvtm:textures/entities/null_texture.png");
 	private final File configpath, addonconfig;
@@ -79,7 +84,7 @@ public class Resources {
 		FUELS = (IForgeRegistry<Fuel>)new RegistryBuilder<Fuel>().setName(new ResourceLocation("fvtm:fuels")).setType(Fuel.class).create();
 		MATERIALS = (IForgeRegistry<Material>)new RegistryBuilder<Material>().setName(new ResourceLocation("fvtm:materials")).setType(Material.class).create();
 		PARTS = (IForgeRegistry<Part>)new RegistryBuilder<Part>().setName(new ResourceLocation("fvtm:parts")).setType(Part.class).create();
-		LANDVEHICLES = (IForgeRegistry<LandVehicle>)new RegistryBuilder<LandVehicle>().setName(new ResourceLocation("fvtm:landvehicles")).setType(LandVehicle.class).create();
+		VEHICLES = (IForgeRegistry<Vehicle>)new RegistryBuilder<Vehicle>().setName(new ResourceLocation("fvtm:vehicles")).setType(Vehicle.class).create();
 		PARTATTRIBUTES = (IForgeRegistry<Attribute>)new RegistryBuilder<Attribute>().setName(new ResourceLocation("fvtm:attributes")).setType(Attribute.class).create();
 	}
 
@@ -127,7 +132,7 @@ public class Resources {
 	public void regItems(RegistryEvent.Register<Item> event){
 		event.getRegistry().register(GenericMaterialItem.INSTANCE);
 		event.getRegistry().register(GenericPartItem.INSTANCE);
-		event.getRegistry().register(GenericLandVehicleItem.INSTANCE);
+		event.getRegistry().register(GenericVehicleItem.INSTANCE);
 		
 		//
 	}
@@ -136,7 +141,7 @@ public class Resources {
 	public void regModels(net.minecraftforge.client.event.ModelRegistryEvent event){
 		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericMaterialItem.INSTANCE, new GenericMaterialItem.ItemMeshDef());
 		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericPartItem.INSTANCE, new GenericPartItem.ItemMeshDef());
-		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericLandVehicleItem.INSTANCE, new GenericLandVehicleItem.ItemMeshDef());
+		net.minecraftforge.client.model.ModelLoader.setCustomMeshDefinition(GenericVehicleItem.INSTANCE, new GenericVehicleItem.ItemMeshDef());
 	}
 	
 	@SubscribeEvent
@@ -171,7 +176,7 @@ public class Resources {
 			if(Static.side().isClient()){
 				Print.log("Registering Addonpack into Forge/Minecraft resources...");
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("modid", FVTM.MODID + "");
+				map.put("modid", addon.getRegistryName().getResourcePath());
 				map.put("name", "[FVTM]: " + addon.getFile().getName());
 				map.put("version", addon.getVersion());
 				FMLModContainer container = new FMLModContainer("net.fexcraft.mod.fvtm.FVTM", new ModCandidate(addon.getFile(), addon.getFile(), addon.getFile().isDirectory() ? ContainerType.DIR : ContainerType.JAR), map);
@@ -307,12 +312,12 @@ public class Resources {
 	}
 	
 	@SubscribeEvent
-	public void regLandVehicles(RegistryEvent.Register<LandVehicle> event){
+	public void regVehicles(RegistryEvent.Register<Vehicle> event){
 		this.queryAddons();
 		for(Addon addon : ADDONS.getValues()){
 			if(addon instanceof GenericAddon){
 				if(((GenericAddon)addon).isHybrid()){
-					((HybridAddon)addon).regLandVehicles(event);
+					((HybridAddon)addon).regVehicles(event);
 					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
 						continue;
 					}
@@ -329,20 +334,20 @@ public class Resources {
 					if(!vehfol.exists()){ vehfol.mkdirs();}
 					for(File file : vehfol.listFiles()){
 						if(!file.isDirectory() && file.getName().endsWith(".vehicle")){
-							GenericLandVehicle veh = new GenericLandVehicle(JsonUtil.get(file));
+							GenericVehicle veh = new GenericVehicle(JsonUtil.get(file));
 							event.getRegistry().register(veh);
 							if(Static.side().isClient()){
-								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+								net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericVehicleItem.INSTANCE, veh.getRegistryName());
 							}
 							Print.debug(veh.getRegistryName());
 						}
 						else if(file.isDirectory()){
 							for(File fl : file.listFiles()){
 								if(fl.getName().endsWith(".vehicle")){
-									GenericLandVehicle veh = new GenericLandVehicle(JsonUtil.get(fl));
+									GenericVehicle veh = new GenericVehicle(JsonUtil.get(fl));
 									event.getRegistry().register(veh);
 									if(Static.side().isClient()){
-										net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+										net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericVehicleItem.INSTANCE, veh.getRegistryName());
 									}
 								}
 							}
@@ -354,10 +359,10 @@ public class Resources {
 				else{
 					JsonArray array = ZipUtil.getJsonObjectsAt(addon.getFile(), "assets/" + addon.getRegistryName().getResourcePath() + "/config/vehicles/", ".vehicle");
 					for(JsonElement elm : array){
-						GenericLandVehicle veh = new GenericLandVehicle(elm.getAsJsonObject());
+						GenericVehicle veh = new GenericVehicle(elm.getAsJsonObject());
 						event.getRegistry().register(veh);
 						if(Static.side().isClient()){
-							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericLandVehicleItem.INSTANCE, veh.getRegistryName());
+							net.minecraft.client.renderer.block.model.ModelBakery.registerItemVariants(GenericVehicleItem.INSTANCE, veh.getRegistryName());
 						}
 						Print.debug(veh.getRegistryName());
 					}
@@ -398,6 +403,53 @@ public class Resources {
 				continue;
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void regSounds(RegistryEvent.Register<SoundEvent> event){
+		for(Addon addon : ADDONS.getValues()){
+			if(addon instanceof GenericAddon){
+				if(((GenericAddon)addon).isHybrid()){
+					((HybridAddon)addon).regSounds(event);
+					if(((HybridAddon)addon).skipDefaultRegistryMethods()){
+						continue;
+					}
+				}
+			}
+			else{
+				continue;
+			}
+		}
+		this.VEHICLES.getValues().forEach((vehicle) -> {
+			vehicle.getSounds().forEach((soundloc) -> {
+				if(SOUNDS.containsKey(soundloc)){
+					vehicle.setSound(soundloc, SOUNDS.get(soundloc));
+				}
+				else{
+					SoundEvent soundevent = new SoundEvent(soundloc).setRegistryName(soundloc);
+					event.getRegistry().register(soundevent);
+					vehicle.setSound(soundloc, soundevent);
+					SOUNDS.put(soundloc, soundevent);
+				}
+			});
+		});
+		this.PARTS.getValues().forEach((part) -> {
+			part.getSounds().forEach((soundloc) -> {
+				if(SOUNDS.containsKey(soundloc)){
+					part.setSound(soundloc, SOUNDS.get(soundloc));
+				}
+				else{
+					SoundEvent soundevent = new SoundEvent(soundloc).setRegistryName(soundloc);
+					event.getRegistry().register(soundevent);
+					part.setSound(soundloc, soundevent);
+					SOUNDS.put(soundloc, soundevent);
+				}
+			});
+			//Print.debug(part.getSounds());
+		});
+		//Print.debug(" - - - - - - ");
+		//Print.debug(SOUNDS.values());
+		//Static.halt();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -448,16 +500,20 @@ public class Resources {
 		return ModelType.NONE;
 	}
 	
-	public static final LandVehicleData getLandVehicleData(NBTTagCompound compound, boolean remote){
-		if(compound.hasKey(LandVehicleItem.NBTKEY)){
-			LandVehicle vehicle = LANDVEHICLES.getValue(new ResourceLocation(compound.getString(LandVehicleItem.NBTKEY)));
+	public static final VehicleData getVehicleData(NBTTagCompound compound, boolean remote){
+		if(compound.hasKey(VehicleItem.NBTKEY) || compound.hasKey(VehicleItem.OLDNBTKEY)){
+			Vehicle vehicle = VEHICLES.getValue(new ResourceLocation(compound.hasKey(VehicleItem.NBTKEY) ? compound.getString(VehicleItem.NBTKEY) : compound.getString(VehicleItem.OLDNBTKEY)));
 			if(vehicle != null){
 				try{
-					return vehicle.getDataClass().getConstructor(LandVehicle.class).newInstance(vehicle).readFromNBT(compound, remote);
+					return vehicle.getDataClass().getConstructor(Vehicle.class).newInstance(vehicle).readFromNBT(compound, remote);
 				}
 				catch(Exception e){
 					e.printStackTrace();
 				}
+			}
+			else{
+				Print.log("NBTTagCompound supposed to hold vehicle data, but Vehicle could not be found. Thus will be deleted, here though the data so you can possibly respawn it: ");
+				Print.log(compound.toString());
 			}
 		}
 		return null;
@@ -544,6 +600,10 @@ public class Resources {
 			Print.chat(event.player, "&0[&9FVTM&0]&7 Latest Version: &3" + entry.getValue());
 			Print.link(event.player, "&0[&9FVTM&0]&7 Download ?: &3&o&lCLICK", addon.getURL());
 		}
+	}
+	
+	public static final List<Vehicle> getVehiclesByType(VehicleType type){
+		return Resources.VEHICLES.getValues().stream().filter(p -> p.getType() == type).collect(Collectors.toList());
 	}
 	
 }

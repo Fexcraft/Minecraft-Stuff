@@ -1,6 +1,6 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.entity.Entity;
@@ -58,12 +58,12 @@ public class ModelC7Interior extends PartModel {
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String us){
+	public void render(VehicleData data, String us){
 		render(body);
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String us, Entity vehicle){
+	public void render(VehicleData data, String us, Entity vehicle){
 		render(body);
 	}
 	

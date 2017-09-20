@@ -7,6 +7,7 @@ import net.fexcraft.mod.fvtm.util.Command;
 import net.fexcraft.mod.fvtm.util.FvtmUpdateHandler;
 import net.fexcraft.mod.fvtm.util.RecipeObject;
 import net.fexcraft.mod.fvtm.util.Resources;
+import net.fexcraft.mod.fvtm.util.SpawnCmd;
 import net.fexcraft.mod.lib.crafting.RecipeRegistry;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.SimpleUpdateHandler;
@@ -19,7 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -75,20 +78,30 @@ public class FVTM {
 	}
 	
 	@Mod.EventHandler
-	public void onStart(FMLServerStartingEvent event){
-		event.registerServerCommand(new Command());
+	public void onStart(FMLServerAboutToStartEvent event){
+		//THREADMANAGER.launch();
 	}
 	
+	@Mod.EventHandler
+	public void onStart(FMLServerStartingEvent event){
+		event.registerServerCommand(new Command());
+		event.registerServerCommand(new SpawnCmd());
+	}
 	
-	public static Resources getResources(){
+	@Mod.EventHandler
+	public void onStop(FMLServerStoppingEvent event){
+		//THREADMANAGER.clear();
+	}
+	
+	public static final Resources getResources(){
 		return RESOURCES;
 	}
 	
-	public static FVTM getInstance(){
+	public static final FVTM getInstance(){
 		return INSTANCE;
 	}
 	
-	public static AutoRegisterer getRegisterer(){
+	public static final AutoRegisterer getRegisterer(){
 		return REGISTERER;
 	}
 	

@@ -1,9 +1,9 @@
 package net.fexcraft.mod.fvtm.blocks;
 
 import net.fexcraft.mod.fvtm.FVTM;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
 import net.fexcraft.mod.fvtm.api.Part.PartItem;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleItem;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.api.item.PaintItem;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -129,7 +129,7 @@ public class ConstructorController extends BlockContainer {
 		}
 		if(!p.getHeldItem(hand).isEmpty()){
 			ItemStack stack = p.getHeldItem(hand);
-			if(stack.getItem() instanceof LandVehicleItem){
+			if(stack.getItem() instanceof VehicleItem){
 				if(te.getData() != null){
 					ItemStack istack = te.getData().getVehicle().getItemStack(te.getData());
 					EntityItem item = new EntityItem(w);
@@ -137,7 +137,7 @@ public class ConstructorController extends BlockContainer {
 					item.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5d, pos.getZ() + 0.5f);
 					w.spawnEntity(item);
 				}
-				te.setData((LandVehicleItem)stack.getItem(), stack);
+				te.setData((VehicleItem)stack.getItem(), stack);
 				Print.chat(p, "Vehicle: " + te.getData().getVehicle().getName());
 				p.getHeldItem(hand).shrink(64);
 				te.updateColour(null, null);
@@ -154,7 +154,7 @@ public class ConstructorController extends BlockContainer {
 							te.getData().installPart(data.getPart().getCategory(), data);
 							Print.chat(p, "Part installed. (" + data.getPart().getName() + ")");
 							p.getHeldItem(hand).shrink(1);
-							te.updateLandVehicle(null);
+							te.updateVehicle(null);
 							te.updateScreen(null, false);
 						}
 					}
@@ -181,7 +181,7 @@ public class ConstructorController extends BlockContainer {
 				else{
 					te.getData().getPrimaryColor().copyFrom(((PaintItem)stack.getItem()).getRGBColor());
 				}
-				te.updateLandVehicle(null);
+				te.updateVehicle(null);
 				Print.chat(p, "Colour updated.");
 			}
 		}

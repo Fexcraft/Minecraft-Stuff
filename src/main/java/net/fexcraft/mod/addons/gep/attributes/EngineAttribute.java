@@ -23,6 +23,7 @@ public class EngineAttribute implements Attribute {
 	private float enginespeed;
 	private float fuelconsumption;
 	private Fuel fueltype;
+	private EngineType type;
 
 	@Override
 	public ResourceLocation getRegistryName(){
@@ -34,6 +35,7 @@ public class EngineAttribute implements Attribute {
 		this.enginespeed = JsonUtil.getIfExists(obj, "Engine-Speed", 0.5f).floatValue();
 		this.fuelconsumption = JsonUtil.getIfExists(obj, "Fuel-Consumption", 0.5f).floatValue();
 		this.fueltype = Resources.FUELS.getValue(new ResourceLocation(JsonUtil.getIfExists(obj, "Fuel-Type", "gasoline")));
+		this.type = EngineType.fromString(JsonUtil.getIfExists(obj, "Engine-Type", EngineType.COMBUSTION.name()));
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class EngineAttribute implements Attribute {
 		tooltip.add(Formatter.format("&9- - - &7-&9 - - -"));
 		tooltip.add(Formatter.format("&9Speed: &7" + enginespeed));
 		tooltip.add(Formatter.format("&9Compsumption: &7" + fuelconsumption));
+		tooltip.add(Formatter.format("&9Type: &7" + type.getFancyName()));
 		tooltip.add(Formatter.format("&9Fuel: &7" + fueltype.getName()));
 	}
 
@@ -115,6 +118,34 @@ public class EngineAttribute implements Attribute {
 			return this.isOn = bool;
 		}
 		
+	}
+	
+	public static enum EngineType {
+		
+		COMBUSTION("Combustion Engine"), STEAM("Steam Engine"), ELECTRIC("Electric Engine"), Illusionary("Illusionary Engine");
+		
+		private String name;
+		
+		EngineType(String str){
+			str = name;
+		}
+
+		public static EngineType fromString(String string){
+			for(EngineType type : values()){
+				if(type.name().toLowerCase().equals(string.toLowerCase())){
+					return type;
+				}
+			}
+			return Illusionary;
+		}
+		
+		public String getName(){
+			return this.getFancyName();
+		}
+
+		public String getFancyName(){
+			return name;
+		}
 	}
 	
 }

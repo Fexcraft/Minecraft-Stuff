@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvtm.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,7 +12,8 @@ import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Addon;
 import net.fexcraft.mod.fvtm.api.DriveType;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
+import net.fexcraft.mod.fvtm.api.EntityType;
+import net.fexcraft.mod.fvtm.api.Vehicle;
 import net.fexcraft.mod.fvtm.model.vehicle.EmptyVehicleModel;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
 import net.fexcraft.mod.fvtm.util.DataUtil;
@@ -24,10 +26,11 @@ import net.fexcraft.mod.lib.util.render.RGB;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GenericLandVehicle implements LandVehicle {
+public class GenericVehicle implements Vehicle {
 	
 	private ResourceLocation registryname;
 	private Addon addon;
@@ -42,10 +45,16 @@ public class GenericLandVehicle implements LandVehicle {
 	private RGB primary, secondary;
 	private int constructionlength;
 	private DriveType drivetype;
+	private ArrayList<EntityType> accentmods = new ArrayList<EntityType>();
+	{ accentmods.add(EntityType.FLANSMOD); }
+	//Sound
+	private TreeMap<String, ResourceLocation> sounds = new TreeMap<String, ResourceLocation>();
+	private TreeMap<ResourceLocation, SoundEvent> soundevents = new TreeMap<ResourceLocation, SoundEvent>();
+	private TreeMap<String, Integer> soundlenghts = new TreeMap<String, Integer>();
 	//FM
 	private float cameradis, maxposthrottle, maxnegthrottle, turnleftmod, turnrightmod, wheelspringstrength, wheelstepheight;
 	
-	public GenericLandVehicle(JsonObject obj){
+	public GenericVehicle(JsonObject obj){
 		this.registryname = DataUtil.getRegistryName(obj, "LANDVEHICLE");
 		this.addon = DataUtil.getAddon(registryname, obj, "LANDVEHICLE");
 		this.name = JsonUtil.getIfExists(obj, "FullName", registryname);
@@ -95,7 +104,7 @@ public class GenericLandVehicle implements LandVehicle {
 		if(obj.has("Recipes")){
 			obj.get("Recipes").getAsJsonArray().forEach((elm) -> {
 				try{
-					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(LandVehicle.class).newInstance(this)), elm.getAsJsonObject(), "FVTM:Vehicles");
+					RecipeObject.parse(this.getItemStack(this.getDataClass().getConstructor(Vehicle.class).newInstance(this)), elm.getAsJsonObject(), "FVTM:Vehicles");
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -103,10 +112,17 @@ public class GenericLandVehicle implements LandVehicle {
 				}
 			});
 		}
+		if(obj.has("Sounds")){
+			for(JsonElement elm : obj.get("Sounds").getAsJsonArray()){
+				JsonObject jsn = elm.getAsJsonObject();
+				this.sounds.put(jsn.get("event").getAsString(), new ResourceLocation(jsn.get("sound").getAsString()));
+				this.soundlenghts.put(jsn.get("event").getAsString(), JsonUtil.getIfExists(jsn, "length", 0).intValue());
+			}
+		}
 	}
 
 	@Override
-	public LandVehicle setRegistryName(ResourceLocation name){
+	public Vehicle setRegistryName(ResourceLocation name){
 		this.registryname = name;
 		return this;
 	}
@@ -132,10 +148,10 @@ public class GenericLandVehicle implements LandVehicle {
 	}
 
 	@Override
-	public ItemStack getItemStack(LandVehicleData data){
-		ItemStack stack = new ItemStack(GenericLandVehicleItem.INSTANCE);
+	public ItemStack getItemStack(VehicleData data){
+		ItemStack stack = new ItemStack(GenericVehicleItem.INSTANCE);
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString(LandVehicleItem.NBTKEY, this.getRegistryName().toString());
+		nbt.setString(VehicleItem.NBTKEY, this.getRegistryName().toString());
 		if(data != null){
 			data.writeToNBT(nbt);
 		}
@@ -194,8 +210,8 @@ public class GenericLandVehicle implements LandVehicle {
 	}
 
 	@Override
-	public Class<? extends LandVehicleData> getDataClass(){
-		return GenericLandVehicleData.class;
+	public Class<? extends VehicleData> getDataClass(){
+		return GenericVehicleData.class;
 	}
 
 	@Override
@@ -241,6 +257,32 @@ public class GenericLandVehicle implements LandVehicle {
 	@Override
 	public float getFMWheelSpringStrength(){
 		return this.wheelspringstrength;
+	}
+
+	@Override
+	public boolean canSpawnAs(EntityType type){
+		return this.accentmods.contains(type);
+	}
+
+	@Override
+	public Collection<ResourceLocation> getSounds(){
+		return this.sounds.values();
+	}
+
+	@Override
+	public SoundEvent getSound(String event){
+		ResourceLocation loc = this.sounds.get(event);
+		return loc == null ? null : this.soundevents.get(loc);
+	}
+
+	@Override
+	public void setSound(ResourceLocation sound, SoundEvent soundevent){
+		this.soundevents.put(sound, soundevent);
+	}
+
+	@Override
+	public int getFMSoundLength(String event){
+		return this.soundlenghts.get(event);
 	}
 	
 }

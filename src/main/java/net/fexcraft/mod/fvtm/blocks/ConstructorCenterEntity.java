@@ -1,6 +1,6 @@
 package net.fexcraft.mod.fvtm.blocks;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorControllerEntity.*;
 import net.fexcraft.mod.lib.api.network.IPacketReceiver;
 import net.fexcraft.mod.lib.network.packet.PacketTileEntityUpdate;
@@ -82,7 +82,7 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 		return link == null ? 0 : link.liftstate;
 	}
 
-	public LandVehicleData getVehicleData(){
+	public VehicleData getVehicleData(){
 		return link == null ? null : link.vehicledata == null ? null : link.vehicledata;
 	}
 

@@ -8,14 +8,15 @@ import javax.annotation.Nullable;
 import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fvtm.api.Attribute.AttributeData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -60,14 +61,22 @@ public interface Part extends IForgeRegistryEntry<Part> {
 	
 	public Collection<Class> getAttributeClasses();
 	
-	public boolean canInstall(String as, LandVehicleData data, EntityPlayer player);
+	public boolean canInstall(String as, VehicleData data, EntityPlayer player);
 	
 	@SideOnly(Side.CLIENT)
 	public PartModel getModel();
 	
 	public Class<? extends PartData> getDataClass();
 	
-	public List<Class<? extends LandVehicleScript>> getScripts();
+	public List<Class<? extends VehicleScript>> getScripts();
+	
+	public Collection<ResourceLocation> getSounds();
+	
+	public SoundEvent getSound(String event);
+
+	public void setSound(ResourceLocation sound, SoundEvent soundevent);
+	
+	public int getFMSoundLength(String event);
 	
 	//<-- PART DATA -->//
 	public static interface PartData {

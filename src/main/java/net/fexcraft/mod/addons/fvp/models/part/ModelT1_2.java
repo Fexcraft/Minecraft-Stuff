@@ -10,7 +10,7 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
 import net.fexcraft.mod.addons.fvp.scripts.T1_2Script;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.minecraft.entity.Entity;
@@ -415,7 +415,7 @@ public class ModelT1_2 extends PartModel {
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String us, Entity vehicle){
+	public void render(VehicleData data, String us, Entity vehicle){
 		super.render(data, us, vehicle);
 		T1_2Script scr = data.getScript(T1_2Script.class);
 		if(scr != null){

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import net.fexcraft.mod.fvtm.FVTM;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleItem;
 import net.fexcraft.mod.fvtm.blocks.ConstructorController.Button;
 import net.fexcraft.mod.fvtm.gui.GuiHandler;
 import net.fexcraft.mod.fvtm.util.Resources;
@@ -35,7 +35,7 @@ public class ConstructorControllerEntity {
 	
 	public static class Server extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>, ITickable {
 		
-		private LandVehicleData vehicledata;
+		private VehicleData vehicledata;
 		private PartData partdata;
 		private byte lift = 0, selection = 0, scroll = 0;
 		private int lc = -1;
@@ -46,12 +46,12 @@ public class ConstructorControllerEntity {
 		private String window = "null";//Don't save/sync this! Should reset on every world load.
 		private int sel;
 		
-		public void setData(LandVehicleItem item, ItemStack stack){
-			this.updateLandVehicle(item.getLandVehicle(stack));
+		public void setData(VehicleItem item, ItemStack stack){
+			this.updateVehicle(item.getVehicle(stack));
 			this.updateScreen(null);
 		}
 
-		public LandVehicleData getData(){
+		public VehicleData getData(){
 			return this.vehicledata;
 		}
 
@@ -169,7 +169,7 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			this.vehicledata = Resources.getLandVehicleData(compound, false);
+			this.vehicledata = Resources.getVehicleData(compound, false);
 			this.liftstate = compound.getFloat("LiftState");
 			//this.selection = compound.getByte("Selection");
 			//this.scroll = compound.getByte("Scroll");
@@ -194,7 +194,7 @@ public class ConstructorControllerEntity {
 					item.setPosition(this.pos.getX() + 0.5f, this.pos.getY(), this.pos.getZ() + 0.5f);
 					world.spawnEntity(item);
 					this.vehicledata = null;
-					this.updateLandVehicle(null);
+					this.updateVehicle(null);
 				}
 				else{
 					try{
@@ -210,11 +210,11 @@ public class ConstructorControllerEntity {
 						if(center == null){
 							Print.chat(player, "ER: C#NULL");
 						}
-						Entity ent = (Entity)Class.forName("com.flansmod.fvtm.LandVehicle").getConstructor(World.class, double.class, double.class, double.class, int.class, LandVehicleData.class)
+						Entity ent = (Entity)Class.forName("com.flansmod.fvtm.LandVehicle").getConstructor(World.class, double.class, double.class, double.class, int.class, VehicleData.class)
 								.newInstance(world, center.getX() + 0.5d, center.getY() + 3, center.getZ() + 0.5d, world.getTileEntity(center).getBlockMetadata() + 1, vehicledata);
 						world.spawnEntity(ent);
 						this.vehicledata = null;
-						this.updateLandVehicle(null);
+						this.updateVehicle(null);
 						
 						this.liftstate = 0;
 						this.updateLiftState();
@@ -503,7 +503,7 @@ public class ConstructorControllerEntity {
 						if(this.partdata.getPart().canInstall(partdata.getPart().getCategories().get(scroll + selection), vehicledata, player)){
 							this.vehicledata.installPart(partdata.getPart().getCategories().get(scroll + selection), partdata);
 							this.partdata = null;
-							this.updateLandVehicle(null);
+							this.updateVehicle(null);
 							this.updateScreen("part_menu");
 						}
 					}
@@ -567,7 +567,7 @@ public class ConstructorControllerEntity {
 									item.setItem(data.getPart().getItemStack(data));
 									item.setPosition(this.pos.getX() + 0.5, this.pos.getY() + 1.5, this.pos.getZ() + 0.5);
 									world.spawnEntity(item);
-									this.updateLandVehicle(null);
+									this.updateVehicle(null);
 								}
 								else{
 									Print.chat(player, "Part is marked as non-removable.");
@@ -734,7 +734,7 @@ public class ConstructorControllerEntity {
 						}
 						this.updateScreen(window, false);
 					}
-					this.updateLandVehicle(vehicledata);
+					this.updateVehicle(vehicledata);
 					break;
 				}
 				case "vehicle_menu":{
@@ -857,7 +857,7 @@ public class ConstructorControllerEntity {
 						}
 						this.updateScreen(window, false);
 					}
-					this.updateLandVehicle(vehicledata);
+					this.updateVehicle(vehicledata);
 					break;
 				}
 				default:{
@@ -900,7 +900,7 @@ public class ConstructorControllerEntity {
 				world.spawnEntity(entity);
 			});
 			this.vehicledata = null;
-			this.updateLandVehicle(null);
+			this.updateVehicle(null);
 			this.updateScreen("main");
 		}
 
@@ -1270,7 +1270,7 @@ public class ConstructorControllerEntity {
 			ApiUtil.sendTileEntityUpdatePacket(this, compound, 256);
 		}
 		
-		public void updateLandVehicle(LandVehicleData data){
+		public void updateVehicle(VehicleData data){
 			if(data != null){
 				this.vehicledata = data;
 			}
@@ -1309,7 +1309,7 @@ public class ConstructorControllerEntity {
 	
 	public static class Client extends TileEntity implements IPacketReceiver<PacketTileEntityUpdate>{
 		
-		public LandVehicleData vehicledata;
+		public VehicleData vehicledata;
 		public double liftstate = 0;
 		public String[] text = new String[8];
 		public String window;
@@ -1324,7 +1324,7 @@ public class ConstructorControllerEntity {
 			window = pkt.nbt.hasKey("window") ? pkt.nbt.getString("window") : "null";
 			switch(pkt.nbt.getString("task")){
 				case "update_vehicledata":{
-					this.vehicledata = Resources.getLandVehicleData(pkt.nbt, world.isRemote);
+					this.vehicledata = Resources.getVehicleData(pkt.nbt, world.isRemote);
 					if(this.vehicledata == null){
 						Print.debug("NO VEHICLE NBT KEY FOUND, RESETTING!");
 					}
@@ -1368,7 +1368,7 @@ public class ConstructorControllerEntity {
 		@Override
 		public void readFromNBT(NBTTagCompound compound){
 			super.readFromNBT(compound);
-			this.vehicledata = Resources.getLandVehicleData(compound, world.isRemote);
+			this.vehicledata = Resources.getVehicleData(compound, world.isRemote);
 			this.liftstate = compound.getFloat("LiftState");
 			this.lift = compound.getByte("Lift");
 			this.parseScreen(compound);

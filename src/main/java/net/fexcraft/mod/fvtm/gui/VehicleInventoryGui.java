@@ -7,8 +7,8 @@ import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute.InventoryAttributeData;
 import net.fexcraft.mod.fvtm.api.Fuel.FuelItem;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.common.Formatter;
@@ -45,7 +45,7 @@ public class VehicleInventoryGui {
 	
 	public static class Client extends GuiContainer {
 		
-		private LandVehicleData data;
+		private VehicleData data;
 		private int x, y, z;
 		private GenericGuiButton arrowUp, arrowDown, fuel, info;
 		private GenericGuiButton[] parts;
@@ -310,7 +310,7 @@ public class VehicleInventoryGui {
 		private EntityPlayer player;
 		private int x, y, z;
 		private TempInventory temp = null;
-		private LandVehicleData data;
+		private VehicleData data;
 		//
 		FuelInventory fuelinv;
 		

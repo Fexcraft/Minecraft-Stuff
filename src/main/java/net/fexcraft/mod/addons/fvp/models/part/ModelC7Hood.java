@@ -1,7 +1,7 @@
 package net.fexcraft.mod.addons.fvp.models.part;
 
 import net.fexcraft.mod.addons.gep.scripts.MultiDoorScript;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.model.part.PartModel;
 import net.fexcraft.mod.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.lib.util.common.Static;
@@ -29,14 +29,14 @@ public class ModelC7Hood extends PartModel {
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String us){
+	public void render(VehicleData data, String us){
 		data.getPrimaryColor().glColorApply();
 		render(body);
 		data.getPrimaryColor().glColorReset();
 	}
 	
 	@Override
-	public void render(LandVehicleData data, String us, Entity vehicle){
+	public void render(VehicleData data, String us, Entity vehicle){
 		data.getPrimaryColor().glColorApply();
 		MultiDoorScript script = data.getScript(MultiDoorScript.class);
 		rotate(body, 0, 0, script == null ? data.doorsOpen() ? -Static.rad60 : 0 : script.hood ? -Static.rad60 : 0, true);

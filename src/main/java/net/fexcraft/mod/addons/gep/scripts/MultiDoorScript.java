@@ -2,20 +2,35 @@ package net.fexcraft.mod.addons.gep.scripts;
 
 import org.lwjgl.input.Keyboard;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MultiDoorScript implements LandVehicle.LandVehicleScript {
+public class MultiDoorScript implements Vehicle.VehicleScript {
+	
+	private static KeyBinding doorkey = new KeyBinding("Door Key", Keyboard.KEY_L, "GEP MultiDoor Script");
+	private static KeyBinding hoodkey = new KeyBinding("Front/Hood Key", Keyboard.KEY_O, "GEP MultiDoor Script");
+	private static KeyBinding backkey = new KeyBinding("Back/Trunk Key", Keyboard.KEY_P, "GEP MultiDoor Script");
+	private static boolean reg = false;
+	public MultiDoorScript(){
+		if(!reg && Static.side().isClient()){
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(doorkey);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(hoodkey);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(backkey);
+			reg = true;
+		}
+	}
 	
 	public boolean hood, trunk, front_left, front_right, back_left, back_right;
-	private int cooldown;
+	public Entity veh;
 
 	@Override
 	public ResourceLocation getId(){
@@ -39,7 +54,7 @@ public class MultiDoorScript implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public LandVehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote){
+	public VehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote){
 		this.hood = compound.getBoolean("MultiDoor-Hood");
 		this.trunk = compound.getBoolean("MultiDoor-Trunk");
 		this.front_left = compound.getBoolean("MultiDoor-FrontLeft");
@@ -50,7 +65,7 @@ public class MultiDoorScript implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public void onDataPacket(Entity entity, LandVehicleData data, NBTTagCompound compound, Side side){
+	public void onDataPacket(Entity entity, VehicleData data, NBTTagCompound compound, Side side){
 		if(!compound.hasKey("MultiDoor")){
 			return;
 		}
@@ -67,74 +82,18 @@ public class MultiDoorScript implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public void onCreated(Entity entity, LandVehicleData data){
-		//
+	public void onCreated(Entity entity, VehicleData data){
+		this.veh = entity;
 	}
 
 	@Override
-	public boolean onInteract(Entity entity, LandVehicleData data, EntityPlayer player){
+	public boolean onInteract(Entity entity, VehicleData data, EntityPlayer player){
 		return false;
 	}
 
 	@Override
-	public void onUpdate(Entity entity, LandVehicleData data){
-		if(cooldown > 0){
-			cooldown--;
-		}
-		if(cooldown > 0){
-			return;
-		}
-		if(entity.world.isRemote && LandVehicleScript.playerIsInVehicle((com.flansmod.fvtm.LandVehicle)entity)){
-			if(net.minecraft.client.Minecraft.getMinecraft().currentScreen == null){//TODO check this.
-				return;
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-				int seat = LandVehicleScript.getClientSeatId();
-				switch(seat){
-					case 0:{
-						front_left = !front_left;
-						break;
-					}
-					case 1:{
-						front_right = !front_right;
-						break;
-					}
-					case 2:{
-						back_left = !back_left;
-						break;
-					}
-					case 3:{
-						back_right = !back_right;
-						break;
-					}
-					default: break;
-				}
-				if(seat < 4){
-					sendDoorPacket(entity);
-					cooldown = 30;
-					Print.debugChat("L > Door");
-				}
-			}
-			else if(Keyboard.isKeyDown(Keyboard.KEY_O)){
-				if(LandVehicleScript.getClientSeatId() != 0){
-					return;
-				}
-				hood = !hood;
-				cooldown = 30;
-				sendDoorPacket(entity);
-				Print.debugChat("O > Hood");
-			}
-			else if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-				if(LandVehicleScript.getClientSeatId() != 0){
-					return;
-				}
-				trunk = !trunk;
-				cooldown = 30;
-				sendDoorPacket(entity);
-				Print.debugChat("P > Back");
-			}
-			else return;
-		}
+	public void onUpdate(Entity entity, VehicleData data){
+		return;
 	}
 
 	private void sendDoorPacket(Entity entity){
@@ -151,8 +110,61 @@ public class MultiDoorScript implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public void onRemove(Entity entity, LandVehicleData data){
-		//
+	public void onRemove(Entity entity, VehicleData data){
+		hood = false; trunk = false;
+		front_left = false; front_right = false;
+		back_left = false; back_right = false;
+	}
+	
+	@Override
+	public void onKeyInput(int key){
+		Print.debug(veh);
+		if(Keyboard.isKeyDown(doorkey.getKeyCode())){
+			Print.debug("L");
+			int seat = VehicleScript.getClientSeatId();
+			switch(seat){
+				case 0:{
+					front_left = !front_left;
+					break;
+				}
+				case 1:{
+					front_right = !front_right;
+					break;
+				}
+				case 2:{
+					back_left = !back_left;
+					break;
+				}
+				case 3:{
+					back_right = !back_right;
+					break;
+				}
+				default: break;
+			}
+			if(seat < 4){
+				sendDoorPacket(veh);
+				Print.debugChat("L > Door");
+			}
+		}
+		else if(Keyboard.isKeyDown(hoodkey.getKeyCode())){
+			Print.debug("O");
+			if(VehicleScript.getClientSeatId() != 0){
+				return;
+			}
+			hood = !hood;
+			sendDoorPacket(veh);
+			Print.debugChat("O > Hood");
+		}
+		else if(Keyboard.isKeyDown(backkey.getKeyCode())){
+			Print.debug("P");
+			if(VehicleScript.getClientSeatId() != 0){
+				return;
+			}
+			trunk = !trunk;
+			sendDoorPacket(veh);
+			Print.debugChat("P > Back");
+		}
+		else return;
 	}
 	
 }

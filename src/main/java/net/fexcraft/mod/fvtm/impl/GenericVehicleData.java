@@ -11,11 +11,11 @@ import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute;
 import net.fexcraft.mod.addons.gep.attributes.InventoryAttribute;
 import net.fexcraft.mod.addons.gep.attributes.FuelTankExtensionAttribute.FuelTankExtensionAttributeData;
 import net.fexcraft.mod.fvtm.FVTM;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
 import net.fexcraft.mod.fvtm.api.Part.PartData;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleItem;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.fvtm.api.compatibility.FMSeat;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.lib.api.item.KeyItem;
@@ -31,9 +31,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 
-public class GenericLandVehicleData implements LandVehicleData {
+public class GenericVehicleData implements VehicleData {
 	
-	private LandVehicle vehicle;
+	private Vehicle vehicle;
 	private int sel, keys;
 	//private double tank;
 	private String url, lockcode;
@@ -42,15 +42,15 @@ public class GenericLandVehicleData implements LandVehicleData {
 	private List<Pos> wheelpos;
 	private RGB primary, secondary;
 	private boolean doors, isexternal, locked, remote;
-	private Map<Class, LandVehicleScript> scripts = new HashMap<Class, LandVehicleScript>();
+	private Map<Class, VehicleScript> scripts = new HashMap<Class, VehicleScript>();
 	private ArrayList<FMSeat> seats = new ArrayList<FMSeat>();
 	
-	public GenericLandVehicleData(LandVehicle veh){
+	public GenericVehicleData(Vehicle veh){
 		this.vehicle = veh;
 	}
 	
 	@Override
-	public LandVehicle getVehicle(){
+	public Vehicle getVehicle(){
 		return this.vehicle;
 	}
 
@@ -66,7 +66,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagcompound){
-		tagcompound.setString(LandVehicleItem.NBTKEY, vehicle.getRegistryName().toString());
+		tagcompound.setString(VehicleItem.NBTKEY, vehicle.getRegistryName().toString());
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setInteger("SelectedTexture", sel);
 		compound.setString("CustomTexture", isexternal ? url == null ? "" : url : custom == null ? "minecraft:stone" : custom.toString());
@@ -113,7 +113,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public LandVehicleData readFromNBT(NBTTagCompound compound, boolean isRemote){
+	public VehicleData readFromNBT(NBTTagCompound compound, boolean isRemote){
 		this.remote = isRemote();
 		compound = compound.getCompoundTag(FVTM.MODID + "_landvehicle");
 		this.sel = compound.getInteger("SelectedTexture");
@@ -164,7 +164,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 		parts.forEach((key, data) ->{
 			data.getPart().getScripts().forEach((clazz) -> {
 				try{
-					LandVehicleScript script = clazz.newInstance();
+					VehicleScript script = clazz.newInstance();
 					if(script.isOn(Static.side(remote))){
 						this.scripts.put(clazz, script.readFromNBT(nbt[0], remote));
 					}
@@ -269,7 +269,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public Collection<LandVehicleScript> getScripts(){
+	public Collection<VehicleScript> getScripts(){
 		return scripts.values();
 	}
 
@@ -313,7 +313,7 @@ public class GenericLandVehicleData implements LandVehicleData {
 	}
 
 	@Override
-	public <T extends LandVehicleScript> T getScript(Class<T> clazz){
+	public <T extends VehicleScript> T getScript(Class<T> clazz){
 		return (T)scripts.get(clazz);
 	}
 
@@ -382,6 +382,11 @@ public class GenericLandVehicleData implements LandVehicleData {
 			}
 		});
 		return map;
+	}
+	
+	@Override
+	public String toString(){
+		return this.writeToNBT(new NBTTagCompound()).toString();
 	}
 	
 }

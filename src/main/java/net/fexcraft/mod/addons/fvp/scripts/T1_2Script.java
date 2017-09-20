@@ -2,22 +2,29 @@ package net.fexcraft.mod.addons.fvp.scripts;
 
 import org.lwjgl.input.Keyboard;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.lib.util.common.Print;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.fexcraft.mod.lib.util.common.Static;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class T1_2Script implements LandVehicle.LandVehicleScript {
+public class T1_2Script implements Vehicle.VehicleScript {
+
+	private static KeyBinding keybind = new KeyBinding("T1 Type 2", Keyboard.KEY_L, "Fex`s Vehicle Pack");
+	public boolean out = false, reg = false;
 	
-	private int cooldown = 0;
-	public boolean out = false;
+	public T1_2Script(){
+		if(!reg && Static.side().isClient()){
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(keybind);
+			reg = true;
+		}
+	}
 
 	@Override
 	public ResourceLocation getId(){
@@ -36,7 +43,7 @@ public class T1_2Script implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public LandVehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote){
+	public VehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote){
 		if(compound.hasKey("Out")){
 			out = compound.getBoolean("Out");
 		}
@@ -44,7 +51,7 @@ public class T1_2Script implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public void onDataPacket(Entity entity, LandVehicleData data, NBTTagCompound compound, Side side){
+	public void onDataPacket(Entity entity, VehicleData data, NBTTagCompound compound, Side side){
 		if(side.isServer()){
 			this.sendPacketToAllAround(entity, compound);
 		}
@@ -52,37 +59,34 @@ public class T1_2Script implements LandVehicle.LandVehicleScript {
 	}
 
 	@Override
-	public void onCreated(Entity entity, LandVehicleData data){
+	public void onCreated(Entity entity, VehicleData data){
 		//
 	}
 
 	@Override
-	public void onRemove(Entity entity, LandVehicleData data){
+	public void onRemove(Entity entity, VehicleData data){
 		//
 	}
 
 	@Override
-	public boolean onInteract(Entity entity, LandVehicleData data, EntityPlayer player){
+	public boolean onInteract(Entity entity, VehicleData data, EntityPlayer player){
 		return false;
 	}
 
 	@Override
-	public void onUpdate(Entity entity, LandVehicleData data) {
-		if(entity.world.isRemote && LandVehicleScript.playerIsInVehicle((com.flansmod.fvtm.LandVehicle)entity)){
-			if(cooldown > 0){
-				cooldown--;
-			}
-			if(cooldown > 0){
-				return;
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_L) && !FMLClientHandler.instance().isGUIOpen(GuiContainer.class)){
-				cooldown = 4;
-				out = !out;
-				Print.debugChat(out ? "Out" : "In");
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setBoolean("Out", out);
-				this.sendPacketToServer(entity, nbt);
-			}
+	public void onUpdate(Entity entity, VehicleData data) {
+		return;
+	}
+	
+	@Override
+	public void onKeyInput(int key){
+		//Print.debug(key, keybind.getKeyCategory(), keybind.getKeyCode());
+		if(Keyboard.isKeyDown(keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
+			out = !out;
+			Print.debugChat(out ? "Out" : "In");
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("Out", out);
+			this.sendPacketToServer(VehicleScript.getVehicle(), nbt);
 		}
 	}
 	

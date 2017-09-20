@@ -4,7 +4,7 @@
     "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelT1_FT1.class",
     "FullName": "T1 FT1 Snow Plow",
     "Description": [
-        "&7Use the &c`F`&7 key to enable/disable."
+        "&7Use the &c`F (default)`&7 key to enable/disable."
     ],
     "Category": [
         "front_tool"

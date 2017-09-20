@@ -19,12 +19,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
+public interface Vehicle extends IForgeRegistryEntry<Vehicle> {
 	
 	public Addon getAddon();
 	
@@ -33,11 +34,15 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	public String[] getDescription();
 	
 	@Override
-	public default Class<LandVehicle> getRegistryType(){
-		return LandVehicle.class;
+	public default Class<Vehicle> getRegistryType(){
+		return Vehicle.class;
 	}
 	
-	public ItemStack getItemStack(@Nullable LandVehicleData data);
+	public default VehicleType getType(){
+		return VehicleType.LAND;
+	}
+	
+	public ItemStack getItemStack(@Nullable VehicleData data);
 	
 	public Map<String, ResourceLocation> getPreinstalledParts();
 	
@@ -60,7 +65,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	@SideOnly(Side.CLIENT)
 	public VehicleModel getModel();
 	
-	public Class<? extends LandVehicleData> getDataClass();
+	public Class<? extends VehicleData> getDataClass();
 	
 	public boolean canSpawnAs(String modid);
 
@@ -80,10 +85,20 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 
 	public DriveType getDriveType();
 	
+	public boolean canSpawnAs(EntityType type);
+	
+	public Collection<ResourceLocation> getSounds();
+	
+	public SoundEvent getSound(String event);
+
+	public void setSound(ResourceLocation sound, SoundEvent soundevent);
+	
+	public int getFMSoundLength(String event);
+	
 	//<-- VEHICLE DATA -->//
-	public static interface LandVehicleData {
+	public static interface VehicleData {
 		
-		public LandVehicle getVehicle();
+		public Vehicle getVehicle();
 		
 		public int getSelectedTexture();
 		
@@ -115,7 +130,7 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
-		public LandVehicleData readFromNBT(NBTTagCompound compound, boolean isRemote);
+		public VehicleData readFromNBT(NBTTagCompound compound, boolean isRemote);
 		
 		public boolean readyToSpawn();
 
@@ -131,9 +146,9 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 
 		public String getLockCode();
 		
-		public Collection<LandVehicleScript> getScripts();
+		public Collection<VehicleScript> getScripts();
 		
-		public <T extends LandVehicleScript> T getScript(Class<T> clazz);
+		public <T extends VehicleScript> T getScript(Class<T> clazz);
 
 		public int getSpawnedKeysAmount();
 
@@ -157,15 +172,16 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 	}
 	
 	//<-- VEHICLE ITEM -->//
-	public static interface LandVehicleItem {
+	public static interface VehicleItem {
 		
-		public static final String NBTKEY = "FVTM:LandVehicle";
+		public static final String NBTKEY = "FVTM:Vehicle";
+		public static final String OLDNBTKEY = "FVTM:LandVehicle";
 		
-		public LandVehicleData getLandVehicle(ItemStack stack);
+		public VehicleData getVehicle(ItemStack stack);
 		
 	}
 	
-	public static interface LandVehicleScript {
+	public static interface VehicleScript {
 		
 		public ResourceLocation getId();
 		
@@ -173,17 +189,17 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		
 		public NBTTagCompound writeToNBT(NBTTagCompound compound);
 		
-		public LandVehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote);
+		public VehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote);
 		
-		public void onDataPacket(Entity entity, LandVehicleData data, NBTTagCompound compound, Side side);
+		public void onDataPacket(Entity entity, VehicleData data, NBTTagCompound compound, Side side);
 
-		public void onCreated(Entity entity, LandVehicleData data);
+		public void onCreated(Entity entity, VehicleData data);
 
-		public boolean onInteract(Entity entity, LandVehicleData data, EntityPlayer player);
+		public boolean onInteract(Entity entity, VehicleData data, EntityPlayer player);
 
-		public void onUpdate(Entity entity, LandVehicleData data);
+		public void onUpdate(Entity entity, VehicleData data);
 
-		public void onRemove(Entity entity, LandVehicleData data);
+		public void onRemove(Entity entity, VehicleData data);
 		
 		@SideOnly(Side.CLIENT)
 		public static int getClientSeatId(){
@@ -192,6 +208,11 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 				return ((com.flansmod.fvtm.EntitySeat)player.getRidingEntity()).getSeatId();
 			}
 			else return -1;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public static Entity getVehicle(){
+			return ((com.flansmod.fvtm.EntitySeat)net.minecraft.client.Minecraft.getMinecraft().player.getRidingEntity()).vehicle;
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -226,6 +247,10 @@ public interface LandVehicle extends IForgeRegistryEntry<LandVehicle> {
 		public default void sendPacketToServer(Entity ent, NBTTagCompound nbt){
 			nbt.setString("ScriptId", getId().toString());
 			PacketHandler.getInstance().sendToServer(new PacketEntityUpdate(ent, nbt));
+		}
+
+		public default void onKeyInput(int key){
+			return;
 		}
 		
 	}

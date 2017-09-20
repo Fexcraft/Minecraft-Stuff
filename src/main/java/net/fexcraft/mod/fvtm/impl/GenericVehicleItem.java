@@ -5,9 +5,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.fexcraft.mod.addons.gep.attributes.EngineAttribute;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleItem;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.fexcraft.mod.fvtm.api.VehicleType;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleItem;
 import net.fexcraft.mod.fvtm.util.Resources;
 import net.fexcraft.mod.fvtm.util.Tabs;
 import net.fexcraft.mod.lib.util.common.Formatter;
@@ -31,15 +32,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GenericLandVehicleItem extends Item implements LandVehicleItem {
+public class GenericVehicleItem extends Item implements VehicleItem {
 	
-	public static final GenericLandVehicleItem INSTANCE = new GenericLandVehicleItem();
+	public static final GenericVehicleItem INSTANCE = new GenericVehicleItem();
 	
-	public GenericLandVehicleItem(){
+	public GenericVehicleItem(){
 		this.setCreativeTab(Tabs.LANDVEHICLES);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
-		this.setRegistryName("fvtm:landvehicles");
+		this.setRegistryName("fvtm:vehicles");
 		this.setUnlocalizedName(this.getRegistryName().toString());
 	}
 	
@@ -48,7 +49,7 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 
 		@Override
 		public final net.minecraft.client.renderer.block.model.ModelResourceLocation getModelLocation(ItemStack stack){
-			if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
+			if(stack.hasTagCompound() && (stack.getTagCompound().hasKey(NBTKEY) || stack.getTagCompound().hasKey(OLDNBTKEY))){
 				return new net.minecraft.client.renderer.block.model.ModelResourceLocation(new ResourceLocation(stack.getTagCompound().getString(NBTKEY)), "inventory");
 			}
 			return new net.minecraft.client.renderer.block.model.ModelResourceLocation(INSTANCE.getRegistryName(), "inventory");
@@ -59,8 +60,8 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			LandVehicleData veh = Resources.getLandVehicleData(stack.getTagCompound(), worldIn == null ? false/*true?*/ : worldIn.isRemote);
+		if(stack.hasTagCompound() && (stack.getTagCompound().hasKey(NBTKEY) || stack.getTagCompound().hasKey(OLDNBTKEY))){
+			VehicleData veh = Resources.getVehicleData(stack.getTagCompound(), worldIn == null ? false/*true?*/ : worldIn.isRemote);
 			if(veh == null){
 				return;
 			}
@@ -91,8 +92,35 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
-		if(this.isInCreativeTab(tab)){
-			for(LandVehicle veh : Resources.LANDVEHICLES.getValues()){
+		if(tab == Tabs.LANDVEHICLES){
+			for(Vehicle veh : Resources.getVehiclesByType(VehicleType.LAND)){
+				ItemStack stack = new ItemStack(this);
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString(NBTKEY, veh.getRegistryName().toString());
+				stack.setTagCompound(nbt);
+				items.add(stack);
+			}
+		}
+		if(tab == Tabs.AIRVEHICLES){
+			for(Vehicle veh : Resources.getVehiclesByType(VehicleType.AIR)){
+				ItemStack stack = new ItemStack(this);
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString(NBTKEY, veh.getRegistryName().toString());
+				stack.setTagCompound(nbt);
+				items.add(stack);
+			}
+		}
+		if(tab == Tabs.WATERVEHICLES){
+			for(Vehicle veh : Resources.getVehiclesByType(VehicleType.WATER)){
+				ItemStack stack = new ItemStack(this);
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString(NBTKEY, veh.getRegistryName().toString());
+				stack.setTagCompound(nbt);
+				items.add(stack);
+			}
+		}
+		if(tab == Tabs.RAILVEHICLES){
+			for(Vehicle veh : Resources.getVehiclesByType(VehicleType.RAIL)){
 				ItemStack stack = new ItemStack(this);
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString(NBTKEY, veh.getRegistryName().toString());
@@ -111,39 +139,36 @@ public class GenericLandVehicleItem extends Item implements LandVehicleItem {
 	}
 
 	@Override
-	public LandVehicleData getLandVehicle(ItemStack stack){
+	public VehicleData getVehicle(ItemStack stack){
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(NBTKEY)){
-			return Resources.getLandVehicleData(stack.getTagCompound(), false);
+			return Resources.getVehicleData(stack.getTagCompound(), false);
 		}
 		return null;
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityplayer, EnumHand hand){
-		//Raytracing
-		float cosYaw = MathHelper.cos(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
-		float sinYaw = MathHelper.sin(-entityplayer.rotationYaw * 0.01745329F - 3.141593F);
-		float cosPitch = -MathHelper.cos(-entityplayer.rotationPitch * 0.01745329F);
-		float sinPitch = MathHelper.sin(-entityplayer.rotationPitch * 0.01745329F);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand){
+		float cosYaw = MathHelper.cos(-player.rotationYaw * 0.01745329F - 3.141593F);
+		float sinYaw = MathHelper.sin(-player.rotationYaw * 0.01745329F - 3.141593F);
+		float cosPitch = -MathHelper.cos(-player.rotationPitch * 0.01745329F);
+		float sinPitch = MathHelper.sin(-player.rotationPitch * 0.01745329F);
 		double length = 5D;
-		Vec3d posVec = new Vec3d(entityplayer.posX, entityplayer.posY + 1.62D - entityplayer.getYOffset(), entityplayer.posZ);		
+		Vec3d posVec = new Vec3d(player.posX, player.posY + 1.62D - player.getYOffset(), player.posZ);		
 		Vec3d lookVec = posVec.addVector(sinYaw * cosPitch * length, sinPitch * length, cosYaw * cosPitch * length);
 		RayTraceResult movingobjectposition = world.rayTraceBlocks(posVec, lookVec, true);
-		
-		//Result check
 		if(movingobjectposition == null){
-			return new ActionResult(EnumActionResult.PASS, entityplayer.getHeldItem(hand));
+			return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
 		}
 		if(movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK){
 			BlockPos pos = movingobjectposition.getBlockPos();
 			if(!world.isRemote){
-				world.spawnEntity(new com.flansmod.fvtm.LandVehicle(world, (double)pos.getX() + 0.5F, (double)pos.getY() + 2.5F, (double)pos.getZ() + 0.5F, entityplayer, this.getLandVehicle(entityplayer.getHeldItem(hand))));
+				world.spawnEntity(new com.flansmod.fvtm.LandVehicle(world, pos.getX() + 0.5F, pos.getY() + 2.5F, pos.getZ() + 0.5F, player, this.getVehicle(player.getHeldItem(hand))));
 			}
-			if(!entityplayer.capabilities.isCreativeMode){
-				entityplayer.getHeldItem(hand).shrink(1);
+			if(!player.capabilities.isCreativeMode){
+				player.getHeldItem(hand).shrink(1);
 			}
 		}
-		return new ActionResult(EnumActionResult.SUCCESS, entityplayer.getHeldItemMainhand());
+		return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItemMainhand());
 	}
 	
 }

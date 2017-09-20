@@ -17,7 +17,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> {
 		if(i > this.size()){
 			return super.get(0);
 		}
-		return super.get(i);
+		return i < 0 ? null : super.get(i);
 	}
 	
 }

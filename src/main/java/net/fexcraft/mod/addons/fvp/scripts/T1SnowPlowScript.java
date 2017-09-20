@@ -6,27 +6,34 @@ import com.flansmod.common.RotatedAxes;
 import com.flansmod.common.vector.Vector3f;
 import com.flansmod.fvtm.LandVehicle;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleScript;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.lib.util.common.Print;
+import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class T1SnowPlowScript implements LandVehicleScript {
+public class T1SnowPlowScript implements VehicleScript {
 	
-	private int cooldown;
-	public boolean on = false;
+	private static KeyBinding keybind = new KeyBinding("T1 Snow Plow", Keyboard.KEY_F, "Fex`s Vehicle Pack");
+	public boolean on = false, reg = false;
+	
+	public T1SnowPlowScript(){
+		if(!reg && Static.side().isClient()){
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(keybind);
+			reg = true;
+		}
+	}
 
 	@Override
 	public ResourceLocation getId(){
@@ -45,7 +52,7 @@ public class T1SnowPlowScript implements LandVehicleScript {
 	}
 
 	@Override
-	public LandVehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote) {
+	public VehicleScript readFromNBT(NBTTagCompound compound, boolean isRemote) {
 		if(compound.hasKey(this.getId().toString() + "_On")){
 			on = compound.getBoolean(this.getId().toString() + "_On");
 		}
@@ -53,7 +60,7 @@ public class T1SnowPlowScript implements LandVehicleScript {
 	}
 
 	@Override
-	public void onDataPacket(Entity entity, LandVehicleData data, NBTTagCompound compound, Side side) {
+	public void onDataPacket(Entity entity, VehicleData data, NBTTagCompound compound, Side side) {
 		if(side.isServer()){
 			this.sendPacketToAllAround(entity, compound);
 		}
@@ -63,37 +70,19 @@ public class T1SnowPlowScript implements LandVehicleScript {
 	}
 
 	@Override
-	public void onCreated(Entity entity, LandVehicleData data){
+	public void onCreated(Entity entity, VehicleData data){
 		return;
 	}
 
 	@Override
-	public boolean onInteract(Entity entity, LandVehicleData data, EntityPlayer player){
+	public boolean onInteract(Entity entity, VehicleData data, EntityPlayer player){
 		return false;
 	}
 
 	@Override
-	public void onUpdate(Entity entity, LandVehicleData data){
+	public void onUpdate(Entity entity, VehicleData data){
 		com.flansmod.fvtm.LandVehicle vehicle = (LandVehicle) entity;
-		if(vehicle.world.isRemote){
-			if(LandVehicleScript.playerIsInVehicle(vehicle)){
-				if(cooldown > 0){
-					cooldown--;
-				}
-				if(cooldown > 0){
-					return;
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_F) && !FMLClientHandler.instance().isGUIOpen(GuiContainer.class)){
-					cooldown = 4;
-					on = !on;
-					Print.debugChat("Snow Plow " + (on ? "enabled" : "disabled") + ".");
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setBoolean("On", on);
-					this.sendPacketToServer(vehicle, nbt);
-				}
-			}
-		}
-		else{
+		if(!vehicle.world.isRemote){
 			if(on){
 				Vector3f[] pos = new Vector3f[6];
 				pos[0] = calculate(vehicle,  2);
@@ -138,8 +127,20 @@ public class T1SnowPlowScript implements LandVehicleScript {
 	}
 
 	@Override
-	public void onRemove(Entity entity, LandVehicleData data){
+	public void onRemove(Entity entity, VehicleData data){
 		//
+	}
+	
+	@Override
+	public void onKeyInput(int key){
+		//Print.debug(key);
+		if(Keyboard.isKeyDown(keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
+			on = !on;
+			Print.debugChat("Snow Plow " + (on ? "enabled" : "disabled") + ".");
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("On", on);
+			this.sendPacketToServer(VehicleScript.getVehicle(), nbt);
+		}
 	}
 	
 }

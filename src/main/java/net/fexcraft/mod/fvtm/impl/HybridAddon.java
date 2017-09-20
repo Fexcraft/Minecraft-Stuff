@@ -4,7 +4,8 @@ import java.io.File;
 
 import net.fexcraft.mod.fvtm.api.Attribute;
 import net.fexcraft.mod.fvtm.api.Fuel;
-import net.fexcraft.mod.fvtm.api.LandVehicle;
+import net.fexcraft.mod.fvtm.api.Vehicle;
+import net.minecraft.util.SoundEvent;
 import net.fexcraft.mod.fvtm.api.Material;
 import net.fexcraft.mod.fvtm.api.Part;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,7 +26,9 @@ public abstract class HybridAddon extends GenericAddon {
 	
 	public abstract void regParts(RegistryEvent.Register<Part> event);
 	
-	public abstract void regLandVehicles(RegistryEvent.Register<LandVehicle> event);
+	public abstract void regVehicles(RegistryEvent.Register<Vehicle> event);
+
+	public abstract void regSounds(Register<SoundEvent> event);
 	
 	/** Set `true` if you want to skip default JSON config search and parsing for this addon. */
 	public abstract boolean skipDefaultRegistryMethods();

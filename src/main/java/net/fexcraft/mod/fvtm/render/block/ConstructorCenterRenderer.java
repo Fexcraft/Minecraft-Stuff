@@ -2,7 +2,7 @@ package net.fexcraft.mod.fvtm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import net.fexcraft.mod.fvtm.api.LandVehicle.LandVehicleData;
+import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.blocks.ConstructorCenterEntity;
 import net.fexcraft.mod.fvtm.model.block.ModelConstructorCenter;
 import net.fexcraft.mod.fvtm.model.vehicle.VehicleModel;
@@ -40,7 +40,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 		}
 		GL11.glRotated(d, 0, 1, 0);
 		GL11.glRotated(90 , 0, 1D, 0);
-		LandVehicleData vehicledata = te.getVehicleData();
+		VehicleData vehicledata = te.getVehicleData();
 		if(vehicledata != null){
 			VehicleModel modvec = vehicledata.getVehicle().getModel();
 			if(modvec != null){
@@ -76,7 +76,7 @@ public class ConstructorCenterRenderer extends TileEntitySpecialRenderer<Constru
 		GL11.glPopMatrix();
     }
 	
-	private static final void renderLP(ConstructorCenterEntity te, LandVehicleData data, ModelRendererTurbo[] turbo){
+	private static final void renderLP(ConstructorCenterEntity te, VehicleData data, ModelRendererTurbo[] turbo){
 		if(data != null){
 			for(int i = 0; i < 5; i++){
 				turbo[0].render();
