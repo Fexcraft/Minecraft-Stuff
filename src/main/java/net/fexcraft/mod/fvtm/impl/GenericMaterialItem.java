@@ -79,9 +79,11 @@ public class GenericMaterialItem extends Item implements MaterialItem, FuelItem 
         		}
         		stack.setTagCompound(nbt);
                 items.add(stack);
-                stack = stack.copy();
-                stack.getTagCompound().setDouble("FuelContent", material.maxCapacity());
-                items.add(stack);
+                if(material.isFuelContainer()){
+                    stack = stack.copy();
+                    stack.getTagCompound().setDouble("FuelContent", material.maxCapacity());
+                    items.add(stack);
+                }
         	}
         }
     }
