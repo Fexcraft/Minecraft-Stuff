@@ -7,24 +7,21 @@ import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MultiDoorScript implements Vehicle.VehicleScript {
 	
-	private static KeyBinding doorkey = new KeyBinding("Door Key", Keyboard.KEY_L, "GEP MultiDoor Script");
-	private static KeyBinding hoodkey = new KeyBinding("Front/Hood Key", Keyboard.KEY_O, "GEP MultiDoor Script");
-	private static KeyBinding backkey = new KeyBinding("Back/Trunk Key", Keyboard.KEY_P, "GEP MultiDoor Script");
 	private static boolean reg = false;
 	public MultiDoorScript(){
 		if(!reg && Static.side().isClient()){
-			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(doorkey);
-			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(hoodkey);
-			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(backkey);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(ClientReg.doorkey);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(ClientReg.hoodkey);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(ClientReg.backkey);
 			reg = true;
 		}
 	}
@@ -119,7 +116,7 @@ public class MultiDoorScript implements Vehicle.VehicleScript {
 	@Override
 	public void onKeyInput(int key){
 		Print.debug(veh);
-		if(Keyboard.isKeyDown(doorkey.getKeyCode())){
+		if(Keyboard.isKeyDown(ClientReg.doorkey.getKeyCode())){
 			Print.debug("L");
 			int seat = VehicleScript.getClientSeatId();
 			switch(seat){
@@ -146,7 +143,7 @@ public class MultiDoorScript implements Vehicle.VehicleScript {
 				Print.debugChat("L > Door");
 			}
 		}
-		else if(Keyboard.isKeyDown(hoodkey.getKeyCode())){
+		else if(Keyboard.isKeyDown(ClientReg.hoodkey.getKeyCode())){
 			Print.debug("O");
 			if(VehicleScript.getClientSeatId() != 0){
 				return;
@@ -155,7 +152,7 @@ public class MultiDoorScript implements Vehicle.VehicleScript {
 			sendDoorPacket(veh);
 			Print.debugChat("O > Hood");
 		}
-		else if(Keyboard.isKeyDown(backkey.getKeyCode())){
+		else if(Keyboard.isKeyDown(ClientReg.backkey.getKeyCode())){
 			Print.debug("P");
 			if(VehicleScript.getClientSeatId() != 0){
 				return;
@@ -165,6 +162,13 @@ public class MultiDoorScript implements Vehicle.VehicleScript {
 			Print.debugChat("P > Back");
 		}
 		else return;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static class ClientReg{
+		public static net.minecraft.client.settings.KeyBinding doorkey = new net.minecraft.client.settings.KeyBinding("Door Key", Keyboard.KEY_L, "GEP MultiDoor Script");
+		public static net.minecraft.client.settings.KeyBinding hoodkey = new net.minecraft.client.settings.KeyBinding("Front/Hood Key", Keyboard.KEY_O, "GEP MultiDoor Script");
+		public static net.minecraft.client.settings.KeyBinding backkey = new net.minecraft.client.settings.KeyBinding("Back/Trunk Key", Keyboard.KEY_P, "GEP MultiDoor Script");
 	}
 	
 }

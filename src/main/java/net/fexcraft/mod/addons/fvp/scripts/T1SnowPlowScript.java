@@ -14,7 +14,6 @@ import net.fexcraft.mod.lib.util.math.Pos;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,15 +21,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class T1SnowPlowScript implements VehicleScript {
 	
-	private static KeyBinding keybind = new KeyBinding("T1 Snow Plow", Keyboard.KEY_F, "Fex`s Vehicle Pack");
 	public boolean on = false, reg = false;
 	
 	public T1SnowPlowScript(){
 		if(!reg && Static.side().isClient()){
-			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(keybind);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(ClientReg.keybind);
 			reg = true;
 		}
 	}
@@ -134,13 +133,18 @@ public class T1SnowPlowScript implements VehicleScript {
 	@Override
 	public void onKeyInput(int key){
 		//Print.debug(key);
-		if(Keyboard.isKeyDown(keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
+		if(Keyboard.isKeyDown(ClientReg.keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
 			on = !on;
 			Print.debugChat("Snow Plow " + (on ? "enabled" : "disabled") + ".");
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setBoolean("On", on);
 			this.sendPacketToServer(VehicleScript.getVehicle(), nbt);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static class ClientReg{
+		private static net.minecraft.client.settings.KeyBinding keybind = new net.minecraft.client.settings.KeyBinding("T1 Snow Plow", Keyboard.KEY_F, "Fex`s Vehicle Pack");
 	}
 	
 }

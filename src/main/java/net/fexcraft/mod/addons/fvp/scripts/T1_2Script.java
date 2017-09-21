@@ -7,21 +7,21 @@ import net.fexcraft.mod.fvtm.api.Vehicle.VehicleData;
 import net.fexcraft.mod.fvtm.api.Vehicle.VehicleScript;
 import net.fexcraft.mod.lib.util.common.Print;
 import net.fexcraft.mod.lib.util.common.Static;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class T1_2Script implements Vehicle.VehicleScript {
 
-	private static KeyBinding keybind = new KeyBinding("T1 Type 2", Keyboard.KEY_L, "Fex`s Vehicle Pack");
+	@SideOnly(Side.CLIENT)
 	public boolean out = false, reg = false;
 	
 	public T1_2Script(){
 		if(!reg && Static.side().isClient()){
-			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(keybind);
+			net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(ClientReg.keybind);
 			reg = true;
 		}
 	}
@@ -81,13 +81,18 @@ public class T1_2Script implements Vehicle.VehicleScript {
 	@Override
 	public void onKeyInput(int key){
 		//Print.debug(key, keybind.getKeyCategory(), keybind.getKeyCode());
-		if(Keyboard.isKeyDown(keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
+		if(Keyboard.isKeyDown(ClientReg.keybind.getKeyCode()) && VehicleScript.getClientSeatId() == 0){
 			out = !out;
 			Print.debugChat(out ? "Out" : "In");
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setBoolean("Out", out);
 			this.sendPacketToServer(VehicleScript.getVehicle(), nbt);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static class ClientReg{
+		private static net.minecraft.client.settings.KeyBinding keybind = new net.minecraft.client.settings.KeyBinding("T1 Type 2", Keyboard.KEY_L, "Fex`s Vehicle Pack");
 	}
 	
 }
