@@ -20,7 +20,7 @@
         }
     ],
     "AttributeData":{
-        "Inventory-Size": 44,
+        "Inventory-Size": 68,
         "Inventory-Whitelist":[
             { "id": "minecraft:log" },
             { "id": "minecraft:log2" },

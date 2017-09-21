@@ -59,7 +59,7 @@ public class ConstructorControllerRender extends TileEntitySpecialRenderer<Const
 		}
 		this.setLightmapDisabled(true);
 		for(int i = 0; i < 8; i++){
-            Renderer.drawNameplate(this.getFontRenderer(), Formatter.format((i == te.selection ? "&e> " : "&7> ") + te.text[i]), 0.09375f, -1.6775f + (i * 0.064f), 0.81f, 0, 0, 0, false, false);
+            Renderer.drawNameplate(this.getFontRenderer(), Formatter.format((i == te.selection ? "&e> " : "&7> ") + "&0" + te.text[i]), 0.09375f, -1.6775f + (i * 0.064f), 0.81f, 0, 0, 0, false, false);
 		}
         this.setLightmapDisabled(false);
 		//DEBUG

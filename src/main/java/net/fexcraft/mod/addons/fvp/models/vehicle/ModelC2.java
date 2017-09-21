@@ -18,7 +18,7 @@ public class ModelC2 extends VehicleModel {
 	int textureY = 512;
 
 	public ModelC2(){
-		this.creators.add("Ferdinand (FEX___96");
+		this.creators.add("Ferdinand (FEX___96)");
 		body = new ModelRendererTurbo[38];
 		body[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 0
 		body[1] = new ModelRendererTurbo(this, 233, 1, textureX, textureY); // Box 1

@@ -33,12 +33,20 @@ item.fvp:c7_wheel.name=C7 Default Wheel
 item.fvp:c7_fuel_tank.name=Fuel Tank (Type C7)
 item.fvp:c7_seats.name=C7 Default Seats
 item.fvp:c7_interior.name=C7 Default Interior
+item.fvp:c4z1_wheel.name=C4-Z1 Default Wheel
+item.fvp:engine_c4z1i4.name=Engine (C4Z1-I4)
+item.fvp:c4z1_interior.name=C4-Z1 Default Interior
+item.fvp:c4z1_steerin_wheel.name=C4-Z1 Default Steering Wheel
+item.fvp:c4z1_seats.name=C4Z1 Default Seats
+item.fvp:c4z1_steerin_wheel.name=C4-Z1 Default Steering Wheel
+item.fvp:c4z1_cargospace.name=C4-Z1 Cargo Space Part
 
 #Vehicles
 item.fvp:t1.name=T1
 item.fvp:ot1.name=OT1
 item.fvp:c2.name=C2
 item.fvp:c7.name=C7
+item.fvp:c4z1.name=C4-Z1
 
 
 
