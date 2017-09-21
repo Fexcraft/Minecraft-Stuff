@@ -14,7 +14,12 @@
     ],
     "Removable": true,
     "Available": false,
-    "Compatible": [],
+    "Compatible": [
+        {
+            "Vehicle": "fvp:c7",
+            "x": 0, "y": 0, "z": 0
+        }
+    ],
     "AttributeData":{
         "Engine-Speed": 1.10,
         "Fuel-Consumption": 1,
