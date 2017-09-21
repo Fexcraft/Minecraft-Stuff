@@ -19,7 +19,7 @@ public class FvtmUpdateHandler {
 	private static Side side;
 	
 	public static void load(){
-		JsonObject obj = Network.request("http://fexcraft.net/minecraft/fcl/request", "mode=requestdata&modid=fvtm");
+		JsonObject obj = Network.getModData("fvtm");
 		JsonObject jsn = null;
 		if(obj != null && obj.has("notifications")){
 			JsonArray array = obj.get("notifications").getAsJsonArray();
