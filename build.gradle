@@ -218,7 +218,7 @@ task flansmod(type: Jar) {
         include 'LICENSE.txt'
     }
     baseName = 'FlansMod Minus'
-    appendix = '5.F3.0'
+    appendix = '5.F3.1'
 }
 
 task frsm_bge(type: Jar) {
