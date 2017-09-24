@@ -49,11 +49,11 @@ public class Sql {
 		return c;
 	}
 	
-	public boolean isConnected() throws SQLException{
+	public boolean isConnected() throws SQLException {
 		return c != null && !c.isClosed();
 	}
 	
-	public boolean isClosed() throws SQLException{
+	public boolean isClosed() throws SQLException {
 		return c == null || c.isClosed();
 	}
 
@@ -61,7 +61,7 @@ public class Sql {
 		return c;
 	}
 
-	public boolean disconnect() throws Exception{
+	public boolean disconnect() throws Exception {
 		if(c == null){
 			return false;
 		}
@@ -69,7 +69,7 @@ public class Sql {
 		return true;
 	}
 	
-	public Statement getStatement() throws Exception{
+	public Statement getStatement() throws Exception {
 		if(!isConnected()){
 			connect();
 		}

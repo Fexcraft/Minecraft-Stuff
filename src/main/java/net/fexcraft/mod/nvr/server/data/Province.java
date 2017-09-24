@@ -1,7 +1,10 @@
 package net.fexcraft.mod.nvr.server.data;
 
-import java.sql.ResultSet;
+import java.io.File;
 import java.util.UUID;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -11,7 +14,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 
 public class Province {
 	
-	public final int id;
+	public int id;
 	public String name, icon;
 	public Nation nation;
 	public UUID ruler;
@@ -23,78 +26,50 @@ public class Province {
 	public ArrayList<UUID> sepers = new ArrayList<UUID>();
 	//public ArrayList<Integer> districts = new ArrayList<Integer>();
 	
-	public Province(int id, UUID creatorid){
-		this.id = id;
-		try{
-			ResultSet set = NVR.SQL.query("SELECT * FROM provinces WHERE id='" + id + "';");
-			if(set.first()){
-				String str = null;
-				name = set.getString("name");
-				nation = NVR.NATIONS.get(set.getInt("nation"));
-				ruler = (str = set.getString("ruler")) == null || str.equals("") ? null : UUID.fromString(str);
-				creator = UUID.fromString(set.getString("creator"));
-				created = set.getLong("created");
-				changed = set.getLong("changed");
-				previncome = set.getDouble("prev_income");
-				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
-				rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("rebels")).getAsJsonArray());
-				sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("sepers")).getAsJsonArray());
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
-			}
-			else{
-				name = "Unnamed Province";
-				nation = NVR.NATIONS.get(-1);
-				ruler = null;
-				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
-				created = Time.getDate();
-				changed = Time.getDate();
-				previncome = 0;
-				neighbors.clear();
-				rebels.clear();
-				sepers.clear();
-				icon = null;
-				//
-				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".provinces (id) VALUES ('" + id + "');");
-				NVR.SQL.update("provinces", "creator", creator, "id", id);
-				NVR.SQL.update("provinces", "created", created, "id", id);
-				save();
-				log(this, "created", creator, "", Time.getDate());
-			}
+	public Province(){}
+	
+	public static final Province load(JsonObject obj){
+		if(obj == null || !obj.has("id")){
+			return null;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			Static.halt();
-		}
+		Province prov = new Province();
+		prov.id = obj.get("id").getAsInt();
+		prov.name = JsonUtil.getIfExists(obj, "name", "Unnamed Province");
+		prov.icon = JsonUtil.getIfExists(obj, "icon", "");
+		prov.nation = NVR.getNation(JsonUtil.getIfExists(obj, "nation", -1).intValue());
+		prov.ruler = obj.has("ruler") && !obj.get("ruler").getAsString().equals("") ? UUID.fromString(JsonUtil.getIfExists(obj, "ruler", NVR.DEF_UUID)) : null;
+		prov.creator = UUID.fromString(JsonUtil.getIfExists(obj, "creator", NVR.DEF_UUID));
+		prov.created = JsonUtil.getIfExists(obj, "created", 0).longValue();
+		prov.changed = JsonUtil.getIfExists(obj, "changed", 0).longValue();
+		prov.previncome = JsonUtil.getIfExists(obj, "previncome", 0).doubleValue();
+		prov.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
+		prov.rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "rebels", new JsonArray()).getAsJsonArray());
+		prov.sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "sepers", new JsonArray()).getAsJsonArray());
+		return prov;
 	}
 	
-	public static final void log(Province province, String string, UUID who, String data, long time){
-		try{
-			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".province_log (id, action, uuid, data, time) VALUES ("
-					+ "'" + province.id + "',"
-					+ "'" + string + "',"
-					+ "'" + (who == null ? "" : who) + "',"
-					+ "'" + data + "',"
-					+ "'" + time + "'"
-					+ ");");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+	public static final File getFile(int id){
+		return new File(NVR.PROVINCE_DIR, id + ".json");
 	}
 
 	public void save(){
 		try{
-			String p = "provinces";
-			NVR.SQL.update(p, "name", name, "id", id);
-			NVR.SQL.update(p, "nation", nation.id, "id", id);
-			NVR.SQL.update(p, "ruler", ruler == null ? "" : ruler, "id", id);
-			NVR.SQL.update(p, "changed", changed, "id", id);
-			NVR.SQL.update(p, "prev_income", previncome, "id", id);
-			NVR.SQL.update(p, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
-			NVR.SQL.update(p, "rebels", JsonUtil.getArrayFromUUIDList(rebels), "id", id);
-			NVR.SQL.update(p, "sepers", JsonUtil.getArrayFromUUIDList(sepers), "id", id);
-			NVR.SQL.update(p, "saved", Time.getDate(), "id", id);
-			NVR.SQL.update(p, "icon", icon == null ? "" : icon, "id", id);
+			JsonObject obj = new JsonObject();
+			obj.addProperty("id", id);
+			obj.addProperty("name", name);
+			obj.addProperty("icon", icon == null ? "" : icon);
+			obj.addProperty("nation", nation.id);
+			obj.addProperty("ruler", ruler == null ? "" : ruler.toString());
+			obj.addProperty("creator", creator.toString());
+			obj.addProperty("created", created);
+			obj.addProperty("changed", changed);
+			obj.addProperty("previncome", previncome);
+			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
+			obj.add("rebels", JsonUtil.getArrayFromUUIDList(rebels));
+			obj.add("sepers", JsonUtil.getArrayFromUUIDList(sepers));
+			//
+			obj.addProperty("last_save", Time.getDate());
+			JsonUtil.write(getFile(id), obj);
 		}
 		catch(Exception e){
 			e.printStackTrace();

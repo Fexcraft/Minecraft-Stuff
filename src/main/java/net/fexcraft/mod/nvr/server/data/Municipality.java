@@ -1,10 +1,12 @@
 package net.fexcraft.mod.nvr.server.data;
 
-import java.sql.ResultSet;
+import java.io.File;
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.fsmm.account.AccountManager.Account;
-import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
@@ -12,7 +14,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 
 public class Municipality {
 	
-	public final int id;
+	public int id;
 	public String name, icon;
 	public Type type;
 	public Province province;
@@ -26,82 +28,54 @@ public class Municipality {
 	public double citizentax;
 	public Account account;
 	
-	public Municipality(int id, UUID creatorid){
-		this.id = id;
-		this.account = Account.getAccountManager().getAccountOf("municipality", "municipality:" + id);
-		try{
-			ResultSet set = NVR.SQL.query("SELECT * FROM municipalities WHERE id='" + id + "';");
-			if(set.first()){
-				String str = null;
-				name = set.getString("name");
-				type = Type.fromString(set.getString("type"));
-				province = NVR.getProvince(set.getInt("province"));
-				management = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("management")).getAsJsonArray());
-				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
-				creator = UUID.fromString(set.getString("creator"));
-				created = set.getLong("created");
-				changed = set.getLong("changed");
-				previncome = set.getDouble("prev_income");
-				citizens = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("citizens")).getAsJsonArray());
-				citizentax = set.getDouble("citizentax");
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
-			}
-			else {
-				name = "Unnamed Place";
-				type = Type.ABANDONED;
-				province = NVR.getProvince(-1);
-				management.clear();
-				neighbors.clear();
-				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
-				created = Time.getDate();
-				changed = Time.getDate();
-				previncome = 0;
-				citizens.clear();
-				citizentax = 1;
-				icon = null;
-				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".municipalities (id) VALUES ('" + id + "');");
-				NVR.SQL.update("municipalities", "creator", creator, "id", id);
-				NVR.SQL.update("municipalities", "created", created, "id", id);
-				save();
-				log(this, "created", creator, "", Time.getDate());
-			}
+	public Municipality(){}
+	
+	public static final Municipality load(JsonObject obj){
+		if(obj == null || !obj.has("id")){
+			return null;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			Static.halt();
-		}
+		Municipality mun = new Municipality();
+		mun.id = obj.get("id").getAsInt();
+		mun.name = JsonUtil.getIfExists(obj, "name", "Unnamed Place");
+		mun.type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.ABANDONED.name()));
+		mun.province = NVR.getProvince(JsonUtil.getIfExists(obj, "province", -1).intValue());
+		mun.management = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "management", new JsonArray()).getAsJsonArray());
+		mun.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
+		mun.creator = UUID.fromString(JsonUtil.getIfExists(obj, "creator", NVR.DEF_UUID));
+		mun.created = JsonUtil.getIfExists(obj, "created", 0).longValue();
+		mun.changed = JsonUtil.getIfExists(obj, "changed", 0).longValue();
+		mun.previncome = JsonUtil.getIfExists(obj, "previncome", 0).doubleValue();
+		mun.citizens = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "citizens", new JsonArray()).getAsJsonArray());
+		mun.citizentax = JsonUtil.getIfExists(obj, "citizentax", 0).doubleValue();
+		mun.icon = JsonUtil.getIfExists(obj, "icon", "");
+		//
+		mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:" + mun.id);
+		//
+		return mun;
 	}
 	
-	public static final void log(Municipality municipality, String string, UUID who, String data, long time){
-		try{
-			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".municipality_log (id, action, uuid, data, time) VALUES ("
-					+ "'" + municipality.id + "',"
-					+ "'" + string + "',"
-					+ "'" + (who == null ? "" : who) + "',"
-					+ "'" + data + "',"
-					+ "'" + time + "'"
-					+ ");");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+	public static final File getFile(int id){
+		return new File(NVR.MUNICIPALITY_DIR, id + ".json");
 	}
 	
 	public final void save(){
-		account.getAccountManager().saveAccount(account);
+		Account.getAccountManager().saveAccount(account);
 		try{
-			String m = "municipalities";
-			NVR.SQL.update(m, "name", name, "id", id);
-			NVR.SQL.update(m, "type", type.name(), "id", id);
-			NVR.SQL.update(m, "province", province.id, "id", id);
-			NVR.SQL.update(m, "management", JsonUtil.getArrayFromUUIDList(management), "id", id);
-			NVR.SQL.update(m, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
-			NVR.SQL.update(m, "changed", changed, "id", id);
-			NVR.SQL.update(m, "prev_income", previncome, "id", id);
-			NVR.SQL.update(m, "citizens", JsonUtil.getArrayFromUUIDList(citizens), "id", id);
-			NVR.SQL.update(m, "citizentax", citizentax, "id", id);
-			NVR.SQL.update(m, "saved", Time.getDate(), "id", id);
-			NVR.SQL.update(m, "icon", icon == null ? "" : icon, "id", id);
+			JsonObject obj = new JsonObject();
+			obj.addProperty("id", id);
+			obj.addProperty("type", type.name());
+			obj.addProperty("province", province.id);
+			obj.add("management", JsonUtil.getArrayFromUUIDList(management));
+			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
+			obj.addProperty("created", created);
+			obj.addProperty("changed", changed);
+			obj.addProperty("previncome", previncome);
+			obj.add("citizens", JsonUtil.getArrayFromUUIDList(citizens));
+			obj.addProperty("citizentax", citizentax);
+			obj.addProperty("icon", icon == null ? "" : icon);
+			//
+			obj.addProperty("last_save", Time.getDate());
+			JsonUtil.write(getFile(id), obj);
 		}
 		catch(Exception e){
 			e.printStackTrace();

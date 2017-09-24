@@ -1,7 +1,10 @@
 package net.fexcraft.mod.nvr.server.data;
 
-import java.sql.ResultSet;
+import java.io.File;
 import java.util.UUID;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
@@ -23,45 +26,29 @@ public class Chunk {
 	public Chunk(int x, int z, UUID claim){
 		this.x = x; this.z = z;
 		try{
-			ResultSet set = NVR.SQL.query("SELECT * FROM chunks WHERE x='" + x + "' AND z='" + z + "';");
-			if(set.first()){
-				String temp = null;
-				type = Type.fromString(set.getString("type"));
-				district = NVR.getDistrict(set.getInt("district"));
-				claimer = UUID.fromString(set.getString("claimer"));
-				owner = (temp = set.getString("owner")) == null || temp.equals("") ? null : UUID.fromString(temp);
-				claimed = set.getLong("claimed");
-				changed = set.getLong("changed");
-				whitelist = JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(set.getString("whitelist")).getAsJsonArray());
-				linked = DoubleKey.getFromStringJsonArray(JsonUtil.jsonArrayToStringArray(JsonUtil.getFromString(set.getString("linked")).getAsJsonArray()));
-				tax = set.getDouble("tax");
+			JsonObject obj = JsonUtil.get(this.getFile(x, z));
+			if(!obj.has("claimer")){
+				obj.addProperty("claimer", (claimer = claim == null ? UUID.fromString(NVR.DEF_UUID) : claim).toString());
+				obj.addProperty("type", (type = Type.NEUTRAL).name());
+				obj.addProperty("district", (district = NVR.DISTRICTS.get(-1)).id);
+				//obj.addProperty("owner", "");
+				obj.addProperty("claimed", claimed = Time.getDate());
+				obj.addProperty("changed", changed = Time.getDate());
+				obj.add("whitelist", new JsonArray());
+				obj.add("linked", new JsonArray());
+				obj.addProperty("tax", tax = 0);
+				JsonUtil.write(this.getFile(x, z), obj);
 			}
 			else{
-				//Create;
-				type = Type.NEUTRAL;
-				district = NVR.getDistrict(-1);
-				claimer = claim == null ? UUID.fromString(NVR.DEF_UUID) : claim;
-				owner = null;
-				claimed = Time.getDate();
-				changed = Time.getDate();
-				whitelist.clear();
-				linked.clear();
-				tax = 0.0f;
-				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".chunks (x, z, type, district, claimer, owner, claimed, changed, whitelist, linked, saved, tax) VALUES ("
-						+ "'" + x + "',"
-						+ "'" + z + "',"
-						+ "'" + type.name() + "',"
-						+ "'" + district.id + "',"
-						+ "'" + claimer + "',"
-						+ "'" + (owner == null ? "" : owner.toString()) + "',"
-						+ "'" + claimed + "',"
-						+ "'" + changed + "',"
-						+ "'" + JsonUtil.getArrayFromStringList(whitelist).toString() + "',"
-						+ "'" + JsonUtil.getArrayFromObjectList(linked).toString() + "',"
-						+ "'" + Time.getDate() + "',"
-						+ "'" + tax + "'"
-						+ ");");
-				log(this, "created", claim, "", Time.getDate());
+				type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.NEUTRAL.name()));
+				district = NVR.getDistrict(JsonUtil.getIfExists(obj, "district", -1).intValue());
+				claimer = UUID.fromString(JsonUtil.getIfExists(obj, "claimer", NVR.DEF_UUID));
+				owner = obj.has("owner") && !obj.get("owner").getAsString().equals("") ? UUID.fromString(JsonUtil.getIfExists(obj, "owner", NVR.DEF_UUID)) : null;
+				claimed = JsonUtil.getIfExists(obj, "claimed", 0).longValue();
+				changed = JsonUtil.getIfExists(obj, "changed", 0).longValue();
+				whitelist = JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "whitelist", new JsonArray()).getAsJsonArray());
+				linked = DoubleKey.getFromStringJsonArray(JsonUtil.jsonArrayToStringArray(JsonUtil.getIfExists(obj, "linked", new JsonArray()).getAsJsonArray()));
+				tax = JsonUtil.getIfExists(obj, "tax", 0).doubleValue();
 			}
 		}
 		catch(Exception e){
@@ -70,25 +57,25 @@ public class Chunk {
 		}
 	}
 	
-	private static final void log(Chunk chunk, String string, UUID claim, String data, long date){
-		try{
-			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".chunk_log (x, z, action, uuid, data, time) VALUES ("
-					+ "'" + chunk.x + "',"
-					+ "'" + chunk.z + "',"
-					+ "'" + string + "',"
-					+ "'" + (claim == null ? "" : claim) + "',"
-					+ "'" + data + "',"
-					+ "'" + date + "'"
-					+ ");");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+	public static final File getFile(int x, int z){
+		return new File(NVR.CHUNK_DIR, x + "_" + z + ".json");
 	}
 
 	public final void save(){
 		try{
-			NVR.SQL.update("UPDATE chunks SET type='" + type.name() + "', district='" + district.id + "', claimer='" + claimer.toString() + "', owner='" + (owner == null ? "" : owner.toString()) + "', changed='" + changed + "', whitelist='" + JsonUtil.getArrayFromStringList(whitelist).toString() + "', linked='" + JsonUtil.getArrayFromObjectList(linked).toString() + "', saved='" + Time.getDate() + "', tax='" + tax + "' WHERE x = '" + x + "' AND z = '" + z + "';");
+			JsonObject obj = new JsonObject();
+			obj.addProperty("type", type.name());
+			obj.addProperty("district", district.id);
+			obj.addProperty("claimer", claimer.toString());
+			obj.addProperty("owner", owner == null ? "" : owner.toString());
+			obj.addProperty("claimed", claimed);
+			obj.addProperty("changed", changed);
+			obj.add("whitelist", JsonUtil.getArrayFromStringList(whitelist));
+			obj.add("linked", JsonUtil.getArrayFromObjectList(linked));
+			obj.addProperty("tax", tax);
+			//
+			obj.addProperty("last_save", Time.getDate());
+			JsonUtil.write(getFile(x, z), obj);
 		}
 		catch(Exception e){
 			e.printStackTrace();

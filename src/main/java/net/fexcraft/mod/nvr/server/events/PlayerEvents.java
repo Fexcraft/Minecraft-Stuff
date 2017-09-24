@@ -11,7 +11,6 @@ import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.fexcraft.mod.nvr.server.util.Sender;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,7 +41,7 @@ public class PlayerEvents {
 		boolean bool = cancel(event.getWorld(), event.getPos(), event.getPlayer(), true);
 		event.setCanceled(bool);
 		if(!bool){
-			log("BREAK", event.getState(), event.getPlayer().getActiveHand(), event.getPlayer(), Time.getDate());
+			log("BREAK", event.getState(), event.getPos(), event.getPlayer().getActiveHand(), event.getPlayer(), Time.getDate());
 		}
 	}
 	
@@ -51,12 +50,12 @@ public class PlayerEvents {
 		boolean bool = cancel(event.getWorld(), event.getPos(), event.getPlayer(), false);
 		event.setCanceled(bool);
 		if(!bool){
-			log("PLACE", event.getPlacedBlock(), event.getHand(), event.getPlayer(), Time.getDate());
+			log("PLACE", event.getPlacedBlock(), event.getPos(), event.getHand(), event.getPlayer(), Time.getDate());
 		}
 	}
 	
-	private void log(String action, IBlockState block, EnumHand hand, EntityPlayer player, long date){
-		try{
+	private void log(String action, IBlockState block, BlockPos pos, EnumHand hand, EntityPlayer player, long date){
+		/*try{
 			ItemStack stack = player.getHeldItem(hand);
 			String item = stack.getItem().getRegistryName() + " | " + stack.getCount() + " | " + stack.getMetadata() + " | " + (stack.hasTagCompound() ? stack.getTagCompound().toString() : "no tags");
 			String bleck = block.getBlock().getRegistryName() + "|" + block.getBlock().getMetaFromState(block);
@@ -64,7 +63,9 @@ public class PlayerEvents {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
+		//NVR.LOGGER.log("//TODO Implement Block Logging.");
+		//Sender.sendLocationUpdate(player, action, block.getBlock().getUnlocalizedName() + pos.toString(), "#000000", null);
 	}
 
 	public boolean cancel(World world, BlockPos pos, EntityPlayer player, boolean b){
@@ -74,7 +75,7 @@ public class PlayerEvents {
 			return true;
 		}
 		Chunk chunk = NVR.getChunk(world, pos);
-		if(chunk.district.municipality.province.nation.isInAnarchy()){
+		if(chunk.district.municipality.province.nation.isInAnarchy() && chunk.district.id != -1){
 			return false;
 		}
 		switch(chunk.type){

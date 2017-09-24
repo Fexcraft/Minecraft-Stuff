@@ -1,10 +1,12 @@
 package net.fexcraft.mod.nvr.server.data;
 
-import java.sql.ResultSet;
+import java.io.File;
 import java.util.UUID;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.fsmm.account.AccountManager.Account;
-import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
@@ -12,7 +14,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 
 public class Nation {
 	
-	public final int id;
+	public int id;
 	public String name, icon;
 	public Type type;
 	public ArrayList<UUID> gov = new ArrayList<UUID>();
@@ -26,89 +28,58 @@ public class Nation {
 	public Account account;
 	public Nation parent;
 	
-	public Nation(int id, UUID creatorid){
-		this.id = id;
-		account = Account.getAccountManager().getAccountOf("nation", "nation:" + id);
-		try{
-			ResultSet set = NVR.SQL.query("SELECT * FROM nations WHERE id='" + id + "';");
-			if(set.first()){
-				String str = null;
-				int i = -1;
-				name = set.getString("name");
-				type = Type.fromString(set.getString("type"));
-				gov = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getFromString(set.getString("gov")).getAsJsonArray());
-				gov_title = set.getString("gov_title");
-				gov_name = set.getString("gov_name");
-				incharge = (str = set.getString("incharge")) == null || str.equals("") ? null : UUID.fromString(str);
-				incharge_title = set.getString("incharge_title");
-				creator = UUID.fromString(set.getString("creator"));
-				created = set.getLong("created");
-				changed = set.getLong("changed");
-				prev_income = set.getDouble("prev_income");
-				neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getFromString(set.getString("neighbors")).getAsJsonArray());
-				parent = (i = set.getInt("parent")) == -10 ? null : NVR.getNation(i);
-				icon = (str = set.getString("icon")) == null || str.equals("") ? null : str;
-			}
-			else{
-				name = "Unnamed Nation";
-				type = Type.ANARCHY;
-				gov.clear();
-				gov_title = "Finest Anarchy";
-				gov_name = "Anarchist";
-				incharge = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
-				incharge_title = "Leader";
-				creator = creatorid == null ? UUID.fromString(NVR.DEF_UUID) : creatorid;
-				created = Time.getDate();
-				changed = Time.getDate();
-				prev_income = 0;
-				neighbors.clear();
-				parent = null;
-				icon = null;
-				NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".nations (id) VALUES ('" + id + "');");
-				NVR.SQL.update("nations", "creator", creator, "id", id);
-				NVR.SQL.update("nations", "created", created, "id", id);
-				save();
-				log(this, "created", creator, "", Time.getDate());
-			}
+	public Nation(){}
+	
+	public static final Nation load(JsonObject obj){
+		if(obj == null || !obj.has("id")){
+			return null;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			Static.halt();
-		}
+		Nation nat = new Nation();
+		nat.id = obj.get("id").getAsInt();
+		nat.name = JsonUtil.getIfExists(obj, "name", "Unnamed Nation");
+		nat.icon = JsonUtil.getIfExists(obj, "icon", "");
+		nat.type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.ANARCHY));
+		nat.gov = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "gov", new JsonArray()).getAsJsonArray());
+		nat.gov_title = JsonUtil.getIfExists(obj, "gov_title", "Finest Anarchy");
+		nat.gov_name = JsonUtil.getIfExists(obj, "gov_name", "Anarchist");
+		nat.incharge = obj.has("incharge") && !obj.get("incharge").getAsString().equals("") ? UUID.fromString(JsonUtil.getIfExists(obj, "incharge", NVR.DEF_UUID)) : null;
+		nat.incharge_title = JsonUtil.getIfExists(obj, "incharge_title", "Leader");
+		nat.creator = UUID.fromString(JsonUtil.getIfExists(obj, "creator", NVR.DEF_UUID));
+		nat.created = JsonUtil.getIfExists(obj, "created", 0).longValue();
+		nat.changed = JsonUtil.getIfExists(obj, "changed", 0).longValue();
+		nat.prev_income = JsonUtil.getIfExists(obj, "previncome", 0).doubleValue();
+		nat.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
+		nat.account = Account.getAccountManager().loadAccount("nation", "nation:" + nat.id);
+		nat.parent = NVR.getNation(JsonUtil.getIfExists(obj, "parent", -1).intValue());
+		return nat;
 	}
 	
-	public static final void log(Nation nation, String string, UUID who, String data, long time){
-		try{
-			NVR.SQL.update("INSERT INTO " + NVR.SQL.getDataBaseId() + ".nation_log (id, action, uuid, data, time) VALUES ("
-					+ "'" + nation.id + "',"
-					+ "'" + string + "',"
-					+ "'" + (who == null ? "" : who) + "',"
-					+ "'" + data + "',"
-					+ "'" + time + "'"
-					+ ");");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+	public static final File getFile(int id){
+		return new File(NVR.NATION_DIR, id + ".json");
 	}
 	
 	public final void save(){
 		Account.getAccountManager().saveAccount(account);
 		try{
-			String n = "nations";
-			NVR.SQL.update(n, "name", name, "id", id);
-			NVR.SQL.update(n, "type", type.name(), "id", id);
-			NVR.SQL.update(n, "gov", JsonUtil.getArrayFromUUIDList(gov), "id", id);
-			NVR.SQL.update(n, "gov_title", gov_title, "id", id);
-			NVR.SQL.update(n, "gov_name", gov_name, "id", id);
-			NVR.SQL.update(n, "incharge", incharge, "id", id);
-			NVR.SQL.update(n, "incharge_title", incharge_title, "id", id);
-			NVR.SQL.update(n, "changed", changed, "id", id);
-			NVR.SQL.update(n, "prev_income", prev_income, "id", id);
-			NVR.SQL.update(n, "neighbors", JsonUtil.getArrayFromIntegerList(neighbors), "id", id);
-			NVR.SQL.update(n, "parent", parent == null ? "-10" : parent.id, "id", id);
-			NVR.SQL.update(n, "saved", Time.getDate(), "id", id);
-			NVR.SQL.update(n, "icon", icon == null ? "" : icon, "id", id);
+			JsonObject obj = new JsonObject();
+			obj.addProperty("id", id);
+			obj.addProperty("name", name);
+			obj.addProperty("icon", icon == null ? "" : icon);
+			obj.addProperty("type", type.toString());
+			obj.add("gov", JsonUtil.getArrayFromUUIDList(gov));
+			obj.addProperty("gov_title", gov_title);
+			obj.addProperty("gov_name", gov_name);
+			obj.addProperty("incharge", incharge == null ? "" : incharge.toString());
+			obj.addProperty("incharge_title", incharge_title);
+			obj.addProperty("creator", creator.toString());
+			obj.addProperty("created", created);
+			obj.addProperty("changed", changed);
+			obj.addProperty("previncome", prev_income);
+			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
+			obj.addProperty("parent", parent == null ? -1 : parent.id);
+			//
+			obj.addProperty("last_save", Time.getDate());
+			JsonUtil.write(getFile(id), obj);
 		}
 		catch(Exception e){
 			e.printStackTrace();

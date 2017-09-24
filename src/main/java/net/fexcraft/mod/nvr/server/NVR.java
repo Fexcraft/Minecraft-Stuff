@@ -2,15 +2,16 @@ package net.fexcraft.mod.nvr.server;
 
 import java.io.File;
 import java.util.TreeMap;
+import java.util.UUID;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
+import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.perms.player.PlayerPerms;
-import net.fexcraft.mod.lib.util.common.Sql;
+import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
-import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.data.Chunk;
 import net.fexcraft.mod.nvr.server.data.District;
@@ -26,7 +27,6 @@ import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.fexcraft.mod.nvr.server.util.Sender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,8 +36,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import scala.actors.threadpool.Arrays;
 
-//@Mod(modid = NVR.MODID, name = "NVR Standalone", version="xxx.xxx", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
+@Mod(modid = NVR.MODID, name = "NVR Standalone", version="xxx.xxx", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
 	
 	@Mod.Instance(NVR.MODID)
@@ -46,7 +47,9 @@ public class NVR {
 	public static final String MODID = "nvr";
 	public static final String DATASTR = "nvr-sa";
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
-	public static Sql SQL;
+	//public static Sql SQL;
+	public static File PATH, CHUNK_DIR, DISTRICT_DIR, MUNICIPALITY_DIR, PROVINCE_DIR, NATION_DIR;
+	public static final Log LOGGER = new Log("NVR");
 
 	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
 	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
@@ -56,7 +59,7 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
-		/* SQL */{
+		/*{
 			File file = new File(event.getModConfigurationDirectory(), "/nvr.sql");
 			JsonObject obj = JsonUtil.get(file);
 			String user = JsonUtil.getIfExists(obj, "user", "nvrusr");
@@ -66,7 +69,32 @@ public class NVR {
 			String port = JsonUtil.getIfExists(obj, "port", "3306");
 			JsonUtil.write(file, obj);
 			SQL = new Sql(new String[]{user, pass, port, host, data});
-			Launch.classLoader.addClassLoaderExclusion("com.mysql.");
+			//Launch.classLoader.addClassLoaderExclusion("com.mysql.");
+		}*/
+		PATH = new File(event.getModConfigurationDirectory().getParentFile(), "/nvr/");
+		LOGGER.debug(PATH, event.getModConfigurationDirectory());
+		if(!PATH.exists()){
+			PATH.mkdirs();
+		}
+		CHUNK_DIR = new File(PATH, "chunks/");
+		if(!CHUNK_DIR.exists()){
+			CHUNK_DIR.mkdirs();
+		}
+		DISTRICT_DIR = new File(PATH, "districts/");
+		if(!DISTRICT_DIR.exists()){
+			DISTRICT_DIR.mkdirs();
+		}
+		MUNICIPALITY_DIR = new File(PATH, "municipalities/");
+		if(!MUNICIPALITY_DIR.exists()){
+			MUNICIPALITY_DIR.mkdirs();
+		}
+		PROVINCE_DIR = new File(PATH, "provinces/");
+		if(!PROVINCE_DIR.exists()){
+			PROVINCE_DIR.mkdirs();
+		}
+		NATION_DIR = new File(PATH, "nations/");
+		if(!NATION_DIR.exists()){
+			NATION_DIR.mkdirs();
 		}
 		//
 		PermManager.setEnabled(MODID);
@@ -89,86 +117,171 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event){
-		if(!SQL.exists("id", "nations", "id='-1'", false)){
-			Nation nat = new Nation(-1, null);
-			nat.name = "Wilderness";
-			nat.changed = Time.getDate();
-			nat.account.setBalance(20000000f);
-			nat.save();
-		}
-		if(!SQL.exists("id", "nations", "id='0'", false)){
-			Nation nat = new Nation(0, null);
-			nat.name = "Centurian Union";
-			nat.changed = Time.getDate();
-			nat.account.setBalance(80000000f);
-			nat.save();
-		}
-		ArrayList<Integer> nations = SQL.getArray("id", "nations", "id", false, -1);
-		nations.forEach((id) -> {
-			NATIONS.put(id, new Nation(id, null));
+		Arrays.asList(NATION_DIR.listFiles()).forEach((nationfile) -> {
+			JsonElement obj = JsonUtil.read((File)nationfile, false);
+			if(obj != null){
+				Nation nation = Nation.load(obj.getAsJsonObject());
+				if(nation != null){
+					NATIONS.put(nation.id, nation);
+				}
+			}
 		});
-		//
-		if(!SQL.exists("id", "provinces", "id='-1'", false)){
-			Province pro = new Province(-1, null);
-			pro.name = "Neural Territory";
-			pro.changed = Time.getDate();
-			pro.nation = getNation(-1);
-			pro.save();
-		}
-		if(!SQL.exists("id", "provinces", "id='0'", false)){
-			Province pro = new Province(0, null);
-			pro.name = "Spawn";
-			pro.changed = Time.getDate();
-			pro.nation = getNation(0);
-			pro.save();
-		}
-		ArrayList<Integer> provinces = SQL.getArray("id", "provinces", "id", false, -1);
-		provinces.forEach((id) -> {
-			PROVINCES.put(id, new Province(id, null));
+		Arrays.asList(PROVINCE_DIR.listFiles()).forEach((provincefile) -> {
+			JsonElement obj = JsonUtil.read((File)provincefile, false);
+			if(obj != null){
+				Province prov = Province.load(obj.getAsJsonObject());
+				if(prov != null){
+					PROVINCES.put(prov.id, prov);
+				}
+			}
 		});
-		//
-		if(!SQL.exists("id", "municipalities", "id='-1'", false)){
-			Municipality mun = new Municipality(-1, null);
+		Arrays.asList(MUNICIPALITY_DIR.listFiles()).forEach((municipalitiesfile) -> {
+			JsonElement obj = JsonUtil.read((File)municipalitiesfile, false);
+			if(obj != null){
+				Municipality mun = Municipality.load(obj.getAsJsonObject());
+				if(mun != null){
+					MUNICIPALITIES.put(mun.id, mun);
+				}
+			}
+		});
+		Arrays.asList(DISTRICT_DIR.listFiles()).forEach((districtsfile) -> {
+			JsonElement obj = JsonUtil.read((File)districtsfile, false);
+			if(obj != null){
+				District dis = District.load(obj.getAsJsonObject());
+				if(dis != null ){
+					DISTRICTS.put(dis.id, dis);
+				}
+			}
+		});
+		//Check for existence of default Stuff.
+		if(!NATIONS.containsKey(-1)){
+			Nation nat = new Nation();
+			nat.id = -1;
+			nat.account = Account.getAccountManager().loadAccount("nation", "nation:-1");
+			nat.name = "No Nation";
+			nat.icon = "";
+			nat.type = Nation.Type.ANARCHY;
+			nat.gov_title = "Finest Anarchy";
+			nat.gov_name = "Anarchist";
+			nat.incharge = null;
+			nat.incharge_title = "Leader";
+			nat.creator = UUID.fromString(DEF_UUID);
+			nat.created = Time.getDate();
+			nat.changed = Time.getDate();
+			nat.prev_income = 0;
+			nat.parent = null;
+			nat.save();
+			NATIONS.put(-1, nat);
+		}
+		if(!NATIONS.containsKey(0)){
+			Nation nat = new Nation();
+			nat.id = 0;
+			nat.account = Account.getAccountManager().loadAccount("nation", "nation:0");
+			nat.name = "Testarian Union";
+			nat.icon = "";
+			nat.type = Nation.Type.ANARCHY;
+			nat.gov_title = "Union";
+			nat.gov_name = "Unionist";
+			nat.incharge = UUID.fromString(DEF_UUID);
+			nat.incharge_title = "Selected One";
+			nat.creator = UUID.fromString(DEF_UUID);
+			nat.created = Time.getDate();
+			nat.changed = Time.getDate();
+			nat.prev_income = 0;
+			nat.parent = null;
+			nat.save();
+			NATIONS.put(0, nat);
+		}
+		if(!PROVINCES.containsKey(-1)){
+			Province prov = new Province();
+			prov.id = -1;
+			prov.name = "Neutral Territory";
+			prov.icon = "";
+			prov.nation = NATIONS.get(-1);
+			prov.ruler = null;
+			prov.creator = UUID.fromString(DEF_UUID);
+			prov.created = Time.getDate();
+			prov.changed = Time.getDate();
+			prov.previncome = 0;
+			prov.save();
+			PROVINCES.put(-1, prov);
+		}
+		if(!PROVINCES.containsKey(0)){
+			Province prov = new Province();
+			prov.id = 0;
+			prov.name = "Spawn";
+			prov.icon = "";
+			prov.nation = NATIONS.get(0);
+			prov.ruler = UUID.fromString(DEF_UUID);
+			prov.creator = UUID.fromString(DEF_UUID);
+			prov.created = Time.getDate();
+			prov.changed = Time.getDate();
+			prov.previncome = 0;
+			prov.save();
+			PROVINCES.put(0, prov);
+		}
+		if(!MUNICIPALITIES.containsKey(-1)){
+			Municipality mun = new Municipality();
+			mun.id = -1;
 			mun.name = "Unnamed Place";
+			mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:-1");
+			mun.icon = "http://i.imgur.com/a8nIVHE.png";
+			mun.type = Municipality.Type.ABANDONED;
+			mun.province = PROVINCES.get(-1);
+			mun.creator = UUID.fromString(DEF_UUID);
+			mun.created = Time.getDate();
 			mun.changed = Time.getDate();
-			mun.citizentax = -1;
-			mun.province = getProvince(-1);
-			mun.save();
-		}
-		if(!SQL.exists("id", "municipalities", "id='0'", false)){
-			Municipality mun = new Municipality(0, null);
-			mun.name = "Centuria";
-			mun.type = mun.type.METROPOLIS;
-			mun.changed = Time.getDate();
+			mun.previncome = 0;
 			mun.citizentax = 0;
-			mun.province = getProvince(0);
 			mun.save();
+			MUNICIPALITIES.put(-1, mun);
 		}
-		ArrayList<Integer> municipalities = SQL.getArray("id", "municipalities", "id", false, -1);
-		municipalities.forEach((id) -> {
-			MUNICIPALITIES.put(id, new Municipality(id, null));
-		});
-		//
-		if(!SQL.exists("id", "districts", "id='-1'", false)){
-			District dis = new District(-1, null);
+		if(!MUNICIPALITIES.containsKey(0)){
+			Municipality mun = new Municipality();
+			mun.id = 0;
+			mun.name = "Spawn";
+			mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:0");
+			mun.icon = "";//
+			mun.type = Municipality.Type.TOO_LARGE;
+			mun.province = PROVINCES.get(0);
+			mun.creator = UUID.fromString(DEF_UUID);
+			mun.created = Time.getDate();
+			mun.changed = Time.getDate();
+			mun.previncome = 0;
+			mun.citizentax = 0;
+			mun.save();
+			MUNICIPALITIES.put(0, mun);
+		}
+		if(!DISTRICTS.containsKey(-1)){
+			District dis = new District();
+			dis.id = -1;
+			dis.type = District.Type.UNSPECIFIED;
 			dis.name = "Unclaimed Area";
+			dis.municipality = MUNICIPALITIES.get(-1);
+			dis.manager = null;
+			dis.creator = UUID.fromString(DEF_UUID);
+			dis.created = Time.getDate();
 			dis.changed = Time.getDate();
-			dis.tax = -1;
-			dis.municipality = getMunicipality(-1);
+			dis.previncome = 0;
+			dis.tax = -10;
 			dis.save();
+			DISTRICTS.put(-1, dis);
 		}
-		if(!SQL.exists("id", "districts", "id='0'", false)){
-			District dis = new District(0, null);
-			dis.name = "Spawn";
+		if(!DISTRICTS.containsKey(0)){
+			District dis = new District();
+			dis.id = 0;
+			dis.type = District.Type.CENTER;
+			dis.name = "TPP";
+			dis.municipality = MUNICIPALITIES.get(0);
+			dis.manager = UUID.fromString(DEF_UUID);
+			dis.creator = UUID.fromString(DEF_UUID);
+			dis.created = Time.getDate();
 			dis.changed = Time.getDate();
+			dis.previncome = 0;
 			dis.tax = 0;
-			dis.municipality = getMunicipality(0);
 			dis.save();
+			DISTRICTS.put(0, dis);
 		}
-		ArrayList<Integer> districts = SQL.getArray("id", "districts", "id", false, -1);
-		districts.forEach((id) -> {
-			DISTRICTS.put(id, new District(id, null));
-		});
 	}
 	
 	@Mod.EventHandler

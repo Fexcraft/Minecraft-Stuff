@@ -31,13 +31,13 @@ public class LocationGui extends GuiScreen {
 	public void displayLocationUpdate(RenderGameOverlayEvent event){
 		if(event.getType() == ElementType.HOTBAR && till >= Time.getDate()){
 			mc.getTextureManager().bindTexture(texture);
-			this.drawTexturedModalRect(0, 0, 0, 0, 256, 36);
+			this.drawTexturedModalRect(0, 0, 0, 0, 256, 38);
 			//
 			if(icon[0] == null){
-				this.drawTexturedModalRect(22, 2, x[0], y[0], 32, 32);
+				this.drawTexturedModalRect(22, 3, x[0], y[0], 32, 32);
 			}
 			else{
-				int x = 22, y = 2, width = 32, height = 32;
+				int x = 22, y = 3, width = 32, height = 32;
 				mc.getTextureManager().bindTexture(icon[0]);
 				Tessellator tessellator = Tessellator.getInstance();
 		        BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -54,7 +54,7 @@ public class LocationGui extends GuiScreen {
 			}
 			else{
 				mc.getTextureManager().bindTexture(icon[1]);
-				int x = 6, y = 16, width = 16, height = 16;
+				int x = 6, y = 17, width = 16, height = 16;
 				mc.getTextureManager().bindTexture(icon[0]);
 				Tessellator tessellator = Tessellator.getInstance();
 		        BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -70,7 +70,7 @@ public class LocationGui extends GuiScreen {
 			}
 			else{
 				mc.getTextureManager().bindTexture(icon[2]);
-				int x = 6, y = 2, width = 16, height = 16;
+				int x = 6, y = 3, width = 16, height = 16;
 				mc.getTextureManager().bindTexture(icon[0]);
 				Tessellator tessellator = Tessellator.getInstance();
 		        BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -81,8 +81,8 @@ public class LocationGui extends GuiScreen {
 		        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex(0, 0).endVertex();
 		        tessellator.draw();
 			}
-			mc.fontRenderer.drawString(up  , 57, 7, MapColor.GRAY.colorValue);
-			mc.fontRenderer.drawString(down, 57, 21, MapColor.GRAY.colorValue);
+			mc.fontRenderer.drawString(up  , 59, 7, MapColor.GRAY.colorValue);
+			mc.fontRenderer.drawString(down, 59, 21, MapColor.GRAY.colorValue);
 		}
 	}
 	

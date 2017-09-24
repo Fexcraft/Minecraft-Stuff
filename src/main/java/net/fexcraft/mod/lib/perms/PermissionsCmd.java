@@ -1,5 +1,6 @@
 package net.fexcraft.mod.lib.perms;
 
+import net.fexcraft.mod.lib.api.common.fCommand;
 import net.fexcraft.mod.lib.perms.PermissionNode.Type;
 import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -10,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
+@fCommand
 public class PermissionsCmd extends CommandBase {
 
 	@Override
