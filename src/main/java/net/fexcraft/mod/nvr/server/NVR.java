@@ -16,6 +16,9 @@ import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.enums.DistrictType;
+import net.fexcraft.mod.nvr.common.enums.MunicipalityType;
+import net.fexcraft.mod.nvr.common.enums.NationType;
 import net.fexcraft.mod.nvr.server.cmds.ClaimCmd;
 import net.fexcraft.mod.nvr.server.cmds.InfoCmd;
 import net.fexcraft.mod.nvr.server.data.Chunk;
@@ -167,7 +170,7 @@ public class NVR {
 			nat.account = Account.getAccountManager().loadAccount("nation", "nation:-1");
 			nat.name = "No Nation";
 			nat.icon = "https://i.imgur.com/8z76Cbr.png";
-			nat.type = Nation.Type.ANARCHY;
+			nat.type = NationType.ANARCHY;
 			nat.gov_title = "Finest Anarchy";
 			nat.gov_name = "Anarchist";
 			nat.incharge = null;
@@ -186,7 +189,7 @@ public class NVR {
 			nat.account = Account.getAccountManager().loadAccount("nation", "nation:0");
 			nat.name = "Testarian Union";
 			nat.icon = "";
-			nat.type = Nation.Type.MONARCHY;
+			nat.type = NationType.MONARCHY;
 			nat.gov_title = "Union";
 			nat.gov_name = "Unionist";
 			nat.incharge = UUID.fromString(DEF_UUID);
@@ -235,7 +238,7 @@ public class NVR {
 			mun.name = "Unnamed Place";
 			mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:-1");
 			mun.icon = "https://i.imgur.com/RFGyyOD.png";
-			mun.type = Municipality.Type.ABANDONED;
+			mun.type = MunicipalityType.ABANDONED;
 			mun.province = PROVINCES.get(-1);
 			mun.creator = UUID.fromString(DEF_UUID);
 			mun.created = Time.getDate();
@@ -251,7 +254,7 @@ public class NVR {
 			mun.name = "Spawn";
 			mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:0");
 			mun.icon = "";//
-			mun.type = Municipality.Type.TOO_LARGE;
+			mun.type = MunicipalityType.TOO_LARGE;
 			mun.province = PROVINCES.get(0);
 			mun.creator = UUID.fromString(DEF_UUID);
 			mun.created = Time.getDate();
@@ -264,7 +267,7 @@ public class NVR {
 		if(!DISTRICTS.containsKey(-1)){
 			District dis = new District();
 			dis.id = -1;
-			dis.type = District.Type.UNSPECIFIED;
+			dis.type = DistrictType.UNSPECIFIED;
 			dis.name = "Unclaimed Area";
 			dis.municipality = MUNICIPALITIES.get(-1);
 			dis.manager = null;
@@ -279,7 +282,7 @@ public class NVR {
 		if(!DISTRICTS.containsKey(0)){
 			District dis = new District();
 			dis.id = 0;
-			dis.type = District.Type.CENTER;
+			dis.type = DistrictType.CENTER;
 			dis.name = "TPP";
 			dis.municipality = MUNICIPALITIES.get(0);
 			dis.manager = UUID.fromString(DEF_UUID);

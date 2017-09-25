@@ -10,13 +10,14 @@ import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.enums.NationType;
 import net.fexcraft.mod.nvr.server.NVR;
 
 public class Nation {
 	
 	public int id;
 	public String name, icon;
-	public Type type;
+	public NationType type;
 	public ArrayList<UUID> gov = new ArrayList<UUID>();
 	public String gov_title, gov_name;
 	public UUID incharge;
@@ -38,7 +39,7 @@ public class Nation {
 		nat.id = obj.get("id").getAsInt();
 		nat.name = JsonUtil.getIfExists(obj, "name", "Unnamed Nation");
 		nat.icon = JsonUtil.getIfExists(obj, "icon", "");
-		nat.type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.ANARCHY));
+		nat.type = NationType.fromString(JsonUtil.getIfExists(obj, "type", NationType.ANARCHY));
 		nat.gov = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "gov", new JsonArray()).getAsJsonArray());
 		nat.gov_title = JsonUtil.getIfExists(obj, "gov_title", "Finest Anarchy");
 		nat.gov_name = JsonUtil.getIfExists(obj, "gov_name", "Anarchist");
@@ -85,43 +86,21 @@ public class Nation {
 			e.printStackTrace();
 		}
 	}
-	
-	public static enum Type {
-		
-		MONARCHY (true , false),//current ruler selects next ruler, sets goverment positions, no voting
-		DEMOCRACY(false, true ),//all important things need to get a vote from majority of the goverment, where the current ruler suggest stuff, goverment selected via vote
-		AUTOCRACY(true , true ),//hybrid of the 2 above
-		ANARCHY  (false, false);//any one rules over one self.
-		
-		public final boolean singleruler;
-		public final boolean voting;
-		
-		Type(boolean sr, boolean v){
-			this.singleruler = sr;
-			this.voting = v;
-		}
-		
-		public static Type fromString(String string){
-			Type type = valueOf(string);
-			return type == null ? ANARCHY : type;
-		}
-		
-	}
 
 	public boolean isInAnarchy(){
-		return type == Type.ANARCHY;
+		return type == NationType.ANARCHY;
 	}
 	
 	public boolean isDemocratic(){
-		return type == Type.DEMOCRACY;
+		return type == NationType.DEMOCRACY;
 	}
 	
 	public boolean isAutocratic(){
-		return type == Type.AUTOCRACY;
+		return type == NationType.AUTOCRACY;
 	}
 	
 	public boolean isMonarchy(){
-		return type == Type.MONARCHY;
+		return type == NationType.MONARCHY;
 	}
 
 	public boolean canClaim(UUID uuid){

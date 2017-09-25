@@ -11,13 +11,14 @@ import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.enums.ChunkType;
 import net.fexcraft.mod.nvr.server.NVR;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 
 public class Chunk {
 	
 	public final int x, z;
-	public Type type;
+	public ChunkType type;
 	public District district;
 	public UUID claimer, owner;
 	public long claimed, changed;
@@ -31,7 +32,7 @@ public class Chunk {
 			JsonObject obj = JsonUtil.get(this.getFile(x, z));
 			if(!obj.has("claimer")){
 				obj.addProperty("claimer", (claimer = claim == null ? UUID.fromString(NVR.DEF_UUID) : claim).toString());
-				obj.addProperty("type", (type = Type.NEUTRAL).name());
+				obj.addProperty("type", (type = ChunkType.NEUTRAL).name());
 				obj.addProperty("district", (district = NVR.DISTRICTS.get(-1)).id);
 				//obj.addProperty("owner", "");
 				obj.addProperty("claimed", claimed = Time.getDate());
@@ -42,7 +43,7 @@ public class Chunk {
 				JsonUtil.write(this.getFile(x, z), obj);
 			}
 			else{
-				type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.NEUTRAL.name()));
+				type = ChunkType.fromString(JsonUtil.getIfExists(obj, "type", ChunkType.NEUTRAL.name()));
 				district = NVR.getDistrict(JsonUtil.getIfExists(obj, "district", -1).intValue());
 				claimer = UUID.fromString(JsonUtil.getIfExists(obj, "claimer", NVR.DEF_UUID));
 				owner = obj.has("owner") && !obj.get("owner").getAsString().equals("") ? UUID.fromString(JsonUtil.getIfExists(obj, "owner", NVR.DEF_UUID)) : null;
@@ -81,24 +82,6 @@ public class Chunk {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
-	}
-	
-	public static enum Type {
-		PUBLIC,//anyone
-		NEUTRAL,//unclaimed
-		CLAIMED,//citizen only
-		PRIVATE,//owner/s only
-		COMPANY,//company only
-		PROTECTED;//manager and up only
-		
-		public static Type fromString(String string){
-			for(Type type : values()){
-				if(type.name().equals(string)){
-					return type;
-				}
-			}
-			return NEUTRAL;
 		}
 	}
 

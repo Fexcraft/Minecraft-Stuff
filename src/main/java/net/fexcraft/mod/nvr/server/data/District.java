@@ -9,12 +9,13 @@ import com.google.gson.JsonObject;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.enums.DistrictType;
 import net.fexcraft.mod.nvr.server.NVR;
 
 public class District {
 	
 	public int id;
-	public Type type;
+	public DistrictType type;
 	public String name;
 	public Municipality municipality;
 	public UUID manager, creator;
@@ -31,7 +32,7 @@ public class District {
 		District dis = new District();
 		//
 		dis.id = JsonUtil.getIfExists(obj, "id", -100).intValue();
-		dis.type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.UNSPECIFIED.name()));
+		dis.type = DistrictType.fromString(JsonUtil.getIfExists(obj, "type", DistrictType.UNSPECIFIED.name()));
 		dis.name = JsonUtil.getIfExists(obj, "name", "Unnamed District");
 		dis.municipality = NVR.getMunicipality(JsonUtil.getIfExists(obj, "municipality", -1).intValue());
 		dis.manager = obj.has("manager") && !obj.get("manager").getAsString().equals("") ? UUID.fromString(JsonUtil.getIfExists(obj, "manager", NVR.DEF_UUID)) : null;
@@ -68,29 +69,6 @@ public class District {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
-	}
-	
-	public static enum Type {
-		MIXED,
-		CENTER,
-		VILLAGE,
-		RESIDENTAL,
-		COMMERCIAL,
-		INDUSTRIAL,
-		AGRICULTURAL,
-		MINERAL,
-		MILITARY,
-		WASTELAND,
-		UNSPECIFIED;
-		
-		public static Type fromString(String string){
-			for(Type type : values()){
-				if(type.name().equals(string)){
-					return type;
-				}
-			}
-			return WASTELAND;
 		}
 	}
 	

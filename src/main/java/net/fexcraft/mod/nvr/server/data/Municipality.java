@@ -10,13 +10,14 @@ import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.enums.MunicipalityType;
 import net.fexcraft.mod.nvr.server.NVR;
 
 public class Municipality {
 	
 	public int id;
 	public String name, icon;
-	public Type type;
+	public MunicipalityType type;
 	public Province province;
 	public ArrayList<UUID> management = new ArrayList<UUID>();
 	public ArrayList<Integer> neighbors = new ArrayList<Integer>();
@@ -37,7 +38,7 @@ public class Municipality {
 		Municipality mun = new Municipality();
 		mun.id = obj.get("id").getAsInt();
 		mun.name = JsonUtil.getIfExists(obj, "name", "Unnamed Place");
-		mun.type = Type.fromString(JsonUtil.getIfExists(obj, "type", Type.ABANDONED.name()));
+		mun.type = MunicipalityType.fromString(JsonUtil.getIfExists(obj, "type", MunicipalityType.ABANDONED.name()));
 		mun.province = NVR.getProvince(JsonUtil.getIfExists(obj, "province", -1).intValue());
 		mun.management = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "management", new JsonArray()).getAsJsonArray());
 		mun.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
@@ -81,40 +82,6 @@ public class Municipality {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-	
-	public static enum Type {
-		
-		HAMLET    (  0,  3, "Hamlet"),
-		VILLAGE   (  8,  4, "Village"),
-		SMALL_TOWN( 16,  8, "Small Town"),
-		TOWN      ( 24, 12, "Town"),
-		LARGE_TOWN( 32, 16, "Large Town"),
-		CITY      ( 40, 20, "City"),
-		LARGE_CITY( 60, 28, "Large City"),
-		METROPOLIS(120, 36, "Metropolis"),
-		TOO_LARGE (160, 50, "TOO LARGE OF A CITY"),
-		INVALID   (  0,  0, "Invalid"),
-		ABANDONED (  0,  0, "(Abandoned)");
-		
-		private int req;//required citizen to expand district amount
-		private int dis;//district limit
-		private String title;
-		
-		Type(int i, int j, String name){
-			req = i; dis = j;
-			this.title = name;
-		}
-		
-		public static Type fromString(String string){
-			Type type = valueOf(string);
-			return type == null ? INVALID : type;
-		}
-		
-		public final String getTitle(){
-			return title;
-		}
-		
 	}
 	
 }
