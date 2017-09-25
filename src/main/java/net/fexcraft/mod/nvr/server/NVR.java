@@ -16,6 +16,7 @@ import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.server.cmds.ClaimCmd;
 import net.fexcraft.mod.nvr.server.cmds.InfoCmd;
 import net.fexcraft.mod.nvr.server.data.Chunk;
 import net.fexcraft.mod.nvr.server.data.District;
@@ -51,6 +52,7 @@ public class NVR {
 	public static final String MODID = "nvr";
 	public static final String DATASTR = "nvr-sa";
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
+	public static final String CONSOLE_UUID = "f78a4d8d-d51b-4b39-98a3-230f2de0c670";
 	//public static Sql SQL;
 	public static File PATH, CHUNK_DIR, DISTRICT_DIR, MUNICIPALITY_DIR, PROVINCE_DIR, NATION_DIR;
 	public static final Log LOGGER = new Log("NVR", "&0[&4NVR&0]&7 ");
@@ -117,6 +119,7 @@ public class NVR {
 	@Mod.EventHandler
 	public static void serverLoad(FMLServerStartingEvent event){
 		event.registerServerCommand(new InfoCmd());
+		event.registerServerCommand(new ClaimCmd());
 	}
 	
 	@Mod.EventHandler
@@ -382,7 +385,7 @@ public class NVR {
 
 	public static Nation getNation(String[] args, int off){
 		if(NumberUtils.isCreatable(args[off])){
-			return getNation(Integer.parseInt(args[1]));
+			return getNation(Integer.parseInt(args[off]));
 		}
 		String str = args[off];
 		if(args.length > off + 1){
@@ -401,7 +404,7 @@ public class NVR {
 
 	public static Province getProvince(String[] args, int off){
 		if(NumberUtils.isCreatable(args[off])){
-			return getProvince(Integer.parseInt(args[1]));
+			return getProvince(Integer.parseInt(args[off]));
 		}
 		String str = args[off];
 		if(args.length > off + 1){
@@ -420,7 +423,7 @@ public class NVR {
 
 	public static Municipality getMunicipality(String[] args, int off){
 		if(NumberUtils.isCreatable(args[off])){
-			return getMunicipality(Integer.parseInt(args[1]));
+			return getMunicipality(Integer.parseInt(args[off]));
 		}
 		String str = args[off];
 		if(args.length > off + 1){
@@ -439,7 +442,7 @@ public class NVR {
 
 	public static District getDistrict(String[] args, int off){
 		if(NumberUtils.isCreatable(args[off])){
-			return getDistrict(Integer.parseInt(args[1]));
+			return getDistrict(Integer.parseInt(args[off]));
 		}
 		String str = args[off];
 		if(args.length > off + 1){

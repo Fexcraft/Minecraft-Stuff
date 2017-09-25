@@ -123,5 +123,16 @@ public class Nation {
 	public boolean isMonarchy(){
 		return type == Type.MONARCHY;
 	}
+
+	public boolean canClaim(UUID uuid){
+		switch(type){
+			case ANARCHY: return false;
+			case AUTOCRACY: return incharge.equals(uuid);
+			case DEMOCRACY: return false;
+			case MONARCHY: return incharge.equals(uuid) || gov.contains(uuid);
+			default: break;
+		}
+		return false;
+	}
 	
 }

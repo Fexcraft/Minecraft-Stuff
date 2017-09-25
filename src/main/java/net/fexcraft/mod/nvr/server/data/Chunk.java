@@ -6,11 +6,13 @@ import java.util.UUID;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.fexcraft.mod.lib.perms.player.PlayerPerms;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.NVR;
+import net.fexcraft.mod.nvr.server.util.Permissions;
 
 public class Chunk {
 	
@@ -98,6 +100,19 @@ public class Chunk {
 			}
 			return NEUTRAL;
 		}
+	}
+
+	public String tryClaim(PlayerPerms perms, Player player, District dis, boolean asa){
+		boolean has = asa ? (player == null ? true : perms.hasPermission(Permissions.ADMIN)) : (player != null && (dis.manager.equals(player.uuid) || dis.municipality.management.contains(player.uuid) || dis.municipality.province.ruler.equals(player.uuid) || dis.municipality.province.nation.canClaim(player.uuid)));
+		if(!has){ return "No Permission"; }
+		if(dis == null){ return "Tried to claim (" + x + "|" + z + ") but supplied District is NULL;"; }
+		//todo database logging
+		this.district = dis;
+		this.claimer = UUID.fromString(player == null ? NVR.CONSOLE_UUID : player.uuid.toString());
+		this.claimed = Time.getDate();
+		this.changed = Time.getDate();
+		this.save();
+		return "Claim successful.";
 	}
 	
 }
