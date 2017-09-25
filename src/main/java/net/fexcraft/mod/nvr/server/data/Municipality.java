@@ -63,6 +63,7 @@ public class Municipality {
 		try{
 			JsonObject obj = new JsonObject();
 			obj.addProperty("id", id);
+			obj.addProperty("name", name);
 			obj.addProperty("type", type.name());
 			obj.addProperty("province", province.id);
 			obj.add("management", JsonUtil.getArrayFromUUIDList(management));
@@ -108,6 +109,10 @@ public class Municipality {
 		public static Type fromString(String string){
 			Type type = valueOf(string);
 			return type == null ? INVALID : type;
+		}
+		
+		public final String getTitle(){
+			return title;
 		}
 		
 	}

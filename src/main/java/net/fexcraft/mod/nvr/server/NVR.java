@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import net.fexcraft.mod.fsmm.account.AccountManager.Account;
 import net.fexcraft.mod.lib.perms.PermManager;
@@ -13,6 +16,7 @@ import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.server.cmds.InfoCmd;
 import net.fexcraft.mod.nvr.server.data.Chunk;
 import net.fexcraft.mod.nvr.server.data.District;
 import net.fexcraft.mod.nvr.server.data.DoubleKey;
@@ -49,7 +53,7 @@ public class NVR {
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
 	//public static Sql SQL;
 	public static File PATH, CHUNK_DIR, DISTRICT_DIR, MUNICIPALITY_DIR, PROVINCE_DIR, NATION_DIR;
-	public static final Log LOGGER = new Log("NVR");
+	public static final Log LOGGER = new Log("NVR", "&0[&4NVR&0]&7 ");
 
 	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
 	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
@@ -112,7 +116,7 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void serverLoad(FMLServerStartingEvent event){
-		//
+		event.registerServerCommand(new InfoCmd());
 	}
 	
 	@Mod.EventHandler
@@ -159,7 +163,7 @@ public class NVR {
 			nat.id = -1;
 			nat.account = Account.getAccountManager().loadAccount("nation", "nation:-1");
 			nat.name = "No Nation";
-			nat.icon = "";
+			nat.icon = "https://i.imgur.com/8z76Cbr.png";
 			nat.type = Nation.Type.ANARCHY;
 			nat.gov_title = "Finest Anarchy";
 			nat.gov_name = "Anarchist";
@@ -179,7 +183,7 @@ public class NVR {
 			nat.account = Account.getAccountManager().loadAccount("nation", "nation:0");
 			nat.name = "Testarian Union";
 			nat.icon = "";
-			nat.type = Nation.Type.ANARCHY;
+			nat.type = Nation.Type.MONARCHY;
 			nat.gov_title = "Union";
 			nat.gov_name = "Unionist";
 			nat.incharge = UUID.fromString(DEF_UUID);
@@ -196,9 +200,10 @@ public class NVR {
 			Province prov = new Province();
 			prov.id = -1;
 			prov.name = "Neutral Territory";
-			prov.icon = "";
+			prov.icon = "https://i.imgur.com/oxJw52L.png";
 			prov.nation = NATIONS.get(-1);
 			prov.ruler = null;
+			prov.ruler_title = "Landlord";
 			prov.creator = UUID.fromString(DEF_UUID);
 			prov.created = Time.getDate();
 			prov.changed = Time.getDate();
@@ -213,6 +218,7 @@ public class NVR {
 			prov.icon = "";
 			prov.nation = NATIONS.get(0);
 			prov.ruler = UUID.fromString(DEF_UUID);
+			prov.ruler_title = "Area Director";
 			prov.creator = UUID.fromString(DEF_UUID);
 			prov.created = Time.getDate();
 			prov.changed = Time.getDate();
@@ -225,7 +231,7 @@ public class NVR {
 			mun.id = -1;
 			mun.name = "Unnamed Place";
 			mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:-1");
-			mun.icon = "http://i.imgur.com/a8nIVHE.png";
+			mun.icon = "https://i.imgur.com/RFGyyOD.png";
 			mun.type = Municipality.Type.ABANDONED;
 			mun.province = PROVINCES.get(-1);
 			mun.creator = UUID.fromString(DEF_UUID);
@@ -308,7 +314,25 @@ public class NVR {
 	}
 
 	public static final Player getPlayerData(String string){
+		return getPlayerData(string, false);
+		//EntityPlayerMP player = Static.getServer().getPlayerList().getPlayerByUsername(string);
+		//return player == null ? null : getPlayerData(player);
+	}
+	
+	/** @param bool load if offline */
+	public static Player getPlayerData(String string, boolean bool){
 		EntityPlayerMP player = Static.getServer().getPlayerList().getPlayerByUsername(string);
+		if(player == null && bool){
+			JsonObject obj = JsonUtil.read(new File(PermManager.userDir, string + ".perm"), false).getAsJsonObject();
+			UUID uuid = null;
+			try{
+				uuid = UUID.fromString(string);
+			}
+			catch(Exception e){
+				uuid = Static.getServer().getPlayerProfileCache().getGameProfileForUsername(string).getId();
+			}
+			return obj == null ? null : Player.loadOffline(uuid, obj);
+		}
 		return player == null ? null : getPlayerData(player);
 	}
 	
@@ -350,6 +374,86 @@ public class NVR {
 		int x = world.getChunkFromBlockCoords(pos).x;
 		int z = world.getChunkFromBlockCoords(pos).z;
 		return getChunk(x, z);
+	}
+
+	public static Chunk getChunk(EntityPlayer player){
+		return getChunk(player.world, player.getPosition());
+	}
+
+	public static Nation getNation(String[] args, int off){
+		if(NumberUtils.isCreatable(args[off])){
+			return getNation(Integer.parseInt(args[1]));
+		}
+		String str = args[off];
+		if(args.length > off + 1){
+			for(int i = 2; i < args.length; i++){
+				str += " " + args[i];
+			}
+		}
+		Nation nat = null;
+		for(Nation n : NATIONS.values()){
+			if(n.name.equals(str)){
+				nat = n;
+			}
+		}
+		return nat;
+	}
+
+	public static Province getProvince(String[] args, int off){
+		if(NumberUtils.isCreatable(args[off])){
+			return getProvince(Integer.parseInt(args[1]));
+		}
+		String str = args[off];
+		if(args.length > off + 1){
+			for(int i = 2; i < args.length; i++){
+				str += " " + args[i];
+			}
+		}
+		Province prov = null;
+		for(Province p : PROVINCES.values()){
+			if(p.name.equals(str)){
+				prov = p;
+			}
+		}
+		return prov;
+	}
+
+	public static Municipality getMunicipality(String[] args, int off){
+		if(NumberUtils.isCreatable(args[off])){
+			return getMunicipality(Integer.parseInt(args[1]));
+		}
+		String str = args[off];
+		if(args.length > off + 1){
+			for(int i = 2; i < args.length; i++){
+				str += " " + args[i];
+			}
+		}
+		Municipality mun = null;
+		for(Municipality m : MUNICIPALITIES.values()){
+			if(m.name.equals(str)){
+				mun = m;
+			}
+		}
+		return mun;
+	}
+
+	public static District getDistrict(String[] args, int off){
+		if(NumberUtils.isCreatable(args[off])){
+			return getDistrict(Integer.parseInt(args[1]));
+		}
+		String str = args[off];
+		if(args.length > off + 1){
+			for(int i = 2; i < args.length; i++){
+				str += " " + args[i];
+			}
+		}
+		District dis = null;
+		for(District d : DISTRICTS.values()){
+			if(d.name.equals(str)){
+				dis = d;
+			}
+		}
+		return dis;
 	}
 	
 }

@@ -25,7 +25,7 @@ public class PlayerEvents {
 	public void onJoin(PlayerLoggedInEvent event){
 		Player data = NVR.getPlayerData(event.player);
 		if(data != null){
-			Print.chat(event.player, Formatter.format("&7Welcome back " + data.getNick(event.player) + "&7!"));
+			Print.chat(event.player, Formatter.format("&fWelcome back " + data.getNick(event.player) + "&f!"));
 			data.lastseen = NVR.getChunk(event.player.world, event.player.getPosition()).district;
 			data.lastseenpos = event.player.getPositionVector();
 			Sender.sendLocationUpdate(event.player, Formatter.format("&7Welcome back " + data.getNick(event.player) + "&7!"), null, "green", 10);
@@ -75,7 +75,7 @@ public class PlayerEvents {
 			return true;
 		}
 		Chunk chunk = NVR.getChunk(world, pos);
-		if(chunk.district.municipality.province.nation.isInAnarchy() && chunk.district.id != -1){
+		if(chunk.district.municipality.province.nation.isInAnarchy() && chunk.district.id != -1 && chunk.district.municipality.id != -1 && chunk.district.municipality.province.id != -1 && chunk.district.municipality.province.nation.id != -1){
 			return false;
 		}
 		switch(chunk.type){

@@ -1,6 +1,7 @@
 package net.fexcraft.mod.nvr.server.data;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.gson.JsonArray;
@@ -11,6 +12,7 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.server.NVR;
+import scala.actors.threadpool.Arrays;
 
 public class Province {
 	
@@ -25,6 +27,7 @@ public class Province {
 	public ArrayList<UUID> rebels = new ArrayList<UUID>();
 	public ArrayList<UUID> sepers = new ArrayList<UUID>();
 	//public ArrayList<Integer> districts = new ArrayList<Integer>();
+	public String ruler_title;
 	
 	public Province(){}
 	
@@ -45,6 +48,7 @@ public class Province {
 		prov.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
 		prov.rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "rebels", new JsonArray()).getAsJsonArray());
 		prov.sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "sepers", new JsonArray()).getAsJsonArray());
+		prov.ruler_title = JsonUtil.getIfExists(obj, "ruler_title", "Landlord");
 		return prov;
 	}
 	
@@ -67,6 +71,7 @@ public class Province {
 			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
 			obj.add("rebels", JsonUtil.getArrayFromUUIDList(rebels));
 			obj.add("sepers", JsonUtil.getArrayFromUUIDList(sepers));
+			obj.addProperty("ruler_title", ruler_title);
 			//
 			obj.addProperty("last_save", Time.getDate());
 			JsonUtil.write(getFile(id), obj);
@@ -75,6 +80,20 @@ public class Province {
 			e.printStackTrace();
 			Static.halt();
 		}
+	}
+
+	public float rebelper100(){
+		int[] citizen = new int[]{0};
+		List<Municipality> list = Arrays.asList(NVR.MUNICIPALITIES.values().stream().filter((pre) -> pre.province.id == this.id).toArray());
+		list.forEach((mun) -> citizen[0] += mun.citizens.size());
+		return citizen[0] == 0 ? 0 : (rebels.size() / citizen[0]) * 100;
+	}
+
+	public float seperper100(){
+		int[] citizen = new int[]{0};
+		List<Municipality> list = Arrays.asList(NVR.MUNICIPALITIES.values().stream().filter((pre) -> pre.province.id == this.id).toArray());
+		list.forEach((mun) -> citizen[0] += mun.citizens.size());
+		return citizen[0] == 0 ? 0 : (sepers.size() / citizen[0]) * 100;
 	}
 	
 }

@@ -3,12 +3,20 @@ package net.fexcraft.mod.lib.util.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.command.ICommandSender;
+
 public class Log {
 	
 	private final Logger logger;
+	private final String prefix;
 	
 	public Log(String id){
+		this(id, null);
+	}
+	
+	public Log(String id, String pre){
 		logger = LogManager.getLogger(id);
+		prefix = pre == null ? "&0[&e" + id.toUpperCase() + "&0]&7" : pre;
 	}
 	
 	public void log(Object obj){
@@ -45,6 +53,16 @@ public class Log {
 	public void debug(Object... objs){
 		if(Static.dev()){
 			log(objs);
+		}
+	}
+	
+	public void chat(ICommandSender sender, Object obj){
+		Print.chat(sender, prefix + obj);
+	}
+	
+	public void chat(ICommandSender sender, Object... objs){
+		for(Object obj : objs){
+			chat(sender, obj);
 		}
 	}
 	

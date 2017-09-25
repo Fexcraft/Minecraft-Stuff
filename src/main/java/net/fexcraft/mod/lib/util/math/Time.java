@@ -1,5 +1,6 @@
 package net.fexcraft.mod.lib.util.math;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -56,4 +57,11 @@ public class Time {
 	public static Calendar getGMTCalendar(){
 		return Calendar.getInstance(GMT);
 	}
+	
+	public static final String getAsString(long date){
+		return format.format(new Date(date));
+	}
+	
+	private static final SimpleDateFormat format = new SimpleDateFormat("dd|MM|yyyy hh:mm;ss");
+	
 }

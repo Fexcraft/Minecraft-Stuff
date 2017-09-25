@@ -53,9 +53,8 @@ public class LocationGui extends GuiScreen {
 				this.drawTexturedModalRect(6, 18, x[1], y[1], 16, 16);
 			}
 			else{
+				int x = 6, y = 19, width = 16, height = 16;
 				mc.getTextureManager().bindTexture(icon[1]);
-				int x = 6, y = 17, width = 16, height = 16;
-				mc.getTextureManager().bindTexture(icon[0]);
 				Tessellator tessellator = Tessellator.getInstance();
 		        BufferBuilder bufferbuilder = tessellator.getBuffer();
 		        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -69,9 +68,8 @@ public class LocationGui extends GuiScreen {
 				this.drawTexturedModalRect(6, 2, x[2], y[2], 16, 16);
 			}
 			else{
-				mc.getTextureManager().bindTexture(icon[2]);
 				int x = 6, y = 3, width = 16, height = 16;
-				mc.getTextureManager().bindTexture(icon[0]);
+				mc.getTextureManager().bindTexture(icon[2]);
 				Tessellator tessellator = Tessellator.getInstance();
 		        BufferBuilder bufferbuilder = tessellator.getBuffer();
 		        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -81,8 +79,8 @@ public class LocationGui extends GuiScreen {
 		        bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex(0, 0).endVertex();
 		        tessellator.draw();
 			}
-			mc.fontRenderer.drawString(up  , 59, 7, MapColor.GRAY.colorValue);
-			mc.fontRenderer.drawString(down, 59, 21, MapColor.GRAY.colorValue);
+			mc.fontRenderer.drawString(up  , 59, 8, MapColor.GRAY.colorValue);
+			mc.fontRenderer.drawString(down, 59, 22, MapColor.GRAY.colorValue);
 		}
 	}
 	
