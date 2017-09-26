@@ -2,13 +2,15 @@ package net.fexcraft.mod.nvr.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 
-public class ClaimingGui extends GuiContainer {
+public class ChunkViewGui extends GuiContainer {
 	
 	private static Mode mode;
+	private static boolean asa;
 
-	public ClaimingGui(String mode){
+	public ChunkViewGui(String mode, boolean a){
 		super(new PlaceholderGuiContainer());
 		this.mode = Mode.fromString(mode);
+		this.asa = a;
 	}
 
 	@Override
@@ -17,6 +19,7 @@ public class ClaimingGui extends GuiContainer {
 	}
 	
 	private static enum Mode {
+		
 		CLAIM,
 		TYPE,
 		DISTRICTS,

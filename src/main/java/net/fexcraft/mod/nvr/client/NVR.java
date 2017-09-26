@@ -3,6 +3,7 @@ package net.fexcraft.mod.nvr.client;
 import net.fexcraft.mod.lib.network.PacketHandler;
 import net.fexcraft.mod.lib.network.PacketHandler.PacketHandlerType;
 import net.fexcraft.mod.nvr.client.gui.LocationGui;
+import net.fexcraft.mod.nvr.client.util.Receiver;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -14,6 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = NVR.MODID, name = "NVR Client", version="xxx.xxx", acceptableRemoteVersions = "*", clientSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
 	
+	@Mod.Instance(NVR.MODID)
+	public static NVR INSTANCE;
 	public static final String MODID = "nvr-c";
 	
 	@Mod.EventHandler
@@ -24,7 +27,7 @@ public class NVR {
 	@Mod.EventHandler
 	public static void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new LocationGui());
-		PacketHandler.registerListener(PacketHandlerType.NBT, Side.CLIENT, new LocationGui.LGReceiver());
+		PacketHandler.registerListener(PacketHandlerType.NBT, Side.CLIENT, new Receiver());
 	}
 	
 	@Mod.EventHandler

@@ -21,7 +21,7 @@ public class Sender {
 	
 	public static final void sendLocationUpdate(EntityPlayer player, String ms, String mg, String color, Integer time){
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString("target_listener", "nvr-lg");
+		nbt.setString("target_listener", "nvr-cl");
 		nbt.setString("task", "show");
 		Player data = NVR.getPlayerData(player);
 		writeIcon(nbt, data.lastseen.municipality.icon, 0, color);
