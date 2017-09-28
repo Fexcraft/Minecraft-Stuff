@@ -1,4 +1,4 @@
-package net.fexcraft.mod.nvr.client.gui;
+package net.fexcraft.mod.nvr.common;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

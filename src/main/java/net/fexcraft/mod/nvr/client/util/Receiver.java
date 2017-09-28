@@ -4,10 +4,8 @@ import net.fexcraft.mod.lib.api.network.IPacketListener;
 import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.lib.util.render.ExternalTextureHelper;
-import net.fexcraft.mod.nvr.client.NVR;
 import net.fexcraft.mod.nvr.client.gui.LocationGui;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
 
 public class Receiver implements IPacketListener<PacketNBTTagCompound>{
 
@@ -57,8 +55,8 @@ public class Receiver implements IPacketListener<PacketNBTTagCompound>{
 				break;
 			}
 			case "ckv":{
-				BlockPos pos = player.getPosition();
-				player.openGui(NVR.INSTANCE, 0, player.world, pos.getX(), pos.getY(), pos.getZ());
+				//BlockPos pos = player.getPosition();
+				//player.openGui(NVR.INSTANCE, 0, player.world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 	}

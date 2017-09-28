@@ -16,6 +16,7 @@ import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.lib.util.common.Static;
 import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.math.Time;
+import net.fexcraft.mod.nvr.common.GuiHandler;
 import net.fexcraft.mod.nvr.common.enums.DistrictType;
 import net.fexcraft.mod.nvr.common.enums.MunicipalityType;
 import net.fexcraft.mod.nvr.common.enums.NationType;
@@ -44,13 +45,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import scala.actors.threadpool.Arrays;
 
-@Mod(modid = NVR.MODID, name = "NVR Standalone", version="xxx.xxx", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
+//@Mod(modid = NVR.MODID, name = "NVR Standalone", version="xxx.xxx", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
 	
-	@Mod.Instance(NVR.MODID)
-	public static NVR INSTANCE;
+	/*@Mod.Instance(NVR.MODID)
+	public static NVR INSTANCE;*/
 	
 	public static final String MODID = "nvr";
 	public static final String DATASTR = "nvr-sa";
@@ -117,6 +119,8 @@ public class NVR {
 		//
 		Permissions.register();
 		PlayerPerms.addAdditionalData(Player.class);
+		//
+		NetworkRegistry.INSTANCE.registerGuiHandler(net.fexcraft.mod.nvr.common.NVR.INSTANCE, new GuiHandler());
 	}
 	
 	@Mod.EventHandler
@@ -460,6 +464,10 @@ public class NVR {
 			}
 		}
 		return dis;
+	}
+	
+	public static net.fexcraft.mod.nvr.common.NVR getInstance(){
+		return net.fexcraft.mod.nvr.common.NVR.INSTANCE;
 	}
 	
 }

@@ -12,11 +12,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = NVR.MODID, name = "NVR Client", version="xxx.xxx", acceptableRemoteVersions = "*", clientSideOnly = true, dependencies = "required-after:fcl")
+//@Mod(modid = NVR.MODID, name = "NVR Client", version="xxx.xxx", acceptableRemoteVersions = "*", clientSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
 	
-	@Mod.Instance(NVR.MODID)
-	public static NVR INSTANCE;
+	/*@Mod.Instance(NVR.MODID)
+	public static NVR INSTANCE;*/
 	public static final String MODID = "nvr-c";
 	
 	@Mod.EventHandler

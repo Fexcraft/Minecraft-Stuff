@@ -36,13 +36,20 @@ public class ClaimCmd extends CommandBase {
 			print.chat(sender, InfoCmd.space);
 			print.chat(sender, "Claim Command");
 			print.chat(sender, "/cl <district>");
-			print.chat(sender, "/cl w (opens GUI)");
+			print.chat(sender, "/cl w <args> (opens GUI)");
 			return;
 		}
 		boolean isp = sender.getCommandSenderEntity() instanceof EntityPlayer;
 		EntityPlayer player = isp ? (EntityPlayer)sender.getCommandSenderEntity() : null;
 		if(args[0].equals("w")){
-			print.chat(sender, "//TODO");
+			if(!isp){
+				print.chat(sender, "Function only avaible to ingame players.");
+			}
+			else{
+				boolean asa = args.length >= 2 ? args[1].equals("-a") : false;
+				boolean asc = args.length >= 2 ? args[1].equals("-c") : false;
+				player.openGui(NVR.getInstance(), 0, player.world, 0, asa ? 1 : 0, asc ? 1 : 0);
+			}
 		}
 		else{
 			District dis = NVR.getDistrict(args, 0);
