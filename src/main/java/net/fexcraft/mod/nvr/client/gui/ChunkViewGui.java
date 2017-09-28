@@ -72,7 +72,8 @@ public class ChunkViewGui extends GuiContainer {
 		PROVINCES     (4, "Provinces"),
 		NATIONS       (5, "Nation"),
 		COMPANIES     (7, "Companies"),
-		LINKED        (8, "Linked Ck.");
+		LINKED        (8, "Linked Ck."),
+		GEOGRAPHIC    (9, "Geographic");
 		
 		private int id;
 		private String name;
