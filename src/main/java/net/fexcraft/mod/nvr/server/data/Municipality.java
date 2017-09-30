@@ -16,7 +16,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 public class Municipality {
 	
 	public int id;
-	public String name, icon;
+	public String name, icon, colour;
 	public MunicipalityType type;
 	public Province province;
 	public ArrayList<UUID> management = new ArrayList<UUID>();
@@ -49,6 +49,7 @@ public class Municipality {
 		mun.citizens = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "citizens", new JsonArray()).getAsJsonArray());
 		mun.citizentax = JsonUtil.getIfExists(obj, "citizentax", 0).doubleValue();
 		mun.icon = JsonUtil.getIfExists(obj, "icon", "");
+		mun.colour = JsonUtil.getIfExists(obj, "color", "#f0f0f0");
 		//
 		mun.account = Account.getAccountManager().loadAccount("municipality", "municipality:" + mun.id);
 		//
@@ -75,6 +76,7 @@ public class Municipality {
 			obj.add("citizens", JsonUtil.getArrayFromUUIDList(citizens));
 			obj.addProperty("citizentax", citizentax);
 			obj.addProperty("icon", icon == null ? "" : icon);
+			obj.addProperty("color", colour);
 			//
 			obj.addProperty("last_save", Time.getDate());
 			JsonUtil.write(getFile(id), obj);

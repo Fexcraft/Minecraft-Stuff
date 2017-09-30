@@ -16,7 +16,7 @@ public class District {
 	
 	public int id;
 	public DistrictType type;
-	public String name;
+	public String name, colour;
 	public Municipality municipality;
 	public UUID manager, creator;
 	public long created, changed;
@@ -42,6 +42,7 @@ public class District {
 		dis.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
 		dis.previncome = JsonUtil.getIfExists(obj, "previncome", 0).doubleValue();
 		dis.tax = JsonUtil.getIfExists(obj, "tax", 0).doubleValue();
+		dis.colour = JsonUtil.getIfExists(obj, "color", "#f0f0f0");
 		//
 		return dis;
 	}
@@ -63,6 +64,7 @@ public class District {
 			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
 			obj.addProperty("previncome", previncome);
 			obj.addProperty("tax", tax);
+			obj.addProperty("color", colour);
 			//
 			obj.addProperty("last_save", Time.getDate());
 			JsonUtil.write(getFile(id), obj);

@@ -12,7 +12,9 @@ import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.lib.util.math.Time;
 import net.fexcraft.mod.nvr.common.enums.ChunkType;
+import net.fexcraft.mod.nvr.common.enums.Mode;
 import net.fexcraft.mod.nvr.server.NVR;
+import net.fexcraft.mod.nvr.server.util.ImageCache;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 
 public class Chunk {
@@ -40,7 +42,15 @@ public class Chunk {
 				obj.add("whitelist", new JsonArray());
 				obj.add("linked", new JsonArray());
 				obj.addProperty("tax", tax = 0);
-				JsonUtil.write(this.getFile(x, z), obj);
+				File file = this.getFile(x, z);
+				if(!file.getParentFile().exists()){
+					file.getParentFile().mkdirs();
+				}
+				JsonUtil.write(file, obj);
+				//
+				ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.CLAIM);
+				ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.TYPE);
+				ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.GEOGRAPHIC);
 			}
 			else{
 				type = ChunkType.fromString(JsonUtil.getIfExists(obj, "type", ChunkType.NEUTRAL.name()));
@@ -61,7 +71,7 @@ public class Chunk {
 	}
 	
 	public static final File getFile(int x, int z){
-		return new File(NVR.CHUNK_DIR, x + "_" + z + ".json");
+		return new File(NVR.CHUNK_DIR, ImageCache.getRegion(x, z) + "/" + x + "_" + z + ".json");
 	}
 
 	public final void save(){
@@ -94,6 +104,11 @@ public class Chunk {
 		this.claimer = UUID.fromString(player == null ? NVR.CONSOLE_UUID : player.uuid.toString());
 		this.claimed = Time.getDate();
 		this.changed = Time.getDate();
+		//
+		ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.CLAIM);
+		ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.TYPE);
+		ImageCache.updateChunk(Static.getServer().getEntityWorld(), this, Mode.GEOGRAPHIC);
+		//
 		this.save();
 		return "Claim successful.";
 	}

@@ -16,7 +16,7 @@ import net.fexcraft.mod.nvr.server.NVR;
 public class Nation {
 	
 	public int id;
-	public String name, icon;
+	public String name, icon, colour;
 	public NationType type;
 	public ArrayList<UUID> gov = new ArrayList<UUID>();
 	public String gov_title, gov_name;
@@ -52,6 +52,7 @@ public class Nation {
 		nat.neighbors = JsonUtil.jsonArrayToIntegerArray(JsonUtil.getIfExists(obj, "neighbors", new JsonArray()).getAsJsonArray());
 		nat.account = Account.getAccountManager().loadAccount("nation", "nation:" + nat.id);
 		nat.parent = NVR.getNation(JsonUtil.getIfExists(obj, "parent", -1).intValue());
+		nat.colour = JsonUtil.getIfExists(obj, "color", "#f0f0f0");
 		return nat;
 	}
 	
@@ -78,6 +79,7 @@ public class Nation {
 			obj.addProperty("previncome", prev_income);
 			obj.add("neighbors", JsonUtil.getArrayFromIntegerList(neighbors));
 			obj.addProperty("parent", parent == null ? -1 : parent.id);
+			obj.addProperty("color", colour);
 			//
 			obj.addProperty("last_save", Time.getDate());
 			JsonUtil.write(getFile(id), obj);

@@ -1,5 +1,9 @@
 package net.fexcraft.mod.nvr.server.cmds;
 
+import com.google.gson.JsonObject;
+
+import net.fexcraft.mod.lib.network.PacketHandler;
+import net.fexcraft.mod.lib.network.packet.PacketNBTTagCompound;
 import net.fexcraft.mod.lib.perms.PermManager;
 import net.fexcraft.mod.lib.util.common.Log;
 import net.fexcraft.mod.nvr.server.NVR;
@@ -9,6 +13,10 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 
 public class ClaimCmd extends CommandBase {
@@ -49,6 +57,8 @@ public class ClaimCmd extends CommandBase {
 				boolean asa = args.length >= 2 ? args[1].equals("-a") : false;
 				boolean asc = args.length >= 2 ? args[1].equals("-c") : false;
 				player.openGui(NVR.getInstance(), 0, player.world, 0, asa ? 1 : 0, asc ? 1 : 0);
+				//
+				this.sendChunkArray(player);
 			}
 		}
 		else{
@@ -68,6 +78,40 @@ public class ClaimCmd extends CommandBase {
 				print.chat(sender, ck.tryClaim(null, null, dis, true));
 			}
 		}
+	}
+
+	private void sendChunkArray(EntityPlayer player){
+		NBTTagCompound nbt = new NBTTagCompound();
+		try{
+			NBTTagList list = new NBTTagList();
+			int x = player.world.getChunkFromBlockCoords(player.getPosition()).x;
+			int z = player.world.getChunkFromBlockCoords(player.getPosition()).z;
+			int xa = x + 5, za = z + 5;
+			for(int i = x - 5; i < xa; i++){
+			    for(int j = z - 5; j < za; j++){
+			        Chunk ck = NVR.getChunk(i, j);
+			        JsonObject obj = new JsonObject();
+			        obj.addProperty("x", ck.x);
+			        obj.addProperty("z", ck.z);
+			        obj.addProperty("claimed", ck.district.id > -1);
+			        obj.addProperty("type", ck.type.name());
+			        obj.addProperty("district", ck.district.id);
+			        obj.addProperty("municipality", ck.district.municipality.id);
+			        obj.addProperty("province", ck.district.municipality.province.id);
+			        obj.addProperty("nation", ck.district.municipality.province.nation.id);
+			        obj.addProperty("company", ck.owner.toString());
+			        obj.addProperty("linked", ck.linked.size() > 0);
+			        list.appendTag(new NBTTagString(obj.toString()));
+			    }
+			}
+			nbt.setTag("chunklist", list);
+		}
+		catch(Exception e){
+			
+		}
+		nbt.setString("target_listener", "nvr-cl");
+		nbt.setString("task", "ckv");
+		PacketHandler.getInstance().sendTo(new PacketNBTTagCompound(nbt), (EntityPlayerMP)player);
 	}
 	
 }

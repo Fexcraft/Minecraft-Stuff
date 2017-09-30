@@ -17,7 +17,7 @@ import scala.actors.threadpool.Arrays;
 public class Province {
 	
 	public int id;
-	public String name, icon;
+	public String name, icon, colour;
 	public Nation nation;
 	public UUID ruler;
 	public UUID creator;
@@ -49,6 +49,7 @@ public class Province {
 		prov.rebels = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "rebels", new JsonArray()).getAsJsonArray());
 		prov.sepers = JsonUtil.jsonArrayToUUIDArray(JsonUtil.getIfExists(obj, "sepers", new JsonArray()).getAsJsonArray());
 		prov.ruler_title = JsonUtil.getIfExists(obj, "ruler_title", "Landlord");
+		prov.colour = JsonUtil.getIfExists(obj, "color", "#f0f0f0");
 		return prov;
 	}
 	
@@ -72,6 +73,7 @@ public class Province {
 			obj.add("rebels", JsonUtil.getArrayFromUUIDList(rebels));
 			obj.add("sepers", JsonUtil.getArrayFromUUIDList(sepers));
 			obj.addProperty("ruler_title", ruler_title);
+			obj.addProperty("color", colour);
 			//
 			obj.addProperty("last_save", Time.getDate());
 			JsonUtil.write(getFile(id), obj);

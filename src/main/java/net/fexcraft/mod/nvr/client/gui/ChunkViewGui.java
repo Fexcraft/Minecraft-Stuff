@@ -1,11 +1,20 @@
 package net.fexcraft.mod.nvr.client.gui;
 
+import com.google.gson.JsonObject;
+
 import net.fexcraft.mod.lib.util.common.Formatter;
 import net.fexcraft.mod.lib.util.common.GenericGuiButton;
+import net.fexcraft.mod.lib.util.json.JsonUtil;
 import net.fexcraft.mod.lib.util.lang.ArrayList;
 import net.fexcraft.mod.nvr.common.PlaceholderGuiContainer;
+import net.fexcraft.mod.nvr.common.enums.Mode;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 
 public class ChunkViewGui extends GuiContainer {
@@ -15,6 +24,7 @@ public class ChunkViewGui extends GuiContainer {
 	private static final ResourceLocation texture = new ResourceLocation("nvr:textures/guis/chunk_view.png");
 	private static final ArrayList<GenericGuiButton> buttons = new ArrayList<GenericGuiButton>();
 	private static String state = "Pending... (waiting for data)";
+	private static final ArrayList<Object> array = new ArrayList<Object>();
 
 	public ChunkViewGui(int x, boolean a, boolean b){
 		super(new PlaceholderGuiContainer());
@@ -45,7 +55,7 @@ public class ChunkViewGui extends GuiContainer {
 	@Override
 	public void onGuiClosed(){
         super.onGuiClosed();
-        //TODO this.array.clear();
+        this.array.clear();
         state = "Pending... (waiting for data)";
     }
 
@@ -56,51 +66,49 @@ public class ChunkViewGui extends GuiContainer {
 		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
 		//
 		for(int l = 0; l < Mode.values().length; l++){
-			mc.fontRenderer.drawString(Mode.values()[l].name, i + 186, j + 11 + (l * 16), MapColor.GRAY.colorValue);
+			mc.fontRenderer.drawString(Mode.values()[l].getName(), i + 186, j + 11 + (l * 16), MapColor.GRAY.colorValue);
 		}
 		mc.fontRenderer.drawString( "Refresh", i + 186, j + 155, MapColor.GRAY.colorValue);
 		mc.fontRenderer.drawString("Zoom Out", i + 186, j + 171, MapColor.GRAY.colorValue);
 		mc.fontRenderer.drawString(Formatter.format("&f" + state), i + 7, j + 188, MapColor.GRAY.colorValue);
 	}
 	
-	private static enum Mode {
+	public static class ChunkObject {
 		
-		CLAIM         (0, "Claim"),
-		TYPE          (1, "Ck. Type"),
-		DISTRICTS     (2, "District"),
-		MUNICIPALITIES(3, "Municip."),
-		PROVINCES     (4, "Provinces"),
-		NATIONS       (5, "Nation"),
-		COMPANIES     (7, "Companies"),
-		LINKED        (8, "Linked Ck."),
-		GEOGRAPHIC    (9, "Geographic");
+		private int x, z;
 		
-		private int id;
-		private String name;
-
-		Mode(int id, String string){
-			this.id = id;
-			this.name = string;
+		public ChunkObject(JsonObject obj){
+			this.x = obj.get("x").getAsInt();
+			this.z = obj.get("z").getAsInt();
+		}
+		
+		public void render(Mode mode){
+			
 		}
 
-		public static Mode fromString(String mode){
-			for(Mode en : values()){
-				if(en.name().toLowerCase().equals(mode.toLowerCase())){
-					return en;
-				}
+		public static void assignRandomColours(){
+			
+		}
+		
+	}
+
+	public static void load(NBTTagCompound nbt, EntityPlayer entityPlayer){
+		try{
+			array.clear();
+			NBTTagList list = (NBTTagList)nbt.getTag("chunklist");
+			for(NBTBase nbtbase : list){
+				array.add(new ChunkObject(JsonUtil.getObjectFromString(((NBTTagString)nbtbase).getString())));
 			}
-			return TYPE;
+			ChunkObject.assignRandomColours();
+			state = "Data received.";
 		}
-
-		public static Mode fromInt(int i){
-			for(Mode en : values()){
-				if(en.id == i){
-					return en;
-				}
+		catch(Exception e){
+			if(nbt.hasKey("error")){
+				state = nbt.getString("error");
+				return;
 			}
-			return TYPE;
+			state = "Error: " + e.getMessage();
 		}
-		
 	}
 	
 }

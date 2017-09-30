@@ -32,6 +32,7 @@ import net.fexcraft.mod.nvr.server.data.Province;
 import net.fexcraft.mod.nvr.server.events.ChatEvents;
 import net.fexcraft.mod.nvr.server.events.ChunkEvents;
 import net.fexcraft.mod.nvr.server.events.PlayerEvents;
+import net.fexcraft.mod.nvr.server.network.WebServer;
 import net.fexcraft.mod.nvr.server.util.Permissions;
 import net.fexcraft.mod.nvr.server.util.Sender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,19 +49,16 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import scala.actors.threadpool.Arrays;
 
-//@Mod(modid = NVR.MODID, name = "NVR Standalone", version="xxx.xxx", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
 public class NVR {
-	
-	/*@Mod.Instance(NVR.MODID)
-	public static NVR INSTANCE;*/
 	
 	public static final String MODID = "nvr";
 	public static final String DATASTR = "nvr-sa";
 	public static final String DEF_UUID = "66e70cb7-1d96-487c-8255-5c2d7a2b6a0e";
 	public static final String CONSOLE_UUID = "f78a4d8d-d51b-4b39-98a3-230f2de0c670";
 	//public static Sql SQL;
-	public static File PATH, CHUNK_DIR, DISTRICT_DIR, MUNICIPALITY_DIR, PROVINCE_DIR, NATION_DIR;
+	public static File PATH, CHUNK_DIR, DISTRICT_DIR, MUNICIPALITY_DIR, PROVINCE_DIR, NATION_DIR, IMAGE_DIR;
 	public static final Log LOGGER = new Log("NVR", "&0[&4NVR&0]&7 ");
+	public static WebServer webserver;
 
 	public static final TreeMap<DoubleKey, Chunk> CHUNKS = new TreeMap<DoubleKey, Chunk>();
 	public static final TreeMap<Integer, District> DISTRICTS = new TreeMap<Integer, District>();
@@ -70,45 +68,27 @@ public class NVR {
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event){
-		/*{
-			File file = new File(event.getModConfigurationDirectory(), "/nvr.sql");
-			JsonObject obj = JsonUtil.get(file);
-			String user = JsonUtil.getIfExists(obj, "user", "nvrusr");
-			String pass = JsonUtil.getIfExists(obj, "password", "null");
-			String data = JsonUtil.getIfExists(obj, "database", "nvr");
-			String host = JsonUtil.getIfExists(obj, "host", "fexcraft.net");
-			String port = JsonUtil.getIfExists(obj, "port", "3306");
-			JsonUtil.write(file, obj);
-			SQL = new Sql(new String[]{user, pass, port, host, data});
-			//Launch.classLoader.addClassLoaderExclusion("com.mysql.");
-		}*/
 		PATH = new File(event.getModConfigurationDirectory().getParentFile(), "/nvr/");
 		LOGGER.debug(PATH, event.getModConfigurationDirectory());
 		if(!PATH.exists()){
 			PATH.mkdirs();
 		}
-		CHUNK_DIR = new File(PATH, "chunks/");
-		if(!CHUNK_DIR.exists()){
-			CHUNK_DIR.mkdirs();
-		}
-		DISTRICT_DIR = new File(PATH, "districts/");
-		if(!DISTRICT_DIR.exists()){
-			DISTRICT_DIR.mkdirs();
-		}
-		MUNICIPALITY_DIR = new File(PATH, "municipalities/");
-		if(!MUNICIPALITY_DIR.exists()){
-			MUNICIPALITY_DIR.mkdirs();
-		}
-		PROVINCE_DIR = new File(PATH, "provinces/");
-		if(!PROVINCE_DIR.exists()){
-			PROVINCE_DIR.mkdirs();
-		}
-		NATION_DIR = new File(PATH, "nations/");
-		if(!NATION_DIR.exists()){
-			NATION_DIR.mkdirs();
-		}
+		CHUNK_DIR = cine(new File(PATH, "chunks/"));
+		DISTRICT_DIR = cine(new File(PATH, "districts/"));
+		MUNICIPALITY_DIR = cine(new File(PATH, "municipalities/"));
+		PROVINCE_DIR = cine(new File(PATH, "provinces/"));
+		NATION_DIR = cine(new File(PATH, "nations/"));
+		NATION_DIR = cine(new File(PATH, "nations/"));
+		IMAGE_DIR = cine(new File(PATH, "image-cache/"));
 		//
 		PermManager.setEnabled(MODID);
+	}
+	
+	private static final File cine(File file){
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		return file;
 	}
 
 	@Mod.EventHandler
@@ -127,6 +107,8 @@ public class NVR {
 	public static void serverLoad(FMLServerStartingEvent event){
 		event.registerServerCommand(new InfoCmd());
 		event.registerServerCommand(new ClaimCmd());
+		//
+		webserver = new WebServer();
 	}
 	
 	@Mod.EventHandler
@@ -317,6 +299,7 @@ public class NVR {
 		/*CHUNKS.values().forEach((chunk) -> {
 			chunk.save();
 		});*/ //Actually they should be unloaded on server stop, so another event handles this.
+		webserver.end(0);
 	}
 	
 	public static final Player getPlayerData(EntityPlayer player){
