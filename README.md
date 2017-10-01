@@ -17,3 +17,11 @@ Read that first:<br>
 https://github.com/Fexcraft/Minecraft-Stuff/issues/1
 
 --- ---
+
+# IMPORTANT
+This repository probably won't be updated past 1.12, most continued mods will get an own repository.<br>
+`FCL   ` - https://github.com/Fexcraft/FCL<br>
+`FRSM  ` - https://github.com/Fexcraft/FRSM<br>
+`FVTM  ` - https://github.com/Fexcraft/FVTM<br>
+`NVR-SA` - https://github.com/Fexcraft/NVR-SA<br>
+--- ---
