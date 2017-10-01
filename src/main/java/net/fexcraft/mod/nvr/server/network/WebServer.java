@@ -59,7 +59,7 @@ public class WebServer extends NanoHTTPD {
 
 	private Response getImage(String x, String z, String t) throws IOException {
 		if(ImageCache.exists(Integer.parseInt(x), Integer.parseInt(z), Mode.fromInt(Integer.parseInt(t)))){
-			InputStream stream = ImageCache.get(Integer.parseInt(x), Integer.parseInt(z), Mode.fromInt(Integer.parseInt(t)));
+			InputStream stream = ImageCache.get(0, Integer.parseInt(x), Integer.parseInt(z), Mode.fromInt(Integer.parseInt(t)));
 			return this.newChunkedResponse(Status.OK, "image/png", stream);
 		}
 		else{

@@ -27,7 +27,7 @@ public class ImageCache {
 	public static final boolean exists(int x, int z, Mode mode){
 		switch(mode){
 			case CLAIM: case TYPE: case GEOGRAPHIC:{
-				return getChunkFile(x, z, mode).exists();
+				return getChunkFile(0, x, z, mode).exists();
 			}
 			default: return true;
 		}
@@ -37,8 +37,8 @@ public class ImageCache {
 		return (int)Math.floor(x / 32.0) + "_" + (int)Math.floor(z / 32.0);
 	}
 	
-	public static final File getChunkFile(int x, int z, Mode mode){
-		return new File(NVR.IMAGE_DIR, getRegion(x, z) + "/" + mode.getFilePrefix() + "/" + x + "_" + z + ".png");
+	public static final File getChunkFile(int zoom, int x, int z, Mode mode){
+		return new File(NVR.IMAGE_DIR, "z" + zoom + "/" + getRegion(x, z) + "/" + mode.getFilePrefix() + "/" + x + "_" + z + ".png");
 	}
 
 	public static final InputStream getEmptyChunkImage() throws IOException {
@@ -54,8 +54,8 @@ public class ImageCache {
 		return new FileInputStream(deffile);
 	}
 
-	public static final InputStream get(int x, int z, Mode mode) throws FileNotFoundException {
-		return new FileInputStream(getChunkFile(x, z, mode));
+	public static final InputStream get(int zoom, int x, int z, Mode mode) throws FileNotFoundException {
+		return new FileInputStream(getChunkFile(zoom, x, z, mode));
 	}
 	
 	public static final void updateChunk(World world, Chunk chunk, Mode mode){
@@ -63,7 +63,7 @@ public class ImageCache {
 			@Override
 			public void run(){
 				BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-				File file = getChunkFile(chunk.x, chunk.z, mode);
+				File file = getChunkFile(0, chunk.x, chunk.z, mode);
 				if(mode == Mode.GEOGRAPHIC){
 					for(int i = 0; i < 16; i++){
 						for(int j = 0; j < 16; j++){

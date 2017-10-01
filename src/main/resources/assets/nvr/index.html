@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+	<head>
+	   <title>NVR Standalone Example Page</title>
+	   <style>
+		   img {
+		      padding: 0;
+		      margin: 0;
+		      width: 16px;
+		      height: 16px;
+		   }
+	   </style>
+	</head>
+	<body>
+	   <canvas id="maincanvas" width="1040" height="528" style="border:3px double #000000;"></canvas>
+       <script>
+           var adress = "http://localhost:8910";
+           //
+           function load(xp, zp, mode){
+               var canvas = document.getElementById("maincanvas");
+               var con = canvas.getContext("2d");
+               var x = parseInt(xp);
+               var z = parseInt(zp);
+               var xa = x + 49;
+               var za = z + 17;
+               var l = 0;
+               var m = 0;
+               var arr = new Array();
+               for(var i = x - 16; i < xa; i++){
+                   for(var j = z - 16; j < za; j++){
+                       var img = new Image();
+                       img.onload = function(){
+                           con.drawImage(this, this.dataset.xpos, this.dataset.ypos);
+                       };
+                       img.src = adress + "?x=" + i + "&z=" + j + "&t=" + mode;
+                       img.dataset.xpos = l * 16;
+                       img.dataset.ypos = m * 16;
+                       arr.push(img);
+                       m++;
+                   }
+                   m = 0;
+                   l++;
+               }
+           }
+           load(getParam("x"), getParam("z"), getParam("t"));
+           //
+           function getParam(name){//copyffn
+               return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+           }
+       </script>
+	</body>
+
+</html>
