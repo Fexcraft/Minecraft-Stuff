@@ -12,6 +12,10 @@ http://fexcraft.net/license?id=mods
 
 --- ---
 
+# Discord
+https://discord.gg/rMXcrsv
+--- ---
+
 # Having issues?
 Read that first:<br>
 https://github.com/Fexcraft/Minecraft-Stuff/issues/1
