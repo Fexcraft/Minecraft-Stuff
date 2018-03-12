@@ -29,11 +29,6 @@ public class FBN_4R_H extends Block {
         this.setResistance(10.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

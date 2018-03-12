@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class PaintableTileEntity extends TileEntity implements IPacketReceiver, PaintableObject {
 	
-	private RGB color = new RGB();
+	protected RGB color = new RGB();
 	
 	public PaintableTileEntity(EnumColor def_color){
 		color.fromDyeColor(def_color.toDyeColor());

@@ -12,8 +12,8 @@ public class ChunkEvents {
 	
 	@SubscribeEvent
 	public void onLoad(ChunkEvent.Load event){
-		int x = event.getChunk().xPosition;
-		int z = event.getChunk().zPosition;
+		int x = event.getChunk().x;
+		int z = event.getChunk().z;
 		NRR.chunks.put(new DoubleKey(x, z), new Chunk(x, z, event.getWorld()));
 		
 		//Mapping.
@@ -22,7 +22,7 @@ public class ChunkEvents {
 	
 	@SubscribeEvent
 	public void onUnLoad(ChunkEvent.Unload event){
-		Chunk chunk = NRR.getChunk(event.getChunk().xPosition, event.getChunk().zPosition);
+		Chunk chunk = NRR.getChunk(event.getChunk().x, event.getChunk().z);
 		
 		//Mapping.
 		MappingUtil.ProvinceMap.processChunk(event.getWorld(), chunk.x, chunk.z);

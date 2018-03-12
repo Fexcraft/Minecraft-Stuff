@@ -41,11 +41,6 @@ public class Asphalt2 extends Block {
         return FULL_BLOCK_AABB;
     }
 	
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
-	
 	@Override
 	public boolean isFullCube(IBlockState state){
         return false;

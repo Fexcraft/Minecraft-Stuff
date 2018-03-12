@@ -70,11 +70,6 @@ public class TreePot extends Block {
     		setMaxStackSize(1);
     	}
     }
-    
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

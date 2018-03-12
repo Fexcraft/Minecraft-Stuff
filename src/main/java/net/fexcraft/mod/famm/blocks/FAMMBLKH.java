@@ -35,11 +35,6 @@ public class FAMMBLKH extends Block {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DEPTH, 3));
         Registry.registerBlockManually(FI.MODID, name, 0, null, this, null, null);
 	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

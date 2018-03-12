@@ -25,11 +25,6 @@ public class FBC_4R_H extends BlockContainer {
         this.setResistance(10.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

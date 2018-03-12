@@ -2,6 +2,7 @@ package net.fexcraft.mod.frsm;
 
 import java.io.File;
 
+import net.fexcraft.mod.frsm.blocks.clock.ClockInstances;
 import net.fexcraft.mod.frsm.guis.GuiHandler;
 import net.fexcraft.mod.frsm.util.*;
 import net.fexcraft.mod.lib.util.common.Print;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = FI.MODID, name = FI.NAME, version = FRSM.version, updateJSON = "http://fexcraft.net/minecraft/fcl/request?mode=getForgeUpdateJson&modid=frsm", dependencies = "required-after:fcl")
 public class FRSM{
 	
-	public static final String version = "4.0.00"; 
+	public static final String version = "4.0.O5"; 
 	public static final String vnote = "A new Age.";
 	
 	@Mod.Instance(FI.MODID)
@@ -52,14 +53,15 @@ public class FRSM{
 		
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 	    config.load();
-	    conf1       = config.getBoolean("robo_crafting", "###[> RoboStuff <]###", true, "Robo Crafting Recipes");
-	    conf2       = config.getBoolean("random_cookies_from_grass", "###{> Generator <]###", true, "Grass Dropping randomly cookies when breaking it");
-	    conf3       = config.getBoolean("generate_stone_light_box", "###{> Generator <]###", true, "This function is unavaible actually.");
-	    conf4       = config.getBoolean("enable_update_checker", "###{> Other <]###", true, "Selfexplaining.");
-	    conf5       = config.getBoolean("robo_entities", "###[> RoboStuff <]###", true, "Should FRSM robots be enabled?");
+	    conf1 = config.getBoolean("robo_crafting", "###[> RoboStuff <]###", true, "Robo Crafting Recipes");
+	    conf2 = config.getBoolean("random_cookies_from_grass", "###{> Generator <]###", true, "Grass Dropping randomly cookies when breaking it");
+	    conf3 = config.getBoolean("generate_stone_light_box", "###{> Generator <]###", true, "This function is unavaible actually.");
+	    conf4 = config.getBoolean("enable_update_checker", "###{> Other <]###", true, "Selfexplaining.");
+	    conf5 = config.getBoolean("robo_entities", "###[> RoboStuff <]###", true, "Should FRSM robots be enabled?");
 	    config.save();
 	    
 	    Registry.registerAllBlocks(FI.MODID);
+	    ClockInstances.register();
 	    Registry.loadLoadAnnotations(99);//Other Items
 	    Registry.registerAllItems(FI.MODID);
 	    Registry.registerAllEntities(FI.MODID);

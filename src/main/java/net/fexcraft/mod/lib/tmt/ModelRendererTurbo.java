@@ -1300,9 +1300,9 @@ public class ModelRendererTurbo extends ModelRenderer {
     		PositionTextureVertex[] verts = face.vertexPositions;
     		for(PositionTextureVertex vert : verts){
     			vert.vector3D.addVector(
-    					vert.vector3D.xCoord * (x ? -1 : 1),
-    					vert.vector3D.xCoord * (y ? -1 : 1),
-    					vert.vector3D.xCoord * (z ? -1 : 1));
+    					vert.vector3D.x * (x ? -1 : 1),
+    					vert.vector3D.y * (y ? -1 : 1),
+    					vert.vector3D.z * (z ? -1 : 1));
     		}
     		if(x^y^z){
     			face.flipFace();

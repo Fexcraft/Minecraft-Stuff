@@ -10,8 +10,8 @@ public class ChunkEvents {
 	
 	@SubscribeEvent
 	public void onLoad(ChunkEvent.Load event){
-		int x = event.getChunk().xPosition;
-		int z = event.getChunk().zPosition;
+		int x = event.getChunk().x;
+		int z = event.getChunk().z;
 		NVR.chunks.put(new DK(x, z), new Chunk(x, z));
 		
 		//Mapping.
@@ -20,7 +20,7 @@ public class ChunkEvents {
 	
 	@SubscribeEvent
 	public void onUnLoad(ChunkEvent.Unload event){
-		Chunk chunk = NVR.chunks.get(new DK(event.getChunk().xPosition, event.getChunk().zPosition));
+		Chunk chunk = NVR.chunks.get(new DK(event.getChunk().x, event.getChunk().z));
 		
 		//Mapping.
 		//MappingUtil.ProvinceMap.processChunk(event.getWorld(), chunk.x, chunk.z);

@@ -38,7 +38,7 @@ public class Vec3f {
     }
     
     public Vec3f(Vec3d vector){
-    	this(vector.xCoord, vector.yCoord, vector.zCoord);
+    	this(vector.x, vector.y, vector.z);
     }
     
     public Vec3f(double xVec, double yVec, double zVec) {

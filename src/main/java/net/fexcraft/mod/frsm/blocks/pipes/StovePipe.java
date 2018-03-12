@@ -38,11 +38,6 @@ public class StovePipe extends BlockContainer {
     }
 	
 	@Override
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos){
-        return false;
-    }
-	
-	@Override
     public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos change){
         /*if(world.getTileEntity(change) != null){
         	((StovePipeEntity)world.getTileEntity(pos)).onChange(change);

@@ -43,11 +43,6 @@ public class Chimney extends Block implements StovePipeEntity.Connectable {
 	}
 	
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
-	
-	@Override
 	public boolean isOpaqueCube(IBlockState state){
         return false;
     }

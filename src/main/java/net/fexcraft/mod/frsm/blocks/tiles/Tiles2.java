@@ -26,11 +26,6 @@ public class Tiles2 extends Block {
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
 		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
 	}
-
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

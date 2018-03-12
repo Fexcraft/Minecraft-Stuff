@@ -34,11 +34,6 @@ public class BSS extends FBC_4R {
     public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World worldIn, BlockPos pos){
         return FULL_BLOCK_AABB;
     }
-       
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {

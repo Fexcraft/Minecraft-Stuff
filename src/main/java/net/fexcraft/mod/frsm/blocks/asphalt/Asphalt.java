@@ -21,11 +21,6 @@ public class Asphalt extends Block {
         this.setResistance(300.0F);
         this.setCreativeTab(CD.STREETS);
     }
-    
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

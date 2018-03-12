@@ -17,11 +17,6 @@ public class Toaster extends FBN_4R {
 		this.setResistance(32.0F);
 		this.setCreativeTab(CD.TECHNIC);
 	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

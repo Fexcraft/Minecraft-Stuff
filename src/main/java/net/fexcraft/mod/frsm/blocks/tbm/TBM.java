@@ -29,11 +29,6 @@ public class TBM extends BlockFalling {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setCreativeTab(CD.EXPERIMENTAL);
     }
-    
-    @Override
-    public boolean isFullyOpaque(IBlockState state){
-    	return false;
-    }
 
     @Override
     public boolean isFullCube(IBlockState state){

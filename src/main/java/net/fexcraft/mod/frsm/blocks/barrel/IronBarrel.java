@@ -21,11 +21,6 @@ public class IronBarrel extends Block {
     	this.setCreativeTab(CD.BLOCKS);
 	}
 	
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
-	
 	@Override
 	public boolean isFullCube(IBlockState state){
         return false;

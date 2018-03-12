@@ -47,7 +47,7 @@ public class Data {
 
 	public static Chunk getChunk(World world, BlockPos pos) {
 		net.minecraft.world.chunk.Chunk ck = world.getChunkFromBlockCoords(pos);
-		return getChunk(ck.xPosition, ck.zPosition);
+		return getChunk(ck.x, ck.z);
 	}
 
 	public static Player getPlayer(UUID id) {

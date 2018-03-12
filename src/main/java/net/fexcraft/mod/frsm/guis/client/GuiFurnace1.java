@@ -23,8 +23,8 @@ public class GuiFurnace1 extends GuiContainer {
     }
     
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        this.fontRendererObj.drawString("Furnace", this.xSize / 2 - this.fontRendererObj.getStringWidth("xxxxxxx") / 2, 6, 4210752);
-        this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRenderer.drawString("Furnace", this.xSize / 2 - this.fontRenderer.getStringWidth("xxxxxxx") / 2, 6, 4210752);
+        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     /**

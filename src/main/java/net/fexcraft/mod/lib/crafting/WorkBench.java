@@ -33,11 +33,6 @@ public class WorkBench extends Block {
     	
     	Registry.registerBlockManually("fcl", "workbench", 0, null, this, null, null);
 	}
-
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

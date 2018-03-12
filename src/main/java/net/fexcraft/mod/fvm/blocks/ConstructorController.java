@@ -41,11 +41,6 @@ public class ConstructorController extends BlockContainer {
 	}
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
-    @Override
-	public boolean isFullyOpaque(IBlockState state){
-		return false;
-	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state){

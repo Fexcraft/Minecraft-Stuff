@@ -31,11 +31,6 @@ public class Radio2 extends Block {
     	this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
 	
-    @Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
-	}
-	
 	@Override
 	public boolean isFullCube(IBlockState state){
         return false;
