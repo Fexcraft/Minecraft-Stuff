@@ -1,0 +1,74 @@
+{
+    "RegistryName": "c2r1t1_wheel",
+    "AddOn": "Default FVM Addon Pack",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.part.ModelC2R1T1Wheel.class",
+    "Category": [
+        "exchange_wheel",
+        "right_front_wheel",
+        "left_front_wheel",
+        "right_back_wheel",
+        "left_back_wheel"
+    ],
+    "TextureSettings": {
+        "Textures": [
+            "fvm:textures/entities/skin_vehicle_c2r1t1_wheel.png"
+        ]
+    },
+    "Removable": true,
+    "ConstructionSettings":{
+        "Available": false,
+        "Compatible": [
+            {
+                "Vehicle": "C2",
+                "Offset": {"x":0,"y":0,"z":0}
+            }
+        ]
+    },
+    "ModelSettings":[
+        {
+            "Vehicle": "C2",
+            "left_front_wheel": {
+                "x": 29.5,
+                "y": -7.5,
+                "z": -22
+            },
+            "right_front_wheel": {
+                "x": 29.5,
+                "y": -7.5,
+                "z": 22
+            },
+            "left_back_wheel": {
+                "x": -59.5,
+                "y": -7.5,
+                "z": -22
+            },
+            "right_back_wheel": {
+                "x": -59.5,
+                "y": -7.5,
+                "z": 22
+            }
+        
+        }
+    ],
+    "Recipes":[
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Parts",
+            "Components":[
+                {
+                    "Item": "minecraft:iron_ingot",
+                    "Amount": 4
+                },
+                {
+                    "Item": "fvm:material_rubber",
+                    "Amount": 8
+                },
+                {
+                    "Item": "minecraft:dye",
+                    "Amount": 2
+                }
+            ],
+            "Output": 1
+        }
+    ]
+}

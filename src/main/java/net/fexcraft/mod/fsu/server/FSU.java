@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = "fsu-server", name = "Fexcraft Server Utilities", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
+@Mod(modid = "fsu-server", name = "Fexcraft Server Utilities", version="x", acceptableRemoteVersions = "*", serverSideOnly = true, dependencies = "required-after:fcl")
 public class FSU {
 	
 	@Mod.Instance("fsu-server")

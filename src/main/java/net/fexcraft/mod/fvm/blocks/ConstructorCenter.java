@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fvm.blocks;
 
-import net.fexcraft.mod.fvm.util.FvmResources;
+import net.fexcraft.mod.fvm.FVM;
+import net.fexcraft.mod.fvm.util.FvmTabs;
 import net.fexcraft.mod.lib.api.block.fBlock;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -18,21 +19,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@fBlock(modid = FvmResources.MODID, name = "constructor_center", tileentity = ConstructorCenterEntity.class)
+@fBlock(modid = FVM.MODID, name = "constructor_center", tileentity = ConstructorCenterEntity.class)
 public class ConstructorCenter extends BlockContainer {
 
 	public ConstructorCenter(){
 		super(Material.IRON, MapColor.GRAY);
     	this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-		this.setCreativeTab(FvmResources.BLOCKS);
+		this.setCreativeTab(FvmTabs.BLOCKS);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta){
 		return new ConstructorCenterEntity();
 	}
-	
-	//================================== > VANILLA
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 

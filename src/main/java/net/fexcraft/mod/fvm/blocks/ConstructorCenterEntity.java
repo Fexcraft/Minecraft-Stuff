@@ -23,21 +23,21 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 	
 	public int getLength(){
 		if(hasType()){
-			return link.type.construction_length;
+			return link.data.vehicle.construction_length;
 		}
 		return length;
 	}
 	
 	public int getRenderLength(){
 		if(hasType()){
-			return (link.type.construction_length * 2) + 1;
+			return (link.data.vehicle.construction_length * 2) + 1;
 		}
 		return (length * 2) + 1;
 	}
 	
 	public float getRenderOffset(){
 		if(hasType()){
-			return link.type.construction_wheel_offset * 0.0625f;
+			return link.data.vehicle.construction_wheel_offset * 0.0625f;
 		}
 		return offset * 0.0625f;
 	}
@@ -77,7 +77,7 @@ public class ConstructorCenterEntity extends TileEntity implements IPacketReceiv
 			int y = packet.nbt.getInteger("YY");
 			int z = packet.nbt.getInteger("ZZ");
 			remote = new BlockPos(x, y, z);
-			link = (ConstructorControllerEntity)world.getTileEntity(remote);
+			//link = (ConstructorControllerEntity)world.getTileEntity(remote);
 		}
 		else{
 			remote = null;

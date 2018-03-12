@@ -1,0 +1,32 @@
+{
+    "RegistryName": "rubber",
+    "Addon": "generic",
+    "FullName": "Rubber",
+    "MaxStackSize": 32,
+    "Recipes":[
+        {
+            "Type": "Shapeless",
+            "Ingredients":[
+                "minecraft:slime_ball",
+                "minecraft:slime_ball",
+                "minecraft:slime_ball",
+                "minecraft:slime_ball"
+            ]
+        },
+        {
+            "Type": "Blueprint",
+            "Category": "FVM Materials",
+            "Components":[
+                {
+                    "Item": "minecraft:slime_ball",
+                    "Amount": 4
+                },
+                {
+                    "Item": "minecraft:dye",
+                    "Amount": 1
+                }
+            ],
+            "Output": 2
+        }
+    ]
+}

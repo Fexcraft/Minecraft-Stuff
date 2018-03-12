@@ -1,0 +1,75 @@
+{
+    "RegistryName": "T1",
+    "Addon": "fvp",
+    "FullName": "T1 Type P-",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelT1P.class",
+    "PrimaryColor": {
+        "Red": 0.0,
+        "Blue": 1.0,
+        "Green": 0.0
+    },
+    "SecondaryColor": {
+        "Red": 1.0,
+        "Blue": 0.0,
+        "Green": 0.0
+    },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_t1p.png"
+    ],
+    "WheelPos":[
+        {
+            "x": -71,
+            "y": -10,
+            "z": -17
+        },
+        {
+            "x": -71,
+            "y": -10,
+            "z": 17
+        },
+        {
+            "x": 35,
+            "y": -10,
+            "z": 17
+        },
+        {
+            "x": 35,
+            "y": -10,
+            "z": -17
+        }
+    ],
+    "ConstructionSettings": {
+        "Length": 6,
+        "HeightOffset": 12.5,
+        "WheelOffset": 19.5,
+        "Requires": [
+            "right_front_wheel",
+            "left_front_wheel",
+            "right_back_wheel",
+            "left_back_wheel",
+            "engine"
+        ]
+    },
+    "PartSettings": {
+        "PreInstalled": [
+            "steering_wheel:t1_steering_wheel",
+            "driver_seat:t1_driver_seat",
+            "passenger_seats:t1_front_seats"
+        ]
+    },
+    "RenderSettings": {
+        "RotateWheels": true
+    },
+    "InventorySettings": {
+        "TankSize": 25000,
+        "Size": 64
+    },
+    "VehicleDefaults": {
+        "DriveType": "4wd",
+        "Lockable": true,
+        "MaxThrottle": 1.2,
+        "MaxNegativeThrottle": 0.2,
+        "TurnLeftModifier": 1.5,
+        "TurnRightModifier": 1.5
+    }
+}

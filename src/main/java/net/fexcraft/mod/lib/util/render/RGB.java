@@ -303,21 +303,21 @@ public class RGB {
 			f[0] = truncate(x);
 		}
 		else{
-			f[0] = fromInt(x);
+			f[0] = fromInt((int)x);
 		}
 		//
 		if(y % 1 != 0 && y != 1f){
 			f[1] = truncate(y);
 		}
 		else{
-			f[1] = fromInt(y);
+			f[1] = fromInt((int)y);
 		}
 		//
 		if(z % 1 != 0 && z != 1f){
 			f[2] = truncate(z);
 		}
 		else{
-			f[2] = fromInt(z);
+			f[2] = fromInt((int)z);
 		}
 		return new RGB(f);
 	}
@@ -330,8 +330,8 @@ public class RGB {
 		return Float.parseFloat(s.replace(",", "."));//replace to get sure locale doesn't mess up stuff
 	}
 	
-	private static final float fromInt(Number number){
-		return truncate(number.intValue() / 255f);
+	private static final float fromInt(int i){
+		return truncate(i / 255f);
 	}
 	
 }

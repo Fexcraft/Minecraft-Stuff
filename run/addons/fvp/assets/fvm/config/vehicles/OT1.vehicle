@@ -1,0 +1,75 @@
+{
+    "RegistryName": "OT1",
+    "Addon": "fvp",
+    "FullName": "OT1 Type P",
+    "ModelFile": "net.fexcraft.mod.addons.fvp.models.vehicle.ModelOT1.class",
+    "PrimaryColor": {
+        "Red": 0.027,
+        "Blue": 0.639,
+        "Green": 0.396
+    },
+    "SecondaryColor": {
+        "Red": 1.0,
+        "Blue": 0.0,
+        "Green": 0.0
+    },
+    "Textures": [
+        "fvm:textures/entities/skin_vehicle_ot1.png"
+    ],
+    "WheelPos":[
+        {
+            "x": -53,
+            "y": -10,
+            "z": -14
+        },
+        {
+            "x": -53,
+            "y": -10,
+            "z": 14
+        },
+        {
+            "x": 65,
+            "y": -10,
+            "z": 14
+        },
+        {
+            "x": 65,
+            "y": -10,
+            "z": -14
+        }
+    ],
+    "ConstructionSettings": {
+        "Length": 6,
+        "HeightOffset": 12.5,
+        "WheelOffset": 19,
+        "Requires": [
+            "right_front_wheel",
+            "left_front_wheel",
+            "right_back_wheel",
+            "left_back_wheel",
+            "engine"
+        ]
+    },
+    "PartSettings": {
+        "PreInstalled": [
+            "steering_wheel:ot1_steering_wheel",
+            "front_seats:ot1_front_seats"
+        ]
+    },
+    "RenderSettings": {
+        "RotateWheels": true
+    },
+    "InventorySettings": {
+        "TankSize": 18000,
+        "Size": 35
+    },
+    "VehicleDefaults": {
+        "DriveType": "4wd",
+        "Lockable": true,
+        "MaxThrottle": 0.75,
+        "MaxNegativeThrottle": 0.25,
+        "TurnLeftModifier": 1.45,
+        "TurnRightModifier": 1.45
+    }
+    
+}

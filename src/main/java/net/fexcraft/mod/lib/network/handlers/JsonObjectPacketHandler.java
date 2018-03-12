@@ -26,6 +26,7 @@ public class JsonObjectPacketHandler{
 				public void run(){
 					if(!packet.obj.has("target_listener")){
 						Print.log("[FCL] Received JSON Packet, but had no target listener, ignoring!");
+						Print.log("[OBJ] " + packet.obj.toString());
 						return;
 					}
 					IPacketListener listener = sls.get(packet.obj.get("target_listener").getAsString());
@@ -47,6 +48,7 @@ public class JsonObjectPacketHandler{
 				public void run(){
 					if(!packet.obj.has("target_listener")){
 						Print.log("[FCL] Received JSON Packet, but had no target listener, ignoring!");
+						Print.log("[OBJ] " + packet.obj.toString());
 						return;
 					}
 					IPacketListener listener = cls.get(packet.obj.get("target_listener").getAsString());
